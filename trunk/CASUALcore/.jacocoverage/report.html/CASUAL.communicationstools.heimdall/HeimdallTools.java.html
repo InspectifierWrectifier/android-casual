@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>HeimdallTools.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.communicationstools.heimdall</a> &gt; <span class="el_source">HeimdallTools.java</span></div><h1>HeimdallTools.java</h1><pre class="source lang-java linenums">/*HeimdallTools provides tools for use with Heimdall
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.communicationstools.heimdall;
+
+import CASUAL.CASUALMain;
+import CASUAL.CASUALMessageObject;
+import CASUAL.Log;
+import CASUAL.OSTools;
+import CASUAL.Shell;
+import CASUAL.communicationstools.AbstractDeviceCommunicationsProtocol;
+import CASUAL.communicationstools.heimdall.drivers.DriverInstall;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * Provides tools to work with Heimdall in CASUAL.
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ * @author Jeremy Loper jrloper@gmail.com
+ */
+<span class="fc" id="L37">public class HeimdallTools extends AbstractDeviceCommunicationsProtocol {</span>
+
+    //locations to resources within CASUAL. 
+<span class="fc" id="L40">    static final String[] windowsLocation = new String[]{&quot;/CASUAL/communicationstools/heimdall/resources/heimdall.exe&quot;, &quot;/CASUAL/communicationstools/heimdall/resources/libusb-1.0.dll&quot;, &quot;/CASUAL/communicationstools/heimdall/resources/msvcr110.dll&quot;, &quot;/CASUAL/communicationstools/heimdall/resources/msvcp110.dll&quot;};</span>
+<span class="fc" id="L41">    static final String[] macLocation = new String[]{&quot;/CASUAL/communicationstools/heimdall/resources/heimdall-mac.dmg&quot;};</span>
+<span class="fc" id="L42">    static final String[] linux32Location = new String[]{&quot;/CASUAL/communicationstools/heimdall/resources/heimdall_i386.deb&quot;};</span>
+<span class="fc" id="L43">    static final String[] linux64Location = new String[]{&quot;/CASUAL/communicationstools/heimdall/resources/heimdall_amd64.deb&quot;};</span>
+<span class="fc" id="L44">    static final String[] linuxArmv6Location = new String[]{&quot;/CASUAL/communicationstools/heimdall/resources/heimdall_armv6.deb&quot;};</span>
+<span class="fc" id="L45">    private static String binaryLocation = &quot;&quot;;</span>
+
+<span class="fc" id="L47">    Shell shell = new Shell();</span>
+<span class="fc" id="L48">    int heimdallRetries = 0;</span>
+
+
+<span class="fc" id="L51">    int errorCycles = 0;</span>
+
+    /**
+     * {@inheritDoc} Heimdall will only return one device or 0.
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    public int numberOfDevicesConnected() {
+<span class="fc" id="L60">        String detectCommand[] = new String[]{&quot;detect&quot;};</span>
+<span class="fc" id="L61">        String connectedString = &quot;Device detected&quot;;</span>
+<span class="fc" id="L62">        String shellReturn = run(detectCommand, 4000, true);</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if (shellReturn.contains(connectedString)) {</span>
+<span class="nc" id="L64">            Log.level3Verbose(&quot;Heimdall Device detected!&quot;);</span>
+<span class="nc" id="L65">            errorCycles = 100; //this removes the potential annoying error;</span>
+<span class="nc" id="L66">            return 1;</span>
+        }
+<span class="fc" id="L68">        errorCycles++;</span>
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">        if (errorCycles == 60) {</span>
+<span class="nc" id="L70">            new CASUALMessageObject(&quot;@interactionUnableToDetectDownloadMode&quot;).showInformationMessage();</span>
+        }
+<span class="fc" id="L72">        return 0;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * obtains a CommandDisposition by analyzing the return value. Takes action
+     * based on disposition.
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    public boolean checkErrorMessage(String[] commandRun, String returnValue) {
+        //exit if this is a detection call
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">        if (commandRun[1].equals(&quot;detect&quot;)) {</span>
+<span class="fc" id="L87">            return true;</span>
+        }
+<span class="nc" id="L89">        CommandDisposition retval = new HeimdallErrorHandler().doErrorCheck(commandRun, returnValue);</span>
+<span class="nc" id="L90">        errorCycles++;</span>
+        boolean errored;
+<span class="nc bnc" id="L92" title="All 7 branches missed.">        switch (retval) {</span>
+            case NOACTIONREQUIRED:
+<span class="nc" id="L94">                errorCycles = 0;</span>
+<span class="nc" id="L95">                errored = false;</span>
+<span class="nc" id="L96">                break;</span>
+            case RUNAGAIN:
+<span class="nc" id="L98">                errored = checkErrorMessage(commandRun, this.doElevatedHeimdallShellCommand(commandRun));</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">                if (errorCycles &gt; 4) {</span>
+<span class="nc" id="L100">                    errored = true;</span>
+                }
+                break;
+            case ELEVATIONREQUIRED:
+<span class="nc" id="L104">                errored = checkErrorMessage(commandRun, this.doElevatedHeimdallShellCommand(getBinaryCommandInArray(commandRun)));</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">                if (errorCycles &gt; 4) {</span>
+<span class="nc" id="L106">                    errored = true;</span>
+                }
+                break;
+            case INSTALLDRIVERS:
+<span class="nc" id="L110">                errorCycles = 0;</span>
+<span class="nc" id="L111">                this.installDriver();</span>
+<span class="nc" id="L112">                errored = checkErrorMessage(commandRun, this.doHeimdallShellCommand(commandRun));</span>
+<span class="nc" id="L113">                break;</span>
+            case HALTSCRIPT:
+<span class="nc" id="L115">                errored = true;</span>
+<span class="nc" id="L116">                break;</span>
+            case MAXIMUMRETRIES:
+<span class="nc" id="L118">                Log.level0Error(&quot;Heimdall has encountered an error we did not forsee&quot;);</span>
+<span class="nc" id="L119">                errored = true;</span>
+<span class="nc" id="L120">                break;</span>
+            default:
+<span class="nc" id="L122">                errored = true;</span>
+        }
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        return !errored;</span>
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    public boolean installDriver() {
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        if (OSTools.isWindows()) {</span>
+<span class="nc" id="L136">            return new DriverInstall(0).installKnownDrivers();</span>
+        }
+<span class="nc bnc" id="L138" title="All 4 branches missed.">        if (OSTools.isMac() || OSTools.isLinux()) {</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">            return !deployBinary(CASUALMain.getSession().getTempFolder()).isEmpty();</span>
+        }
+
+<span class="nc" id="L142">        return false;</span>
+    }
+
+    /**
+     * {@inheritDoc} Heimdall will only return one device or 0.
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    public String deployBinary(String tempFolder) {
+<span class="nc" id="L152">        HeimdallInstall hinstall = new HeimdallInstall();</span>
+        try {
+<span class="nc bnc" id="L154" title="All 2 branches missed.">            if (OSTools.isLinux()) {</span>
+<span class="nc" id="L155">                binaryLocation = hinstall.installLinux(tempFolder);</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">            } else if (OSTools.isMac()) {</span>
+
+<span class="nc" id="L158">                hinstall.installMac(macLocation, tempFolder);</span>
+
+<span class="nc bnc" id="L160" title="All 2 branches missed.">            } else if (OSTools.isWindows()) {</span>
+<span class="nc" id="L161">                binaryLocation = hinstall.installWindows(windowsLocation, tempFolder);</span>
+            }
+<span class="nc" id="L163">        } catch (InterruptedException ex) {</span>
+<span class="nc" id="L164">            Logger.getLogger(HeimdallTools.class.getName()).log(Level.SEVERE, &quot;Error while trying to install heimdall&quot;, ex);</span>
+<span class="nc" id="L165">        } catch (IOException ex) {</span>
+<span class="nc" id="L166">            Logger.getLogger(HeimdallTools.class.getName()).log(Level.SEVERE, &quot;Error while trying to install heimdall&quot;, ex);</span>
+<span class="nc" id="L167">        }</span>
+<span class="nc" id="L168">        return binaryLocation;</span>
+
+    }
+
+    @Override
+    public void restartConnection() {
+        //TODO: jrloper examine possibility of resetting USB subsystem 
+<span class="nc" id="L175">        reset();</span>
+<span class="nc" id="L176">    }</span>
+
+    @Override
+    public void reset() {
+<span class="fc" id="L180">        heimdallRetries = 0;</span>
+<span class="fc" id="L181">        binaryLocation = &quot;&quot;;</span>
+<span class="fc" id="L182">    }</span>
+
+    @Override
+    public void shutdown() {
+<span class="nc" id="L186">        reset();</span>
+<span class="nc" id="L187">    }</span>
+
+    @Override
+    public String getConnectionMethodName() {
+<span class="nc" id="L191">        return &quot;Heimdall&quot;;</span>
+    }
+
+    @Override
+    public synchronized String getBinaryLocation() {
+        //return located heimdall if available
+        //here we make new File twice, but this is because binaryLocation may be null.  It's easier to read this way 
+<span class="pc bpc" id="L198" title="6 of 8 branches missed.">        if (binaryLocation != null &amp;&amp; !binaryLocation.isEmpty() &amp;&amp; new File(binaryLocation).isFile() &amp;&amp; new File(binaryLocation).exists()) {</span>
+<span class="nc" id="L199">            return binaryLocation;</span>
+        }
+
+        //locate heimdall in path or filesystem. Will be blank if not found.
+<span class="fc" id="L203">        binaryLocation = locateNativeHeimdall();</span>
+<span class="pc bpc" id="L204" title="1 of 2 branches missed.">        if (!binaryLocation.isEmpty()) {</span>
+<span class="fc" id="L205">            return binaryLocation;</span>
+        }
+
+        //install heimdall
+<span class="nc" id="L209">        binaryLocation = deployBinary(CASUALMain.getSession().getTempFolder());</span>
+<span class="nc" id="L210">        return binaryLocation;</span>
+    }
+
+    private String locateNativeHeimdall() {
+<span class="fc" id="L214">        String notFound = &quot;CritERROR!!!&quot;;</span>
+
+        //for windows we try running &quot;heimdall&quot;.
+        //note this wont work unless user sets path variable. 
+<span class="pc bpc" id="L218" title="1 of 2 branches missed.">        if (OSTools.isWindows()) {</span>
+<span class="nc" id="L219">            String heimdall = &quot;heimdall&quot;;</span>
+<span class="nc" id="L220">            String[] cmd = new String[]{heimdall};</span>
+<span class="nc" id="L221">            String retval = shell.silentShellCommand(cmd);</span>
+<span class="nc bnc" id="L222" title="All 4 branches missed.">            if (retval.contains(notFound) || retval.isEmpty()) {</span>
+<span class="nc" id="L223">                return &quot;&quot;;</span>
+            } else {
+<span class="nc" id="L225">                return heimdall;</span>
+            }
+        }
+        
+        //for all unix/linux systems we try common paths for heimdall. 
+<span class="fc" id="L230">        String cmd = &quot;/usr/local/bin/heimdall&quot;;</span>
+<span class="fc" id="L231">        String check = shell.silentShellCommand(new String[]{cmd});</span>
+        //we got the file
+<span class="pc bpc" id="L233" title="1 of 2 branches missed.">        Log.level4Debug(&quot;native search /usr/local/bin/heimdall:&quot; + (check.contains(&quot;CritERROR!!!&quot;) ? &quot;false&quot; : &quot;true&quot;));</span>
+<span class="pc bpc" id="L234" title="1 of 2 branches missed.">        if (check.equals(notFound)) {</span>
+<span class="fc" id="L235">            cmd = &quot;/usr/bin/heimdall&quot;;</span>
+<span class="fc" id="L236">            check = shell.silentShellCommand(new String[]{cmd});</span>
+<span class="pc bpc" id="L237" title="1 of 2 branches missed.">            Log.level4Debug(&quot;native search /usr/bin/heimdall:&quot; + (check.contains(&quot;CritERROR!!!&quot;) ? &quot;false&quot; : &quot;true&quot;));</span>
+            //try different things
+<span class="pc bpc" id="L239" title="1 of 2 branches missed.">            if (check.equals(notFound)) {</span>
+<span class="nc" id="L240">                cmd = &quot;/bin/heimdall&quot;;</span>
+<span class="nc" id="L241">                check = shell.silentShellCommand(new String[]{cmd});</span>
+<span class="nc bnc" id="L242" title="All 2 branches missed.">                Log.level4Debug(&quot;native search /bin/heimdall:&quot; + (check.contains(&quot;CritERROR!!!&quot;) ? &quot;false&quot; : &quot;true&quot;));</span>
+<span class="nc bnc" id="L243" title="All 2 branches missed.">                if (check.equals(notFound)) {</span>
+<span class="nc" id="L244">                    cmd = &quot;heimdall&quot;;</span>
+<span class="nc" id="L245">                    check = shell.silentShellCommand(new String[]{cmd});</span>
+<span class="nc bnc" id="L246" title="All 2 branches missed.">                    Log.level4Debug(&quot;native search heimdall:&quot; + (check.contains(&quot;CritERROR!!!&quot;) ? &quot;false&quot; : &quot;true&quot;));</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">                    if (check.equals(notFound)) {</span>
+<span class="nc" id="L248">                        cmd = &quot;&quot;;</span>
+                    }
+                }
+            }
+        }
+<span class="fc" id="L253">        return cmd;</span>
+    }
+
+    /**
+     * performs an elevated heimdall command
+     *
+     * @param command heimdall command to be executed
+     * @return result from heimdall
+     */
+    private String doElevatedHeimdallShellCommand(String[] command) {
+
+<span class="nc" id="L264">        Log.level4Debug(&quot;Executing ELEVATED Heimdall Command:  &quot; + new HeimdallErrorHandler().displayArray(command));</span>
+<span class="nc" id="L265">        String returnval = shell.elevateSimpleCommandWithMessage(command, &quot;CASUAL uses root to work around Heimdall permissions.  Hit cancel if you know root is not required to access your device.&quot;);</span>
+<span class="nc" id="L266">        return returnval;</span>
+    }
+
+    private String[] getBinaryCommandInArray(String[] command) {
+<span class="nc bnc" id="L270" title="All 2 branches missed.">        if (command[0].equals(getBinaryLocation())) {</span>
+<span class="nc" id="L271">            return command;</span>
+        }
+
+<span class="nc" id="L274">        String[] cmd = new String[command.length + 1];</span>
+<span class="nc" id="L275">        cmd[0] = getBinaryLocation();</span>
+<span class="nc" id="L276">        System.arraycopy(command, 0, cmd, 1, command.length);</span>
+<span class="nc" id="L277">        return cmd;</span>
+    }
+
+    /**
+     * performs a heimdall command
+     *
+     * @param command value from heimdall command
+     * @return return from shell command
+     */
+    public String doHeimdallShellCommand(String[] command) {
+<span class="nc" id="L287">        HeimdallErrorHandler heh = new HeimdallErrorHandler();</span>
+<span class="nc" id="L288">        Log.level4Debug(&quot;Executing &quot; + heh.displayArray(command));</span>
+<span class="nc" id="L289">        command = getBinaryCommandInArray(command);</span>
+<span class="nc" id="L290">        int timesRun = 0;</span>
+        String shellRead; //value from command 
+<span class="nc" id="L292">        String returnValue = &quot;&quot;; //concatinated shellRead values from repeats</span>
+<span class="nc" id="L293">        shellRead = shell.liveShellCommand(command, true);</span>
+<span class="nc" id="L294">        this.checkErrorMessage(command, shellRead);</span>
+<span class="nc" id="L295">        returnValue += shellRead;</span>
+<span class="nc" id="L296">        timesRun++;</span>
+<span class="nc" id="L297">        return returnValue;</span>
+
+    }
+
+    /**
+     * returns the Instance of Linux's ADB binary
+     *
+     * @return gets the proper name of the ADB binary as a resource.
+     */
+    private String[] getLinuxADBResource() {
+<span class="nc" id="L307">        String arch = OSTools.checkLinuxArch();</span>
+<span class="nc bnc" id="L308" title="All 2 branches missed.">        if (arch.equals(&quot;x86_64&quot;)) {</span>
+<span class="nc" id="L309">            return linux64Location;</span>
+        }
+<span class="nc bnc" id="L311" title="All 2 branches missed.">        if (arch.equals(&quot;ARMv6&quot;)) {</span>
+<span class="nc" id="L312">            return linuxArmv6Location;</span>
+        }
+<span class="nc" id="L314">        return linux32Location;</span>
+    }
+
+    /**
+     * Status for decision making based on return value from heimdall.
+     *
+     * SUCCESS: Heimdall executed sucessfully
+     *
+     * HALTED: Heimdall encountered a failure which cannot be recovered.
+     *
+     * CONTINUE: Heimdall did not execute sucessfully, but we can try again.
+     *
+     * MAXIMUMRETRIESEXCEEDED: We've tried to continue four times now.
+     *
+     */
+<span class="pc" id="L329">    public enum CommandDisposition {</span>
+        
+        /**
+         * Result was good.
+         */
+<span class="nc" id="L334">        NOACTIONREQUIRED, /**</span>
+         * Result requires retry.
+         */
+<span class="nc" id="L337">        RUNAGAIN, /**</span>
+         * Result indicates that permission problems were encountered.
+         */
+<span class="nc" id="L340">        ELEVATIONREQUIRED, /**</span>
+         * Result indicates drivers are required.
+         */
+<span class="nc" id="L343">        INSTALLDRIVERS, /**</span>
+         * Result indicates that an unrecoverable error was encountered.
+         */
+<span class="nc" id="L346">        HALTSCRIPT, /**</span>
+         * This command has been run too many times and a favorable result is
+         * not likely.
+         */
+<span class="nc" id="L350">        MAXIMUMRETRIES</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

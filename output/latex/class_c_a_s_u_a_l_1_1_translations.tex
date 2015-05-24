@@ -1,0 +1,58 @@
+\hypertarget{class_c_a_s_u_a_l_1_1_translations}{\section{C\-A\-S\-U\-A\-L.\-Translations Class Reference}
+\label{class_c_a_s_u_a_l_1_1_translations}\index{C\-A\-S\-U\-A\-L.\-Translations@{C\-A\-S\-U\-A\-L.\-Translations}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1_translations_a76d82a376b36383cb77f7e445006315c}{set\-Language} (String lang)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static String \hyperlink{class_c_a_s_u_a_l_1_1_translations_a75aaa59b24f56ac6eb9fb47879a9cd6e}{get} (String line)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides translations for the \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L} project \begin{DoxyAuthor}{Author}
+Adam Outler \href{mailto:adamoutler@gmail.com}{\tt adamoutler@gmail.\-com} 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1_translations_a75aaa59b24f56ac6eb9fb47879a9cd6e}{\index{C\-A\-S\-U\-A\-L\-::\-Translations@{C\-A\-S\-U\-A\-L\-::\-Translations}!get@{get}}
+\index{get@{get}!CASUAL::Translations@{C\-A\-S\-U\-A\-L\-::\-Translations}}
+\subsubsection[{get}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-Translations.\-get (
+\begin{DoxyParamCaption}
+\item[{String}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1_translations_a75aaa59b24f56ac6eb9fb47879a9cd6e}
+Returns translated string from translation Resource Bundle. Checks to make sure there is a valid resource file. Default locale is loaded if required. The input String is split by \char`\"{} \char`\"{} and \char`\"{}\textbackslash{}n\char`\"{}. If the split values start with the (at) character, a translation is attempted.
+
+
+\begin{DoxyParams}{Parameters}
+{\em line} & string to be translated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+translated line 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_translations_a76d82a376b36383cb77f7e445006315c}{\index{C\-A\-S\-U\-A\-L\-::\-Translations@{C\-A\-S\-U\-A\-L\-::\-Translations}!set\-Language@{set\-Language}}
+\index{set\-Language@{set\-Language}!CASUAL::Translations@{C\-A\-S\-U\-A\-L\-::\-Translations}}
+\subsubsection[{set\-Language}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-Translations.\-set\-Language (
+\begin{DoxyParamCaption}
+\item[{String}]{lang}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_translations_a76d82a376b36383cb77f7e445006315c}
+Sets up a translation language for testing \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L}. If the translation is missing, the default is C\-A\-S\-U\-A\-L/resources/\-Translations/\-English.\-properties.
+
+
+\begin{DoxyParams}{Parameters}
+{\em lang} & attempts to load specified language. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/Translations.\-java\end{DoxyCompactItemize}

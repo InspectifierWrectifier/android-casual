@@ -1,0 +1,18 @@
+/*
+ * Empty Stylesheet file.
+ */
+.viewport{  -fx-effect: dropshadow(two-pass-box , darkgray, 10, 0.0 , 4, 5);
+-fx-background-color: rgba(205,205,205,0.7);
+-fx-background-radius: 15 15 15 15;
+-fx-background-insets: 2 2 2 2 ;}
+.mainFxmlClass {
+
+}
+
+#cascadeuploader{
+   -fx-effect: dropshadow(two-pass-box , darkgray, 10, 0.0 , 4, 5);
+-fx-background-color: rgba(205,205,205,1);
+-fx-background-radius: 0 0 15 0;
+-fx-background-insets:-5 0  0 -5;
+
+}

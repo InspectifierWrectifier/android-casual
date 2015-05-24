@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>SHA256sum.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.crypto</a> &gt; <span class="el_source">SHA256sum.java</span></div><h1>SHA256sum.java</h1><pre class="source lang-java linenums">/*MD256sum provides several methods for md256 standards
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.crypto;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.RandomAccessFile;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * provides several methods for md256 standards
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+/**
+ * attempts to replicates linux's sha256sum.. there appears to be a problem with
+ * *Linux* when tested against test vectors from this page:
+ * http://www.nsrl.nist.gov/testdata/ I will need to review all data and figure
+ * out how to implement this later
+ *
+ *
+ * ad5f9292c7bd44068b5465b48b38bf18c98b4d133e80307957e5f5c372a36f7d logo.xcf
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+public class SHA256sum {
+
+
+    /**
+     * spacer used to separate SHA256 and filename in standard sha256sum
+     */
+    final protected static String LINUXSPACER = &quot;  &quot;;
+
+    /**
+     * returns SHA256 sum in standard linux command line format
+     *
+     * @param file to use for filename
+     * @return linux sha256sum output
+     */
+    public static String getLinuxSum(File file) {
+<span class="fc" id="L63">        String name = file.getName();</span>
+        String sum;
+        
+        try {
+<span class="fc" id="L67">            sum = new SHA256sum(file).getSha256();</span>
+            String linuxSHA256;
+<span class="fc" id="L69">            linuxSHA256 = formatLinuxOutputSHA256Sum(sum, name);</span>
+<span class="fc" id="L70">            return linuxSHA256;</span>
+<span class="nc" id="L71">        } catch (FileNotFoundException ex) {</span>
+<span class="nc" id="L72">            return &quot;&quot;;</span>
+<span class="nc" id="L73">        } catch (NoSuchAlgorithmException ex) {</span>
+<span class="nc" id="L74">            return &quot;&quot;;</span>
+<span class="nc" id="L75">        } catch (IOException ex) {</span>
+<span class="nc" id="L76">            return &quot;&quot;;</span>
+        }
+    }
+
+    /**
+     * gets the filename from a commandline sha256sum output
+     *
+     * @param sha256sum linux sha256sum to extract name from
+     * @return name of file mentioned in sha256sum
+     */
+    public static String getName(String sha256sum) {
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        if (sha256sum.contains(LINUXSPACER)) {</span>
+<span class="fc" id="L88">            String[] split = sha256sum.split(LINUXSPACER);</span>
+<span class="fc" id="L89">            return split[1];</span>
+        }
+<span class="nc" id="L91">        return &quot;&quot;;</span>
+    }
+
+    /**
+     * gets the sha256sum portion of a commandline sha256 output
+     *
+     * @param sha256sum linux sha256sum to extract sum from
+     * @return sum portion of command line sha256 output
+     */
+    public static String getSum(String sha256sum) {
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        if (sha256sum.contains(LINUXSPACER)) {</span>
+<span class="fc" id="L102">            String[] split = sha256sum.split(LINUXSPACER);</span>
+<span class="fc" id="L103">            return split[0];</span>
+        }
+<span class="nc" id="L105">        return &quot;&quot;;</span>
+    }
+
+    /**
+     * converts a byte array to hexadecimal output
+     *
+     * @param bytes to be turned into hex
+     * @return hex string from bytes
+     */
+    public static String bytesToHex(byte[] bytes) {
+<span class="fc" id="L115">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        for (byte b : bytes) {</span>
+<span class="fc" id="L117">            sb.append(String.format(&quot;%02x&quot;, b));</span>
+        }
+<span class="fc" id="L119">        return sb.toString();</span>
+    }
+
+    /**
+     * formats a sha256sum from a sum and a filename
+     *
+     * @param sum the sha256 sum
+     * @param name the file name
+     * @return equal to command line output from linux sha256sum command
+     */
+    public static String formatLinuxOutputSHA256Sum(String sum, String name) {
+        String linuxSHA256;
+<span class="fc" id="L131">        linuxSHA256 = sum + LINUXSPACER + name;</span>
+<span class="fc" id="L132">        return linuxSHA256;</span>
+    }
+    final ByteArrayInputStream toBeSHA256;
+
+    /**
+     * constructor to make an SHA256 from a string
+     *
+     * @param s string to sha256
+     * @throws IOException {@inheritDoc}
+     */
+<span class="fc" id="L142">    public SHA256sum(String s) throws IOException {</span>
+<span class="fc" id="L143">        ByteArrayInputStream bas = new ByteArrayInputStream(s.getBytes());</span>
+<span class="fc" id="L144">        toBeSHA256 = bas;</span>
+<span class="fc" id="L145">        toBeSHA256.mark(0);</span>
+<span class="fc" id="L146">    }</span>
+
+    /**
+     * constructor to make an SHA256 from an InputStream
+     *
+     * @param is inputstream to sha256
+     * @throws IOException {@inheritDoc}
+     */
+<span class="fc" id="L154">    public SHA256sum(InputStream is) throws IOException {</span>
+
+<span class="fc" id="L156">        byte[] buff = new byte[8120];</span>
+        int bytesRead;
+<span class="fc" id="L158">        ByteArrayOutputStream bao = new ByteArrayOutputStream();</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">        while ((bytesRead = is.read(buff)) != -1) {</span>
+<span class="fc" id="L160">            bao.write(buff, 0, bytesRead);</span>
+        }
+<span class="fc" id="L162">        ByteArrayInputStream bin = new ByteArrayInputStream(bao.toByteArray());</span>
+<span class="fc" id="L163">        toBeSHA256 = bin;</span>
+<span class="fc" id="L164">        toBeSHA256.mark(0);</span>
+<span class="fc" id="L165">    }</span>
+
+    /**
+     * constructor to sha256 a file
+     *
+     * @param f file to digest
+     * @throws FileNotFoundException {@inheritDoc}
+     * @throws IOException {@inheritDoc}
+     */
+<span class="fc" id="L174">    public SHA256sum(File f) throws FileNotFoundException, IOException {</span>
+
+        RandomAccessFile ra;
+<span class="fc" id="L177">        ra = new RandomAccessFile(f, &quot;rw&quot;);</span>
+<span class="fc" id="L178">        byte[] b = new byte[(int) f.length()];</span>
+<span class="fc" id="L179">        ra.read(b);</span>
+<span class="fc" id="L180">        ByteArrayInputStream bas = new ByteArrayInputStream(b);</span>
+<span class="fc" id="L181">        toBeSHA256 = bas;</span>
+<span class="fc" id="L182">        toBeSHA256.mark(0);</span>
+<span class="fc" id="L183">    }</span>
+
+    /**
+     * returns SHA256 sum in standard linux command line format
+     *
+     * @param filename to use for filename
+     * @return linux sha256sum output
+     */
+    public String getLinuxSum(String filename) {
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">        if (filename.isEmpty()) {</span>
+<span class="fc" id="L193">            filename = &quot;-&quot;;</span>
+        }
+        try {
+<span class="fc" id="L196">            String sha = getSha256();</span>
+<span class="fc" id="L197">            return sha + LINUXSPACER + filename;</span>
+<span class="nc" id="L198">        } catch (IOException ex) {</span>
+<span class="nc" id="L199">            return null;</span>
+<span class="nc" id="L200">        } catch (NoSuchAlgorithmException ex) {</span>
+<span class="nc" id="L201">            return null;</span>
+        }
+
+    }
+
+    /**
+     * does the SHA256
+     *
+     * @return hex string representation of the input
+     * @throws IOException {@inheritDoc}
+     * @throws NoSuchAlgorithmException {@inheritDoc}
+     */
+    public String getSha256() throws IOException, NoSuchAlgorithmException {
+<span class="fc" id="L214">        toBeSHA256.reset();</span>
+
+<span class="fc" id="L216">        MessageDigest digest = MessageDigest.getInstance(&quot;SHA-256&quot;);</span>
+
+<span class="fc" id="L218">        byte[] buffer = new byte[8192];</span>
+        int read;
+<span class="fc bfc" id="L220" title="All 2 branches covered.">        while ((read = toBeSHA256.read(buffer)) &gt; 0) {</span>
+<span class="fc" id="L221">            digest.update(buffer, 0, read);</span>
+        }
+<span class="fc" id="L223">        byte[] md5sum = digest.digest();</span>
+<span class="fc" id="L224">        BigInteger bigInt = new BigInteger(1, md5sum);</span>
+<span class="fc" id="L225">        String output = bigInt.toString(16);</span>
+<span class="pc bpc" id="L226" title="1 of 2 branches missed.">        while (output.length() != 64) {</span>
+<span class="nc" id="L227">            output = &quot;0&quot; + output;</span>
+        }
+<span class="fc" id="L229">        return output;</span>
+
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L235">        String sum = &quot;INVALID000000000000000000000000000000000000000000000000000000000&quot;;</span>
+        try {
+<span class="nc" id="L237">            sum = getSha256();</span>
+<span class="nc" id="L238">        } catch (IOException ex) {</span>
+<span class="nc" id="L239">            Logger.getLogger(SHA256sum.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L240">        } catch (NoSuchAlgorithmException ex) {</span>
+<span class="nc" id="L241">            Logger.getLogger(SHA256sum.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L242">        }</span>
+<span class="nc" id="L243">        return sum;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

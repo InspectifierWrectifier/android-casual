@@ -1,0 +1,100 @@
+\hypertarget{classCASUAL_1_1misc_1_1MultiClassLoader}{\section{C\-A\-S\-U\-A\-L.\-misc.\-Multi\-Class\-Loader Class Reference}
+\label{classCASUAL_1_1misc_1_1MultiClassLoader}\index{C\-A\-S\-U\-A\-L.\-misc.\-Multi\-Class\-Loader@{C\-A\-S\-U\-A\-L.\-misc.\-Multi\-Class\-Loader}}
+}
+Inheritance diagram for C\-A\-S\-U\-A\-L.\-misc.\-Multi\-Class\-Loader\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classCASUAL_1_1misc_1_1MultiClassLoader}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Class \hyperlink{classCASUAL_1_1misc_1_1MultiClassLoader_a55eb86977110bf1b756eb0d3fb4fd94e}{load\-Class} (String class\-Name)  throws Class\-Not\-Found\-Exception 
+\item 
+\hypertarget{classCASUAL_1_1misc_1_1MultiClassLoader_abff00159b724689d0be2e0b927a591b4}{synchronized Class {\bfseries load\-Class} (String class\-Name, boolean resolve\-It)  throws Class\-Not\-Found\-Exception }\label{classCASUAL_1_1misc_1_1MultiClassLoader_abff00159b724689d0be2e0b927a591b4}
+
+\item 
+void \hyperlink{classCASUAL_1_1misc_1_1MultiClassLoader_a185926422f007e59628c04e199596b36}{set\-Class\-Name\-Replacement\-Char} (char replacement)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classCASUAL_1_1misc_1_1MultiClassLoader_a06b1ad453366a04c4b785c2036c23ec0}{abstract byte\mbox{[}$\,$\mbox{]} {\bfseries load\-Class\-Bytes} (String class\-Name)}\label{classCASUAL_1_1misc_1_1MultiClassLoader_a06b1ad453366a04c4b785c2036c23ec0}
+
+\item 
+\hypertarget{classCASUAL_1_1misc_1_1MultiClassLoader_a05e6b596f3d83bab5137a99524a289a2}{String {\bfseries format\-Class\-Name} (String class\-Name)}\label{classCASUAL_1_1misc_1_1MultiClassLoader_a05e6b596f3d83bab5137a99524a289a2}
+
+\item 
+\hypertarget{classCASUAL_1_1misc_1_1MultiClassLoader_a182e8bd0d9dc85be69bfb35e10182304}{void {\bfseries monitor} (String text)}\label{classCASUAL_1_1misc_1_1MultiClassLoader_a182e8bd0d9dc85be69bfb35e10182304}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classCASUAL_1_1misc_1_1MultiClassLoader_ac7c710478ced9e94603273414d542b47}{static void {\bfseries print} (String text)}\label{classCASUAL_1_1misc_1_1MultiClassLoader_ac7c710478ced9e94603273414d542b47}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classCASUAL_1_1misc_1_1MultiClassLoader_a2f9e23c25ff8c06ff4202d38ba054dc1}{boolean {\bfseries monitor\-On} = false}\label{classCASUAL_1_1misc_1_1MultiClassLoader_a2f9e23c25ff8c06ff4202d38ba054dc1}
+
+\item 
+\hypertarget{classCASUAL_1_1misc_1_1MultiClassLoader_a37d8f5bc87f3fa9dfecd6e83241659a4}{boolean {\bfseries source\-Monitor\-On} = true}\label{classCASUAL_1_1misc_1_1MultiClassLoader_a37d8f5bc87f3fa9dfecd6e83241659a4}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\href{http://www.javaworld.com/javaworld/javatips/javatip70/MultiClassLoader.java}{\tt http\-://www.\-javaworld.\-com/javaworld/javatips/javatip70/\-Multi\-Class\-Loader.\-java} A simple test class loader capable of loading from multiple sources, such as local files or a U\-R\-L.
+
+This class is derived from an article by Chuck Mc\-Manis \href{http://www.javaworld.com/javaworld/jw-10-1996/indepth.src.html}{\tt http\-://www.\-javaworld.\-com/javaworld/jw-\/10-\/1996/indepth.\-src.\-html} with large modifications.
+
+Note that this has been updated to use the non-\/deprecated version of define\-Class() -- J\-D\-M.
+
+\begin{DoxyAuthor}{Author}
+Jack Harich -\/ 8/18/97 
+
+John D. Mitchell -\/ 99.\-03.\-04 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCASUAL_1_1misc_1_1MultiClassLoader_a55eb86977110bf1b756eb0d3fb4fd94e}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-Multi\-Class\-Loader@{C\-A\-S\-U\-A\-L\-::misc\-::\-Multi\-Class\-Loader}!load\-Class@{load\-Class}}
+\index{load\-Class@{load\-Class}!CASUAL::misc::MultiClassLoader@{C\-A\-S\-U\-A\-L\-::misc\-::\-Multi\-Class\-Loader}}
+\subsubsection[{load\-Class}]{\setlength{\rightskip}{0pt plus 5cm}Class C\-A\-S\-U\-A\-L.\-misc.\-Multi\-Class\-Loader.\-load\-Class (
+\begin{DoxyParamCaption}
+\item[{String}]{class\-Name}
+\end{DoxyParamCaption}
+) throws Class\-Not\-Found\-Exception}}\label{classCASUAL_1_1misc_1_1MultiClassLoader_a55eb86977110bf1b756eb0d3fb4fd94e}
+This is a simple version for external clients since they will always want the class resolved before it is returned to them. 
+\begin{DoxyParams}{Parameters}
+{\em class\-Name} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em java.\-lang.\-Class\-Not\-Found\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classCASUAL_1_1misc_1_1MultiClassLoader_a185926422f007e59628c04e199596b36}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-Multi\-Class\-Loader@{C\-A\-S\-U\-A\-L\-::misc\-::\-Multi\-Class\-Loader}!set\-Class\-Name\-Replacement\-Char@{set\-Class\-Name\-Replacement\-Char}}
+\index{set\-Class\-Name\-Replacement\-Char@{set\-Class\-Name\-Replacement\-Char}!CASUAL::misc::MultiClassLoader@{C\-A\-S\-U\-A\-L\-::misc\-::\-Multi\-Class\-Loader}}
+\subsubsection[{set\-Class\-Name\-Replacement\-Char}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-misc.\-Multi\-Class\-Loader.\-set\-Class\-Name\-Replacement\-Char (
+\begin{DoxyParamCaption}
+\item[{char}]{replacement}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1misc_1_1MultiClassLoader_a185926422f007e59628c04e199596b36}
+This optional call allows a class name such as \char`\"{}\-C\-O\-M.\-test.\-Hello\char`\"{} to be changed to \char`\"{}\-C\-O\-M\-\_\-test\-\_\-\-Hello\char`\"{}, which is useful for storing classes from different packages in the same retrieval directory. In the above example the char would be '\-\_\-'. 
+\begin{DoxyParams}{Parameters}
+{\em replacement} & \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/test/\-C\-A\-S\-U\-A\-L/misc/Multi\-Class\-Loader.\-java\end{DoxyCompactItemize}

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DriverRemove.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.communicationstools.heimdall.drivers</a> &gt; <span class="el_source">DriverRemove.java</span></div><h1>DriverRemove.java</h1><pre class="source lang-java linenums">/**
+ * *****************************************************************************
+ * This file is part of CADI a library of CASUAL.
+ * 
+* Copyright (C) 2014 Jeremy R. Loper &amp;lt;jrloper@gmail.com&amp;gt;
+ *
+ * CADI is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+* CADI is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+* You should have received a copy of the GNU General Public License along with
+ * this program. If not, see https://www.gnu.org/licenses/ .
+ * 
+******************************************************************************
+ */
+package CASUAL.communicationstools.heimdall.drivers;
+
+import CASUAL.Log;
+import CASUAL.communicationstools.heimdall.drivers.DriverOperations.PatternChoice;
+import CASUAL.misc.StringOperations;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ *
+ * @author Jeremy R. Loper &amp;lt;jrloper@gmail.com&amp;gt;
+ */
+public class DriverRemove {
+
+    /**
+     * windowsDriverBlanket is a static Array of targeted USB VID (VendorID
+     * numbers) in hexadecimal form. IDs are stored as strings because Java
+     * doesn't have a native storage class for hexadecimal (base 16) without
+     * conversion to decimal (base 10) This Member is populated on Class Object
+     * creation.
+     */
+    private final String[] windowsDriverBlanket;
+
+<span class="nc" id="L44">    public DriverRemove() {</span>
+<span class="nc" id="L45">        this.windowsDriverBlanket = new String[]{&quot;04E8&quot;, &quot;0B05&quot;, &quot;0BB4&quot;, &quot;22B8&quot;, &quot;054C&quot;, &quot;2080&quot;, &quot;18D1&quot;};</span>
+<span class="nc" id="L46">        Log.level2Information(&quot;uninstallCADI() Initializing&quot;);</span>
+<span class="nc" id="L47">        Log.level2Information(&quot;uninstallCADI() Scanning for CADI driver package(s)&quot;);</span>
+
+<span class="nc" id="L49">    }</span>
+
+    public boolean removeDriver() {
+<span class="nc" id="L52">        deleteOemInf();</span>
+<span class="nc" id="L53">        Log.level2Information(&quot;uninstallCADI() Scanning for orphaned devices&quot;);</span>
+<span class="nc" id="L54">        boolean driverRemoved = true;</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        for (String vid : windowsDriverBlanket) {</span>
+<span class="nc" id="L56">            driverRemoved = removeOrphanedDevices(vid);</span>
+        }
+
+<span class="nc" id="L59">        Log.level2Information(&quot;removeDriver() Windows will now scan for hardware changes&quot;);</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (!new DriverOperations().rescan()) {</span>
+<span class="nc" id="L61">            Log.level0Error(&quot;removeDriver() rescan() failed!&quot;);</span>
+        }
+<span class="nc" id="L63">        return driverRemoved;</span>
+    }
+
+    /**
+     * deleteOemInf parses output from devconCommand via regex to extract the
+     * name of the *.inf file from Windows driver store. Extraction of the file
+     * name is determined by setup classes &amp;amp; provider names.
+     *
+     * @return a String Array of *.inf files matching the search criteria.
+     */
+    public boolean deleteOemInf() {
+<span class="nc" id="L74">        DriverOperations driver = new DriverOperations();</span>
+<span class="nc" id="L75">        Log.level2Information(&quot;deleteOemInf() Enumerating installed driver packages&quot;);</span>
+<span class="nc" id="L76">        int resultSum = 0;</span>
+<span class="nc" id="L77">        Pattern pattern = driver.regexPattern(PatternChoice.INF);</span>
+<span class="nc" id="L78">        String outputBuffer = driver.enumerate();</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        if (outputBuffer == null) {</span>
+<span class="nc" id="L80">            Log.level0Error(&quot;deleteOemInf() installer returned null!&quot;);</span>
+<span class="nc" id="L81">            return false;</span>
+        }
+<span class="nc" id="L83">        Matcher matcher = pattern.matcher(outputBuffer);</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        while (matcher.find()) {</span>
+<span class="nc" id="L85">            Log.level2Information(&quot;removeDriver() Forcing removal of driver package&quot; + matcher.group(0));</span>
+<span class="nc" id="L86">            String result = driver.delete(matcher.group(0));</span>
+<span class="nc bnc" id="L87" title="All 4 branches missed.">            if (result == null || result.contains(&quot;Driver package&quot;)) {</span>
+<span class="nc" id="L88">                Log.level0Error(&quot;removeDriver() installer returned null!&quot;);</span>
+            }
+<span class="nc" id="L90">            resultSum++;</span>
+<span class="nc" id="L91">        }</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        return resultSum &gt; 0;</span>
+    }
+
+    /**
+     * removeOrphanedDevices parses installer output of any current or
+     * previously installed USB device drivers for the specified VID. Any
+     * matching device drivers are uninstalled
+     *
+     * @param VID a String containing a four character USB vendor ID code in
+     * hexadecimal
+     * @return a String Array of installer output from attempted uninstalls of
+     * drivers
+     */
+    public boolean removeOrphanedDevices(String VID) {
+<span class="nc" id="L106">        int i = 0;</span>
+<span class="nc" id="L107">        int resultSum = 0;</span>
+        String result;
+<span class="nc" id="L109">        DriverOperations driver = new DriverOperations();</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        if (VID.isEmpty()) {</span>
+<span class="nc" id="L111">            Log.level0Error(&quot;removeOrphanedDevices() no VID specified&quot;);</span>
+<span class="nc" id="L112">            return false;</span>
+        }
+        Pattern pattern;
+<span class="nc" id="L115">        pattern = driver.regexPattern(PatternChoice.MATCHINGDEVICES);</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        if (pattern == null) {</span>
+<span class="nc" id="L117">            Log.level0Error(&quot;removeOrphanedDevices() getRegExPattern() returned null!&quot;);</span>
+<span class="nc" id="L118">            return false;</span>
+        }
+<span class="nc" id="L120">        String outputBuffer = driver.findall(&quot;*USB\\VID_&quot; + VID + &quot;*&quot;);</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        if (outputBuffer == null) {</span>
+<span class="nc" id="L122">            Log.level0Error(&quot;removeOrphanedDevices() installer returned null!&quot;);</span>
+<span class="nc" id="L123">            return false;</span>
+        }
+<span class="nc" id="L125">        pattern = driver.regexPattern(PatternChoice.ORPHANS);</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        if (pattern == null) {</span>
+<span class="nc" id="L127">            Log.level0Error(&quot;removeOrphanedDevices() getRegExPattern() returned null!&quot;);</span>
+<span class="nc" id="L128">            return false;</span>
+        }
+<span class="nc" id="L130">        Matcher matcher = pattern.matcher(outputBuffer);</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        while (matcher.find()) {</span>
+<span class="nc" id="L132">            Log.level2Information(&quot;removeOrphanedDevices() Removing orphaned device &quot; + &quot;\&quot;@&quot; + StringOperations.removeLeadingAndTrailingSpaces(matcher.group(0).replace(&quot;\&quot;&quot;, &quot;&quot;)) + &quot;\&quot;&quot;);</span>
+<span class="nc" id="L133">            result = driver.remove(&quot;\&quot;@&quot; + StringOperations.removeLeadingAndTrailingSpaces(matcher.group(0).replace(&quot;\&quot;&quot;, &quot;&quot;)) + &quot;\&quot;&quot;);</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">            if (result.isEmpty()) {</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">            } else if (result.contains(&quot;device(s) are ready to be removed. To remove the devices, reboot the system.&quot;)) {</span>
+<span class="nc" id="L136">                resultSum++;</span>
+            } else {
+<span class="nc" id="L138">                Log.level0Error(&quot;removeOrphanedDevices() installer returned null!&quot;);</span>
+            }
+<span class="nc" id="L140">            i++;</span>
+        }
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        return resultSum &gt; 0;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

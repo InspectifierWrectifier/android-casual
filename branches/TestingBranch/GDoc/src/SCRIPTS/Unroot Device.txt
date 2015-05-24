@@ -1,0 +1,1 @@
+This script will unroot your device.  It will not be possible to gain root access for any purpose after running this script.  You must be sure you wish to do this because it cannot be undone. Consider "Temp Unroot" with an app like Voodoo OTA from Google Play before pressing the obscenely large button below. 

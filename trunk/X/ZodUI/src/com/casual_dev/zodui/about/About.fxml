@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Accordion fx:id="accordion" prefHeight="400.0" prefWidth="600.0" stylesheets="@about.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.casual_dev.zodui.about.AboutController">
+  <panes>
+    <TitledPane expanded="false" text="About">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#cdevClicked" onTouchPressed="#cdevClicked" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/cdev12july.png" />
+                     </image>
+                  </ImageView>
+                  <TextArea editable="false" layoutX="199.0" layoutY="11.0" prefHeight="232.0" prefWidth="371.0" text="By: Adam Outler&#10;Contributions to this project include:&#10;&#10;Jeremy Loper Windows Drivers, Pastebin.java and SCRCustomFilter.java&#10;&#10;Logan Ludington - DiffTextFiles.java, CASPAC format&#10;&#10;Contributors:" wrapText="true" />
+                  <Button layoutX="522.0" layoutY="283.0" mnemonicParsing="false" onAction="#close" text="close" />
+               </children>
+            </AnchorPane>
+      </content>
+    </TitledPane>
+    <TitledPane expanded="false" text="License">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TextArea editable="false" prefHeight="324.0" prefWidth="598.0" text="This project (CASUAL) includes distributable forms of:&#10;CADI, ADB, Heimdall, Fastboot, and busybox&#10;&#10;CASUAL  Cross-platform Android Scripting and Unified Auxiliary Loader&#10;Copyright (C) 2015  Adam Outler&#10; This program is free software: you can redistribute it and/or modify&#10; it under the terms of the GNU General Public License as published by&#10; the Free Software Foundation, either version 3 of the License, or&#10; (at your option) any later version.&#10; This program is distributed in the hope that it will be useful,&#10; but WITHOUT ANY WARRANTY; without even the implied warranty of&#10; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#10; GNU General Public License for more details.&#10; You should have received a copy of the GNU General Public License&#10; along with this program.  If not, see https://www.gnu.org/licenses/ .&#10;&#10;License for: CADI CASUAL Automated Driver Installer&#10;Copyright (C) 2013  Jeremey Loper&#10; This program is free software: you can redistribute it and/or modify&#10; it under the terms of the GNU General Public License as published by&#10; the Free Software Foundation, either version 3 of the License, or&#10; (at your option) any later version.&#10; This program is distributed in the hope that it will be useful,&#10; but WITHOUT ANY WARRANTY; without even the implied warranty of&#10; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#10; GNU General Public License for more details.&#10; You should have received a copy of the GNU General Public License&#10; along with this program.  If not, see https://www.gnu.org/licenses/ .&#10;&#10;&#10;License for: Fastboot&#10;Copyright (C) 2008 The Android Open Source Project&#10; All rights reserved.&#10;  Redistribution and use in source and binary forms, with or without&#10; modification, are permitted provided that the following conditions&#10; are met:&#10;  * Redistributions of source code must retain the above copyright&#10;    notice, this list of conditions and the following disclaimer.&#10;  * Redistributions in binary form must reproduce the above copyright&#10;    notice, this list of conditions and the following disclaimer in&#10;    the documentation and/or other materials provided with the &#10;  distribution.&#10;  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS&#10; &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT&#10; LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS&#10; FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE&#10; COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,&#10; INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,&#10; BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS&#10; OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED &#10; AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,&#10; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT&#10; OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF&#10; SUCH DAMAGE.&#10;&#10;&#10;License for: ADB&#10;Copyright (C) 2008 The Android Open Source Project&#10; All rights reserved.&#10;  Redistribution and use in source and binary forms, with or without&#10; modification, are permitted provided that the following conditions&#10; are met:&#10;  * Redistributions of source code must retain the above copyright&#10;    notice, this list of conditions and the following disclaimer.&#10;  * Redistributions in binary form must reproduce the above copyright&#10;    notice, this list of conditions and the following disclaimer in&#10;    the documentation and/or other materials provided with the &#10;  distribution.&#10;  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS&#10; &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT&#10; LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS&#10; FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE&#10; COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,&#10; INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,&#10; BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS&#10; OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED &#10; AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,&#10; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT&#10; OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF&#10; SUCH DAMAGE.&#10; &#10;License for: Heimdall&#10;Copyright (c) 2010-2012, Benjamin Dobell, Glass Echidna&#10;http://www.glassechidna.com.au/&#10;This software is provided free of charge. Copying and redistribution is&#10;encouraged. If you appreciate this software and you would like to support future&#10;development please consider donating: http://www.glassechidna.com.au/donate/&#10;Heimdall utilises libusb-1.0 for all USB communication:&#10;    http://www.libusb.org/&#10;libusb-1.0 is licensed under the LGPL-2.1:&#10;    http://www.gnu.org/licenses/licenses.html#LGPL&#10;&#10;License for: Busybox&#10;BusyBox v1.20.2 (Ubuntu 1:1.20.0-8ubuntu1) multi-call binary.&#10;Copyright (C) 1998-2011 Erik Andersen, Rob Landley, Denys Vlasenko&#10;and others. Licensed under GPLv2.&#10;See source distribution for full notice.&#10;" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Button layoutX="522.0" layoutY="283.0" mnemonicParsing="false" onAction="#close" text="close" />
+               </children>
+            </AnchorPane>
+      </content>
+    </TitledPane>
+    <TitledPane expanded="false" prefHeight="206.0" prefWidth="2782.0" text="site">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <WebView fx:id="webview" layoutX="8.4" layoutY="9.4" prefHeight="324.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Button layoutX="522.0" layoutY="283.0" mnemonicParsing="false" onAction="#close" text="close" />
+               </children>
+            </AnchorPane>
+      </content>
+    </TitledPane>
+  </panes>
+</Accordion>

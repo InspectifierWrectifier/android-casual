@@ -1,0 +1,7 @@
+$ADB shell pm uninstall com.google.glass.home
+$ADB shell pm uninstall com.google.glass.bluetooth
+$ADB shell pm uninstall com.google.glass.camera
+$ADB shell pm uninstall com.google.glass.hangouts
+$ADB shell pm uninstall com.google.glass.maps
+$ADB shell pm uninstall com.google.glass.setup
+$ADB shell pm uninstall com.google.glass.companion

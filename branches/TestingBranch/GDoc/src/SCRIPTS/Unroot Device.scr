@@ -1,0 +1,10 @@
+$USERCANCELOPTION Warning, Unrooting cannot be undone since\nyou will lose administrative permissions.\n  Are you sure you wish to continue?
+
+$ECHO Remounting System with Read/Write permission
+shell 'su -c "mount -o remount,rw /system"'
+
+$ECHO Removing Superuser App and Binary for all known locations
+shell 'su -c "rm /system/app/Superuser.apk; rm /data/app/Superuser.apk; rm /system/bin/su; rm /system/xbin/su"'
+
+$ECHO Remounting System Read Only
+shell 'su -c "mount -o remount,rw /system"'

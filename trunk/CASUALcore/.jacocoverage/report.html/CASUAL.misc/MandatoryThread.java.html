@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MandatoryThread.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.misc</a> &gt; <span class="el_source">MandatoryThread.java</span></div><h1>MandatoryThread.java</h1><pre class="source lang-java linenums">/*MandatoryThread extends the functionality of thread for better monitoring. 
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.misc;
+
+import CASUAL.Log;
+import CASUAL.instrumentation.Instrumentation;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+/**
+ * extends the functionality of thread for better monitoring.
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+public class MandatoryThread extends Thread {
+
+<span class="fc" id="L30">    AtomicBoolean hasStarted = new AtomicBoolean(false);</span>
+<span class="fc" id="L31">    boolean nullThread = false;</span>
+
+    /**
+     * constructor for thread sets up a blank Mandatory Thread.
+     */
+<span class="fc" id="L36">    public MandatoryThread() {</span>
+<span class="fc" id="L37">        hasStarted.set(true);</span>
+<span class="fc" id="L38">        nullThread = true;</span>
+<span class="fc" id="L39">    }</span>
+
+    /**
+     * constructor accepts a runnable to be used for the thread.
+     *
+     * @param r to be run in a different thread
+     */
+    public MandatoryThread(Runnable r) {
+<span class="fc" id="L47">        super(r);</span>
+<span class="fc" id="L48">    }</span>
+
+    /**
+     * starts the thread and sets the &quot;hasStarted&quot; boolean.
+     */
+    @Override
+    public synchronized void start() {
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (nullThread) {</span>
+<span class="fc" id="L56">            return;</span>
+        }
+<span class="fc" id="L58">        hasStarted.set(true);</span>
+<span class="fc" id="L59">        super.start();</span>
+<span class="fc" id="L60">        Log.level4Debug(&quot;Started MandatoryThread &quot; + this.getName());</span>
+<span class="fc" id="L61">        notify();</span>
+<span class="fc" id="L62">        Instrumentation.trackThread(this);</span>
+<span class="fc" id="L63">    }</span>
+
+    /**
+     * isComplete allows for monitoring of the progress of a thread. If the
+     * thread has started and is no longer alive this will return true. The
+     * MandatoryThread has done its job.
+     *
+     * @return true if MandatoryThread is complete
+     */
+    public boolean isComplete() {
+<span class="pc bpc" id="L73" title="3 of 4 branches missed.">        return hasStarted.get() &amp;&amp; !super.isAlive();</span>
+    }
+
+    /**
+     * halts the current thread until the mandatoryThread has completed. If the
+     * thread has not started, it will wait for the thread to start.
+     */
+    public synchronized void waitFor() {
+        try {
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">            if (nullThread) {</span>
+<span class="nc" id="L83">                return;</span>
+            }
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">            while (!hasStarted.get()) {</span>
+<span class="nc" id="L86">                wait();</span>
+            }
+<span class="fc bfc" id="L88" title="All 2 branches covered.">            if (this.isAlive()) {</span>
+<span class="fc" id="L89">                System.out.println(&quot;waiting for &quot; + this.getName());</span>
+<span class="fc" id="L90">                super.join();</span>
+<span class="fc" id="L91">                System.out.println(this.getName() + &quot; has completed&quot;);</span>
+            }
+<span class="nc" id="L93">        } catch (InterruptedException ex) {</span>
+
+<span class="fc" id="L95">        }</span>
+<span class="fc" id="L96">    }</span>
+    @Override
+    public String toString(){
+<span class="nc" id="L99">        StringBuilder sb=new StringBuilder();</span>
+<span class="nc" id="L100">        String n=&quot;\n&quot;;</span>
+<span class="nc" id="L101">        sb.append(&quot;Name:&quot;).append(getName()).append(n);</span>
+<span class="nc" id="L102">        sb.append(&quot;Started:&quot;).append(this.hasStarted).append(n);</span>
+<span class="nc" id="L103">        sb.append(&quot;Complete:&quot;).append(this.isComplete()).append(n);</span>
+        
+<span class="nc" id="L105">        return sb.toString();</span>
+    }
+
+};
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

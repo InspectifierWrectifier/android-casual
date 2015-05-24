@@ -1,0 +1,215 @@
+\hypertarget{classCASUAL_1_1misc_1_1StringOperations}{\section{C\-A\-S\-U\-A\-L.\-misc.\-String\-Operations Class Reference}
+\label{classCASUAL_1_1misc_1_1StringOperations}\index{C\-A\-S\-U\-A\-L.\-misc.\-String\-Operations@{C\-A\-S\-U\-A\-L.\-misc.\-String\-Operations}}
+}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static String \hyperlink{classCASUAL_1_1misc_1_1StringOperations_a2ca54978e1c7207cfc2a5a5526c26e48}{replace\-Last} (String string, String to\-Replace, String replacement)
+\item 
+static String \hyperlink{classCASUAL_1_1misc_1_1StringOperations_a917dd1b4316d383992c5eba6c0960934}{remove\-Leading\-Spaces} (String line)
+\item 
+static String \hyperlink{classCASUAL_1_1misc_1_1StringOperations_a9e737d317a79c13c3c9ae279fd6c26a8}{remove\-Leading\-And\-Trailing\-Spaces} (String line)
+\item 
+static String \hyperlink{classCASUAL_1_1misc_1_1StringOperations_a6e73c975bfeec0c3737203043c72190b}{remove\-Trailing\-Spaces} (String line)
+\item 
+static String \hyperlink{classCASUAL_1_1misc_1_1StringOperations_ac656345120c52916e47e2d24f62a8d73}{convert\-Stream\-To\-String} (java.\-io.\-Input\-Stream is)
+\item 
+static Input\-Stream \hyperlink{classCASUAL_1_1misc_1_1StringOperations_a813e85c2bd5595496dc70c336d045e53}{convert\-String\-To\-Stream} (String input)
+\item 
+static String\mbox{[}$\,$\mbox{]} \hyperlink{classCASUAL_1_1misc_1_1StringOperations_ad37eeeaf74afa6c537486c4103ac07ab}{convert\-Array\-List\-To\-String\-Array} (Array\-List$<$ String $>$ list)
+\item 
+static String\mbox{[}$\,$\mbox{]} \hyperlink{classCASUAL_1_1misc_1_1StringOperations_a20b27a70d8a3a625c27001f6a072bf8d}{convert\-String\-To\-Array} (String input\-String)
+\item 
+static String \hyperlink{classCASUAL_1_1misc_1_1StringOperations_ad287e81ccf48546cd49738824cbb1a25}{generate\-Random\-Hex\-String} (int len)
+\item 
+static String \hyperlink{classCASUAL_1_1misc_1_1StringOperations_a6707927f6d6cc06c8f9bf70e151218d0}{array\-To\-String} (String\mbox{[}$\,$\mbox{]} stringarray)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Adam Outler \href{mailto:adamoutler@gmail.com}{\tt adamoutler@gmail.\-com} 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCASUAL_1_1misc_1_1StringOperations_a6707927f6d6cc06c8f9bf70e151218d0}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}!array\-To\-String@{array\-To\-String}}
+\index{array\-To\-String@{array\-To\-String}!CASUAL::misc::StringOperations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}}
+\subsubsection[{array\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-misc.\-String\-Operations.\-array\-To\-String (
+\begin{DoxyParamCaption}
+\item[{String\mbox{[}$\,$\mbox{]}}]{stringarray}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1misc_1_1StringOperations_a6707927f6d6cc06c8f9bf70e151218d0}
+Converts an array to a string delimited by a space. 
+\begin{DoxyParams}{Parameters}
+{\em stringarray} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string representaition of an array. 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1misc_1_1StringOperations_ad37eeeaf74afa6c537486c4103ac07ab}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}!convert\-Array\-List\-To\-String\-Array@{convert\-Array\-List\-To\-String\-Array}}
+\index{convert\-Array\-List\-To\-String\-Array@{convert\-Array\-List\-To\-String\-Array}!CASUAL::misc::StringOperations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}}
+\subsubsection[{convert\-Array\-List\-To\-String\-Array}]{\setlength{\rightskip}{0pt plus 5cm}static String \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-misc.\-String\-Operations.\-convert\-Array\-List\-To\-String\-Array (
+\begin{DoxyParamCaption}
+\item[{Array\-List$<$ String $>$}]{list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1misc_1_1StringOperations_ad37eeeaf74afa6c537486c4103ac07ab}
+takes a array list and converts to string array
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & input array list \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+output string array 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1misc_1_1StringOperations_ac656345120c52916e47e2d24f62a8d73}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}!convert\-Stream\-To\-String@{convert\-Stream\-To\-String}}
+\index{convert\-Stream\-To\-String@{convert\-Stream\-To\-String}!CASUAL::misc::StringOperations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}}
+\subsubsection[{convert\-Stream\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-misc.\-String\-Operations.\-convert\-Stream\-To\-String (
+\begin{DoxyParamCaption}
+\item[{java.\-io.\-Input\-Stream}]{is}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1misc_1_1StringOperations_ac656345120c52916e47e2d24f62a8d73}
+reads a stream and returns a string
+
+
+\begin{DoxyParams}{Parameters}
+{\em is} & stream to read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+stream converted to string 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1misc_1_1StringOperations_a20b27a70d8a3a625c27001f6a072bf8d}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}!convert\-String\-To\-Array@{convert\-String\-To\-Array}}
+\index{convert\-String\-To\-Array@{convert\-String\-To\-Array}!CASUAL::misc::StringOperations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}}
+\subsubsection[{convert\-String\-To\-Array}]{\setlength{\rightskip}{0pt plus 5cm}static String \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-misc.\-String\-Operations.\-convert\-String\-To\-Array (
+\begin{DoxyParamCaption}
+\item[{String}]{input\-String}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1misc_1_1StringOperations_a20b27a70d8a3a625c27001f6a072bf8d}
+Returns an array of Strings from a source String.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\-String} & contains comma delimited collection of strings each surrounded by quotations. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string array result of breaking on commas 
+\end{DoxyReturn}
+\begin{DoxyAuthor}{Author}
+Jeremy Loper \href{mailto:jrloper@gmail.com}{\tt jrloper@gmail.\-com} 
+\end{DoxyAuthor}
+\hypertarget{classCASUAL_1_1misc_1_1StringOperations_a813e85c2bd5595496dc70c336d045e53}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}!convert\-String\-To\-Stream@{convert\-String\-To\-Stream}}
+\index{convert\-String\-To\-Stream@{convert\-String\-To\-Stream}!CASUAL::misc::StringOperations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}}
+\subsubsection[{convert\-String\-To\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}static Input\-Stream C\-A\-S\-U\-A\-L.\-misc.\-String\-Operations.\-convert\-String\-To\-Stream (
+\begin{DoxyParamCaption}
+\item[{String}]{input}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1misc_1_1StringOperations_a813e85c2bd5595496dc70c336d045e53}
+converts a String to an Input\-Stream 
+\begin{DoxyParams}{Parameters}
+{\em input} & string to turn into an Input\-Stream \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Input\-Stream representation of the input string. 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1misc_1_1StringOperations_ad287e81ccf48546cd49738824cbb1a25}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}!generate\-Random\-Hex\-String@{generate\-Random\-Hex\-String}}
+\index{generate\-Random\-Hex\-String@{generate\-Random\-Hex\-String}!CASUAL::misc::StringOperations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}}
+\subsubsection[{generate\-Random\-Hex\-String}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-misc.\-String\-Operations.\-generate\-Random\-Hex\-String (
+\begin{DoxyParamCaption}
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1misc_1_1StringOperations_ad287e81ccf48546cd49738824cbb1a25}
+gets a random hexadecimal string
+
+
+\begin{DoxyParams}{Parameters}
+{\em len} & length of string to return \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+random hex string of specified length 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1misc_1_1StringOperations_a9e737d317a79c13c3c9ae279fd6c26a8}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}!remove\-Leading\-And\-Trailing\-Spaces@{remove\-Leading\-And\-Trailing\-Spaces}}
+\index{remove\-Leading\-And\-Trailing\-Spaces@{remove\-Leading\-And\-Trailing\-Spaces}!CASUAL::misc::StringOperations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}}
+\subsubsection[{remove\-Leading\-And\-Trailing\-Spaces}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-misc.\-String\-Operations.\-remove\-Leading\-And\-Trailing\-Spaces (
+\begin{DoxyParamCaption}
+\item[{String}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1misc_1_1StringOperations_a9e737d317a79c13c3c9ae279fd6c26a8}
+removes leading and trailing spaces
+
+
+\begin{DoxyParams}{Parameters}
+{\em line} & original value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+original value without leading or trailing spaces 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1misc_1_1StringOperations_a917dd1b4316d383992c5eba6c0960934}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}!remove\-Leading\-Spaces@{remove\-Leading\-Spaces}}
+\index{remove\-Leading\-Spaces@{remove\-Leading\-Spaces}!CASUAL::misc::StringOperations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}}
+\subsubsection[{remove\-Leading\-Spaces}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-misc.\-String\-Operations.\-remove\-Leading\-Spaces (
+\begin{DoxyParamCaption}
+\item[{String}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1misc_1_1StringOperations_a917dd1b4316d383992c5eba6c0960934}
+removes leading spaces from line
+
+
+\begin{DoxyParams}{Parameters}
+{\em line} & string to remove spaces from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+line without any leading spaces 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1misc_1_1StringOperations_a6e73c975bfeec0c3737203043c72190b}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}!remove\-Trailing\-Spaces@{remove\-Trailing\-Spaces}}
+\index{remove\-Trailing\-Spaces@{remove\-Trailing\-Spaces}!CASUAL::misc::StringOperations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}}
+\subsubsection[{remove\-Trailing\-Spaces}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-misc.\-String\-Operations.\-remove\-Trailing\-Spaces (
+\begin{DoxyParamCaption}
+\item[{String}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1misc_1_1StringOperations_a6e73c975bfeec0c3737203043c72190b}
+remove trailing spaces
+
+
+\begin{DoxyParams}{Parameters}
+{\em line} & original value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+original value without trailing spaces 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1misc_1_1StringOperations_a2ca54978e1c7207cfc2a5a5526c26e48}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}!replace\-Last@{replace\-Last}}
+\index{replace\-Last@{replace\-Last}!CASUAL::misc::StringOperations@{C\-A\-S\-U\-A\-L\-::misc\-::\-String\-Operations}}
+\subsubsection[{replace\-Last}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-misc.\-String\-Operations.\-replace\-Last (
+\begin{DoxyParamCaption}
+\item[{String}]{string, }
+\item[{String}]{to\-Replace, }
+\item[{String}]{replacement}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1misc_1_1StringOperations_a2ca54978e1c7207cfc2a5a5526c26e48}
+replaces the last instance of a string
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & original string \\
+\hline
+{\em to\-Replace} & value to replace \\
+\hline
+{\em replacement} & replace with this \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string with last value replaced 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/misc/String\-Operations.\-java\end{DoxyCompactItemize}

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AudioHandler.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL</a> &gt; <span class="el_source">AudioHandler.java</span></div><h1>AudioHandler.java</h1><pre class="source lang-java linenums">/*CASUALAudioSystem provides audio output for CASUAL. 
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+/**
+ * CASUALAudioSystem handles Sounds
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+<span class="nc" id="L35">public class AudioHandler {</span>
+
+    /**
+     * True if sound is to be used.
+     */
+<span class="fc" id="L40">    public static volatile boolean useSound = false;</span>
+
+    /**
+     * playSound plays sounds
+     *
+     * @param url path to sound
+     */
+    public static synchronized void playSound(final String url) {
+<span class="fc" id="L48">        Thread t = new Thread(new Runnable() { // the wrapper thread is unnecessary, unless it blocks on the Clip finishing</span>
+            @Override
+            public void run() {
+<span class="fc bfc" id="L51" title="All 2 branches covered.">                if (useSound) {</span>
+                    AudioInputStream is;
+                    try {
+<span class="fc" id="L54">                        byte[] buffer = new byte[4096];</span>
+<span class="fc" id="L55">                        is = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream(url)));</span>
+<span class="fc" id="L56">                        AudioFormat Format = is.getFormat();</span>
+                        SourceDataLine line;
+<span class="fc" id="L58">                        line = AudioSystem.getSourceDataLine(Format);</span>
+<span class="fc" id="L59">                        line.open(Format);</span>
+<span class="fc" id="L60">                        line.start();</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">                        while (is.available() &gt; 0) {</span>
+<span class="fc" id="L62">                            int Len = is.read(buffer);</span>
+<span class="fc" id="L63">                            line.write(buffer, 0, Len);</span>
+<span class="fc" id="L64">                        }</span>
+<span class="fc" id="L65">                        line.drain();</span>
+<span class="fc" id="L66">                        line.close();</span>
+<span class="fc" id="L67">                        is.close();</span>
+                        //Don't worry about autio exceptions.  Just turn off audio
+<span class="nc" id="L69">                        } catch (IOException error) {</span>
+<span class="nc" id="L70">                            Log.level4Debug(&quot;Audio File not found&quot;);</span>
+<span class="nc" id="L71">                            Log.level3Verbose(&quot;File Not Found&quot;);</span>
+<span class="nc" id="L72">                        } catch (UnsupportedAudioFileException ex) {</span>
+<span class="nc" id="L73">                            Log.level4Debug(&quot;Audio Unsupported Format Exception throw&quot;);</span>
+<span class="nc" id="L74">                            useSound = false;</span>
+<span class="nc" id="L75">                        } catch (LineUnavailableException ex) {</span>
+<span class="nc" id="L76">                            Log.level4Debug(&quot;Audio Line Unavailable Exception thrown&quot;);</span>
+<span class="nc" id="L77">                            useSound = false;</span>
+<span class="nc" id="L78">                        } catch (java.lang.IllegalArgumentException ex) {</span>
+<span class="nc" id="L79">                            Log.level4Debug(&quot;Audio Illegal Arguement Exception thrown&quot;);</span>
+<span class="nc" id="L80">                            useSound = false;</span>
+<span class="pc" id="L81">                        }</span>
+                }
+<span class="fc" id="L83">            }</span>
+        });
+<span class="fc" id="L85">        t.setName(&quot;Audio&quot;);</span>
+<span class="fc" id="L86">        t.start();</span>
+<span class="fc" id="L87">    }</span>
+
+    /**
+     * plays multiple sounds
+     *
+     * @param urls array of paths to sound
+     */
+    public static synchronized void playMultipleInputStreams(final String[] urls) {
+        Thread t;
+<span class="fc" id="L96">        t = new Thread(new Runnable() {</span>
+// the wrapper thread is unnecessary, unless it blocks on the Clip finishing
+            @Override
+            public void run() {
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">                if (useSound) {</span>
+
+<span class="fc bfc" id="L102" title="All 2 branches covered.">                    for (String url : urls) {</span>
+
+                        try {
+<span class="fc" id="L105">                            AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResourceAsStream(url));</span>
+
+<span class="fc" id="L107">                            AudioFormat format = audioIn.getFormat();</span>
+<span class="fc" id="L108">                            DataLine.Info info = new DataLine.Info(Clip.class, format);</span>
+<span class="fc" id="L109">                            Clip clip = (Clip) AudioSystem.getLine(info);</span>
+
+<span class="fc" id="L111">                            clip.open(audioIn);</span>
+<span class="fc" id="L112">                            clip.start();</span>
+<span class="fc" id="L113">                            sleepTillEndOfClip(clip);</span>
+<span class="fc" id="L114">                            clip.drain();</span>
+<span class="nc" id="L115">                        } catch (IOException error) {</span>
+<span class="nc" id="L116">                            Log.level4Debug(&quot;Audio File not found&quot;);</span>
+<span class="nc" id="L117">                            Log.level3Verbose(&quot;File Not Found&quot;);</span>
+<span class="nc" id="L118">                        } catch (UnsupportedAudioFileException ex) {</span>
+<span class="nc" id="L119">                            Log.level4Debug(&quot;Audio Unsupported Format Exception throw&quot;);</span>
+<span class="nc" id="L120">                            useSound = false;</span>
+<span class="nc" id="L121">                        } catch (LineUnavailableException ex) {</span>
+<span class="nc" id="L122">                            Log.level4Debug(&quot;Audio Line Unavailable Exception thrown&quot;);</span>
+<span class="nc" id="L123">                            useSound = false;</span>
+<span class="nc" id="L124">                        } catch (java.lang.IllegalArgumentException ex) {</span>
+<span class="nc" id="L125">                            Log.level4Debug(&quot;Audio Illegal Arguement Exception thrown&quot;);</span>
+<span class="nc" id="L126">                            useSound = false;</span>
+<span class="nc" id="L127">                        } catch (InterruptedException ex) {</span>
+<span class="nc" id="L128">                            Log.level4Debug(&quot;Audio Interrupted Exception thrown&quot;);</span>
+<span class="nc" id="L129">                            useSound = false;</span>
+<span class="pc" id="L130">                        }</span>
+                    }
+                }
+
+<span class="fc" id="L134">            }</span>
+
+            private void sleepTillEndOfClip(Clip clip) throws InterruptedException {
+<span class="fc" id="L137">                Thread.sleep(clip.getMicrosecondLength()/5000);</span>
+<span class="fc" id="L138">            }</span>
+        });
+<span class="fc" id="L140">        t.setName(&quot;AudioStream&quot;);</span>
+        
+<span class="fc" id="L142">        t.start();</span>
+
+<span class="fc" id="L144">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

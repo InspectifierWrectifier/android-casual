@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ControlCommands.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.language.commands</a> &gt; <span class="el_source">ControlCommands.java</span></div><h1>ControlCommands.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2014 adamoutler
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.language.commands;
+
+import CASUAL.CASUALScriptParser;
+import CASUAL.CASUALSessionData;
+import CASUAL.Log;
+import CASUAL.language.CASUALLanguage;
+import CASUAL.language.Command;
+import CASUAL.misc.StringOperations;
+import CASUAL.network.Pastebin;
+import CASUAL.network.RemoteCASPACHandler;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author adamoutler
+ */
+<span class="nc" id="L35">public class ControlCommands {</span>
+
+    public static boolean checkComments(Command cmd) {
+<span class="pc bpc" id="L38" title="1 of 2 branches missed.">        if (cmd.get().startsWith(&quot;#&quot;)) {</span>
+<span class="nc" id="L39">            Log.level4Debug(&quot;Ignoring commented line&quot; + cmd.get());</span>
+<span class="nc" id="L40">            return true;</span>
+        }
+<span class="fc" id="L42">        return false;</span>
+    }
+
+    public static boolean setReturn(Command cmd) {
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">        if (cmd.get().startsWith(&quot;$RETURNVALUE&quot;)) {</span>
+<span class="nc" id="L47">            cmd.set(cmd.get().replaceFirst(&quot;$RETURNVALUE&quot;, &quot;&quot;).trim());</span>
+<span class="nc" id="L48">            CASUALScriptParser.setReturnValue(cmd.get());</span>
+<span class="nc" id="L49">            cmd.setReturn(true, cmd.get());</span>
+<span class="nc" id="L50">            return true;</span>
+        }
+<span class="fc" id="L52">        return false;</span>
+    }
+
+    public static boolean checkIfContains(Command cmd) {
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (cmd.get().startsWith(&quot;$IFCONTAINS &quot;)) {</span>
+<span class="fc" id="L57">            cmd.set(StringOperations.removeLeadingSpaces(cmd.get().replaceFirst(&quot;$IFCONTAINS &quot;, &quot;&quot;).trim()));</span>
+<span class="fc" id="L58">            return true;</span>
+        }
+<span class="fc" id="L60">        return false;</span>
+    }
+
+    public static void checkHalt(CASUALSessionData sd, Command cmd) {
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (cmd.get().startsWith(&quot;$HALT&quot;)) {</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">            if (sd.CASPAC != null) {</span>
+<span class="nc" id="L66">                sd.CASPAC.getActiveScript().setScriptContinue(false);</span>
+            }
+<span class="fc" id="L68">            cmd.set(cmd.get().replace(&quot;$HALT&quot;, &quot;&quot;).trim());</span>
+<span class="fc" id="L69">            Log.level4Debug(&quot;HALT RECEIVED&quot;);</span>
+<span class="fc" id="L70">            Log.level4Debug(&quot;Finishing remaining commands:&quot; + cmd.get());</span>
+        }
+<span class="fc" id="L72">    }</span>
+
+    public static boolean checkClearOn(CASUALSessionData sd, Command cmd) {
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        if (cmd.get().startsWith(&quot;$CLEARON&quot;)) {</span>
+<span class="nc" id="L76">            sd.ActionEvents = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L77">            sd.ReactionEvents = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L78">            Log.level4Debug(&quot;***$CLEARON RECEIVED. CLEARING ALL LOGGING EVENTS.***&quot;);</span>
+<span class="nc" id="L79">            return true;</span>
+        }
+<span class="fc" id="L81">        return false;</span>
+    }
+
+    public static boolean checkBlankLine(Command cmd) {
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        if (cmd.get().isEmpty()) {</span>
+<span class="fc" id="L86">            return true;</span>
+        }
+<span class="fc" id="L88">        Log.level4Debug(&quot;SCRIPT COMMAND:&quot; + cmd);</span>
+<span class="fc" id="L89">        return false;</span>
+    }
+
+    public static boolean checkGoto(Command cmd) {
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">        if (cmd.get().startsWith(&quot;$GOTO&quot;)) {</span>
+<span class="nc" id="L94">            cmd.set(cmd.get().replace(&quot;$GOTO&quot;, &quot;&quot;).trim());</span>
+<span class="nc" id="L95">            CASUALLanguage.GOTO = cmd.get();</span>
+<span class="nc" id="L96">            return true;</span>
+        }
+<span class="fc" id="L98">        return false;</span>
+    }
+
+    public static boolean checkIfNotContains(Command cmd) {
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        if (cmd.get().startsWith(&quot;$IFNOTCONTAINS &quot;)) {</span>
+<span class="fc" id="L103">            cmd.set(cmd.get().replaceFirst(&quot;$IFCONTAINS &quot;, &quot;&quot;).trim());</span>
+<span class="fc" id="L104">            return true;</span>
+        }
+<span class="fc" id="L106">        return false;</span>
+    }
+
+    public static boolean checkOn(CASUALSessionData sd, Command cmd) {
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">        if (cmd.get().startsWith(&quot;$ON&quot;)) {</span>
+<span class="nc" id="L111">            cmd.set(cmd.get().replace(&quot;$ON&quot;, &quot;&quot;).trim());</span>
+<span class="nc" id="L112">            String[] Event = cmd.get().split(&quot;,&quot;);</span>
+            try {
+<span class="nc" id="L114">                sd.ActionEvents.add(Event[0]);</span>
+<span class="nc" id="L115">                Log.level4Debug(&quot;***NEW EVENT ADDED***&quot;);</span>
+<span class="nc" id="L116">                Log.level4Debug(&quot;ON EVENT: &quot; + Event[0]);</span>
+<span class="nc" id="L117">                sd.ReactionEvents.add(Event[1]);</span>
+<span class="nc" id="L118">                Log.level4Debug(&quot;PERFORM ACTION: &quot; + Event[1]);</span>
+<span class="nc" id="L119">            } catch (Exception e) {</span>
+<span class="nc" id="L120">                Log.errorHandler(e);</span>
+<span class="nc" id="L121">            }</span>
+<span class="nc" id="L122">            return true;</span>
+        }
+<span class="fc" id="L124">        return false;</span>
+    }
+
+    public static boolean checkSendLog(CASUALSessionData sd, Command cmd) {
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">        if (cmd.get().startsWith(&quot;$SENDLOG&quot;)) {</span>
+<span class="nc" id="L129">            cmd.set(cmd.get().replace(&quot;$SENDLOG&quot;, &quot;&quot;).trim());</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">            if (StringOperations.removeLeadingAndTrailingSpaces(cmd.get()).isEmpty()) {</span>
+<span class="nc" id="L131">                Log.level4Debug(&quot;Sendlog Command Issued!\nNo remaining commands&quot;);</span>
+            } else {
+<span class="nc" id="L133">                Log.level4Debug(&quot;Sendlog Command Issued!\nFinishing remaining commands:&quot; + cmd.get());</span>
+            }
+            try {
+<span class="nc" id="L136">                new Pastebin().doPosting();</span>
+<span class="nc" id="L137">            } catch (IOException ex) {</span>
+<span class="nc" id="L138">            } catch (URISyntaxException ex) {</span>
+<span class="nc" id="L139">            }</span>
+<span class="nc" id="L140">            return true;</span>
+        }
+<span class="fc" id="L142">        return false;</span>
+    }
+
+    //split the string from $IFCONTAINS &quot;string string&quot; $INCOMMAND &quot;$ADB command to execute&quot; $DO &quot;CASUAL COMMAND&quot;
+    public static String doIfContainsReturnResults(String line, boolean ifContains) throws Exception {
+<span class="fc bfc" id="L147" title="All 2 branches covered.">        if (line.startsWith(&quot;$IFCONTAINS&quot;)) {</span>
+<span class="fc" id="L148">            line = StringOperations.removeLeadingSpaces(line.replaceFirst(&quot;\\$IFCONTAINS&quot;, &quot;&quot;).trim());</span>
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">        } else if (line.startsWith(&quot;$IFNOTCONTAINS&quot;)) {</span>
+<span class="fc" id="L150">            line = StringOperations.removeLeadingSpaces(line.replaceFirst(&quot;\\$IFNOTCONTAINS&quot;, &quot;&quot;).trim());</span>
+        }
+<span class="fc" id="L152">        String[] checkValueSplit = line.split(&quot;\\$INCOMMAND&quot;, 2);</span>
+<span class="fc" id="L153">        String checkValue = StringOperations.removeLeadingAndTrailingSpaces(checkValueSplit[0].replace(&quot;\\$INCOMMAND&quot;, line).trim());</span>
+<span class="fc" id="L154">        String[] commandSplit = checkValueSplit[1].split(&quot;\\$DO&quot;, 2);</span>
+<span class="fc" id="L155">        String command = StringOperations.removeLeadingAndTrailingSpaces(commandSplit[0]);</span>
+<span class="fc" id="L156">        String casualCommand = StringOperations.removeLeadingAndTrailingSpaces(commandSplit[1]);</span>
+<span class="fc" id="L157">        Log.level4Debug(&quot;checking for results to be &quot; + ifContains);</span>
+<span class="fc" id="L158">        Log.level4Debug(&quot;requesting &quot; + command);</span>
+<span class="fc" id="L159">        String returnValue = new CASUALScriptParser().executeOneShotCommand(command);</span>
+<span class="fc" id="L160">        Log.level4Debug(&quot;got &quot; + returnValue);</span>
+<span class="fc" id="L161">        String retValue = &quot;&quot;;</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        if (returnValue.contains(checkValue) == ifContains) {</span>
+<span class="pc bpc" id="L163" title="1 of 2 branches missed.">            if (casualCommand.contains(&quot;&amp;&amp;&amp;&quot;)) {</span>
+<span class="nc" id="L164">                String[] lineSplit = casualCommand.split(&quot;&amp;&amp;&amp;&quot;);</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">                for (String cmd : lineSplit) {</span>
+<span class="nc" id="L166">                    retValue += new CASUALScriptParser().executeOneShotCommand(StringOperations.removeLeadingAndTrailingSpaces(cmd).trim());</span>
+                }
+<span class="nc" id="L168">            } else {</span>
+<span class="fc" id="L169">                retValue += new CASUALScriptParser().executeOneShotCommand(StringOperations.removeLeadingAndTrailingSpaces(casualCommand).trim());</span>
+            }
+        }
+<span class="fc" id="L172">        return retValue;</span>
+    }
+
+    public static boolean launchCaspac(CASUALSessionData sd, Command cmd) throws IOException {
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">        if (cmd.get().startsWith(&quot;$CASPAC&quot;)) {</span>
+<span class="nc" id="L177">            cmd.set(cmd.get().replace(&quot;$CASPAC&quot;, &quot;&quot;).trim());</span>
+<span class="nc" id="L178">            new RemoteCASPACHandler().executeCaspac(CASUALSessionData.newInstance(), cmd.get());</span>
+<span class="nc" id="L179">            return true;</span>
+        }
+<span class="fc" id="L181">        return false;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

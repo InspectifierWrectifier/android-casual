@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>OdinFile.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.communicationstools.heimdall.odin</a> &gt; <span class="el_source">OdinFile.java</span></div><h1>OdinFile.java</h1><pre class="source lang-java linenums">/*Opens Odin tar, tar.md5, tar.gz, and tar.md5.gz and performs consistancy checks 
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.communicationstools.heimdall.odin;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.zip.GZIPInputStream;
+import org.apache.commons.compress.archivers.ArchiveException;
+import org.apache.commons.compress.archivers.ArchiveStreamFactory;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+
+/**
+ * Opens odin files and performs consistancy checks
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+public class OdinFile {
+
+    final private BufferedInputStream odinStream;
+    final File odinFile;
+    final String actualMd5;
+<span class="nc" id="L46">    String expectedMd5 = &quot;&quot;;</span>
+<span class="nc" id="L47">    ArrayList&lt;File&gt; files = null;</span>
+    TarArchiveInputStream tarStream;
+    /**
+     * type 0=tar 1=tar.md5 2=tar.md5.gz.
+     */
+    final int type;
+
+    /**
+     * Opens an Odin file and verifies MD5sum
+     *
+     * @param odinFile file to be opened and verified
+     * @throws CorruptOdinFileException Odin checks did not pass
+     * @throws FileNotFoundException {@inheritDoc}
+     * @throws IOException {@inheritDoc}
+     * @throws NoSuchAlgorithmException {@inheritDoc}
+     * @throws org.apache.commons.compress.archivers.ArchiveException
+     * {@inheritDoc}
+     */
+<span class="nc" id="L65">    public OdinFile(File odinFile) throws FileNotFoundException, IOException, NoSuchAlgorithmException, CorruptOdinFileException, ArchiveException {</span>
+<span class="nc" id="L66">        this.odinFile = odinFile;</span>
+<span class="nc" id="L67">        this.odinStream = new BufferedInputStream(new FileInputStream(odinFile));</span>
+
+<span class="nc" id="L69">        String name = odinFile.getName();</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (name.endsWith(&quot;tar&quot;)) {</span>
+<span class="nc" id="L71">            actualMd5 = &quot;&quot;;</span>
+<span class="nc" id="L72">            type = 0;</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        } else if (name.endsWith(&quot;tar.md5&quot;)) {</span>
+<span class="nc" id="L74">            actualMd5 = getActualAndExpectedOdinMd5();</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">            if (!expectedMd5.equals(actualMd5)) {</span>
+<span class="nc" id="L76">                throw new CorruptOdinFileException(odinFile.getCanonicalPath());</span>
+            }
+<span class="nc" id="L78">            System.out.println(&quot;verified file &quot; + odinFile.getCanonicalPath());</span>
+<span class="nc" id="L79">            type = 1;</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        } else if (name.endsWith(&quot;tar.gz.md5&quot;)) {</span>
+<span class="nc" id="L81">            actualMd5 = getActualAndExpectedOdinMd5();</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">            if (!expectedMd5.equals(actualMd5)) {</span>
+<span class="nc" id="L83">                throw new CorruptOdinFileException(odinFile.getCanonicalPath());</span>
+            }
+<span class="nc" id="L85">            System.out.println(&quot;verified file &quot; + odinFile.getCanonicalPath());</span>
+<span class="nc" id="L86">            type = 2;</span>
+        } else {//(name.endsWith(&quot;tar.gz&quot;)) {
+<span class="nc" id="L88">            actualMd5 = &quot;&quot;;</span>
+<span class="nc" id="L89">            type = 3;</span>
+        }
+        //open a tar.gz stream for tar.gz and tar.md5.gz
+<span class="nc bnc" id="L92" title="All 4 branches missed.">        if (type == 2 || type == 3) {</span>
+<span class="nc" id="L93">            GZIPInputStream gzis = new GZIPInputStream(odinStream);</span>
+<span class="nc" id="L94">            tarStream = (TarArchiveInputStream) new ArchiveStreamFactory().createArchiveInputStream(&quot;tar&quot;, gzis);</span>
+            //open a tar stream for .tar and tar.md5
+<span class="nc" id="L96">        } else {</span>
+<span class="nc" id="L97">            tarStream = (TarArchiveInputStream) new ArchiveStreamFactory().createArchiveInputStream(&quot;tar&quot;, odinStream);</span>
+        }
+
+<span class="nc" id="L100">    }</span>
+
+    /**
+     * Opens an Odin file and verifies MD5sum
+     *
+     * @param odinFile file to be opened and verified
+     * @throws CorruptOdinFileException Odin checks did not pass
+     * @throws FileNotFoundException {@inheritDoc}
+     * @throws IOException {@inheritDoc}
+     * @throws NoSuchAlgorithmException {@inheritDoc}
+     * @throws org.apache.commons.compress.archivers.ArchiveException
+     * {@inheritDoc}
+     */
+    public OdinFile(String odinFile) throws FileNotFoundException, IOException, NoSuchAlgorithmException, CorruptOdinFileException, ArchiveException {
+<span class="nc" id="L114">        this(new File(odinFile));</span>
+<span class="nc" id="L115">    }</span>
+
+    /**
+     * Extracts Odin contents to outputDir
+     *
+     * @param outputDir temp folder
+     * @return an array of files extracted from Odin Package
+     * @throws IOException {@inheritDoc}
+     * @throws ArchiveException {@inheritDoc}
+     * @throws NoSuchAlgorithmException {@inheritDoc}
+     */
+    public File[] extractOdinContents(String outputDir) throws IOException, ArchiveException, NoSuchAlgorithmException {
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        if (files != null) {</span>
+            //for sucessive calls
+<span class="nc" id="L129">            return files.toArray(new File[files.size()]);</span>
+        }
+<span class="nc" id="L131">        files = new ArrayList&lt;File&gt;();</span>
+        TarArchiveEntry entry;
+        //parse the entries
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        while ((entry = (TarArchiveEntry) tarStream.getNextEntry()) != null) {</span>
+<span class="nc" id="L135">            final File outputFile = new File(outputDir, entry.getName());</span>
+            //make folders
+<span class="nc bnc" id="L137" title="All 2 branches missed.">            if (entry.isDirectory()) {</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">                if (!outputFile.exists()) {</span>
+<span class="nc" id="L139">                    System.out.println(&quot;creating dir:&quot; + outputFile.getCanonicalFile());</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">                    if (!outputFile.mkdirs()) {</span>
+<span class="nc" id="L141">                        throw new IllegalStateException();</span>
+                    }
+                }
+                //create files
+            } else {
+<span class="nc" id="L146">                final OutputStream outputFileStream = new FileOutputStream(outputFile);</span>
+<span class="nc" id="L147">                System.out.println(&quot;decompressing file:&quot; + outputFile.getCanonicalFile());</span>
+<span class="nc" id="L148">                byte[] buffer = new byte[1024 * 1024];</span>
+                int len;
+<span class="nc bnc" id="L150" title="All 2 branches missed.">                while ((len = tarStream.read(buffer)) &gt;= 0) {</span>
+<span class="nc" id="L151">                    outputFileStream.write(buffer, 0, len);</span>
+                }
+<span class="nc" id="L153">                outputFileStream.close();</span>
+            }
+            //add files to output array
+<span class="nc" id="L156">            files.add(outputFile);</span>
+<span class="nc" id="L157">        }</span>
+<span class="nc" id="L158">        return files.toArray(new File[files.size()]);</span>
+    }
+
+    /**
+     * runs through a file and builds an MD5 of the actual file. Stops when last
+     * block size is not 512 bytes as a Tar will be 512.
+     *
+     * @return OdinFile's actual MD5
+     * @throws IOException {@inheritDoc}
+     * @throws FileNotFoundException {@inheritDoc}
+     * @throws NoSuchAlgorithmException {@inheritDoc}
+     */
+    private String getActualAndExpectedOdinMd5() throws IOException, FileNotFoundException, NoSuchAlgorithmException {
+        FileInputStream fis;
+<span class="nc" id="L172">        fis = new FileInputStream(odinFile);</span>
+<span class="nc" id="L173">        MessageDigest digest = MessageDigest.getInstance(&quot;MD5&quot;);</span>
+<span class="nc" id="L174">        byte[] buffer = new byte[512];</span>
+        //read MD5 from file, break on the incomplete block (tar is 512 byte blocks)
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        while ((fis.read(buffer)) == 512) {</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">            if (buffer[511] == 0xff) {</span>
+<span class="nc" id="L178">                break;</span>
+            }
+<span class="nc" id="L180">            digest.update(buffer);</span>
+        }
+        //last block will be MD5sum in Odin tar.gz format
+<span class="nc bnc" id="L183" title="All 2 branches missed.">        for (byte b : buffer) {</span>
+            //only read until end of MD5
+<span class="nc bnc" id="L185" title="All 2 branches missed.">            if (b == 0xff) {</span>
+<span class="nc" id="L186">                break;</span>
+            }
+<span class="nc" id="L188">            expectedMd5 += (char) b;</span>
+        }
+
+        //Create actual MD5sum from messageDigest
+<span class="nc" id="L192">        byte[] md5sum = digest.digest();</span>
+<span class="nc" id="L193">        BigInteger bigInt = new BigInteger(1, md5sum);</span>
+<span class="nc" id="L194">        String localactualMd5 = bigInt.toString(16);</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">        while (localactualMd5.length() != 32) {</span>
+<span class="nc" id="L196">            localactualMd5 = &quot;0&quot; + localactualMd5;</span>
+        }
+
+        //split expectedMd5sum from filename and only check sum
+<span class="nc" id="L200">        expectedMd5 = expectedMd5.split(&quot;  &quot;)[0];</span>
+<span class="nc" id="L201">        return localactualMd5;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

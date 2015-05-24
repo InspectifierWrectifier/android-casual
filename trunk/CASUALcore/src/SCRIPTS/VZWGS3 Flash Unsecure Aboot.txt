@@ -1,0 +1,3 @@
+This will flash an unsecure bootloader to your device.  
+
+*WARNING* It is possible that updating your device with any firmware past 15AUG2012 may cause this exploit to render your device inoperative.  Please look at the comments on the thread on XDA-Developers.com

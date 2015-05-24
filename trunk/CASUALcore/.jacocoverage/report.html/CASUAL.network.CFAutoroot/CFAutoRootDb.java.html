@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CFAutoRootDb.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.network.CFAutoroot</a> &gt; <span class="el_source">CFAutoRootDb.java</span></div><h1>CFAutoRootDb.java</h1><pre class="source lang-java linenums">/*CFAutoRootDB Pulls file locations from CFAutoRoot 
+ *Copyright (C) 2015  Adam Outler &lt;adamoutler@gmail.com&gt;
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.network.CFAutoroot;
+
+import CASUAL.Log;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Properties;
+
+/**
+ * Pulls file locations from CFAutoRoot
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+public class CFAutoRootDb {
+
+    /**
+     * reads a stream and returns a string
+     *
+     * @param is stream to read
+     * @return stream converted to string
+     */
+    public static String convertStreamToString(java.io.InputStream is) {
+<span class="nc" id="L44">        java.util.Scanner s = new java.util.Scanner(is).useDelimiter(&quot;\\A&quot;);</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        return s.hasNext() ? s.next() : &quot;&quot;;</span>
+    }
+
+<span class="nc" id="L48">    final Properties BUILDPROP = new Properties();</span>
+    final private ArrayList&lt;Device&gt; deviceList;
+
+
+<span class="nc" id="L52">    String defaultValue = &quot;Value was not obtainable.  Cannot find value&quot;;</span>
+
+    /**
+     * Constructor for CFAutoRootDB parses the buildprop and CFAutoroot site
+     * into a usable format for the class
+     *
+     * @param BuildProp string representation of the /system/build.prop from the
+     * device
+     * @throws URISyntaxException {@inheritDoc}
+     * @throws IOException {@inheritDoc}
+     * @throws MalformedURLException {@inheritDoc}
+     * @throws CFAutorootTableException if Chainfire changes his tables
+     */
+<span class="nc" id="L65">    CFAutoRootDb(String BuildProp) throws URISyntaxException, IOException, MalformedURLException, CFAutorootTableException {</span>
+<span class="nc" id="L66">        this.deviceList = new ArrayList&lt;Device&gt;();</span>
+<span class="nc" id="L67">        BUILDPROP.load(new StringReader(BuildProp));</span>
+<span class="nc" id="L68">        grabTable();</span>
+<span class="nc" id="L69">    }</span>
+
+    public CFAutoRootDb(CASUAL.communicationstools.adb.BuildProp bp) throws URISyntaxException, IOException, MalformedURLException, CFAutorootTableException {
+<span class="nc" id="L72">        this(bp.toString());</span>
+<span class="nc" id="L73">    }</span>
+
+    /**
+     * checks device's build.prop against values found on
+     * http://autoroot.chainfire.eu
+     *
+     * @return Download link for CFAutoRoot
+     */
+    public String returnForMyDevice() {
+        //search each device
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        for (Device device : deviceList) {</span>
+            //verify each device property against build.prop.
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            if (device.oem.equals(buildProp(&quot;ro.product.manufacturer&quot;))) {</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                if (device.model.equals(buildProp(&quot;ro.product.model&quot;))) {</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">                    if (device.name.equals(buildProp(&quot;ro.product.name&quot;))) {</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">                        if (device.device.equals(buildProp(&quot;ro.product.device&quot;))) {</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">                            if (device.board.equals(buildProp(&quot;ro.product.board&quot;))) {</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">                                if (BUILDPROP.getProperty(&quot;ro.board.platform&quot;).equals(device.platform)) {</span>
+<span class="nc" id="L91">                                    System.out.println(&quot;located a &quot; + device.oem + &quot;, model:&quot; + device.model + &quot;, device:&quot; + device.device);</span>
+<span class="nc" id="L92">                                    System.out.println(device.download);</span>
+<span class="nc" id="L93">                                    return device.download + &quot;?retrieve_file=1&quot;;</span>
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+<span class="nc" id="L100">        }</span>
+<span class="nc" id="L101">        Log.level2Information(&quot;Found nothing available for your device on http://autoroot.chainfire.eu/&quot;);</span>
+<span class="nc" id="L102">        return &quot;&quot;;</span>
+    }
+
+    /**
+     * gets the property from the build.prop
+     *
+     * @param propName property name to search
+     * @return property value
+     */
+    private String buildProp(String propName) {
+<span class="nc" id="L112">        return BUILDPROP.getProperty(propName, defaultValue);</span>
+    }
+
+    /**
+     * grabs the table and parses from CFAutoRoot
+     */
+    private void grabTable() throws MalformedURLException, URISyntaxException, IOException, CFAutorootTableException {
+        //get url
+<span class="nc" id="L120">        URI uri = new URI(&quot;http&quot;, &quot;autoroot.chainfire.eu&quot;, &quot;/&quot; + &quot;&quot;, &quot;&quot;, null);</span>
+<span class="nc" id="L121">        URL url = new URL(uri.toASCIIString());</span>
+<span class="nc" id="L122">        String page = convertStreamToString(url.openStream());</span>
+        //remove all before &lt;table&gt;
+<span class="nc" id="L124">        page = page.substring(page.indexOf(&quot;&lt;table&gt;&quot;), page.length());</span>
+        //remove all after &lt;/table&gt; and add a blank line after.
+<span class="nc" id="L126">        page = page.substring(0, page.indexOf(&quot;&lt;/table&gt;&quot;) + 8) + &quot;\n&quot;;</span>
+        //convert to a buffered reader
+<span class="nc" id="L128">        BufferedReader br = new BufferedReader(new StringReader(page));</span>
+
+        /*
+        * This is not the proper way to parse HTML
+        * This method is much faster for parsing than org.w3c.Document
+        */
+        //burn the first two TR entries as they are headers only.
+<span class="nc" id="L135">        int trcount = 0;</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        while (trcount &lt; 2) {</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">            if (br.readLine().contains(&quot;&lt;tr&gt;&quot;)) {</span>
+                //assertations to verify table has not changed
+<span class="nc bnc" id="L139" title="All 2 branches missed.">                while (trcount == 1) {</span>
+                    //assert that the table is usable or throw a CFAutorootTableException.
+                    //If the table is not the way we expect it, then we will not proceed. 
+<span class="nc bnc" id="L142" title="All 2 branches missed.">                    if (!br.readLine().contains(&quot;OEM&quot;)) {</span>
+<span class="nc" id="L143">                        throw new CFAutorootTableException(&quot;OEM tables On autoroot.chainfire.eu changed&quot;);</span>
+                    }
+<span class="nc bnc" id="L145" title="All 2 branches missed.">                    if (!br.readLine().contains(&quot;Model&quot;)) {</span>
+<span class="nc" id="L146">                        throw new CFAutorootTableException(&quot;Model tables On autoroot.chainfire.eu changed&quot;);</span>
+                    }
+<span class="nc bnc" id="L148" title="All 2 branches missed.">                    if (!br.readLine().contains(&quot;Name&quot;)) {</span>
+<span class="nc" id="L149">                        throw new CFAutorootTableException(&quot;Name tables On autoroot.chainfire.eu changed&quot;);</span>
+                    }
+<span class="nc bnc" id="L151" title="All 2 branches missed.">                    if (!br.readLine().contains(&quot;Device&quot;)) {</span>
+<span class="nc" id="L152">                        throw new CFAutorootTableException(&quot;Device tables On autoroot.chainfire.eu changed&quot;);</span>
+                    }
+<span class="nc bnc" id="L154" title="All 2 branches missed.">                    if (!br.readLine().contains(&quot;Board&quot;)) {</span>
+<span class="nc" id="L155">                        throw new CFAutorootTableException(&quot;Board tables On autoroot.chainfire.eu changed&quot;);</span>
+                    }
+<span class="nc bnc" id="L157" title="All 2 branches missed.">                    if (!br.readLine().contains(&quot;Platform&quot;)) {</span>
+<span class="nc" id="L158">                        throw new CFAutorootTableException(&quot;Platform tables On autoroot.chainfire.eu changed&quot;);</span>
+                    }
+<span class="nc" id="L160">                    br.readLine();</span>
+<span class="nc" id="L161">                    br.readLine();</span>
+<span class="nc" id="L162">                    br.readLine();</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">                    if (!br.readLine().contains(&quot;Link&quot;)) {</span>
+<span class="nc" id="L164">                        throw new CFAutorootTableException(&quot;Link tables On autoroot.chainfire.eu changed&quot;);</span>
+                    }
+<span class="nc" id="L166">                    trcount++;</span>
+                }
+<span class="nc" id="L168">                trcount++;</span>
+            }
+        }
+
+        //Start the main reading action
+<span class="nc bnc" id="L173" title="All 2 branches missed.">        while (br.ready()) {</span>
+            //get a line
+<span class="nc" id="L175">            String line = &quot;&quot;;</span>
+            //ensure we are reading a full line
+<span class="nc bnc" id="L177" title="All 2 branches missed.">            while (!line.endsWith(&quot;\n&quot;)) {</span>
+<span class="nc" id="L178">                line += (char) br.read();</span>
+<span class="nc bnc" id="L179" title="All 4 branches missed.">                if (line.endsWith(&quot;\uffff&quot;)||line.endsWith(&quot;-1&quot;)) {</span>
+<span class="nc" id="L180">                    return;  //return on end of stream</span>
+                }
+            }
+            //begin parsing tables
+<span class="nc bnc" id="L184" title="All 2 branches missed.">            if (line.contains(&quot;&lt;tr&gt;&quot;)) {</span>
+                //our instance device
+<span class="nc" id="L186">                Device device = new Device();</span>
+<span class="nc" id="L187">                int tdEntry = 0;</span>
+                //while table is not at end of row
+<span class="nc bnc" id="L189" title="All 2 branches missed.">                while (!line.contains(&quot;&lt;/tr&gt;&quot;)) {</span>
+                    //strip table TD tags and remove leading/trailing whitespace
+<span class="nc" id="L191">                    line = br.readLine().replace(&quot;&lt;td&gt;&quot;, &quot;&quot;).replace(&quot;&lt;/td&gt;&quot;, &quot;&quot;).trim();</span>
+<span class="nc bnc" id="L192" title="All 8 branches missed.">                    switch (tdEntry) {</span>
+                        case 0:
+<span class="nc" id="L194">                            device.oem = line;</span>
+<span class="nc" id="L195">                            break;</span>
+                        case 1:
+<span class="nc" id="L197">                            device.model = line;</span>
+<span class="nc" id="L198">                            break;</span>
+                        case 2:
+<span class="nc" id="L200">                            device.name = line;</span>
+<span class="nc" id="L201">                            break;</span>
+                        case 3:
+<span class="nc" id="L203">                            device.device = line;</span>
+<span class="nc" id="L204">                            break;</span>
+                        case 4:
+<span class="nc" id="L206">                            device.board = line;</span>
+<span class="nc" id="L207">                            break;</span>
+                        case 5:
+<span class="nc" id="L209">                            device.platform = line;</span>
+<span class="nc" id="L210">                            break;</span>
+                        case 9:
+<span class="nc" id="L212">                            device.download = line.replace(&quot;\&quot;&gt;File&lt;/a&gt;&quot;, &quot;&quot;).replace(&quot;&lt;a href=\&quot;&quot;, &quot;&quot;);</span>
+<span class="nc" id="L213">                            break;</span>
+                        default:
+                            break;
+                    }
+<span class="nc" id="L217">                    tdEntry++;</span>
+                }
+                //add device to device list
+<span class="nc" id="L220">                deviceList.add(device);</span>
+            }
+<span class="nc" id="L222">        }</span>
+<span class="nc" id="L223">    }</span>
+
+}
+
+/**
+ * Device class is an object representing a table entry of a device on
+ * http://autoroot.chainfire.eu
+ *
+ */
+<span class="nc" id="L232">class Device {</span>
+
+    String oem;
+    String model;
+    String name;
+    String device;
+    String board;
+    String platform;
+    String download;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

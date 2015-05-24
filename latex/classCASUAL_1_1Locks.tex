@@ -1,0 +1,53 @@
+\hypertarget{classCASUAL_1_1Locks}{\section{C\-A\-S\-U\-A\-L.\-Locks Class Reference}
+\label{classCASUAL_1_1Locks}\index{C\-A\-S\-U\-A\-L.\-Locks@{C\-A\-S\-U\-A\-L.\-Locks}}
+}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static Thread {\bfseries start\-G\-U\-I}
+\item 
+\hypertarget{classCASUAL_1_1Locks_a4c5cfed071b9314a781143939b6ca59f}{static \hyperlink{classCASUAL_1_1misc_1_1MandatoryThread}{Mandatory\-Thread} {\bfseries script\-Run\-Lock} =new \hyperlink{classCASUAL_1_1misc_1_1MandatoryThread}{Mandatory\-Thread}()}\label{classCASUAL_1_1Locks_a4c5cfed071b9314a781143939b6ca59f}
+
+\item 
+\hypertarget{classCASUAL_1_1Locks_a58d1360da878b0d7707313703e7edbf9}{static boolean {\bfseries lock\-G\-U\-Iform\-Prep} = true}\label{classCASUAL_1_1Locks_a58d1360da878b0d7707313703e7edbf9}
+
+\item 
+\hypertarget{classCASUAL_1_1Locks_a51d3cb2cd6ddb238ada918a75ef3dcc8}{static boolean {\bfseries lock\-G\-U\-Iunzip} = true}\label{classCASUAL_1_1Locks_a51d3cb2cd6ddb238ada918a75ef3dcc8}
+
+\item 
+\hypertarget{classCASUAL_1_1Locks_ac79b2141772d3690d9fe2ad8b8a8a649}{static boolean {\bfseries caspac\-Script\-Prep\-Lock} = true}\label{classCASUAL_1_1Locks_ac79b2141772d3690d9fe2ad8b8a8a649}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+adamoutler 
+\end{DoxyAuthor}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classCASUAL_1_1Locks_aab99d065f2c885eeb6ec25a5253c67fd}{\index{C\-A\-S\-U\-A\-L\-::\-Locks@{C\-A\-S\-U\-A\-L\-::\-Locks}!start\-G\-U\-I@{start\-G\-U\-I}}
+\index{start\-G\-U\-I@{start\-G\-U\-I}!CASUAL::Locks@{C\-A\-S\-U\-A\-L\-::\-Locks}}
+\subsubsection[{start\-G\-U\-I}]{\setlength{\rightskip}{0pt plus 5cm}Thread C\-A\-S\-U\-A\-L.\-Locks.\-start\-G\-U\-I\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1Locks_aab99d065f2c885eeb6ec25a5253c67fd}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \textcolor{keyword}{new} Thread(\textcolor{keyword}{new} Runnable() \{
+
+        @Override
+        \textcolor{keyword}{public} \textcolor{keywordtype}{void} run() \{
+            \textcolor{keywordflow}{if} (CASUALMain.useGUI || Statics.dumbTerminalGUI) \{
+                startGUI = \textcolor{keyword}{new} Thread(\textcolor{keyword}{new} CASUALTools().GUI);
+                startGUI.setName(\textcolor{stringliteral}{"CASUAL GUI"});
+                Statics.setStatus(\textcolor{stringliteral}{"launching GUI"});
+                startGUI.start();
+            \}
+        \}
+
+    \})
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/Locks.\-java\end{DoxyCompactItemize}

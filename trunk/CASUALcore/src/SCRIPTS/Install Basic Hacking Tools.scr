@@ -1,0 +1,34 @@
+$ECHO creating temp file
+shell mkdir /data/local/tmp/ 2&1>/dev/null
+$ECHO pushing bash to /data/local/tmp/
+push "$ZIPFILEbash" /data/local/tmp/
+$ECHO pushing busybox to /data/local/tmp/
+push "$ZIPFILEbusybox" /data/local/tmp/
+$ECHO pushing ipctool to /data/local/tmp/
+push "$ZIPFILEipctool" /data/local/tmp/
+$ECHO pushing strace to /data/local/tmp/
+push "$ZIPFILEstrace" /data/local/tmp/
+$ECHO pushing tcpdump to /data/local/tmp/
+push "$ZIPFILEtcpdump" /data/local/tmp/
+$ECHO pushing viewmem to /data/local/tmp/
+push "$ZIPFILEviewmem" /data/local/tmp/
+$ECHO Remounting /system/ with read/write access.
+shell su -c "mount -o remount,rw /system"
+$ECHO copying bash to /system/xbin
+shell su -c "cat /data/local/tmp/bash > /system/xbin/bash"
+$ECHO copying busybox to /system/xbin
+shell su -c "cat /data/local/tmp/busybox > /system/xbin/busybox"
+$ECHO copying ipctool to /system/xbin
+shell su -c "cat /data/local/tmp/ipctool > /system/xbin/ipctool"
+$ECHO copying strace to /system/xbin
+shell su -c "cat /data/local/tmp/strace > /system/xbin/strace"
+$ECHO copying tcpdump to /system/xbin
+shell su -c "cat /data/local/tmp/tcpdump > /system/xbin/tcpdump"
+$ECHO copying viewmem to /system/xbin
+shell su -c "cat /data/local/tmp/viewmem > /system/xbin/viewmem"
+$ECHO setting permissions
+shell su -c "chmod 777 /system/xbin/bash;chmod 777 /system/xbin/busybox;chmod 777 /system/xbin/ipctool;chmod 777 /system/xbin/strace;chmod 777 /system/xbin/tcpdump;chmod 777 /system/xbin/viewmem"
+$ECHO Deploying busybox
+
+$ECHO Done.
+

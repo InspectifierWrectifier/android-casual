@@ -1,0 +1,101 @@
+$ECHO flashing adb_usb.ini to sdcard
+$FLASH $ZIPFILEfile.img , /sdcard/file.img
+$ECHO Flash Successful
+$PULL /sdcard/adb_usb.ini, $ZIPFILEadb.ini
+$ECHO Pull Successful
+#$ECHO verifying flash
+#$ECHO pulling recovery
+#$PULL /dev/block/platform/msm_sdcc.1/by-name/recovery , "$ZIPFILErecovery"
+#$ECHO flashing to recovery
+#$FLASH "$ZIPFILErecovery", /dev/block/platform/msm_sdcc.1/by-name/recovery
+
+$IFNOTCONTAINS adb_usb.ini $INCOMMAND $ADB shell "ls /sdcard/" $DO $HALT $ECHO failed to push file
+
+$ECHO line 1;;;$ECHO line 2
+
+#$ADB wait-for-device
+$ADB push "$ZIPFILEadb_usb.ini" /data/local/tmp/
+$LINUXMAC $ECHO This is a Linux or Mac Computer.
+$LINUXWINDOWS $ECHO This is a Linux or Windows Computer.
+$WINDOWSMAC $ECHO This is a Windows or Mac Computer.
+$LINUX $GOTO #for LiN
+$WINDOWS $GOTO #for MaC
+$MAC $GOTO #for WiN
+
+#for LiNuX
+$ECHO [PASS] LINUX This is a Linux computer.
+$GOTO #THIS IS A COMMEN
+$HALT $ECHO GOTO command failed 
+
+
+#for MaC
+$ECHO [PASS] MAC This is a Mac Computer.
+$GOTO #THIS IS A COMMEN
+$HALT $ECHO GOTO command failed 
+
+
+#for WiNdOwS
+$ECHO [PASS] WINDOWS This is a Windows Computer.
+$GOTO #THIS IS A COMMEN
+$HALT $ECHO GOTO command failed 
+
+
+#THIS IS A COMMENT and it's a target for $GOTO
+$ECHO Testing On
+$ON woot, $GOTO #PASS ON command test
+$ADB shell "echo woot"
+$HALT $ECHO GOTO command failed 
+
+$HALT $ECHO $ON Failure!
+$GOTO #Done with ON
+
+
+#PASS ON command test
+$ECHO 
+#Done with ON
+$ECHO [PASS] done with ON testing.
+
+
+#this is just in case I want to use the word woot again while writing this.
+$CLEARON;;; $ECHO hi
+$IFCONTAINS adfadfa $INCOMMAND $BUILDPROP $DO $HALT $ECHO Failure
+$IFNOTCONTAINS ro.builasfdadfad $INCOMMAND $BUILDPROP $DO $ECHO [PASS] IFNOTCONTAINS
+$IFCONTAINS ro.buiasdasald. $INCOMMAND $BUILDPROP $DO $HALT $ECHO Failure
+$IFCONTAINS ro.build. $INCOMMAND $BUILDPROP $DO $ECHO [PASS] IFCONTAINS
+$IFNOTCONTAINS ro.build. $INCOMMAND $BUILDPROP $DO $HALT $ECHO Failure
+$IFNOTCONTAINS ro.builadfadfd. $INCOMMAND $BUILDPROP $DO $ECHO [PASS] IFNOTCONTAINS
+
+$ECHO This is ZIPFILE reference $ZIPFILE.
+$ADB shell "echo $ZIPFILEadb usb.ini $ZIPFILEadb_usb.ini $ZIPFILE and $ZIPFILE $ZIPFILE"
+
+$ECHO This is SLASH reference $SLASH.
+
+$ECHO This is HOMEFOLDER reference.
+$ADB shell "echo [PASS] $HOMEFOLDER"
+
+$ECHO Making a folder in HOMEFOLDER called foo.
+$MAKEDIR $HOMEFOLDERfoo
+
+#$ECHO Downloading a file into foo
+$DOWNLOAD http://android-casual.googlecode.com/svn-history/r348/trunk/GUI/src/CASUAL/AudioHandler.java, $ZIPFILEfoo,  a file from CASUAL rep/
+#Same for $EXECUTE
+$ECHO attempting to execute 'ls' command
+$LINUX $EXECUTE ls
+
+
+$ECHO This is a LISTDIR on HOMEFOLDER and you should see something in there.
+$LISTDIR /
+$ECHO USERNOTIFICATION
+$USERNOTIFICATION notification, This is a \n notification and tests new lines too.
+$ECHO USERCANCELOPTION
+$USERCANCELOPTION want to quit?, If you want to quit\n hit stop.
+$ECHO ACTIONREQUIRED
+$ACTIONREQUIRED you have to do something dummy,  In order to continue you have do\n this!
+$ECHO USERINPUTBOX
+$USERINPUTBOX type something, I will repeat what\nyou type., $ECHO [PASS] $USERINPUT
+$ECHO Waiting for device
+wait-for-device
+$ECHO Rebooting
+$ADB reboot 
+
+$HALT $ECHO $HALT [PASS] If your device rebooted, ALL TESTS PASSED!!!!!!!!!!!!. 

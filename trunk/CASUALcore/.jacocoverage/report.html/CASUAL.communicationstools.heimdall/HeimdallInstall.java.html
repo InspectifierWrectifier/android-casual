@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>HeimdallInstall.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.communicationstools.heimdall</a> &gt; <span class="el_source">HeimdallInstall.java</span></div><h1>HeimdallInstall.java</h1><pre class="source lang-java linenums">/* Handles installation of Heimdall
+ * Copyright (c) 2011 Adam Outler
+ * Permission is hereby granted, free of charge, to any person obtaining a copy 
+ * of this software and associated documentation files (the &quot;Software&quot;), to deal
+ * in the Software without restriction, including without limitation the rights 
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
+ * copies of the Software, and to permit persons to whom the Software is 
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+package CASUAL.communicationstools.heimdall;
+
+import CASUAL.CASUALMain;
+import CASUAL.CASUALMessageObject;
+import CASUAL.FileOperations;
+import CASUAL.Log;
+import CASUAL.OSTools;
+import CASUAL.ResourceDeployer;
+import CASUAL.Shell;
+import CASUAL.communicationstools.heimdall.drivers.DriverInstall;
+import CASUAL.network.CASUALUpdates;
+import java.io.File;
+import java.io.IOException;
+
+/**
+ * Heimdall Install provides methods to install Heimdall under the CASUAL
+ * environment
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+<span class="nc" id="L41">public class HeimdallInstall {</span>
+
+    /**
+     * Heimdall version.
+     */
+    public static final String heimdallVersion = &quot;140&quot;; //primary version string
+
+<span class="nc" id="L48">    final String[] WindowsDriverBlanket = {&quot;18D1&quot;, &quot;04E8&quot;, &quot;0B05&quot;, &quot;0BB4&quot;, &quot;22B8&quot;, &quot;054C&quot;, &quot;2080&quot;};</span>
+    /**
+     * Vendor ID detected
+     */
+<span class="nc" id="L52">    public String VID = &quot;&quot;;</span>
+    /**
+     * Device ID detected
+     */
+<span class="nc" id="L56">    public String PID = &quot;&quot;;</span>
+
+<span class="nc" id="L58">    FileOperations FileOperations = new FileOperations();</span>
+<span class="nc" id="L59">    Shell shell = new Shell();</span>
+
+    String installLinux(String tempFolder) {
+        
+<span class="nc" id="L63">        FileOperations fo = new FileOperations();</span>
+<span class="nc" id="L64">        String arch = OSTools.checkLinuxArch();</span>
+        String resource[];
+        String heimdall;
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (arch.contains(&quot;armv6&quot;)) {</span>
+<span class="nc" id="L68">            resource = HeimdallTools.linuxArmv6Location;</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        } else if (arch.contains(&quot;i686&quot;)) {</span>
+<span class="nc" id="L70">            resource = HeimdallTools.linux32Location;</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        } else if (arch.contains(&quot;x86_64&quot;)) {</span>
+<span class="nc" id="L72">            resource = HeimdallTools.linux64Location;</span>
+        } else {
+            //unsupported; go get heimdall yourself;
+<span class="nc" id="L75">            Log.level0Error(&quot;@incompatibleWithHeimdal&quot;);</span>
+<span class="nc" id="L76">            resource = new String[]{};</span>
+        }
+<span class="nc" id="L78">        ResourceDeployer rd = new ResourceDeployer();</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        for (String heimdallResource : resource) {</span>
+<span class="nc" id="L80">            String debDeployed = rd.deployResourceTo(heimdallResource, tempFolder);</span>
+<span class="nc" id="L81">            shell.elevateSimpleCommandWithMessage(new String[]{&quot;dpkg&quot;, &quot;-i&quot;, debDeployed}, &quot;Permissions escillation required to install Heimdall&quot;);</span>
+        }
+<span class="nc" id="L83">        String heimdallDeployed = &quot;heimdall&quot;;</span>
+
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if (checkHeimdallVersion(heimdallDeployed)) {</span>
+<span class="nc" id="L86">            return heimdallDeployed;</span>
+        } else {
+<span class="nc" id="L88">            return &quot;&quot;;</span>
+        }
+//Windows
+
+    }
+
+    /**
+     * Installs windows drivers
+     *
+     * @return true if drivers installed properly
+     */
+    public boolean installWindowsDrivers() {
+
+<span class="nc" id="L101">        return new DriverInstall(0).installKnownDrivers();</span>
+
+    }
+
+    /**
+     * displays a message to the user that Windows permissions were not
+     * obtainable
+     */
+    public void displayWindowsPermissionsMessageAndExit() {
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        if (OSTools.isWindows()) {</span>
+<span class="nc" id="L111">            new CASUALMessageObject(&quot;@interactionwindowsRunAsMessage&quot; + getClass().getProtectionDomain().getCodeSource().getLocation().getPath()).showErrorDialog();</span>
+        }
+<span class="nc" id="L113">        CASUALMain.shutdown(0);</span>
+<span class="nc" id="L114">    }</span>
+
+    void runWinHeimdallInstallationProcedure() {
+<span class="nc" id="L117">        installWindowsDrivers();</span>
+<span class="nc" id="L118">    }</span>
+
+    /**
+     * checks the heimdall version against version expected from Statics
+     *
+     * @param binaryLocation lication to Heimdall binary
+     * @return true if version is good
+     */
+    public boolean checkHeimdallVersion(String binaryLocation) {
+<span class="nc" id="L127">        String[] command = {binaryLocation, &quot;version&quot;};</span>
+<span class="nc" id="L128">        String Version = new Shell().silentShellCommand(command);</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (!Version.contains(&quot;CritERROR!!!&quot;)) {</span>
+<span class="nc" id="L130">            Version = Version.replaceAll(&quot;\n&quot;, &quot;&quot;).replaceAll(&quot;v&quot;, &quot;&quot;);</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">            if (Version.contains(&quot; &quot;)) {</span>
+<span class="nc" id="L132">                Version = Version.split(&quot; &quot;)[0];</span>
+            }
+<span class="nc" id="L134">            Version = Version.replaceAll(&quot;\\.&quot;, &quot;&quot;);</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">            if (Version.length() == 2) {</span>
+<span class="nc" id="L136">                Version += 0;</span>
+            }
+        } else {
+<span class="nc" id="L139">            return false;</span>
+        }
+<span class="nc" id="L141">        char[] digits = Version.toCharArray();</span>
+<span class="nc" id="L142">        int commandLineVersion = Integer.parseInt(new String(digits));</span>
+<span class="nc" id="L143">        int resourceVersion = Integer.parseInt(heimdallVersion);</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        return commandLineVersion &gt;= resourceVersion;</span>
+    }
+
+    /**
+     * deploys heimdal
+     *
+     * @return true if deployed
+     */
+    String installWindows(String[] windowsLocation, String tempFolder) {
+<span class="nc" id="L153">        HeimdallTools ht = new HeimdallTools();</span>
+<span class="nc" id="L154">        String expectedLocation = tempFolder + &quot;heimdall.exe&quot;;</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">        if (ht.fileIsDeployedProperly(expectedLocation)) {</span>
+<span class="nc" id="L156">            return expectedLocation;</span>
+        }
+
+<span class="nc" id="L159">        ResourceDeployer rt = new ResourceDeployer();</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">        for (String res : HeimdallTools.windowsLocation) {</span>
+<span class="nc" id="L161">            String name = tempFolder + new File(res).getName();</span>
+<span class="nc" id="L162">            rt.copyFromResourceToFile(res, name);</span>
+        }
+<span class="nc" id="L164">        Log.level4Debug(&quot;deployHeimdallForWindows- verifying Heimdall deployment&quot;);</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">        if (ht.fileIsDeployedProperly(expectedLocation)) { //try with redist files</span>
+<span class="nc" id="L166">            Log.level4Debug(&quot;heimdall install sucessful&quot;);</span>
+<span class="nc" id="L167">            return expectedLocation;</span>
+        }
+<span class="nc" id="L169">        return null;</span>
+
+    }
+
+    String installMac(String[] resourceLocation, String tempFolder) throws InterruptedException, IOException {
+<span class="nc" id="L174">        ResourceDeployer rd = new ResourceDeployer();</span>
+        String exec;
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        if ((exec = getFile(rd.deployResourceTo(resourceLocation, tempFolder), &quot;&quot;)).isEmpty()) {</span>
+<span class="nc" id="L177">            exec = new CASUALUpdates(CASUALMain.getSession()).CASUALRepoDownload(&quot;https://android-casual.googlecode.com/svn/trunk/repo/heimdall.properties&quot;);</span>
+        }
+<span class="nc" id="L179">        new Shell().liveShellCommand(new String[]{&quot;open&quot;, &quot;-W&quot;, exec}, true);</span>
+<span class="nc" id="L180">        new CASUALMessageObject(&quot;@interactionUnplugItAndPlugItBackIn&quot;).showErrorDialog();</span>
+<span class="nc" id="L181">        return &quot;heimdall&quot;;</span>
+    }
+
+    private String getFile(String[] fullyQualifiedPaths, String filename) {
+<span class="nc bnc" id="L185" title="All 2 branches missed.">        if (fullyQualifiedPaths.length == 1) {</span>
+<span class="nc" id="L186">            return fullyQualifiedPaths[0];</span>
+        }
+<span class="nc" id="L188">        String retval = &quot;&quot;;</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">        for (String value : fullyQualifiedPaths) {</span>
+<span class="nc bnc" id="L190" title="All 2 branches missed.">            if (value.endsWith(filename)) {</span>
+<span class="nc" id="L191">                retval = filename;</span>
+<span class="nc" id="L192">                break;</span>
+            }
+        }
+<span class="nc" id="L195">        return retval;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

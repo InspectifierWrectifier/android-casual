@@ -1,0 +1,5 @@
+TPSparky will:
+1. root your device
+2. install superuser authentication app
+3. install busybox
+

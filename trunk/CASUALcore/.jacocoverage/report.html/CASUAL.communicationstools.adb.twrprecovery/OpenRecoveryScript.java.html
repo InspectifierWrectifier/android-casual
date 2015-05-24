@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>OpenRecoveryScript.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.communicationstools.adb.twrprecovery</a> &gt; <span class="el_source">OpenRecoveryScript.java</span></div><h1>OpenRecoveryScript.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2014 adamoutler
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.communicationstools.adb.twrprecovery;
+
+/**
+ *
+ * @author adamoutler
+ */
+<span class="nc" id="L23">public class OpenRecoveryScript {</span>
+
+<span class="nc" id="L25">    StringBuilder script = new StringBuilder();</span>
+
+    /**
+     * adds mount system command
+     *
+     * @return script in its entirety.
+     */
+    public String mountSystem() {
+<span class="nc" id="L33">        append(&quot;mount system&quot;);</span>
+<span class="nc" id="L34">        return toString();</span>
+    }
+
+    /**
+     * adds wipedata command
+     *
+     * @return script in its entirety.
+     */
+    public String unmountSystem() {
+<span class="nc" id="L43">        append(&quot;unmount system&quot;);</span>
+<span class="nc" id="L44">        return toString();</span>
+    }
+
+    /**
+     * adds wipedata command
+     *
+     * @return script in its entirety.
+     */
+    public String wipeData() {
+<span class="nc" id="L53">        append(&quot;wipe data&quot;);</span>
+<span class="nc" id="L54">        return toString();</span>
+    }
+
+    /**
+     * adds wipe cache command
+     *
+     * @return script in its entirety.
+     */
+    public String wipeCache() {
+<span class="nc" id="L63">        append(&quot;wipe cache&quot;);</span>
+<span class="nc" id="L64">        return toString();</span>
+    }
+
+    /**
+     * adds wipe dalvik comand
+     *
+     * @return script in its entirety.
+     */
+    public String wipeDalvik() {
+<span class="nc" id="L73">        append(&quot;wipe dalvik&quot;);</span>
+<span class="nc" id="L74">        return toString();</span>
+    }
+
+    /**
+     * wipes the contents of the script
+     *
+     * @return script in its entirety;
+     */
+    public String clear() {
+<span class="nc" id="L83">        script = new StringBuilder();</span>
+<span class="nc" id="L84">        return toString();</span>
+    }
+
+    /**
+     * Adds a command to the script, followed by a \n.
+     *
+     * @param text command to append
+     * @return script in its entirety.
+     */
+    public String append(String text) {
+<span class="nc" id="L94">        script.append(text).append(&quot;\n&quot;);</span>
+<span class="nc" id="L95">        return toString();</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L100">        return script.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

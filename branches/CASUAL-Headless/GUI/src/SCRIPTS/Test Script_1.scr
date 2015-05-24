@@ -1,0 +1,51 @@
+$ON uid=0, $HALT
+shell su -c "id -u"
+
+
+
+
+
+
+
+
+#TPSPARKY
+shell mkdir /data/local/tmp
+shell mv /data/local/tmp /data/local/tmp.bak
+shell ln -s /data /data/local/tmp
+reboot
+
+
+$USERNOTIFICATION Please wait, Rebooting (1/3) - Continue once device finishes rebooting
+wait-for-device
+
+shell rm /data/local.prop > nul
+shell "echo \"ro.kernel.qemu=1\" > /data/local.prop"
+
+reboot
+
+$USERNOTIFICATION Please wait Rebooting (2/3) - Continue once device finishes rebooting
+wait-for-device
+
+
+$ON uid=2000(shell), $USERCANCELOPTION Warning it has been detected that root did not take effect. You may wish to stop and try again. 
+shell id
+
+remount
+push "$ZIPFILEsu" /system/bin/su
+shell chown 0.0 /system/bin/su
+shell chmod 06755 /system/bin/su
+push "$ZIPFILEbusybox" /system/bin/busybox
+shell chown 0.0 /system/bin/busybox
+shell chmod 0755 /system/bin/busybox
+push "$ZIPFILESuperuser.apk" /system/app/Superuser.apk
+shell chown 0.0 /system/app/Superuser.apk
+shell chmod 0644 /system/app/Superuser.apk
+shell chown 0.0 /system/app/RootExplorer.apk
+shell chmod 0644 /system/app/RootExplorer.apk
+$ECHO Removing changes except ROOT
+shell rm /data/local.prop
+shell rm /data/local/tmp
+shell mv /data/local/tmp.bak /data/local/tmp
+reboot
+wait-for-device
+$USERNOTIFICATION Please wait,Rebooting (3/3) - You should now be Rooted

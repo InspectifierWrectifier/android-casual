@@ -1,0 +1,103 @@
+\hypertarget{classCASUAL_1_1archiving_1_1OdinFile}{\section{C\-A\-S\-U\-A\-L.\-archiving.\-Odin\-File Class Reference}
+\label{classCASUAL_1_1archiving_1_1OdinFile}\index{C\-A\-S\-U\-A\-L.\-archiving.\-Odin\-File@{C\-A\-S\-U\-A\-L.\-archiving.\-Odin\-File}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCASUAL_1_1archiving_1_1OdinFile_a89c41c4bc7f61f112fc06b61bd8dda88}{Odin\-File} (File odin\-File)  throws File\-Not\-Found\-Exception, I\-O\-Exception, No\-Such\-Algorithm\-Exception, Corrupt\-Odin\-File\-Exception, Archive\-Exception 
+\item 
+\hyperlink{classCASUAL_1_1archiving_1_1OdinFile_a68fe33b8b91c48ce0bf31d821b666e0b}{Odin\-File} (String odin\-File)  throws File\-Not\-Found\-Exception, I\-O\-Exception, No\-Such\-Algorithm\-Exception, Corrupt\-Odin\-File\-Exception, Archive\-Exception 
+\item 
+File\mbox{[}$\,$\mbox{]} \hyperlink{classCASUAL_1_1archiving_1_1OdinFile_a1c6900921a7fedd0ed75c9003e8b64b0}{extract\-Odin\-Contents} (String output\-Dir)  throws I\-O\-Exception, Archive\-Exception, No\-Such\-Algorithm\-Exception 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+adamoutler 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classCASUAL_1_1archiving_1_1OdinFile_a89c41c4bc7f61f112fc06b61bd8dda88}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Odin\-File@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Odin\-File}!Odin\-File@{Odin\-File}}
+\index{Odin\-File@{Odin\-File}!CASUAL::archiving::OdinFile@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Odin\-File}}
+\subsubsection[{Odin\-File}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-archiving.\-Odin\-File.\-Odin\-File (
+\begin{DoxyParamCaption}
+\item[{File}]{odin\-File}
+\end{DoxyParamCaption}
+) throws File\-Not\-Found\-Exception, I\-O\-Exception, No\-Such\-Algorithm\-Exception, {\bf Corrupt\-Odin\-File\-Exception}, Archive\-Exception}}\label{classCASUAL_1_1archiving_1_1OdinFile_a89c41c4bc7f61f112fc06b61bd8dda88}
+Opens an \hyperlink{classCASUAL_1_1archiving_1_1Odin}{Odin} file and verifies M\-D5sum 
+\begin{DoxyParams}{Parameters}
+{\em odin\-File} & file to be opened and verified \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classCASUAL_1_1archiving_1_1CorruptOdinFileException}{Corrupt\-Odin\-File\-Exception}} & \hyperlink{classCASUAL_1_1archiving_1_1Odin}{Odin} checks did not pass \\
+\hline
+{\em File\-Not\-Found\-Exception} & \\
+\hline
+{\em I\-O\-Exception} & \\
+\hline
+{\em No\-Such\-Algorithm\-Exception} & \\
+\hline
+{\em org.\-apache.\-commons.\-compress.\-archivers.\-Archive\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classCASUAL_1_1archiving_1_1OdinFile_a68fe33b8b91c48ce0bf31d821b666e0b}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Odin\-File@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Odin\-File}!Odin\-File@{Odin\-File}}
+\index{Odin\-File@{Odin\-File}!CASUAL::archiving::OdinFile@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Odin\-File}}
+\subsubsection[{Odin\-File}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-archiving.\-Odin\-File.\-Odin\-File (
+\begin{DoxyParamCaption}
+\item[{String}]{odin\-File}
+\end{DoxyParamCaption}
+) throws File\-Not\-Found\-Exception, I\-O\-Exception, No\-Such\-Algorithm\-Exception, {\bf Corrupt\-Odin\-File\-Exception}, Archive\-Exception}}\label{classCASUAL_1_1archiving_1_1OdinFile_a68fe33b8b91c48ce0bf31d821b666e0b}
+Opens an \hyperlink{classCASUAL_1_1archiving_1_1Odin}{Odin} file and verifies M\-D5sum 
+\begin{DoxyParams}{Parameters}
+{\em odin\-File} & file to be opened and verified \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classCASUAL_1_1archiving_1_1CorruptOdinFileException}{Corrupt\-Odin\-File\-Exception}} & \hyperlink{classCASUAL_1_1archiving_1_1Odin}{Odin} checks did not pass \\
+\hline
+{\em File\-Not\-Found\-Exception} & \\
+\hline
+{\em I\-O\-Exception} & \\
+\hline
+{\em No\-Such\-Algorithm\-Exception} & \\
+\hline
+{\em org.\-apache.\-commons.\-compress.\-archivers.\-Archive\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCASUAL_1_1archiving_1_1OdinFile_a1c6900921a7fedd0ed75c9003e8b64b0}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Odin\-File@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Odin\-File}!extract\-Odin\-Contents@{extract\-Odin\-Contents}}
+\index{extract\-Odin\-Contents@{extract\-Odin\-Contents}!CASUAL::archiving::OdinFile@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Odin\-File}}
+\subsubsection[{extract\-Odin\-Contents}]{\setlength{\rightskip}{0pt plus 5cm}File \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-archiving.\-Odin\-File.\-extract\-Odin\-Contents (
+\begin{DoxyParamCaption}
+\item[{String}]{output\-Dir}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception, Archive\-Exception, No\-Such\-Algorithm\-Exception}}\label{classCASUAL_1_1archiving_1_1OdinFile_a1c6900921a7fedd0ed75c9003e8b64b0}
+Extracts \hyperlink{classCASUAL_1_1archiving_1_1Odin}{Odin} contents to output\-Dir 
+\begin{DoxyParams}{Parameters}
+{\em output\-Dir} & temp folder \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+an array of files extracted from \hyperlink{classCASUAL_1_1archiving_1_1Odin}{Odin} Package 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+{\em Archive\-Exception} & \\
+\hline
+{\em No\-Such\-Algorithm\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/archiving/Odin\-File.\-java\end{DoxyCompactItemize}

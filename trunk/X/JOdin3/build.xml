@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See commented blocks below for -->
+<!-- some examples of how to customize the build. -->
+<!-- (If you delete it and reopen the project it will be recreated.) -->
+<!-- By default, only the Clean and Build commands use this build script. -->
+<project name="JOdin3" default="default" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
+    <description>Builds, tests, and runs the project JavaFXApplication1.</description>
+    <import file="nbproject/build-impl.xml"/>
+    <!--
+
+    There exist several targets which are by default empty and which can be 
+    used for execution of your tasks. These targets are usually executed 
+    before and after some main targets. Those of them relevant for JavaFX project are: 
+
+      -pre-init:                 called before initialization of project properties
+      -post-init:                called after initialization of project properties
+      -pre-compile:              called before javac compilation
+      -post-compile:             called after javac compilation
+      -pre-compile-test:         called before javac compilation of JUnit tests
+      -post-compile-test:        called after javac compilation of JUnit tests
+      -pre-jfx-jar:              called before FX SDK specific <fx:jar> task
+      -post-jfx-jar:             called after FX SDK specific <fx:jar> task
+      -pre-jfx-deploy:           called before FX SDK specific <fx:deploy> task
+      -post-jfx-deploy:          called after FX SDK specific <fx:deploy> task
+      -pre-jfx-native:           called just after -pre-jfx-deploy if <fx:deploy> runs in native packaging mode
+      -post-jfx-native:          called just after -post-jfx-deploy if <fx:deploy> runs in native packaging mode
+      -post-clean:               called after cleaning build products
+
+    (Targets beginning with '-' are not intended to be called on their own.)
+
+    Example of inserting a HTML postprocessor after javaFX SDK deployment:
+
+        <target name="-post-jfx-deploy">
+            <basename property="jfx.deployment.base" file="${jfx.deployment.jar}" suffix=".jar"/>
+            <property name="jfx.deployment.html" location="${jfx.deployment.dir}${file.separator}${jfx.deployment.base}.html"/>
+            <custompostprocess>
+                <fileset dir="${jfx.deployment.html}"/>
+            </custompostprocess>
+        </target>
+
+    Example of calling an Ant task from JavaFX SDK. Note that access to JavaFX SDK Ant tasks must be
+    initialized; to ensure this is done add the dependence on -check-jfx-sdk-version target:
+
+        <target name="-post-jfx-jar" depends="-check-jfx-sdk-version">
+            <echo message="Calling jar task from JavaFX SDK"/>
+            <fx:jar ...>
+                ...
+            </fx:jar>
+        </target>
+
+    For more details about JavaFX SDK Ant tasks go to
+    http://docs.oracle.com/javafx/2/deployment/jfxpub-deployment.htm
+
+    For list of available properties check the files
+    nbproject/build-impl.xml and nbproject/jfx-impl.xml.
+
+    -->
+    <target name="-pre-compile">
+        <exec dir="../../" outputproperty="svna.version" executable="svnversion" failifexecutionfails="false" >
+            <arg value="-c" />
+            <redirector>
+                <outputfilterchain>
+                    <tokenfilter>
+                        <replaceregex pattern="^[0-9]*:?" replace="" flags="g"/>
+                        <replaceregex pattern="M" replace="" flags="g"/>
+                    </tokenfilter>
+                </outputfilterchain>
+            </redirector>
+        </exec> 
+        <echo>current directory: ${basedir}</echo>
+        <echo>revision after svnversion command: ${svna.version}</echo>
+        <loadproperties srcfile="nbproject/project.properties"/>
+        <condition property="svna.version" value=""> 
+            <not>
+                <isset property="Application.revision" />
+            </not>
+        </condition>
+        <property name="svna.version" value="${Application.revision}"/>
+        <echo>Loaded property value: ${svna.version}</echo>
+        <echo>revision after loaded property: ${svna.version}</echo>
+        <propertyfile file="nbproject/project.properties">
+            <entry  key="Application.revision" value="${svna.version}"/>
+            <entry key="javafx.application.implementation.version" value="${svna.version}"/>
+        </propertyfile>
+    </target>
+    
+    <target name="-post-jfx-deploy">
+        
+        <echo>preparing final JOdin3 binary for distribution</echo>
+        <loadproperties srcfile="../../CASUALcore/src/CASUAL/resources/CASUALApp.properties"/>
+        <jar jarfile="dist/JOdin3CASUAL-r${Application.revision}-dist.jar" level="0" compress="false">
+            <zipfileset src="${dist.jar}" excludes="META-INF/*" />
+            <zipfileset src="dist/lib/commons-compress-1.5.jar" excludes="META-INF/*" />
+            <zipfileset src="dist/lib/org-netbeans-modules-java-j2seproject-copylibstask.jar" excludes="META-INF/*" />
+            <zipfileset src="dist/lib/CASUALstatic.jar" excludes="META-INF/*" />
+            <!--
+           <zipfileset src="dist/lib/javaws.jar" excludes="META-INF/*" />
+           <zipfileset src="dist/lib/deploy.jar" excludes="META-INF/*" />
+           <zipfileset src="dist/lib/jfxrt.jar" excludes="META-INF/*" />
+            -->  
+            <manifest>
+                <attribute name="JavaFX-Version" value="2.2+"/>
+                <attribute name="Implementation-Title" value="JOdin3CASUAL"/>
+                <attribute name="implementation-version" value="${Application.revision}"/>
+                <attribute name="JavaFX-Application-Class" value="com.casual_dev.jodin.JOdinMain"/>
+                <attribute name="Application-Name" value="JOdin3 CASUAL"/>
+                <attribute name="Permissions" value="all-permissions"/>
+                <attribute name="Main-Class" value="com/javafx/main/Main"/>
+                <attribute name="manifest.custom.codebase" value="builds.casual-dev.com jodin3.casual-dev.com casual-dev.com file\://* c\:* localhost\:*"/>
+                <attribute name="Application-Library-Allowable-Codebase" value="builds.casual-dev.com jodin3.casual-dev.com casual-dev.com file\://* c\:* localhost\:*"/>
+            </manifest>
+        </jar>
+
+        <echo message="alias=${javafx.signjar.alias}" />
+        <echo>Signing dist jars</echo>
+        <signjar keystore="${javafx.signjar.keystore}"
+                 storepass="${javafx.signjar.storepass}"
+                 alias="${javafx.signjar.alias}"
+                 keypass="${javafx.signjar.keypass}"
+                 tsaurl="http://time.certum.pl"
+                 force="true">
+            <path>
+                <fileset dir="dist" includes="JOdin3CASUAL-r*.jar" />
+            </path>
+
+        </signjar>
+        <echo>Signed by ${javafx.signjar.alias}</echo>
+        <echo>Adding Icon</echo>
+        <mkdir dir="dist/src"/>
+        <copy file="src/odinicon.ico" todir="dist/src/odinicon.ico"/>
+        <copy file="src/odinicon.png" todir="dist/src/odinicon.png"/>
+    </target>
+        <macrodef name="deploy-sign">
+        <sequential>
+            <echo message="keystore=${javafx.signjar.keystore}" level="verbose"/>
+            <echo message="storepass=${javafx.signjar.storepass}" level="verbose"/>
+            <echo message="alias=${javafx.signjar.alias}" level="verbose"/>
+            <echo message="keypass=${javafx.signjar.keypass}" level="verbose"/>
+            <signjar keystore="${javafx.signjar.keystore}"
+                storepass="${javafx.signjar.storepass}"
+                alias="${javafx.signjar.alias}"
+                keypass="${javafx.signjar.keypass}"
+                 tsaurl="http://time.certum.pl">
+                <fileset dir="${jfx.deployment.dir}">
+                    <include name="${jfx.deployment.jar}"/>
+                    <include name="lib${file.separator}*.jar"/>
+                </fileset>
+            </signjar>
+            <echo>Deploy-Signed by ${javafx.signjar.alias}</echo>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="deploy-sign-blob">
+        <sequential>
+            <echo message="keystore=${javafx.signjar.keystore}" level="verbose"/>
+            <echo message="storepass=${javafx.signjar.storepass}" level="verbose"/>
+            <echo message="alias=${javafx.signjar.alias}" level="verbose"/>
+            <echo message="keypass=${javafx.signjar.keypass}" level="verbose"/>
+            <echo message="Launching &lt;fx:signjar&gt; task from ${ant-javafx.jar.location}" level="info"/>
+            <fx:signjar keystore="${javafx.signjar.keystore}"
+                storepass="${javafx.signjar.storepass}"
+                alias="${javafx.signjar.alias}"
+                keypass="${javafx.signjar.keypass}"
+                 tsaurl="http://time.certum.pl">
+                <fileset dir="${jfx.deployment.dir}">
+                    <include name="${jfx.deployment.jar}"/>
+                    <include name="lib${file.separator}*.jar"/>
+                </fileset>
+            </fx:signjar>
+            <echo>Deploy-Sign-blob by ${javafx.signjar.alias}</echo>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="deploy-sign-preloader">
+        <sequential>
+            <echo message="keystore=${javafx.signjar.keystore}" level="verbose"/>
+            <echo message="storepass=${javafx.signjar.storepass}" level="verbose"/>
+            <echo message="alias=${javafx.signjar.alias}" level="verbose"/>
+            <echo message="keypass=${javafx.signjar.keypass}" level="verbose"/>
+            <signjar keystore="${javafx.signjar.keystore}"
+                storepass="${javafx.signjar.storepass}"
+                alias="${javafx.signjar.alias}"
+                keypass="${javafx.signjar.keypass}"
+                 tsaurl="http://time.certum.pl">
+                <fileset dir="${jfx.deployment.dir}">
+                    <include name="lib${file.separator}${javafx.preloader.jar.filename}"/>
+                </fileset>
+            </signjar>
+            <signjar keystore="${javafx.signjar.keystore}"
+                storepass="${javafx.signjar.storepass}"
+                alias="${javafx.signjar.alias}"
+                keypass="${javafx.signjar.keypass}"
+                 tsaurl="http://time.certum.pl">
+                <fileset dir="${jfx.deployment.dir}">
+                    <include name="${jfx.deployment.jar}"/>
+                    <include name="lib${file.separator}*.jar"/>
+                    <exclude name="lib${file.separator}${javafx.preloader.jar.filename}"/>
+                </fileset>
+            </signjar>
+            <echo>Deploy-Sign-preloader by ${javafx.signjar.alias}</echo>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="deploy-sign-blob-preloader">
+        <sequential>
+            <echo message="keystore=${javafx.signjar.keystore}" level="verbose"/>
+            <echo message="storepass=${javafx.signjar.storepass}" level="verbose"/>
+            <echo message="alias=${javafx.signjar.alias}" level="verbose"/>
+            <echo message="keypass=${javafx.signjar.keypass}" level="verbose"/>
+            <signjar keystore="${javafx.signjar.keystore}"
+                storepass="${javafx.signjar.storepass}"
+                alias="${javafx.signjar.alias}"
+                keypass="${javafx.signjar.keypass}"
+                 tsaurl="http://time.certum.pl">
+                <fileset dir="${jfx.deployment.dir}">
+                    <include name="lib${file.separator}${javafx.preloader.jar.filename}"/>
+                </fileset>
+            </signjar>
+            <echo message="Launching &lt;fx:signjar&gt; task from ${ant-javafx.jar.location}" level="info"/>
+            <signjar keystore="${javafx.signjar.keystore}"
+                storepass="${javafx.signjar.storepass}"
+                alias="${javafx.signjar.alias}"
+                keypass="${javafx.signjar.keypass}"
+                 tsaurl="http://time.certum.pl">
+                <fileset dir="${jfx.deployment.dir}">
+                    <include name="${jfx.deployment.jar}"/>
+                    <include name="lib${file.separator}*.jar"/>
+                    <exclude name="lib${file.separator}${javafx.preloader.jar.filename}"/>
+                </fileset>
+            </signjar>
+            <echo>Deploy-Sign-Blob-preloader by ${javafx.signjar.alias}</echo>
+        </sequential>
+    </macrodef>
+    
+    
+    <target name="-check-dpkg-presence" depends="-check-native-bundling-type" if="need.dpkg.presence">
+        <local name="exec.which.dpkg.result"/>
+        <local name="exec.which.dpkg.output"/>
+        <exec executable="dpkg" failifexecutionfails="false" failonerror="false" resultproperty="exec.which.dpkg.result" outputproperty="exec.which.dpkg.output">
+            <arg line="--version"/>
+        </exec>
+      
+        <condition property="missing.dpkg">
+            <not><and>
+                <isset property="exec.which.dpkg.result"/>
+                <equals arg1="${exec.which.dpkg.result}" arg2="0"/>
+                <isset property="exec.which.dpkg.output"/>
+                <not><equals arg1="${exec.which.dpkg.output}" arg2=""/></not>
+            </and></not>
+        </condition>
+    </target>
+</project>

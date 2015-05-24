@@ -1,0 +1,225 @@
+\hypertarget{classCASUAL_1_1crypto_1_1SHA256sum}{\section{C\-A\-S\-U\-A\-L.\-crypto.\-S\-H\-A256sum Class Reference}
+\label{classCASUAL_1_1crypto_1_1SHA256sum}\index{C\-A\-S\-U\-A\-L.\-crypto.\-S\-H\-A256sum@{C\-A\-S\-U\-A\-L.\-crypto.\-S\-H\-A256sum}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCASUAL_1_1crypto_1_1SHA256sum_afc1d07faf79184606a8af15153c430e2}{S\-H\-A256sum} (String s)  throws I\-O\-Exception 
+\item 
+\hyperlink{classCASUAL_1_1crypto_1_1SHA256sum_ac400cc047e8571a90385f233a4ac15b6}{S\-H\-A256sum} (Input\-Stream is)  throws I\-O\-Exception 
+\item 
+\hyperlink{classCASUAL_1_1crypto_1_1SHA256sum_ad4848f903e6697b02b6232305eb0c958}{S\-H\-A256sum} (File f)  throws File\-Not\-Found\-Exception, I\-O\-Exception 
+\item 
+String \hyperlink{classCASUAL_1_1crypto_1_1SHA256sum_aac8a59bd709fff8830cbde5f522c4154}{get\-Linux\-Sum} (String filename)
+\item 
+String \hyperlink{classCASUAL_1_1crypto_1_1SHA256sum_a8deae101346f9a0a66ca8c3b0d2db1df}{get\-Sha256} ()  throws I\-O\-Exception, No\-Such\-Algorithm\-Exception 
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static String \hyperlink{classCASUAL_1_1crypto_1_1SHA256sum_a54c94bb634aeea42b0bf8705afc7a8fb}{get\-Linux\-Sum} (File file)
+\item 
+static String \hyperlink{classCASUAL_1_1crypto_1_1SHA256sum_a0f1178a4624b6576e5f7e56b2a2df813}{get\-Name} (String sha256sum)
+\item 
+static String \hyperlink{classCASUAL_1_1crypto_1_1SHA256sum_ac56c9bd745fb0e31abb7a88acd2f8f35}{get\-Sum} (String sha256sum)
+\item 
+static String \hyperlink{classCASUAL_1_1crypto_1_1SHA256sum_a69c267e92b86486de7152159ff51d26c}{bytes\-To\-Hex} (byte\mbox{[}$\,$\mbox{]} bytes)
+\item 
+static String \hyperlink{classCASUAL_1_1crypto_1_1SHA256sum_a68756d611d2cb8c028dfc57e1b2d4128}{format\-Linux\-Output\-S\-H\-A256\-Sum} (String sum, String name)
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+final static String \hyperlink{classCASUAL_1_1crypto_1_1SHA256sum_a309e69ab9c7a8d10259e1f4683c7d693}{L\-I\-N\-U\-X\-S\-P\-A\-C\-E\-R} = \char`\"{} \char`\"{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+adam attempts to replicates linux's sha256sum.. there appears to be a problem with {\itshape Linux} when tested against test vectors from this page\-: \href{http://www.nsrl.nist.gov/testdata/}{\tt http\-://www.\-nsrl.\-nist.\-gov/testdata/} I will need to review all data and figure out how to implement this later
+\end{DoxyAuthor}
+ad5f9292c7bd44068b5465b48b38bf18c98b4d133e80307957e5f5c372a36f7d logo.\-xcf \begin{DoxyAuthor}{Author}
+Adam Outler \href{mailto:adamoutler@gmail.com}{\tt adamoutler@gmail.\-com} 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classCASUAL_1_1crypto_1_1SHA256sum_afc1d07faf79184606a8af15153c430e2}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}!S\-H\-A256sum@{S\-H\-A256sum}}
+\index{S\-H\-A256sum@{S\-H\-A256sum}!CASUAL::crypto::SHA256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}}
+\subsubsection[{S\-H\-A256sum}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-crypto.\-S\-H\-A256sum.\-S\-H\-A256sum (
+\begin{DoxyParamCaption}
+\item[{String}]{s}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classCASUAL_1_1crypto_1_1SHA256sum_afc1d07faf79184606a8af15153c430e2}
+constructor to make an S\-H\-A256 from a string 
+\begin{DoxyParams}{Parameters}
+{\em s} & string to sha256 \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classCASUAL_1_1crypto_1_1SHA256sum_ac400cc047e8571a90385f233a4ac15b6}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}!S\-H\-A256sum@{S\-H\-A256sum}}
+\index{S\-H\-A256sum@{S\-H\-A256sum}!CASUAL::crypto::SHA256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}}
+\subsubsection[{S\-H\-A256sum}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-crypto.\-S\-H\-A256sum.\-S\-H\-A256sum (
+\begin{DoxyParamCaption}
+\item[{Input\-Stream}]{is}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classCASUAL_1_1crypto_1_1SHA256sum_ac400cc047e8571a90385f233a4ac15b6}
+constructor to make an S\-H\-A256 from an Input\-Stream 
+\begin{DoxyParams}{Parameters}
+{\em is} & inputstream to sha256 \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classCASUAL_1_1crypto_1_1SHA256sum_ad4848f903e6697b02b6232305eb0c958}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}!S\-H\-A256sum@{S\-H\-A256sum}}
+\index{S\-H\-A256sum@{S\-H\-A256sum}!CASUAL::crypto::SHA256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}}
+\subsubsection[{S\-H\-A256sum}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-crypto.\-S\-H\-A256sum.\-S\-H\-A256sum (
+\begin{DoxyParamCaption}
+\item[{File}]{f}
+\end{DoxyParamCaption}
+) throws File\-Not\-Found\-Exception, I\-O\-Exception}}\label{classCASUAL_1_1crypto_1_1SHA256sum_ad4848f903e6697b02b6232305eb0c958}
+constructor to sha256 a file 
+\begin{DoxyParams}{Parameters}
+{\em f} & file to digest \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em File\-Not\-Found\-Exception} & \\
+\hline
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCASUAL_1_1crypto_1_1SHA256sum_a69c267e92b86486de7152159ff51d26c}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}!bytes\-To\-Hex@{bytes\-To\-Hex}}
+\index{bytes\-To\-Hex@{bytes\-To\-Hex}!CASUAL::crypto::SHA256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}}
+\subsubsection[{bytes\-To\-Hex}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-crypto.\-S\-H\-A256sum.\-bytes\-To\-Hex (
+\begin{DoxyParamCaption}
+\item[{byte\mbox{[}$\,$\mbox{]}}]{bytes}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1crypto_1_1SHA256sum_a69c267e92b86486de7152159ff51d26c}
+converts a byte array to hexadecimal output 
+\begin{DoxyParams}{Parameters}
+{\em bytes} & to be turned into hex \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+hex string from bytes 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1crypto_1_1SHA256sum_a68756d611d2cb8c028dfc57e1b2d4128}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}!format\-Linux\-Output\-S\-H\-A256\-Sum@{format\-Linux\-Output\-S\-H\-A256\-Sum}}
+\index{format\-Linux\-Output\-S\-H\-A256\-Sum@{format\-Linux\-Output\-S\-H\-A256\-Sum}!CASUAL::crypto::SHA256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}}
+\subsubsection[{format\-Linux\-Output\-S\-H\-A256\-Sum}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-crypto.\-S\-H\-A256sum.\-format\-Linux\-Output\-S\-H\-A256\-Sum (
+\begin{DoxyParamCaption}
+\item[{String}]{sum, }
+\item[{String}]{name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1crypto_1_1SHA256sum_a68756d611d2cb8c028dfc57e1b2d4128}
+formats a sha256sum from a sum and a filename 
+\begin{DoxyParams}{Parameters}
+{\em sum} & the sha256 sum \\
+\hline
+{\em name} & the file name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+equal to command line output from linux sha256sum command 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1crypto_1_1SHA256sum_aac8a59bd709fff8830cbde5f522c4154}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}!get\-Linux\-Sum@{get\-Linux\-Sum}}
+\index{get\-Linux\-Sum@{get\-Linux\-Sum}!CASUAL::crypto::SHA256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}}
+\subsubsection[{get\-Linux\-Sum}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-crypto.\-S\-H\-A256sum.\-get\-Linux\-Sum (
+\begin{DoxyParamCaption}
+\item[{String}]{filename}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1crypto_1_1SHA256sum_aac8a59bd709fff8830cbde5f522c4154}
+returns S\-H\-A256 sum in standard linux command line format 
+\begin{DoxyParams}{Parameters}
+{\em filename} & to use for filename \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+linux sha256sum output 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1crypto_1_1SHA256sum_a54c94bb634aeea42b0bf8705afc7a8fb}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}!get\-Linux\-Sum@{get\-Linux\-Sum}}
+\index{get\-Linux\-Sum@{get\-Linux\-Sum}!CASUAL::crypto::SHA256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}}
+\subsubsection[{get\-Linux\-Sum}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-crypto.\-S\-H\-A256sum.\-get\-Linux\-Sum (
+\begin{DoxyParamCaption}
+\item[{File}]{file}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1crypto_1_1SHA256sum_a54c94bb634aeea42b0bf8705afc7a8fb}
+returns S\-H\-A256 sum in standard linux command line format 
+\begin{DoxyParams}{Parameters}
+{\em file} & to use for filename \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+linux sha256sum output 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1crypto_1_1SHA256sum_a0f1178a4624b6576e5f7e56b2a2df813}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}!get\-Name@{get\-Name}}
+\index{get\-Name@{get\-Name}!CASUAL::crypto::SHA256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}}
+\subsubsection[{get\-Name}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-crypto.\-S\-H\-A256sum.\-get\-Name (
+\begin{DoxyParamCaption}
+\item[{String}]{sha256sum}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1crypto_1_1SHA256sum_a0f1178a4624b6576e5f7e56b2a2df813}
+gets the filename from a commandline sha256sum output 
+\begin{DoxyParams}{Parameters}
+{\em sha256sum} & linux sha256sum to extract name from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+name of file mentioned in sha256sum 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1crypto_1_1SHA256sum_a8deae101346f9a0a66ca8c3b0d2db1df}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}!get\-Sha256@{get\-Sha256}}
+\index{get\-Sha256@{get\-Sha256}!CASUAL::crypto::SHA256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}}
+\subsubsection[{get\-Sha256}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-crypto.\-S\-H\-A256sum.\-get\-Sha256 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception, No\-Such\-Algorithm\-Exception}}\label{classCASUAL_1_1crypto_1_1SHA256sum_a8deae101346f9a0a66ca8c3b0d2db1df}
+does the S\-H\-A256
+
+\begin{DoxyReturn}{Returns}
+hex string representation of the input 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+{\em No\-Such\-Algorithm\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classCASUAL_1_1crypto_1_1SHA256sum_ac56c9bd745fb0e31abb7a88acd2f8f35}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}!get\-Sum@{get\-Sum}}
+\index{get\-Sum@{get\-Sum}!CASUAL::crypto::SHA256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}}
+\subsubsection[{get\-Sum}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-crypto.\-S\-H\-A256sum.\-get\-Sum (
+\begin{DoxyParamCaption}
+\item[{String}]{sha256sum}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1crypto_1_1SHA256sum_ac56c9bd745fb0e31abb7a88acd2f8f35}
+gets the sha256sum portion of a commandline sha256 output 
+\begin{DoxyParams}{Parameters}
+{\em sha256sum} & linux sha256sum to extract sum from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+sum portion of command line sha256 output 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classCASUAL_1_1crypto_1_1SHA256sum_a309e69ab9c7a8d10259e1f4683c7d693}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}!L\-I\-N\-U\-X\-S\-P\-A\-C\-E\-R@{L\-I\-N\-U\-X\-S\-P\-A\-C\-E\-R}}
+\index{L\-I\-N\-U\-X\-S\-P\-A\-C\-E\-R@{L\-I\-N\-U\-X\-S\-P\-A\-C\-E\-R}!CASUAL::crypto::SHA256sum@{C\-A\-S\-U\-A\-L\-::crypto\-::\-S\-H\-A256sum}}
+\subsubsection[{L\-I\-N\-U\-X\-S\-P\-A\-C\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}final static String C\-A\-S\-U\-A\-L.\-crypto.\-S\-H\-A256sum.\-L\-I\-N\-U\-X\-S\-P\-A\-C\-E\-R = \char`\"{} \char`\"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}}\label{classCASUAL_1_1crypto_1_1SHA256sum_a309e69ab9c7a8d10259e1f4683c7d693}
+spacer used to separate S\-H\-A256 and filename in standard sha256sum 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/crypto/S\-H\-A256sum.\-java\end{DoxyCompactItemize}

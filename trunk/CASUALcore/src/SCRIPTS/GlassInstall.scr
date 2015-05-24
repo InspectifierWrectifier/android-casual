@@ -1,0 +1,20 @@
+$ADB wait-for-device
+$ECHO installing Glass Home
+$ADB install "$ZIPFILEglasshome-modded.apk"
+$ECHO installing Glass Bluetooth
+$ADB install "$ZIPFILEglassbluetooth-modded.apk"
+$ECHO installing Glass Camera
+$ADB install "$ZIPFILEglasscamera-modded.apk"
+$ECHO installing Glass Hangouts
+$ADB install "$ZIPFILEglasshangouts-modded.apk"
+$ECHO installing Glass Setup app
+$ADB install "$ZIPFILEglasssetup-modded.apk"
+$ECHO installing Glass Maps
+$ADB install "$ZIPFILEglassmaps-modded.apk"
+$ECHO installing My Glass app
+$ADB install "$ZIPFILEmyglass-modded.apk"
+
+
+
+
+

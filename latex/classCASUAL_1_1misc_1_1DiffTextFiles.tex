@@ -1,0 +1,83 @@
+\hypertarget{classCASUAL_1_1misc_1_1DiffTextFiles}{\section{C\-A\-S\-U\-A\-L.\-misc.\-Diff\-Text\-Files Class Reference}
+\label{classCASUAL_1_1misc_1_1DiffTextFiles}\index{C\-A\-S\-U\-A\-L.\-misc.\-Diff\-Text\-Files@{C\-A\-S\-U\-A\-L.\-misc.\-Diff\-Text\-Files}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+String \hyperlink{classCASUAL_1_1misc_1_1DiffTextFiles_a7eb69fa4b7c445f249e91417d8d5b650}{diff\-Resource\-Versus\-File} (String Test\-I\-Stream, String Original\-File)
+\item 
+String \hyperlink{classCASUAL_1_1misc_1_1DiffTextFiles_ad17653963cb2e8309c0b04139da4174b}{diff\-Text\-Files} (String Original, String Test\-For\-Diff)
+\item 
+void \hyperlink{classCASUAL_1_1misc_1_1DiffTextFiles_af859cc974cfa051c3e0f6b78c1d875ff}{append\-Diff\-To\-File} (String Name\-Of\-File\-To\-Be\-Modified, String Diff)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Logans\-A\-L\-I\-E\-N 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCASUAL_1_1misc_1_1DiffTextFiles_af859cc974cfa051c3e0f6b78c1d875ff}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-Diff\-Text\-Files@{C\-A\-S\-U\-A\-L\-::misc\-::\-Diff\-Text\-Files}!append\-Diff\-To\-File@{append\-Diff\-To\-File}}
+\index{append\-Diff\-To\-File@{append\-Diff\-To\-File}!CASUAL::misc::DiffTextFiles@{C\-A\-S\-U\-A\-L\-::misc\-::\-Diff\-Text\-Files}}
+\subsubsection[{append\-Diff\-To\-File}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-misc.\-Diff\-Text\-Files.\-append\-Diff\-To\-File (
+\begin{DoxyParamCaption}
+\item[{String}]{Name\-Of\-File\-To\-Be\-Modified, }
+\item[{String}]{Diff}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1misc_1_1DiffTextFiles_af859cc974cfa051c3e0f6b78c1d875ff}
+appends text to file
+
+
+\begin{DoxyParams}{Parameters}
+{\em Name\-Of\-File\-To\-Be\-Modified} & file to be appended \\
+\hline
+{\em Diff} & text to add \\
+\hline
+\end{DoxyParams}
+\hypertarget{classCASUAL_1_1misc_1_1DiffTextFiles_a7eb69fa4b7c445f249e91417d8d5b650}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-Diff\-Text\-Files@{C\-A\-S\-U\-A\-L\-::misc\-::\-Diff\-Text\-Files}!diff\-Resource\-Versus\-File@{diff\-Resource\-Versus\-File}}
+\index{diff\-Resource\-Versus\-File@{diff\-Resource\-Versus\-File}!CASUAL::misc::DiffTextFiles@{C\-A\-S\-U\-A\-L\-::misc\-::\-Diff\-Text\-Files}}
+\subsubsection[{diff\-Resource\-Versus\-File}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-misc.\-Diff\-Text\-Files.\-diff\-Resource\-Versus\-File (
+\begin{DoxyParamCaption}
+\item[{String}]{Test\-I\-Stream, }
+\item[{String}]{Original\-File}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1misc_1_1DiffTextFiles_a7eb69fa4b7c445f249e91417d8d5b650}
+takes a resource and a string outputs difference as a string
+
+
+\begin{DoxyParams}{Parameters}
+{\em Test\-I\-Stream} & input stream to test \\
+\hline
+{\em Original\-File} & original file to be diffed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+lines in test that are not in original 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1misc_1_1DiffTextFiles_ad17653963cb2e8309c0b04139da4174b}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-Diff\-Text\-Files@{C\-A\-S\-U\-A\-L\-::misc\-::\-Diff\-Text\-Files}!diff\-Text\-Files@{diff\-Text\-Files}}
+\index{diff\-Text\-Files@{diff\-Text\-Files}!CASUAL::misc::DiffTextFiles@{C\-A\-S\-U\-A\-L\-::misc\-::\-Diff\-Text\-Files}}
+\subsubsection[{diff\-Text\-Files}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-misc.\-Diff\-Text\-Files.\-diff\-Text\-Files (
+\begin{DoxyParamCaption}
+\item[{String}]{Original, }
+\item[{String}]{Test\-For\-Diff}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1misc_1_1DiffTextFiles_ad17653963cb2e8309c0b04139da4174b}
+takes two files returns the difference between the two
+
+
+\begin{DoxyParams}{Parameters}
+{\em Original} & original file \\
+\hline
+{\em Test\-For\-Diff} & new file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+lines which are in new file that are not in original 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/misc/Diff\-Text\-Files.\-java\end{DoxyCompactItemize}

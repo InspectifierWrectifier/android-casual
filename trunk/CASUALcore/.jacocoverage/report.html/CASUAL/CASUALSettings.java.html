@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CASUALSettings.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL</a> &gt; <span class="el_source">CASUALSettings.java</span></div><h1>CASUALSettings.java</h1><pre class="source lang-java linenums">package CASUAL;
+/*CASUALSettings decodes args and creates an object used for CASUAL settings
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+import java.io.File;
+
+
+/**
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+<span class="fc" id="L25">public class CASUALSettings {</span>
+
+    
+    
+    
+<span class="fc" id="L30">    private CASUALMode CASPACType = CASUALMode.CASUAL;</span>
+    private File caspacLocation;
+<span class="fc" id="L32">    private boolean useGUI = false;</span>
+<span class="fc" id="L33">    private boolean execute = false;</span>
+<span class="fc" id="L34">    private String executeCommand = &quot;&quot;;</span>
+<span class="fc" id="L35">    private String password = &quot;&quot;;</span>
+<span class="fc" id="L36">    private MonitorMode monitor=MonitorMode.ADB;</span>
+
+    private void reset() {
+<span class="fc" id="L39">        this.CASPACType = CASUALMode.CASUAL;</span>
+<span class="fc" id="L40">        this.caspacLocation = null;</span>
+<span class="fc" id="L41">        this.useGUI = false;</span>
+<span class="fc" id="L42">        this.execute = false;</span>
+<span class="fc" id="L43">        this.executeCommand = &quot;&quot;;</span>
+<span class="fc" id="L44">        this.password = &quot;&quot;;</span>
+<span class="fc" id="L45">    }</span>
+
+
+
+    private void setDefaultCASUALOperation() {
+<span class="fc" id="L50">        this.useGUI = true;</span>
+<span class="fc" id="L51">    }</span>
+
+    /**
+     *Takes command-line arguments and turns them into a CASUALSettings object. 
+     * @param args commands to be processed. 
+     */
+    public void checkArguments(String[] args) {
+<span class="fc" id="L58">        reset();</span>
+<span class="fc bfc" id="L59" title="All 4 branches covered.">        if (args == null || args.length == 0) {</span>
+<span class="fc" id="L60">            setDefaultCASUALOperation();</span>
+<span class="fc" id="L61">            return;</span>
+        }
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        for (int i = 0; i &lt; args.length; i++) {</span>
+
+            /**
+             * if the previous argument set the EXIT mode, then stop parsing
+             * arguments.
+             */
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">            if (CASPACType.equals(CASUALMode.EXIT)) {</span>
+<span class="nc" id="L70">                return;</span>
+            }
+            //begin argument parsing
+            try {
+<span class="fc" id="L74">                String check = lower(args[i]);</span>
+                //exit switches
+<span class="pc bpc" id="L76" title="3 of 6 branches missed.">                if (check.equals(&quot;help&quot;) || check.equals(&quot;h&quot;) || check.equals(&quot;?&quot;)) {</span>
+<span class="nc" id="L77">                    argReaction(ArgOptions.HELP, &quot;&quot;);</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">                } else if (check.equals(&quot;license&quot;)) {</span>
+<span class="nc" id="L79">                    argReaction(ArgOptions.LICENSE, &quot;&quot;);</span>
+
+                    //argument-not-required switches
+<span class="pc bpc" id="L82" title="1 of 4 branches missed.">                } else if (check.equals(&quot;gui&quot;) || check.equals(&quot;g&quot;)) {</span>
+<span class="fc" id="L83">                    argReaction(ArgOptions.GUI, &quot;&quot;);</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">                } else if (check.equals(&quot;nosound&quot;)) {</span>
+<span class="nc" id="L85">                    argReaction(ArgOptions.NOSOUND, &quot;&quot;);</span>
+                    
+                    //start mode arguments
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">                } else if (check.equals(&quot;adb&quot;)) {</span>
+<span class="nc" id="L89">                    this.monitor=MonitorMode.ADB;</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">                } else if (check.equals(&quot;heimdall&quot;)) {</span>
+<span class="nc" id="L91">                    this.monitor=MonitorMode.HEIMDALL;</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">                } else if (check.equals(&quot;fastboot&quot;)) {</span>
+<span class="nc" id="L93">                    this.monitor=MonitorMode.FASTBOOT;</span>
+                    //switches with argument required
+<span class="pc bpc" id="L95" title="2 of 4 branches missed.">                } else if (check.equals(&quot;temp&quot;) || check.equals(&quot;t&quot;)) {</span>
+<span class="nc" id="L96">                    argReaction(ArgOptions.TEMP, getNextArg(++i, args));</span>
+<span class="fc bfc" id="L97" title="All 4 branches covered.">                } else if (check.equals(&quot;password&quot;) || check.equals(&quot;p&quot;)) {</span>
+<span class="fc" id="L98">                    argReaction(ArgOptions.PASSWORD, getNextArg(++i, args));</span>
+<span class="pc bpc" id="L99" title="1 of 4 branches missed.">                } else if (check.equals(&quot;caspac&quot;) || check.equals(&quot;c&quot;)) {</span>
+<span class="fc" id="L100">                    argReaction(ArgOptions.CASPAC, getNextArg(++i, args));</span>
+<span class="fc bfc" id="L101" title="All 4 branches covered.">                } else if (check.equals(&quot;execute&quot;) || check.equals(&quot;e&quot;)) {</span>
+<span class="fc" id="L102">                    argReaction(ArgOptions.EXECUTE, getNextArg(++i, args));</span>
+
+                    //error
+                } else {
+<span class="fc" id="L106">                    argReaction(ArgOptions.INVALID, getNextArg(i++, args));</span>
+                }
+<span class="fc" id="L108">            } catch (ArrayIndexOutOfBoundsException ex) {</span>
+<span class="fc" id="L109">                argRequiresParameterExit(args, i);</span>
+<span class="fc" id="L110">            }</span>
+        }
+<span class="fc" id="L112">    }</span>
+
+    private String getNextArg(int i, String args[]) {
+<span class="pc bpc" id="L115" title="1 of 4 branches missed.">        if (args[i] == null || args[i].startsWith(&quot;-&quot;)) {</span>
+<span class="nc" id="L116">            argRequiresParameterExit(args, i);</span>
+        }
+<span class="fc" id="L118">        return args[i];</span>
+    }
+
+    private void argRequiresParameterExit(String[] args, int i) {
+<span class="fc" id="L122">        Log.level0Error(&quot;Argument &quot; + args[i - 1] + &quot; requires a parameter&quot;);</span>
+<span class="fc" id="L123">        showHelpMessageAndExit();</span>
+<span class="fc" id="L124">    }</span>
+
+    private void argReaction(ArgOptions action, String arg) {
+<span class="pc bpc" id="L127" title="4 of 9 branches missed.">        switch (action) {</span>
+            case HELP:
+<span class="nc" id="L129">                showHelpMessageAndExit();</span>
+<span class="nc" id="L130">                break;</span>
+            case LICENSE:
+<span class="nc" id="L132">                showLicenseAndExit();</span>
+<span class="nc" id="L133">                break;</span>
+            case TEMP:
+<span class="nc" id="L135">                setTempFolder(arg);</span>
+<span class="nc" id="L136">                break;</span>
+            case PASSWORD:
+<span class="fc" id="L138">                this.setPassword(arg);</span>
+<span class="fc" id="L139">                break;</span>
+            case CASPAC:
+<span class="fc" id="L141">                setCASPACMode(arg);</span>
+<span class="fc" id="L142">                break;</span>
+            case GUI:
+<span class="fc" id="L144">                setUseGUI(true);</span>
+<span class="fc" id="L145">                break;</span>
+            case NOSOUND:
+<span class="nc" id="L147">                AudioHandler.useSound = false;</span>
+<span class="nc" id="L148">                break;</span>
+            case EXECUTE:
+<span class="fc" id="L150">                setupExecuteMode(arg);</span>
+<span class="fc" id="L151">                break;</span>
+            default:
+<span class="fc" id="L153">                Log.level0Error(&quot;Invalid Option: &quot; + arg);</span>
+<span class="fc" id="L154">                showHelpMessageAndExit();</span>
+                break;
+        }
+
+<span class="fc" id="L158">    }</span>
+
+    private void setupExecuteMode(String arg) {
+<span class="fc" id="L161">        setCASPACType(CASUALMode.EXECUTE);</span>
+<span class="fc" id="L162">        this.setExecute(true);</span>
+<span class="fc" id="L163">        this.setExecuteCommand(arg);</span>
+<span class="fc" id="L164">    }</span>
+
+    private void setCASPACMode(String arg) {
+<span class="fc" id="L167">        this.setCaspacLocation(new File(arg));</span>
+<span class="fc bfc" id="L168" title="All 2 branches covered.">        if (!caspacLocation.isFile()) {</span>
+<span class="fc" id="L169">            Log.level0Error(&quot;ERROR: CASPAC Not Found Please spcify a valid CASPAC&quot;);</span>
+<span class="fc" id="L170">            setCASPACType(CASUALMode.EXIT);</span>
+        } else {
+<span class="fc" id="L172">            setCASPACType(CASUALMode.CASPAC);</span>
+
+<span class="fc" id="L174">            Log.level4Debug(&quot;Setting CASPAC location to &quot; + getCaspacLocation().getAbsolutePath());</span>
+        }
+<span class="fc" id="L176">    }</span>
+
+    /**
+     * checkArgOptionsArgs is a primary switch before any real actions happen.
+     * Here we check for switches that will either change the mode of CASUAL or
+     * display something quick and exit.
+     *
+     * @param args
+     * @return true if shutdown is commanded;
+     */
+    
+    /**
+     * getMonitorMode is used to determine the appropriate mode for CASUAL monitoring.
+     * ADB, Heimdall or Fastboot
+     * @return mode to be monitored.
+     */
+    public MonitorMode getMonitorMode(){
+<span class="fc" id="L193">        return this.monitor;</span>
+    }
+    
+    /**
+     * @return the CASPACType
+     */
+    public CASUALMode getCASPACType() {
+<span class="fc" id="L200">        return CASPACType;</span>
+    }
+
+    /**
+     * @param CASPACType the CASPACType to set
+     */
+    public void setCASPACType(CASUALMode CASPACType) {
+<span class="fc" id="L207">        this.CASPACType = CASPACType;</span>
+<span class="fc" id="L208">    }</span>
+
+    /**
+     * @return the caspacLocation
+     */
+    public File getCaspacLocation() {
+<span class="fc" id="L214">        return caspacLocation;</span>
+    }
+
+    /**
+     * @param caspacLocation the caspacLocation to set
+     */
+    public void setCaspacLocation(File caspacLocation) {
+<span class="fc" id="L221">        this.caspacLocation = caspacLocation;</span>
+<span class="fc" id="L222">    }</span>
+
+    /**
+     * @return the useGUI
+     */
+    public boolean isUseGUI() {
+<span class="fc" id="L228">        return useGUI;</span>
+    }
+
+    /**
+     * @param useGUI the useGUI to set
+     */
+    public void setUseGUI(boolean useGUI) {
+<span class="fc" id="L235">        this.useGUI = useGUI;</span>
+<span class="fc" id="L236">    }</span>
+
+    /**
+     * @return the execute
+     */
+    public boolean isExecute() {
+<span class="fc" id="L242">        return execute;</span>
+    }
+
+    /**
+     * @param execute the execute to set
+     */
+    public void setExecute(boolean execute) {
+<span class="fc" id="L249">        this.execute = execute;</span>
+<span class="fc" id="L250">    }</span>
+
+    /**
+     * @return the executeCommand
+     */
+    public String getExecuteCommand() {
+<span class="fc" id="L256">        return executeCommand;</span>
+    }
+
+    /**
+     * @param executeCommand the executeCommand to set
+     */
+    public void setExecuteCommand(String executeCommand) {
+<span class="fc" id="L263">        this.executeCommand = executeCommand;</span>
+<span class="fc" id="L264">    }</span>
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+<span class="fc" id="L270">        return password;</span>
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+<span class="fc" id="L277">        this.password = password;</span>
+<span class="fc" id="L278">    }</span>
+
+    void setTempFolder(String tempFolder) {
+//TODO: make this work again.  this is inop. 
+<span class="nc" id="L282">    }</span>
+
+    private void showLicenseAndExit() {
+<span class="nc" id="L285">        Log.level2Information(&quot;\n&quot; + &quot;    This program is free software: you can redistribute it and/or modify\n&quot; + &quot;    it under the terms of the GNU General Public License as published by\n&quot; + &quot;    the Free Software Foundation, either version 3 of the License, or\n&quot; + &quot;    (at your option) any later version.\n&quot; + &quot;\n&quot; + &quot;    This program is distributed in the hope that it will be useful,\n&quot; + &quot;    but WITHOUT ANY WARRANTY; without even the implied warranty of\n&quot; + &quot;    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n&quot; + &quot;    GNU General Public License for more details.&quot;);</span>
+<span class="nc" id="L286">        setCASPACType(CASUALMode.EXIT);</span>
+<span class="nc" id="L287">    }</span>
+
+    private void showHelpMessageAndExit() {
+<span class="fc" id="L290">        Log.level2Information(&quot;\n&quot; + &quot; Usage: casual.jar [optional parameters]\n&quot; + &quot; without arguments - Launch the GUI\n&quot; + &quot; [--help] shows this message and exits\n&quot; + &quot; [--license] -shows license and exits\n&quot; + &quot; [--execute/-e \&quot;command\&quot;]-executes any CASUAL command and exits. Launch CASUAL GUI to read about commands&quot; + &quot; [--caspac/-c path_to&quot; + CASUALSessionData.slash + &quot;CASPACzip] -launches CASUAL with a CASPAC&quot; + &quot; [--gui/-g)] - performs actions with a GUI\n&quot;);</span>
+<span class="fc" id="L291">        setCASPACType(CASUALMode.EXIT);</span>
+<span class="fc" id="L292">    }</span>
+
+    private String lower(String arg) {
+<span class="fc" id="L295">        return arg.toLowerCase().replace(&quot;-&quot;, &quot;&quot;);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L300">        StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L301">        String n = &quot;\n&quot;;</span>
+<span class="nc" id="L302">        sb.append(&quot;Type:&quot;).append(this.CASPACType).append(n);</span>
+<span class="nc" id="L303">        sb.append(&quot;Monitor:&quot;).append(this.monitor).append(n);</span>
+<span class="nc" id="L304">        sb.append(&quot;UseGUI:&quot;).append(useGUI).append(n);</span>
+<span class="nc" id="L305">        sb.append(&quot;executeMode:&quot;).append(execute).append(n);</span>
+<span class="nc" id="L306">        sb.append(&quot;executeCommand:&quot;).append(executeCommand).append(n);</span>
+<span class="nc" id="L307">        sb.append(&quot;password:&quot;).append(password).append(n);</span>
+<span class="nc" id="L308">        sb.append(&quot;CASPACLocation:&quot;).append(caspacLocation).append(n);</span>
+<span class="nc" id="L309">        return sb.toString();</span>
+    }
+
+    /**
+     * Options used for arguments.  HELP, LICENSE, TEMP, PASSWORD, CASPAC, GUI, NOSOUND, EXECUTE. INVALID is specified if a argument is not proper.
+     */
+<span class="pc" id="L315">    public static enum ArgOptions {</span>
+
+        /**
+         * command to display help message.
+         */
+<span class="fc" id="L320">        HELP, /**</span>
+         * command to display license.
+         */
+<span class="fc" id="L323">        LICENSE, /**</span>
+         * parameter to set temp folder.
+         */
+<span class="fc" id="L326">        TEMP, /**</span>
+         * parameter to set password for use on CASPAC.
+         */
+<span class="fc" id="L329">        PASSWORD, /**</span>
+         * parameter to set caspac.
+         */
+<span class="fc" id="L332">        CASPAC, /**</span>
+         * parameter to set GUI usage.
+         */
+<span class="fc" id="L335">        GUI, /**</span>
+         * parameter to kill sound usage in CASUAL.
+         */
+<span class="fc" id="L338">        NOSOUND, /**</span>
+         * Parameter to specify a CASUAL language command.
+         */
+<span class="fc" id="L341">        EXECUTE, /**</span>
+         * Default parameter which causes an error in parameters.
+         */
+<span class="fc" id="L344">        INVALID</span>
+    }
+
+    /**
+     * Options used to determine the major mode of CASUAL CASUAL, CASPAC, EXECUTE, EXIT.  If a problem is detected EXIT is specified.   CASUAL is default. Execute and CASPAC are specified by commandline args.
+     */
+<span class="pc" id="L350">    public static enum CASUALMode {</span>
+
+        /**
+         *  CASUAL Mode.
+         */
+<span class="fc" id="L355">        CASUAL, /**</span>
+         * CASPAC Mode.
+         */
+<span class="fc" id="L358">        CASPAC, /**</span>
+         * Execute Command mode.
+         */
+<span class="fc" id="L361">        EXECUTE, /**</span>
+         * No mode, just exit.
+         */
+<span class="fc" id="L364">        EXIT</span>
+    }
+
+    /**
+     * Initial monitoring mode of CASUAL.
+     */
+<span class="fc" id="L370">    public static enum MonitorMode {</span>
+
+        /**
+         * ADB mode will use ADB tools for monitoring Device Status.
+         */
+<span class="fc" id="L375">        ADB, /**</span>
+         * Heimdall mode will use HeimdallTools for monitoring device status.
+         */
+<span class="fc" id="L378">        HEIMDALL, /**</span>
+         * Fastboot mode will use FastbootTools for monitoring device status.
+         */
+<span class="fc" id="L381">        FASTBOOT, /**</span>
+         * always enable controls.
+         */
+<span class="fc" id="L384">        NONE</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CASUALConnectionStatusMonitor.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL</a> &gt; <span class="el_source">CASUALConnectionStatusMonitor.java</span></div><h1>CASUALConnectionStatusMonitor.java</h1><pre class="source lang-java linenums">/*CASUALConnectionStatus provides ADB connection status monitoring for CASUAL
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL;
+
+import CASUAL.communicationstools.AbstractDeviceCommunicationsProtocol;
+
+/**
+ * CASUALConnectionStatus provides ADB connection status monitoring for CASUAL
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+<span class="fc" id="L26">public class CASUALConnectionStatusMonitor {</span>
+    private static CASUALSessionData sd;
+<span class="fc" id="L28">    private static int LastState = 0;  //last state detected</span>
+    private static CASUAL.communicationstools.AbstractDeviceCommunicationsProtocol monitor;
+    private static CASUAL.communicationstools.AbstractDeviceCommunicationsProtocol monitorLastState;
+
+    /**
+     * number of sucessive times ADB has halted. If ADB pauses for more than 4
+     * seconds, it is considered locked up. If ADB locks up 10 times, monitoring
+     * is stopped.
+     */
+    final static int TIMERINTERVAL = 2000;
+<span class="fc" id="L38">    static boolean paused = false;</span>
+<span class="fc" id="L39">    static int connectedDevices = 0;</span>
+
+    /**
+     * stops monitoring and nulls the monitor out. Stores the monitor to be
+     * resumed at a later time. Monitor may be started again by using the
+     * start(new monitor) or resumeAfterStop to continue the monitoring.
+     */
+    public static void stop() {
+<span class="fc" id="L47">        monitorLastState = monitor;</span>
+<span class="fc" id="L48">        monitor = null;</span>
+<span class="fc" id="L49">        paused = true;</span>
+<span class="fc" id="L50">    }</span>
+
+    /**
+     *Provides a way to restart the monitor after stop is called. 
+     */
+    public static void resumeAfterStop() {
+<span class="nc" id="L56">        paused = false;</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (monitorLastState == null) {</span>
+<span class="nc" id="L58">            Log.level3Verbose(&quot;A call to resume monitor occurred, but monitor was not reset first.  No action is occuring&quot;);</span>
+        } else {
+<span class="nc" id="L60">            new CASUALConnectionStatusMonitor().start(sd,monitorLastState);</span>
+        }
+<span class="nc" id="L62">    }</span>
+
+    /**
+     * Static method to access toString().
+     *
+     * @return value of toString()
+     */
+    public static String getStatus() {
+<span class="nc" id="L70">        return new CASUALConnectionStatusMonitor().toString();</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L75">        StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L76">        String n = &quot;\n&quot;;</span>
+<span class="nc" id="L77">        sb.append(&quot;Status:&quot;);</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (monitor == null) {</span>
+<span class="nc" id="L79">            sb.append(&quot;offline&quot;).append(n).append(&quot;Mode:not monitoring&quot;).append(n);</span>
+        } else {
+<span class="nc" id="L81">            sb.append(&quot;online&quot;).append(n).append(monitor.toString());</span>
+        }
+<span class="nc" id="L83">        return sb.toString();</span>
+    }
+    
+    
+    private String getConnectionMethodName(){
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (null==monitor){</span>
+<span class="nc" id="L89">            return &quot;not monitoring&quot;;</span>
+        } else {
+<span class="nc" id="L91">            return monitor.getConnectionMethodName();</span>
+        }
+        
+    }
+
+    /**
+     * Starts and stops the ADB timer reference with
+ CASUALSessionData.casualConnectionStatusMonitor.DeviceCheck ONLY;
+     *
+     * @param sd The CASUALSessionData instace to use for this.
+     * @param mode sets the monitoring mode
+     */
+    public void start(CASUALSessionData sd, AbstractDeviceCommunicationsProtocol mode) {
+<span class="fc" id="L104">        CASUALConnectionStatusMonitor.sd=sd;</span>
+<span class="fc" id="L105">        stop();</span>
+<span class="fc" id="L106">        paused=false;</span>
+<span class="fc" id="L107">        stateSwitcher(0);</span>
+<span class="fc" id="L108">        monitor = mode;</span>
+<span class="fc" id="L109">        Log.level3Verbose(&quot;Starting: &quot; + mode);</span>
+        //lock controls if not available yet.
+<span class="pc bpc" id="L111" title="3 of 6 branches missed.">        if (CASUALSessionData.isGUIIsAvailable() &amp;&amp; (CASUALStartupTasks.lockGUIformPrep || CASUALStartupTasks.lockGUIunzip)) {</span>
+<span class="nc" id="L112">            CASUALSessionData.getGUI().setControlStatus(false,0,getConnectionMethodName());</span>
+<span class="nc" id="L113">            LastState = 0;</span>
+        }
+<span class="fc" id="L115">        doMonitoring();</span>
+<span class="fc" id="L116">    }</span>
+
+    private void doMonitoring() {
+
+<span class="fc" id="L120">        final AbstractDeviceCommunicationsProtocol stateMonitor = monitor;</span>
+        //check device for state changes
+        //loop on new thread while the monitor is the same monitor
+<span class="fc" id="L123">        Thread t = new Thread(new Runnable() {</span>
+            @Override
+            public void run() {
+
+<span class="pc bpc" id="L127" title="2 of 4 branches missed.">                while (CASUALConnectionStatusMonitor.monitor != null &amp;&amp; CASUALConnectionStatusMonitor.monitor.equals(stateMonitor)) {</span>
+<span class="fc" id="L128">                    sleepForInterval();</span>
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">                    if (paused) {</span>
+<span class="nc" id="L130">                        continue;</span>
+                    }
+<span class="fc" id="L132">                    doDeviceCheck();</span>
+                }
+<span class="nc" id="L134">            }</span>
+
+        });
+<span class="fc" id="L137">        t.setDaemon(true);</span>
+<span class="fc" id="L138">        t.setName(&quot;Connection Status&quot;);</span>
+<span class="fc" id="L139">        t.start();</span>
+
+<span class="fc" id="L141">    }</span>
+
+    private void doDeviceCheck() {
+        try {
+<span class="fc" id="L145">            connectedDevices = monitor.numberOfDevicesConnected();</span>
+<span class="nc" id="L146">        } catch (NullPointerException ex) {</span>
+<span class="nc" id="L147">            connectedDevices = 0;</span>
+<span class="fc" id="L148">        }</span>
+
+        //Multiple devices detected
+<span class="pc bpc" id="L151" title="1 of 2 branches missed.">        if (connectedDevices &gt; 1) {</span>
+
+<span class="nc" id="L153">            stateSwitcher(connectedDevices);</span>
+            //No devices detected
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">        } else if (connectedDevices == 0) {</span>
+<span class="fc" id="L156">            stateSwitcher(0);</span>
+            //One device detected
+<span class="nc bnc" id="L158" title="All 2 branches missed.">        } else if (connectedDevices == 1) {</span>
+<span class="nc" id="L159">            stateSwitcher(1);</span>
+
+        }
+<span class="fc" id="L162">    }</span>
+
+    void stateSwitcher(int state) {
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">        if (LastState != state) {</span>
+<span class="nc" id="L166">            Log.level4Debug(&quot;Attempting state change to &quot; + state + &quot; devices connected&quot;);</span>
+            boolean switched;
+<span class="nc bnc" id="L168" title="All 3 branches missed.">            switch (state) {</span>
+                case 0:
+<span class="nc" id="L170">                    Log.level4Debug(&quot;Device disconnected commanded&quot;);</span>
+<span class="nc" id="L171">                    sd.setStatus(&quot;Device Removed&quot;);</span>
+<span class="nc" id="L172">                    switched =CASUALSessionData.getGUI().setControlStatus(false,0,getConnectionMethodName());</span>
+
+<span class="nc" id="L174">                    break;</span>
+                case 1:
+<span class="nc" id="L176">                    sd.setStatus(&quot;Device Connected&quot;);</span>
+<span class="nc" id="L177">                    Log.level4Debug(&quot;@stateConnected&quot;);</span>
+<span class="nc" id="L178">                    switched =CASUALSessionData.getGUI().setControlStatus(true,1,getConnectionMethodName());</span>
+<span class="nc" id="L179">                    break;</span>
+                default:
+<span class="nc" id="L181">                    sd.setStatus(&quot;Multiple Devices Detected&quot;);</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">                    if (state == 2) {</span>
+<span class="nc" id="L183">                        Log.level0Error(&quot;@stateMultipleDevices&quot;);</span>
+<span class="nc" id="L184">                        Log.level0Error(&quot;Remove &quot; + (state - 1) + &quot; device to continue.&quot;);</span>
+                    }
+
+<span class="nc bnc" id="L187" title="All 2 branches missed.">                    switched =! CASUALSessionData.getGUI().setControlStatus(false,state,getConnectionMethodName());</span>
+<span class="nc" id="L188">                    Log.level4Debug(&quot;State Multiple Devices Number of devices&quot; + state);</span>
+
+                    break;
+
+            }
+<span class="nc bnc" id="L193" title="All 2 branches missed.">            if (switched){ //only set last state if controls were enabled/disabled when requested</span>
+<span class="nc" id="L194">                LastState = state;</span>
+            } else {
+<span class="nc" id="L196">                Log.level4Debug(&quot;UI did not respond to state change, retrying.&quot;);</span>
+
+            }
+        }
+<span class="fc" id="L200">    }</span>
+
+    private void sleepForInterval() {
+        try {
+<span class="fc" id="L204">            Thread.sleep(TIMERINTERVAL);</span>
+<span class="nc" id="L205">        } catch (InterruptedException ex) {</span>
+<span class="nc" id="L206">            Log.errorHandler(ex);</span>
+<span class="fc" id="L207">        }</span>
+<span class="fc" id="L208">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

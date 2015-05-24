@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DeviceSideDataBridge.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.communicationstools.adb.busybox</a> &gt; <span class="el_source">DeviceSideDataBridge.java</span></div><h1>DeviceSideDataBridge.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2014 adam
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.communicationstools.adb.busybox;
+
+import CASUAL.CASUALMain;
+import CASUAL.CASUALTools;
+import CASUAL.Log;
+import CASUAL.Shell;
+import CASUAL.communicationstools.adb.ADBTools;
+import static CASUAL.communicationstools.adb.busybox.CASUALDataBridge.ip;
+import CASUAL.misc.MandatoryThread;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author adam
+ */
+/**
+ * This is a placeholder class to represent the device-server portion of the
+ * DataBridge.
+ */
+class DeviceSideDataBridge {
+
+
+    final static String USBDISCONNECTED = &quot;USB Disconnected&quot;;
+    final static String DEVICEDISCONNECTED = &quot;error: device not found&quot;;
+    final static String PERMISSIONERROR = &quot;/system/bin/sh: can't open&quot;;
+
+    /**
+     * reads a stream and returns a string
+     *
+     * @param is stream to read
+     * @return stream converted to string
+     */
+    public static String convertStreamToString(java.io.InputStream is) {
+<span class="nc" id="L53">        java.util.Scanner s = new java.util.Scanner(is).useDelimiter(&quot;\\A&quot;);</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        return s.hasNext() ? s.next() : &quot;&quot;;</span>
+    }
+    final ADBTools adb;
+    String deviceSideMessage;
+
+<span class="nc" id="L59">    DeviceSideDataBridge(ADBTools adb) {</span>
+<span class="nc" id="L60">        this.adb = adb;</span>
+<span class="nc" id="L61">    }</span>
+
+    MandatoryThread startDeviceSideServer(String remoteFileName, boolean forWrite) {
+<span class="nc" id="L64">        MandatoryThread t = new MandatoryThread(openLinkForReadOrWrite(remoteFileName, forWrite));</span>
+<span class="nc" id="L65">        t.setName(&quot;Device Write Server&quot;);</span>
+<span class="nc" id="L66">        t.start();</span>
+<span class="nc" id="L67">        Log.level3Verbose(&quot;Device-Side thread Started&quot;);</span>
+<span class="nc" id="L68">        return t;</span>
+    }
+
+    /**
+     * This returns a runnable server object ready to deploy on any device.
+     *
+     * @param remoteFileName filename on the device
+     * @param forWrite true if writing, false if reading
+     * @return server object ready to be started
+     */
+    Runnable openLinkForReadOrWrite(final String remoteFileName, final boolean forWrite) {
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        Log.level4Debug(&quot;DEVICE: openLinkForReadOrWrite()&quot; + (forWrite ? &quot;for write to &quot; : &quot;for read from &quot;) + remoteFileName);</span>
+<span class="nc" id="L80">        return new Runnable() {</span>
+            @Override
+            public void run() {
+                try {
+<span class="nc" id="L84">                    Log.level3Verbose(&quot;Device Side Opening DataBrdige Read/Write Link&quot;);</span>
+                    String[] cmd;
+                    //deploy and get busybox location
+<span class="nc" id="L87">                    String busybox = BusyboxTools.getBusyboxLocation();</span>
+<span class="nc" id="L88">                    String donestring = &quot;operation complete&quot;;</span>
+                    //the command executed on the device should end with a keyword.  in this case the keyword is &quot;done&quot; which shows us it has exited properly.
+                    //this command is used if forWrite is true (flash)--  basically netcat&gt;desired file
+<span class="nc" id="L91">                    String sendcommand = busybox + &quot; stty raw;&quot; + busybox + &quot; nc -l &quot; + ip + &quot;:&quot; + CASUALDataBridge.port + &quot; |&quot; + busybox + &quot; dd of='&quot; + remoteFileName + &quot;';sync;echo &quot; + donestring;</span>
+                    //this command is used if forWrite is false (pull)--  basically netcat&lt;desired file with a sync at the end
+<span class="nc" id="L93">                    String receiveCommand = busybox + &quot; stty raw;&quot; + busybox + &quot; dd if='&quot; + remoteFileName + &quot;'|&quot; + busybox + &quot; nc -l &quot; + ip + &quot;:&quot; + CASUALDataBridge.port + &quot;;echo &quot; + donestring;</span>
+                    
+                    //build the command to send or receive with root or without. 
+                    //TODO test rootAccessCommand needed by using &quot;busybox 'test -w remoteFileName &amp;&amp; echo RootNotRequired||echo root Required';
+<span class="nc bnc" id="L97" title="All 2 branches missed.">                    if (forWrite) {</span>
+<span class="nc" id="L98">                        Log.level3Verbose(&quot;Device DataBridge Write-Mode active&quot;);</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">                        if (!CASUALTools.rootAccessCommand().isEmpty()) {</span>
+<span class="nc" id="L100">                            cmd = new String[]{adb.getBinaryLocation(), &quot;shell&quot;, sendcommand};</span>
+                        } else {
+<span class="nc" id="L102">                            cmd = new String[]{adb.getBinaryLocation(), &quot;shell&quot;, CASUALTools.rootAccessCommand() + &quot; \&quot;&quot; + sendcommand + &quot;;\&quot;&quot;};</span>
+                        }
+                    } else {
+<span class="nc" id="L105">                        Log.level3Verbose(&quot;Device DataBridge Read-Mode active&quot;);</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">                        if (CASUALTools.rootAccessCommand().isEmpty()) {</span>
+<span class="nc" id="L107">                            cmd = new String[]{adb.getBinaryLocation(), &quot;shell&quot;, receiveCommand};</span>
+                        } else {
+<span class="nc" id="L109">                            cmd = new String[]{adb.getBinaryLocation(), &quot;shell&quot;, CASUALTools.rootAccessCommand() + &quot; \'&quot; + receiveCommand + &quot;\'&quot;};</span>
+                        }
+                    }
+<span class="nc" id="L112">                    Log.level4Debug(&quot;Device **TARGET SET ON REMOTE DEVICE:&quot; + remoteFileName);</span>
+                    //launch the process
+<span class="nc" id="L114">                    ProcessBuilder p = new ProcessBuilder(cmd);</span>
+<span class="nc" id="L115">                    p.redirectErrorStream(true);</span>
+<span class="nc" id="L116">                    Process proc = p.start();</span>
+                    
+                    //read a byte from the inputstream from the process so it does not halt. 
+<span class="nc" id="L119">                    BufferedInputStream is = new BufferedInputStream(proc.getInputStream());</span>
+<span class="nc" id="L120">                    is.read(new byte[is.available()]);</span>
+                    //wait for the connection to be ready then send the device ready signal
+<span class="nc" id="L122">                    Log.level3Verbose(&quot;Device DataBridge Process Active&quot;);</span>
+
+<span class="nc" id="L124">                    waitForDeviceSideConnection(is);</span>
+
+                    //todo remove this test
+<span class="nc" id="L127">                    Log.level4Debug(&quot;port list&quot; + new Shell().sendShellCommand(new String[]{&quot;adb&quot;, &quot;forward&quot;, &quot;--list&quot;}));</span>
+                    //device is ready for transfer
+<span class="nc" id="L129">                    CASUALMain.getSession().setStatus(&quot;device ready&quot;);</span>
+<span class="nc" id="L130">                    CASUALDataBridge.deviceReadyForReceive = true;</span>
+<span class="nc" id="L131">                    synchronized (CASUALDataBridge.deviceSideReady) {</span>
+<span class="nc" id="L132">                        CASUALDataBridge.deviceSideReady.notifyAll();</span>
+<span class="nc" id="L133">                    }</span>
+<span class="nc" id="L134">                    deviceSideMessage = &quot;&quot;;</span>
+
+                    //transfer is complete because host closed connection and device-side process exited
+<span class="nc" id="L137">                    CASUALMain.getSession().setStatus(&quot;device-side server closed&quot;);</span>
+<span class="nc" id="L138">                    deviceSideMessage += convertStreamToString(is);</span>
+<span class="nc" id="L139">                    Log.level4Debug(&quot;FinalMessage&quot; + deviceSideMessage);</span>
+
+                    //check for errors.  if any errors were present they would have come before the donestring
+                    //an error on this line means the server stalled and running this can fix it. 
+                    // adb shell &quot;echo woot|/data/local/tmp/busybox nc 127.0.0.1:27825 &quot;
+<span class="nc bnc" id="L144" title="All 4 branches missed.">                    if (null == deviceSideMessage || !deviceSideMessage.contains(donestring)) {</span>
+
+<span class="nc" id="L146">                        Log.level0Error(&quot;Failed to send file. Message:&quot; + deviceSideMessage);</span>
+<span class="nc" id="L147">                        Log.level0Error(&quot;Improper Exit of DataBridge&quot;);</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">                        if (deviceSideMessage.isEmpty()) {</span>
+<span class="nc" id="L149">                            deviceSideMessage = USBDISCONNECTED;</span>
+                        }
+<span class="nc" id="L151">                        CASUALDataBridge.shutdownBecauseOfError = true;</span>
+<span class="nc" id="L152">                        CASUALDataBridge.deviceReadyForReceive = false;</span>
+<span class="nc" id="L153">                        throw new RuntimeException(&quot;Server exited improperly- received&quot;);</span>
+                    } else {
+<span class="nc" id="L155">                        Log.level4Debug(&quot;DEVICE REPORTED: deviceSideMessage&quot;);</span>
+<span class="nc" id="L156">                        Log.level4Debug(&quot;device reported sucessful shutdown&quot;);</span>
+                    }
+
+                    //signal that the device is done before this thread dies.
+<span class="nc" id="L160">                    CASUALDataBridge.deviceReadyForReceive = false;</span>
+
+<span class="nc" id="L162">                } catch (IOException ex) {</span>
+<span class="nc" id="L163">                    Log.level0Error(&quot;Error in DeviceSideDataBridge&quot;);</span>
+<span class="nc" id="L164">                    Logger.getLogger(CASUALDataBridge.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L165">                }</span>
+
+<span class="nc" id="L167">            }</span>
+
+            void waitForDeviceSideConnection(BufferedInputStream is) throws IOException {
+                String[] cmd;
+<span class="nc" id="L171">                cmd = new String[]{adb.getBinaryLocation(), &quot;shell&quot;, &quot;/data/local/tmp/busybox netstat -tul&quot;};</span>
+<span class="nc" id="L172">                boolean ready = false;</span>
+<span class="nc" id="L173">                String received = &quot;&quot;;</span>
+<span class="nc" id="L174">                CASUALMain.getSession().setStatus(&quot;monitoring ports on device&quot;);</span>
+<span class="nc" id="L175">                Log.level3Verbose(&quot;Device Waiting for Server connection for DataBridge&quot;);</span>
+<span class="nc bnc" id="L176" title="All 4 branches missed.">                while (!ready &amp;&amp; !CASUALDataBridge.getInstance().commandedShutdown) {</span>
+                    //monitor server status and detect errors
+<span class="nc bnc" id="L178" title="All 2 branches missed.">                    while (is.available() &gt; 0) {</span>
+<span class="nc" id="L179">                        received += (char) is.read();</span>
+<span class="nc" id="L180">                        Log.level4Debug(received);</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">                        if (received.contains(&quot;read-only file system&quot;)</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">                                || received.contains(&quot;cannot open&quot;)</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">                                || received.contains(&quot;No such file or directory&quot;)</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">                                || received.contains(DEVICEDISCONNECTED)</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">                                || received.contains(USBDISCONNECTED)</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">                                || received.contains(PERMISSIONERROR)</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">                                || received.contains(&quot;no closing quote&quot;)</span>
+<span class="nc bnc" id="L188" title="All 2 branches missed.">                                || received.contains(&quot;error: more than one device and emulator&quot;)) {</span>
+<span class="nc" id="L189">                            Log.level4Debug(&quot;Device Server Error+&quot; + received);</span>
+<span class="nc" id="L190">                            shutdownServer(received);</span>
+                        }
+
+                    }
+<span class="nc" id="L194">                    String returnval = new Shell().silentShellCommand(cmd);</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">                    if (returnval.contains(&quot;:&quot; + CASUALDataBridge.port)) {</span>
+<span class="nc" id="L196">                        ready = true;</span>
+                    }
+<span class="nc" id="L198">                }</span>
+<span class="nc" id="L199">            }</span>
+
+            private void shutdownServer(String message) {
+<span class="nc" id="L202">                Log.level3Verbose(&quot;Shutdown Commanded-- error:&quot; + CASUALDataBridge.shutdownBecauseOfError + &quot; -message:&quot; + message + &quot; -ready:&quot; + CASUALDataBridge.deviceReadyForReceive);</span>
+<span class="nc" id="L203">                CASUALDataBridge.shutdownBecauseOfError = true;</span>
+<span class="nc" id="L204">                deviceSideMessage = message;</span>
+<span class="nc" id="L205">                CASUALDataBridge.deviceReadyForReceive = true;</span>
+<span class="nc" id="L206">                Log.level0Error(message);</span>
+<span class="nc" id="L207">            }</span>
+        };
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

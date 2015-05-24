@@ -1,0 +1,38 @@
+The CASUAL project uses NetBeans as a primary development environment.   Listed below are the projects.  Each project depends on the ones above it.  CASUAL's repository can be found at http://android-casual.googlecode.com
+
+--CASUAL--
+Cross-platform Android Scripting and Unified Auxiliary Loader
+A generic GUI for the CASUALcore. The CASUALcore provides a way to load, deploy and launch CASPACs.  It handles troubleshooting and device connections in a unified manner. 
+
+--repo--
+CASUALcore has the ability to reach out to the net and grab files.  the repo and the scripts repository are the primary sources.
+
+--CASPAC--
+CASUAL Packaged Action Container
+CASPACs are packages which can be used to make a new CASUAL, or be executed in place by CASUAL. 
+
+--CASPACkager--
+CASUAL Packaged Action Container packager
+Provides a method to package a CASPAC into a new instance of CASUAL.  Also, provides a method to replace binaries and text in a CASPAC, dynamically, as a part of an automated build system.
+
+--CASCADE--
+CASUAL's Automated Scripting Action Development Environment
+CASCADE provides Script, Properties, Meta and resources in an easy-to-use IDE.  You can create a CASPAC or Launch a CASUAL from here.  CASCADE converges all other CAS tools into a GUI. 
+
+
+CASUAL is a Cross-platform Android Scripting and Unified Auxiliary Loader. CASUAL is a Scripting language and a package deployment system.  It runs on Java, works with all android devices which can communicate with ADB and all operating systems.
+
+Copyright (C) 2012  Adam Outler.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.

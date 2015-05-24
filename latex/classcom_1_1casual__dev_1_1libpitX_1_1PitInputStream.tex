@@ -1,0 +1,138 @@
+\hypertarget{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream}{\section{com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Input\-Stream Class Reference}
+\label{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream}\index{com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Input\-Stream@{com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Input\-Stream}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream_a68d4bb2f70bdd57a6593dddc301a6575}{Pit\-Input\-Stream} (Input\-Stream input\-Stream)
+\item 
+int \hyperlink{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream_a29529b12f4245d9f054e65f18f12ce3b}{read\-Int} ()  throws I\-O\-Exception 
+\item 
+short \hyperlink{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream_ad3bc358d082b94fef6578161f71eb424}{read\-Short} ()  throws I\-O\-Exception 
+\item 
+int \hyperlink{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream_a452e8741b4c760649254902ce16eabd5}{read} (byte\mbox{[}$\,$\mbox{]} buffer, int offset, int length)  throws I\-O\-Exception 
+\item 
+int \hyperlink{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream_ad3aa4199ce3c0e731bf73eb81dc90204}{read} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream}{Pit\-Input\-Stream} provides tools used for writing a pit. Original Files may be found here\-: \href{https://github.com/Benjamin-Dobell/libpit&ndash;Java-/tree/master/libpit/src/au/com/glassechidna/libpit}{\tt https\-://github.\-com/\-Benjamin-\/\-Dobell/libpit\&ndash;\-Java-\//tree/master/libpit/src/au/com/glassechidna/libpit} modified by\-: Adam Outler
+
+\begin{DoxyAuthor}{Author}
+Benjamin Dobell 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream_a68d4bb2f70bdd57a6593dddc301a6575}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Input\-Stream@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Input\-Stream}!Pit\-Input\-Stream@{Pit\-Input\-Stream}}
+\index{Pit\-Input\-Stream@{Pit\-Input\-Stream}!com::casual_dev::libpitX::PitInputStream@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Input\-Stream}}
+\subsubsection[{Pit\-Input\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Input\-Stream.\-Pit\-Input\-Stream (
+\begin{DoxyParamCaption}
+\item[{Input\-Stream}]{input\-Stream}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream_a68d4bb2f70bdd57a6593dddc301a6575}
+Constructs a \hyperlink{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream}{Pit\-Input\-Stream}
+
+\begin{DoxySeeAlso}{See Also}
+Input\-Stream 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em input\-Stream} & P\-I\-T as Input\-Stream \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream_a452e8741b4c760649254902ce16eabd5}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Input\-Stream@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Input\-Stream}!read@{read}}
+\index{read@{read}!com::casual_dev::libpitX::PitInputStream@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Input\-Stream}}
+\subsubsection[{read}]{\setlength{\rightskip}{0pt plus 5cm}int com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Input\-Stream.\-read (
+\begin{DoxyParamCaption}
+\item[{byte\mbox{[}$\,$\mbox{]}}]{buffer, }
+\item[{int}]{offset, }
+\item[{int}]{length}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream_a452e8741b4c760649254902ce16eabd5}
+reads parameterized bytes from the Input\-Stream
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & byte buffer \\
+\hline
+{\em offset} & bytes to discard \\
+\hline
+{\em length} & number of bytes to read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value requested from stream, specified by buffer, offset and length 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+Input\-Stream 
+\end{DoxySeeAlso}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream_ad3aa4199ce3c0e731bf73eb81dc90204}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Input\-Stream@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Input\-Stream}!read@{read}}
+\index{read@{read}!com::casual_dev::libpitX::PitInputStream@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Input\-Stream}}
+\subsubsection[{read}]{\setlength{\rightskip}{0pt plus 5cm}int com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Input\-Stream.\-read (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream_ad3aa4199ce3c0e731bf73eb81dc90204}
+reads a byte from the Input\-Stream
+
+\begin{DoxySeeAlso}{See Also}
+Input\-Stream 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+one byte 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream_a29529b12f4245d9f054e65f18f12ce3b}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Input\-Stream@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Input\-Stream}!read\-Int@{read\-Int}}
+\index{read\-Int@{read\-Int}!com::casual_dev::libpitX::PitInputStream@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Input\-Stream}}
+\subsubsection[{read\-Int}]{\setlength{\rightskip}{0pt plus 5cm}int com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Input\-Stream.\-read\-Int (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream_a29529b12f4245d9f054e65f18f12ce3b}
+reads an int (four bytes) from the input stream
+
+\begin{DoxyReturn}{Returns}
+integer value from four bytes 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+Input\-Stream 
+\end{DoxySeeAlso}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream_ad3bc358d082b94fef6578161f71eb424}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Input\-Stream@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Input\-Stream}!read\-Short@{read\-Short}}
+\index{read\-Short@{read\-Short}!com::casual_dev::libpitX::PitInputStream@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Input\-Stream}}
+\subsubsection[{read\-Short}]{\setlength{\rightskip}{0pt plus 5cm}short com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Input\-Stream.\-read\-Short (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classcom_1_1casual__dev_1_1libpitX_1_1PitInputStream_ad3bc358d082b94fef6578161f71eb424}
+reads a short (two bytes) from the inputstream
+
+\begin{DoxyReturn}{Returns}
+short value from two bytes 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+Input\-Stream 
+\end{DoxySeeAlso}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-X/libpit\-X/src/com/casual\-\_\-dev/libpit\-X/Pit\-Input\-Stream.\-java\end{DoxyCompactItemize}

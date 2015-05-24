@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ADBTools.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.communicationstools.adb</a> &gt; <span class="el_source">ADBTools.java</span></div><h1>ADBTools.java</h1><pre class="source lang-java linenums">/*ADBInstall deploys ADB for CASUAL 
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.communicationstools.adb;
+
+import CASUAL.CASUALMain;
+import CASUAL.CASUALMessageObject;
+import CASUAL.CASUALSessionData;
+import CASUAL.Log;
+import CASUAL.OSTools;
+import CASUAL.ResourceDeployer;
+import CASUAL.Shell;
+import CASUAL.misc.DiffTextFiles;
+import java.awt.HeadlessException;
+import java.io.File;
+
+/**
+ * Provides a set of tools for using ADB in CASUAL
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+public class ADBTools extends CASUAL.communicationstools.AbstractDeviceCommunicationsProtocol {
+
+    /**
+     * path to ADB after deployment.
+     */
+<span class="fc" id="L40">    private static String binaryLocation = &quot;&quot;; //location of ADB after deployment</span>
+    // The following variables represent locations of ADB files
+<span class="fc" id="L42">    private static final String[] linux64Location = new String[]{&quot;/CASUAL/communicationstools/adb/resources/adb-linux64&quot;};</span>
+<span class="fc" id="L43">    private static final String[] linux32Location = new String[]{&quot;/CASUAL/communicationstools/adb/resources/adb-linux32&quot;};</span>
+<span class="fc" id="L44">    private static final String[] windowsLocation = new String[]{&quot;/CASUAL/communicationstools/adb/resources/adb.exe&quot;, &quot;/CASUAL/communicationstools/adb/resources/AdbWinApi.dll&quot;, &quot;/CASUAL/communicationstools/adb/resources/AdbWinUsbApi.dll&quot;};</span>
+<span class="fc" id="L45">    private static final String[] macLocation = new String[]{&quot;/CASUAL/communicationstools/adb/resources/adb-mac&quot;};</span>
+<span class="fc" id="L46">    private static final String[] linuxArmv6Location = new String[]{&quot;/CASUAL/communicationstools/adb/resources/adb-linuxARMv6&quot;};</span>
+    private static final String adbIniResource = &quot;/CASUAL/communicationstools/adb/resources/adb_usb.ini&quot;;
+
+    /**
+     * ADBTools default constructor.
+     */
+<span class="fc" id="L52">    public ADBTools() {</span>
+        
+<span class="fc" id="L54">    }</span>
+
+    private String getAdbIniLocation() {
+<span class="fc" id="L57">        return System.getProperty(&quot;user.home&quot;) + CASUALSessionData.slash + &quot;.android&quot; + CASUALSessionData.slash + &quot;adb_usb.ini&quot;;</span>
+    }
+
+    /**
+     * returns the Instance of Linux's ADB binary
+     *
+     * @return gets the proper name of the ADB binary as a resource.
+     */
+    private String[] getLinuxADBResource() {
+<span class="fc" id="L66">        String arch = OSTools.checkLinuxArch();</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        if (arch.equals(&quot;x86_64&quot;)) {</span>
+<span class="fc" id="L68">            return linux64Location;</span>
+        }
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (arch.equals(&quot;ARMv6&quot;)) {</span>
+<span class="nc" id="L71">            return linuxArmv6Location;</span>
+        }
+<span class="nc" id="L73">        return linux32Location;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    public int numberOfDevicesConnected() {
+<span class="fc" id="L83">        String[] devices = getIndividualDevices();</span>
+<span class="fc" id="L84">        int connected = 0;</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        for (String device : devices) {</span>
+<span class="pc bpc" id="L86" title="2 of 4 branches missed.">            if (device.trim().endsWith(&quot;device&quot;) || device.trim().endsWith(&quot;recovery&quot;)) {</span>
+<span class="nc" id="L87">                connected++;</span>
+            }
+        }
+<span class="fc" id="L90">        return connected;</span>
+    }
+
+    /**
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void restartConnection() {
+<span class="fc" id="L99">        Log.level3Verbose(&quot;Restarting ADB slowly for compatibility&quot;);</span>
+<span class="fc" id="L100">        Shell shell = new Shell();</span>
+<span class="fc" id="L101">        shell.timeoutShellCommand(getKillServerCmd(), 1000);</span>
+<span class="fc" id="L102">        String retval = shell.timeoutShellCommand(getDevicesCmd(), 6000);</span>
+<span class="fc" id="L103">        new ADBTools().checkErrorMessage(getDevicesCmd(), retval);</span>
+<span class="fc" id="L104">    }</span>
+
+    /**
+     * {@inheritDoc}
+     *
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    public boolean checkErrorMessage(String[] commandRun, String returnValue) throws HeadlessException {
+
+        /**
+         * This error was received on Linux when permissions elevation was
+         * required. daemon not running. starting it now on port 5037 * cannot
+         * bind 'local:5037' ADB server didn't ACK failed to start daemon *
+         * error: cannot connect to daemon
+         */
+<span class="pc bpc" id="L121" title="2 of 4 branches missed.">        if (OSTools.isLinux() &amp;&amp; returnValue.contains(&quot;ERROR-3&quot;)) { //Don't know how to handle this yet</span>
+<span class="nc" id="L122">            Shell shell = new Shell();</span>
+<span class="nc" id="L123">            Log.level0Error(&quot;@permissionsElevationRequired&quot;);</span>
+<span class="nc" id="L124">            shell.silentShellCommand(getKillServerCmd());</span>
+<span class="nc" id="L125">            shell.elevateSimpleCommandWithMessage(getDevicesCmd(), &quot;Device permissions problem detected&quot;);</span>
+<span class="nc" id="L126">            return false;</span>
+        }
+
+<span class="pc bpc" id="L129" title="3 of 4 branches missed.">        if (returnValue.contains(&quot;ELFCLASS64&quot;) &amp;&amp; returnValue.contains(&quot;wrong ELF&quot;)) {</span>
+<span class="nc" id="L130">            new CASUALMessageObject(&quot;@interactionELFCLASS64Error&quot;).showInformationMessage();</span>
+<span class="nc" id="L131">            return false;</span>
+        }
+
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        if (returnValue.contains(&quot;List of devices attached &quot;)) {</span>
+<span class="pc bpc" id="L135" title="2 of 4 branches missed.">            if (returnValue.contains(&quot;unauthorized&quot;) || returnValue.contains(&quot;Please check the confirmation dialog on your device.&quot;)) {</span>
+<span class="nc" id="L136">                new CASUALMessageObject(&quot;@interactionPairingRequired&quot;).showActionRequiredDialog();</span>
+<span class="nc" id="L137">                return false;</span>
+            }
+
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">            if (returnValue.contains(&quot;offline&quot;)) {</span>
+<span class="nc" id="L141">                String[] ok = {&quot;All set and done!&quot;};</span>
+<span class="nc" id="L142">                new CASUALMessageObject(&quot;@interactionOfflineNotification&quot;).showTimeoutDialog(120, null, javax.swing.JOptionPane.OK_OPTION, 2, ok, 0);</span>
+<span class="nc" id="L143">                Log.level0Error(&quot;@disconnectAndReconnect&quot;);</span>
+<span class="nc" id="L144">                return false;</span>
+            }
+<span class="pc bpc" id="L146" title="3 of 6 branches missed.">            if (returnValue.contains(&quot;????????????&quot;) || returnValue.contains(&quot;**************&quot;) || returnValue.contains(&quot;error: cannot connect to daemon&quot;)) {</span>
+<span class="nc" id="L147">                Log.level0Error(&quot;@unrecognizedDeviceDetected&quot;);</span>
+<span class="nc" id="L148">                Log.level4Debug(&quot;Restarting ADB slowly&quot;);</span>
+<span class="nc" id="L149">                restartConnection();</span>
+<span class="nc" id="L150">                returnValue = new Shell().silentShellCommand(getDevicesCmd()).replace(&quot;List of devices attached \n&quot;, &quot;&quot;).replace(&quot;\n&quot;, &quot;&quot;).replace(&quot;\t&quot;, &quot;&quot;);</span>
+<span class="nc bnc" id="L151" title="All 8 branches missed.">                if (!OSTools.isWindows() &amp;&amp; returnValue.contains(&quot;????????????&quot;) || returnValue.contains(&quot;**************&quot;) || returnValue.contains(&quot;error: cannot connect to daemon&quot;)) {</span>
+<span class="nc" id="L152">                    String[] ok = {&quot;ok&quot;};</span>
+<span class="nc" id="L153">                    new CASUALMessageObject(&quot;@interactionInsufficientPermissionsWorkaround&quot;).showTimeoutDialog(60, null, javax.swing.JOptionPane.OK_OPTION, 2, ok, 0);</span>
+<span class="nc" id="L154">                    shutdown();</span>
+<span class="nc" id="L155">                    elevateADBserver();</span>
+                }
+            }
+        }
+<span class="fc" id="L159">        return true;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    public boolean isConnected() {
+<span class="pc bpc" id="L169" title="1 of 2 branches missed.">        return numberOfDevicesConnected() == 1;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     */
+    @Override
+    public void reset() {
+<span class="fc bfc" id="L178" title="All 2 branches covered.">        if (!binaryLocation.isEmpty()) {</span>
+<span class="fc" id="L179">            this.shutdown();</span>
+        }
+<span class="fc" id="L181">        binaryLocation = &quot;&quot;;</span>
+<span class="fc" id="L182">    }</span>
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    public boolean installDriver() {
+        //TODO install drivers for ADB
+<span class="nc" id="L192">        return true;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    public synchronized String deployBinary(String tempFolder) {
+<span class="fc" id="L202">        Log.level4Debug(&quot;Deploying ADB&quot;);</span>
+
+<span class="fc" id="L204">        String tempBinaryLocation = tempFolder + &quot;adb&quot;;</span>
+        String[] resourceLocation;
+<span class="pc bpc" id="L206" title="1 of 2 branches missed.">        if (OSTools.isLinux()) {</span>
+<span class="fc" id="L207">            Log.level4Debug(&quot;Found Linux Computer for ADB deployment&quot;);</span>
+<span class="fc" id="L208">            resourceLocation = this.getLinuxADBResource();</span>
+<span class="nc bnc" id="L209" title="All 2 branches missed.">        } else if (OSTools.isMac()) {</span>
+<span class="nc" id="L210">            Log.level4Debug(&quot;Found Mac Computer for ADB deployment&quot;);</span>
+<span class="nc" id="L211">            resourceLocation = macLocation;</span>
+<span class="nc bnc" id="L212" title="All 2 branches missed.">        } else if (OSTools.isWindows()) {</span>
+<span class="nc" id="L213">            Log.level4Debug(&quot;Found Windows Computer for ADB deployment&quot;);</span>
+<span class="nc" id="L214">            resourceLocation = windowsLocation;</span>
+        } else {
+<span class="nc" id="L216">            new CASUALMessageObject(&quot;@interactionsystemNotNativelySupported&quot;).showInformationMessage();</span>
+<span class="nc" id="L217">            resourceLocation = new String[]{};</span>
+        }
+
+<span class="fc" id="L220">        ResourceDeployer rd = new ResourceDeployer();</span>
+<span class="fc" id="L221">        File defaultLocation = new File(getDefaultBinaryName(tempFolder));</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">        for (String res : resourceLocation) {</span>
+<span class="fc" id="L223">            String deployedName = rd.deployResourceTo(res, tempFolder);</span>
+<span class="pc bpc" id="L224" title="3 of 4 branches missed.">            if (deployedName.contains(&quot;adb-&quot;) || deployedName.endsWith(&quot;adb.exe&quot;)) {</span>
+
+<span class="fc" id="L226">                new File(deployedName).renameTo(defaultLocation);</span>
+<span class="fc" id="L227">                defaultLocation.setExecutable(true);</span>
+<span class="fc" id="L228">                tempBinaryLocation = defaultLocation.getAbsolutePath();</span>
+            }
+        }
+
+<span class="fc" id="L232">        updateADBini();</span>
+<span class="fc" id="L233">        String[] devicesCommand = new String[]{tempBinaryLocation, &quot;devices&quot;};</span>
+<span class="fc" id="L234">        String[] sendcmd = devicesCommand;</span>
+<span class="fc" id="L235">        String deviceList = new Shell().silentTimeoutShellCommand(sendcmd, 5000);</span>
+<span class="pc bpc" id="L236" title="3 of 4 branches missed.">        if (checkErrorMessage(devicesCommand, deviceList) || deviceList.contains(&quot;\toffline\n&quot;)) {</span>
+<span class="fc" id="L237">            binaryLocation = tempBinaryLocation;</span>
+        }
+<span class="fc" id="L239">        return binaryLocation;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     */
+    @Override
+    public void shutdown() {
+<span class="fc" id="L248">        super.run(new String[]{&quot;kill-server&quot;}, 4000, false);</span>
+<span class="fc" id="L249">    }</span>
+
+    private void updateADBini() {
+<span class="fc" id="L252">        ResourceDeployer rd = new ResourceDeployer();</span>
+<span class="fc" id="L253">        String adbini = getAdbIniLocation();</span>
+<span class="fc" id="L254">        File adbIni = new File(adbini);</span>
+<span class="pc bpc" id="L255" title="3 of 4 branches missed.">        if (!adbIni.isFile() &amp;&amp; !adbIni.exists()) {</span>
+<span class="nc" id="L256">            rd.copyFromResourceToFile(adbIniResource, adbini);</span>
+        } else {
+<span class="fc" id="L258">            DiffTextFiles DTF = new DiffTextFiles();</span>
+<span class="fc" id="L259">            DiffTextFiles.appendDiffToFile(adbini, DTF.diffResourceVersusFile(adbIniResource, adbini));</span>
+        }
+<span class="fc" id="L261">    }</span>
+
+    /**
+     * executes the getDevices command
+     *
+     * @return individual devices listed as strings
+     */
+    public String[] getIndividualDevices() {
+<span class="fc" id="L269">        String devReturn = run(new String[]{&quot;devices&quot;}, 5000, true);</span>
+<span class="fc" id="L270">        checkErrorMessage(getDevicesCmd(), devReturn);</span>
+<span class="fc bfc" id="L271" title="All 2 branches covered.">        if (devReturn.equals(&quot;List of devices attached \n\n&quot;)) {</span>
+<span class="fc" id="L272">            return new String[]{};</span>
+        } else {
+            String[] retval;
+            try {
+<span class="fc" id="L276">                retval = devReturn.split(&quot;List of devices attached &quot;)[1].trim().split(&quot;\n&quot;);</span>
+<span class="nc" id="L277">            } catch (ArrayIndexOutOfBoundsException ex) {</span>
+<span class="nc" id="L278">                retval = new String[]{};</span>
+<span class="fc" id="L279">            }</span>
+<span class="fc" id="L280">            return retval;</span>
+        }
+
+    }
+
+    private String getDefaultBinaryName(String tempFolder) {
+<span class="pc bpc" id="L286" title="1 of 2 branches missed.">        if (OSTools.isWindows()) {</span>
+<span class="nc" id="L287">            return tempFolder + &quot;adb.exe&quot;;</span>
+        }
+<span class="fc" id="L289">        return tempFolder + &quot;adb&quot;;</span>
+    }
+
+    /**
+     * method to get the wait-for-device command for ADB use
+     *
+     * @return path_to_adb, wait-for-device
+     */
+    private String[] getWaitForDeviceCmd() {
+<span class="nc" id="L298">        return new String[]{getBinaryLocation(), &quot;wait-for-device&quot;};</span>
+    }
+
+    /**
+     * method to get the devices command for ADB use
+     *
+     * @return path_to_adb, devices
+     */
+    private String[] getDevicesCmd() {
+<span class="fc" id="L307">        return new String[]{getBinaryLocation(), &quot;devices&quot;};</span>
+    }
+
+    /**
+     * value to start the server
+     *
+     * @return value from adb
+     */
+    private String[] getStartServerCmd() {
+<span class="fc" id="L316">        return new String[]{getBinaryLocation(), &quot;start-server&quot;};</span>
+    }
+
+    /**
+     * return the value to kill the ADB server
+     *
+     * @return value from ADB command
+     */
+    private String[] getKillServerCmd() {
+<span class="fc" id="L325">        return new String[]{getBinaryLocation(), &quot;kill-server&quot;};</span>
+    }
+
+    /**
+     * executes the getDevices command
+     *
+     * @return value from adb getDevices
+     */
+    public String getDevices() {
+<span class="fc" id="L334">        Shell shell = new Shell();</span>
+<span class="fc" id="L335">        String devReturn = shell.silentTimeoutShellCommand(getDevicesCmd(), 5000);</span>
+        //TODO implement error checking here and install drivers if needed EXPAND this!
+<span class="fc" id="L337">        return devReturn;</span>
+    }
+
+    /**
+     * executes the start server command
+     *
+     * @return value from adb start server
+     */
+    public String startServer() {
+<span class="fc" id="L346">        Shell shell = new Shell();</span>
+<span class="fc" id="L347">        String retval = shell.timeoutShellCommand(getStartServerCmd(), 5000);</span>
+<span class="fc" id="L348">        return retval;</span>
+    }
+
+    /**
+     * starts an elevated ADB server.
+     */
+    public void elevateADBserver() {
+<span class="nc" id="L355">        Log.level3Verbose(&quot;Elevating ADB server!&quot;);</span>
+<span class="nc" id="L356">        Shell shell = new Shell();</span>
+<span class="nc" id="L357">        shell.silentShellCommand(getKillServerCmd());</span>
+<span class="nc" id="L358">        shell.elevateSimpleCommand(getDevicesCmd());</span>
+<span class="nc" id="L359">    }</span>
+
+    @Override
+    public synchronized String getBinaryLocation() {
+<span class="pc bpc" id="L363" title="1 of 4 branches missed.">        if (binaryLocation.isEmpty() || !new File(binaryLocation).exists()) {</span>
+<span class="fc" id="L364">            deployBinary(CASUALMain.getSession().getTempFolder());</span>
+        }
+<span class="fc" id="L366">        return binaryLocation;</span>
+    }
+
+    @Override
+    public String getConnectionMethodName() {
+<span class="fc" id="L371">        return &quot;ADB&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

@@ -1,0 +1,13 @@
+added donate button
+--This line, and those below, will be ignored--
+
+R    src
+A    src/SCRIPTS
+A    src/SCRIPTS/Test Script.txt
+A    src/SCRIPTS/Overview.txt
+A    src/SCRIPTS/Test Script.scr
+A    src/SCRIPTS/adb_usb.ini
+A    src/CASUAL/LinkLauncher.java
+M    src/CASUAL/CASUALJFrame.form
+M    src/CASUAL/CASUALApp.properties
+M    src/CASUAL/CASUALJFrame.java

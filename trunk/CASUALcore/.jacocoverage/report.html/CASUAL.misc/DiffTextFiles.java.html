@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DiffTextFiles.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.misc</a> &gt; <span class="el_source">DiffTextFiles.java</span></div><h1>DiffTextFiles.java</h1><pre class="source lang-java linenums">/*DiffTextFiles displays a special type of diff between files
+ *Copyright (C) 2013  Logan Ludington
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.misc;
+
+import CASUAL.Log;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author LogansALIEN
+ */
+<span class="fc" id="L36">public class DiffTextFiles {</span>
+
+    /**
+     * takes two files returns the difference between the two
+     *
+     * @param Original original file
+     * @param TestForDiff new file
+     * @return lines which are in new file that are not in original
+     */
+    public static  String diffTextFiles(String Original, String TestForDiff) {
+<span class="nc" id="L46">        String DifferenceFromFile1 = &quot;&quot;;</span>
+<span class="nc" id="L47">        BufferedReader BROriginal = null;</span>
+
+        try {
+<span class="nc" id="L50">            BufferedReader BRTestDiff = new BufferedReader(new FileReader(TestForDiff));</span>
+            String line;
+            String line2;
+<span class="nc" id="L53">            BROriginal = new BufferedReader(new FileReader(Original));</span>
+<span class="nc" id="L54">            BROriginal.mark(0);</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">            while ((line = BRTestDiff.readLine()) != null) {</span>
+<span class="nc" id="L56">                BROriginal.reset();</span>
+<span class="nc" id="L57">                boolean lineExists = false;</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">                while ((line2 = BROriginal.readLine()) != null) {</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">                    if (line2.equals(line)) {</span>
+<span class="nc" id="L60">                        lineExists = true;</span>
+<span class="nc" id="L61">                        break;</span>
+                    }
+                }
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                if (!lineExists) {</span>
+<span class="nc" id="L65">                    DifferenceFromFile1 = DifferenceFromFile1 + &quot;\n&quot; + line;</span>
+                }
+
+<span class="nc" id="L68">            }</span>
+<span class="nc" id="L69">        } catch (IOException e) {</span>
+<span class="nc" id="L70">            Log.errorHandler(e);</span>
+        } finally {
+<span class="nc" id="L72">            try {</span>
+<span class="nc bnc" id="L73" title="All 6 branches missed.">                if (BROriginal !=null) BROriginal.close();</span>
+<span class="nc" id="L74">            } catch (IOException ex) {</span>
+<span class="nc" id="L75">                Logger.getLogger(DiffTextFiles.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L76">            }</span>
+            
+<span class="nc" id="L78">        }</span>
+
+<span class="nc" id="L80">        return DifferenceFromFile1;</span>
+    }
+    //Takes in the Diff from the constructor and writes it to the file that is 
+    //iniFile.
+
+    /**
+     * appends text to file
+     *
+     * @param file file to be added to
+     * @param Diff text to add
+     */
+    public static void appendDiffToFile(String file, String Diff) {
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">        if (Diff.isEmpty()) {</span>
+<span class="fc" id="L93">            return;</span>
+        }
+        //create the file if it does not exist
+<span class="nc" id="L96">        File fileToModify = new File(file);</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (!fileToModify.exists()) {</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">            if (fileToModify.isDirectory()){</span>
+<span class="nc" id="L99">                fileToModify.delete();</span>
+            }
+            try {
+<span class="nc" id="L102">                fileToModify.createNewFile();</span>
+<span class="nc" id="L103">            } catch (IOException ex) {</span>
+<span class="nc" id="L104">                Logger.getLogger(DiffTextFiles.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L105">            }</span>
+        }
+<span class="nc" id="L107">        PrintWriter out=null;</span>
+        try {
+<span class="nc" id="L109">            out=new PrintWriter(new BufferedWriter(new FileWriter(fileToModify,true)));</span>
+<span class="nc" id="L110">            out.println(Diff);</span>
+ 
+<span class="nc" id="L112">        } catch (IOException ex) {</span>
+<span class="nc" id="L113">            Log.errorHandler(ex);</span>
+        } finally {
+<span class="nc bnc" id="L115" title="All 6 branches missed.">            if (out != null) out.close();</span>
+        }
+<span class="nc" id="L117">    }</span>
+
+    /**
+     * takes a resource and a string outputs difference as a string
+     *
+     * @param TestIStream input stream to test
+     * @param OriginalFile original file to be diffed
+     * @return lines in test that are not in original
+     */
+    public String diffResourceVersusFile(String TestIStream, String OriginalFile) {
+        
+<span class="fc" id="L128">        String difference = &quot;&quot;;</span>
+<span class="fc" id="L129">        InputStream resourceAsStream = this.getClass().getResourceAsStream(TestIStream);</span>
+        
+<span class="fc" id="L131">        BufferedReader testStream = new BufferedReader(new InputStreamReader(resourceAsStream));</span>
+<span class="fc" id="L132">        File original = new File(OriginalFile);</span>
+<span class="fc" id="L133">        String TestStreamLine = &quot;&quot;;</span>
+        String OriginalFileLine;
+        try {
+<span class="fc bfc" id="L136" title="All 2 branches covered.">            while ((TestStreamLine = testStream.readLine()) != null) {</span>
+                boolean LineExists;
+<span class="fc" id="L138">                BufferedReader OriginalReader = new BufferedReader(new FileReader(original));</span>
+<span class="fc" id="L139">                OriginalReader.mark(0);</span>
+<span class="fc" id="L140">                LineExists = false;</span>
+<span class="fc" id="L141">                OriginalReader.reset();</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">                while ((OriginalFileLine = OriginalReader.readLine()) != null) {</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">                    if (OriginalFileLine.equals(TestStreamLine)) {</span>
+<span class="fc" id="L144">                        LineExists = true;</span>
+<span class="fc" id="L145">                        break;</span>
+                    }
+                }
+                
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">                if (!LineExists) {</span>
+<span class="nc" id="L150">                    difference = difference + &quot;\n&quot; + TestStreamLine;</span>
+                }
+<span class="fc" id="L152">            }</span>
+<span class="nc" id="L153">        } catch (IOException ex) {</span>
+            
+<span class="nc" id="L155">            difference = TestStreamLine + &quot;\n&quot;;</span>
+            try {
+<span class="nc bnc" id="L157" title="All 2 branches missed.">                while ((TestStreamLine = testStream.readLine()) != null) {</span>
+<span class="nc" id="L158">                    difference = difference + TestStreamLine + &quot;\n&quot;;</span>
+                }
+<span class="nc" id="L160">            } catch (IOException ex1) {</span>
+<span class="nc" id="L161">                Log.errorHandler(ex);</span>
+<span class="nc" id="L162">            }</span>
+            
+            
+        } finally {
+<span class="nc" id="L166">            try {</span>
+<span class="pc" id="L167">                resourceAsStream.close();</span>
+<span class="pc" id="L168">                testStream.close();</span>
+<span class="nc" id="L169">            } catch (IOException ex) {</span>
+<span class="nc" id="L170">                Logger.getLogger(DiffTextFiles.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="pc" id="L171">            }</span>
+<span class="nc" id="L172">        }</span>
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">        if (difference.startsWith(&quot;\n&quot;)) {</span>
+<span class="nc" id="L174">            difference = difference.replaceFirst(&quot;\n&quot;, &quot;&quot;);</span>
+        }
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">        if (difference.endsWith(&quot;\n&quot;)) {</span>
+<span class="nc" id="L177">            difference = CASUAL.misc.StringOperations.replaceLast(difference, &quot;\n&quot;, &quot;&quot;);</span>
+        }
+
+<span class="fc" id="L180">        return difference;</span>
+
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

@@ -1,0 +1,82 @@
+\hypertarget{class_c_a_s_u_a_l_1_1_resource_deployer}{\section{C\-A\-S\-U\-A\-L.\-Resource\-Deployer Class Reference}
+\label{class_c_a_s_u_a_l_1_1_resource_deployer}\index{C\-A\-S\-U\-A\-L.\-Resource\-Deployer@{C\-A\-S\-U\-A\-L.\-Resource\-Deployer}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+String \hyperlink{class_c_a_s_u_a_l_1_1_resource_deployer_ace79edbb4efe967b12bbf6ab89c8c0a7}{deploy\-Resource\-To} (String resource\-Location, String temp\-Folder)
+\item 
+String\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_u_a_l_1_1_resource_deployer_a66f81e099a89fc7a43485c592a8a6487}{deploy\-Resource\-To} (String\mbox{[}$\,$\mbox{]} resource\-Location, String temp\-Folder)
+\item 
+boolean \hyperlink{class_c_a_s_u_a_l_1_1_resource_deployer_aab4e66535eb347db33e00689e97d78ee}{copy\-From\-Resource\-To\-File} (String Resource, String to\-File)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Adam Outler \href{mailto:adamoutler@gmail.com}{\tt adamoutler@gmail.\-com} 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1_resource_deployer_aab4e66535eb347db33e00689e97d78ee}{\index{C\-A\-S\-U\-A\-L\-::\-Resource\-Deployer@{C\-A\-S\-U\-A\-L\-::\-Resource\-Deployer}!copy\-From\-Resource\-To\-File@{copy\-From\-Resource\-To\-File}}
+\index{copy\-From\-Resource\-To\-File@{copy\-From\-Resource\-To\-File}!CASUAL::ResourceDeployer@{C\-A\-S\-U\-A\-L\-::\-Resource\-Deployer}}
+\subsubsection[{copy\-From\-Resource\-To\-File}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-Resource\-Deployer.\-copy\-From\-Resource\-To\-File (
+\begin{DoxyParamCaption}
+\item[{String}]{Resource, }
+\item[{String}]{to\-File}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_resource_deployer_aab4e66535eb347db33e00689e97d78ee}
+copies a resource to a file
+
+
+\begin{DoxyParams}{Parameters}
+{\em Resource} & resource to be deployed \\
+\hline
+{\em to\-File} & file to deploy resource to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if complete 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_resource_deployer_ace79edbb4efe967b12bbf6ab89c8c0a7}{\index{C\-A\-S\-U\-A\-L\-::\-Resource\-Deployer@{C\-A\-S\-U\-A\-L\-::\-Resource\-Deployer}!deploy\-Resource\-To@{deploy\-Resource\-To}}
+\index{deploy\-Resource\-To@{deploy\-Resource\-To}!CASUAL::ResourceDeployer@{C\-A\-S\-U\-A\-L\-::\-Resource\-Deployer}}
+\subsubsection[{deploy\-Resource\-To}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-Resource\-Deployer.\-deploy\-Resource\-To (
+\begin{DoxyParamCaption}
+\item[{String}]{resource\-Location, }
+\item[{String}]{temp\-Folder}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_resource_deployer_ace79edbb4efe967b12bbf6ab89c8c0a7}
+Deploys a resource from the pacakge to the disk. 
+\begin{DoxyParams}{Parameters}
+{\em resource\-Location} & location of internal resource. \\
+\hline
+{\em temp\-Folder} & disk location. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+fully qualified path to deployed file. 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_resource_deployer_a66f81e099a89fc7a43485c592a8a6487}{\index{C\-A\-S\-U\-A\-L\-::\-Resource\-Deployer@{C\-A\-S\-U\-A\-L\-::\-Resource\-Deployer}!deploy\-Resource\-To@{deploy\-Resource\-To}}
+\index{deploy\-Resource\-To@{deploy\-Resource\-To}!CASUAL::ResourceDeployer@{C\-A\-S\-U\-A\-L\-::\-Resource\-Deployer}}
+\subsubsection[{deploy\-Resource\-To}]{\setlength{\rightskip}{0pt plus 5cm}String \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-Resource\-Deployer.\-deploy\-Resource\-To (
+\begin{DoxyParamCaption}
+\item[{String\mbox{[}$\,$\mbox{]}}]{resource\-Location, }
+\item[{String}]{temp\-Folder}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_resource_deployer_a66f81e099a89fc7a43485c592a8a6487}
+deploys multiple resources to disk. 
+\begin{DoxyParams}{Parameters}
+{\em resource\-Location} & array of files in jar. \\
+\hline
+{\em temp\-Folder} & deployment location. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+fully qualified paths to new files. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/Resource\-Deployer.\-java\end{DoxyCompactItemize}

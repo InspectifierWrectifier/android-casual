@@ -1,0 +1,69 @@
+\hypertarget{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks}{\section{C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Startup\-Tasks Class Reference}
+\label{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks}\index{C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Startup\-Tasks@{C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Startup\-Tasks}}
+}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_c_a_s_u_a_l_1_1misc_1_1_mandatory_thread}{Mandatory\-Thread} \hyperlink{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_ae9b5a6af6cfbc4601ce6eedf08016819}{start\-G\-U\-I} = new \hyperlink{class_c_a_s_u_a_l_1_1misc_1_1_mandatory_thread}{Mandatory\-Thread}()
+\item 
+static \hyperlink{class_c_a_s_u_a_l_1_1misc_1_1_mandatory_thread}{Mandatory\-Thread} \hyperlink{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_a782be3fd7088ec9d40f2981113948c5e}{caspac\-Prep\-Lock} = new \hyperlink{class_c_a_s_u_a_l_1_1misc_1_1_mandatory_thread}{Mandatory\-Thread}()
+\item 
+static \hyperlink{class_c_a_s_u_a_l_1_1misc_1_1_mandatory_thread}{Mandatory\-Thread} \hyperlink{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_ab857475aab8f73d290e1712c22b4f373}{script\-Run\-Lock} = new \hyperlink{class_c_a_s_u_a_l_1_1misc_1_1_mandatory_thread}{Mandatory\-Thread}()
+\item 
+static \hyperlink{class_c_a_s_u_a_l_1_1misc_1_1_mandatory_thread}{Mandatory\-Thread} \hyperlink{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_a7cd653f1a174d1edf365da01aa97cdc5}{start\-A\-D\-B}
+\item 
+static boolean \hyperlink{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_a2aa519438e5c5454a6aeac1927706b86}{lock\-G\-U\-Iform\-Prep} = true
+\item 
+static boolean \hyperlink{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_a3116aebd500dbd313bb939a9ce4f81ab}{lock\-G\-U\-Iunzip} = true
+\item 
+static boolean \hyperlink{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_a31fcc3f44d4aad9e291561ab7dc4549b}{caspac\-Script\-Prep\-Lock} = true
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks}{C\-A\-S\-U\-A\-L\-Startup\-Tasks} provides a place for storage of sequential and static items
+
+\begin{DoxyAuthor}{Author}
+Adam Outler \href{mailto:adamoutler@gmail.com}{\tt adamoutler@gmail.\-com} 
+\end{DoxyAuthor}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_a782be3fd7088ec9d40f2981113948c5e}{\index{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks}!caspac\-Prep\-Lock@{caspac\-Prep\-Lock}}
+\index{caspac\-Prep\-Lock@{caspac\-Prep\-Lock}!CASUAL::CASUALStartupTasks@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks}}
+\subsubsection[{caspac\-Prep\-Lock}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mandatory\-Thread} C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Startup\-Tasks.\-caspac\-Prep\-Lock = new {\bf Mandatory\-Thread}()\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_a782be3fd7088ec9d40f2981113948c5e}
+preparation state of the C\-A\-S\-P\-A\-C. This is alive during the time the C\-A\-S\-P\-A\-C is being prepared. \hypertarget{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_a31fcc3f44d4aad9e291561ab7dc4549b}{\index{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks}!caspac\-Script\-Prep\-Lock@{caspac\-Script\-Prep\-Lock}}
+\index{caspac\-Script\-Prep\-Lock@{caspac\-Script\-Prep\-Lock}!CASUAL::CASUALStartupTasks@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks}}
+\subsubsection[{caspac\-Script\-Prep\-Lock}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Startup\-Tasks.\-caspac\-Script\-Prep\-Lock = true\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_a31fcc3f44d4aad9e291561ab7dc4549b}
+is true while C\-A\-S\-P\-A\-C is preparing a script. \hypertarget{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_a2aa519438e5c5454a6aeac1927706b86}{\index{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks}!lock\-G\-U\-Iform\-Prep@{lock\-G\-U\-Iform\-Prep}}
+\index{lock\-G\-U\-Iform\-Prep@{lock\-G\-U\-Iform\-Prep}!CASUAL::CASUALStartupTasks@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks}}
+\subsubsection[{lock\-G\-U\-Iform\-Prep}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Startup\-Tasks.\-lock\-G\-U\-Iform\-Prep = true\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_a2aa519438e5c5454a6aeac1927706b86}
+Lock representing the \hyperlink{namespace_c_a_s_u_a_l_1_1_g_u_i}{G\-U\-I} preparation. This is alive while the form is preparing itself. \hypertarget{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_a3116aebd500dbd313bb939a9ce4f81ab}{\index{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks}!lock\-G\-U\-Iunzip@{lock\-G\-U\-Iunzip}}
+\index{lock\-G\-U\-Iunzip@{lock\-G\-U\-Iunzip}!CASUAL::CASUALStartupTasks@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks}}
+\subsubsection[{lock\-G\-U\-Iunzip}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Startup\-Tasks.\-lock\-G\-U\-Iunzip = true\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_a3116aebd500dbd313bb939a9ce4f81ab}
+Lock representing the unzip phase of the C\-A\-S\-P\-A\-C. This is alive during C\-A\-S\-P\-A\-Cpreparation unzip and goes dead when information is available for the \hyperlink{namespace_c_a_s_u_a_l_1_1_g_u_i}{G\-U\-I}. This is basically Prep\-C\-A\-S\-A\-P\-C, but does not include unzip of resources. \hypertarget{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_ab857475aab8f73d290e1712c22b4f373}{\index{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks}!script\-Run\-Lock@{script\-Run\-Lock}}
+\index{script\-Run\-Lock@{script\-Run\-Lock}!CASUAL::CASUALStartupTasks@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks}}
+\subsubsection[{script\-Run\-Lock}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mandatory\-Thread} C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Startup\-Tasks.\-script\-Run\-Lock = new {\bf Mandatory\-Thread}()\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_ab857475aab8f73d290e1712c22b4f373}
+Script is run from this object script. this is alive when script is running. \hypertarget{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_a7cd653f1a174d1edf365da01aa97cdc5}{\index{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks}!start\-A\-D\-B@{start\-A\-D\-B}}
+\index{start\-A\-D\-B@{start\-A\-D\-B}!CASUAL::CASUALStartupTasks@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks}}
+\subsubsection[{start\-A\-D\-B}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mandatory\-Thread} C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Startup\-Tasks.\-start\-A\-D\-B\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_a7cd653f1a174d1edf365da01aa97cdc5}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \textcolor{keyword}{new} MandatoryThread(\textcolor{keyword}{new} Runnable() \{
+            
+            @Override
+            \textcolor{keyword}{public} \textcolor{keywordtype}{void} run() \{
+                \textcolor{keyword}{new} ADBTools().startServer();
+                Log.level3Verbose(\textcolor{stringliteral}{"ADB Server Started!!!"});
+            \}
+        
+     \})
+\end{DoxyCode}
+A\-D\-B is started from this object. monitoring of the state of A\-D\-B starting can be monitored here. This is alive while A\-D\-B is being deployed and the server is started. \hypertarget{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_ae9b5a6af6cfbc4601ce6eedf08016819}{\index{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks}!start\-G\-U\-I@{start\-G\-U\-I}}
+\index{start\-G\-U\-I@{start\-G\-U\-I}!CASUAL::CASUALStartupTasks@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Startup\-Tasks}}
+\subsubsection[{start\-G\-U\-I}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mandatory\-Thread} C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Startup\-Tasks.\-start\-G\-U\-I = new {\bf Mandatory\-Thread}()\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1_c_a_s_u_a_l_startup_tasks_ae9b5a6af6cfbc4601ce6eedf08016819}
+Thread representing the Graphical User Interface. 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/C\-A\-S\-U\-A\-L\-Startup\-Tasks.\-java\end{DoxyCompactItemize}

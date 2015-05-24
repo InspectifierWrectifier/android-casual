@@ -1,0 +1,118 @@
+\hypertarget{classCASUAL_1_1crypto_1_1AES128Handler}{\section{C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler Class Reference}
+\label{classCASUAL_1_1crypto_1_1AES128Handler}\index{C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classCASUAL_1_1crypto_1_1AES128Handler_a4233be364193baf998724234ca4c7ab1}{{\bfseries A\-E\-S128\-Handler} (File target\-File)}\label{classCASUAL_1_1crypto_1_1AES128Handler_a4233be364193baf998724234ca4c7ab1}
+
+\item 
+boolean \hyperlink{classCASUAL_1_1crypto_1_1AES128Handler_ae444a266163b8c7983391cfeca91fd9f}{encrypt} (String output, char\mbox{[}$\,$\mbox{]} key)
+\item 
+String \hyperlink{classCASUAL_1_1crypto_1_1AES128Handler_a27231903f5c8ee3bea634e915c0e1499}{decrypt} (String output, char\mbox{[}$\,$\mbox{]} key)  throws Exception 
+\item 
+byte\mbox{[}$\,$\mbox{]} \hyperlink{classCASUAL_1_1crypto_1_1AES128Handler_af8b956ca34bcdbb8a22551fe66ae2c65}{one\-Way\-Hash} (char\mbox{[}$\,$\mbox{]} input)
+\item 
+\hypertarget{classCASUAL_1_1crypto_1_1AES128Handler_aa057ae7e639b9622dbed9b17443aa263}{Cipher {\bfseries get\-Cipher} (byte\mbox{[}$\,$\mbox{]} key, byte\mbox{[}$\,$\mbox{]} iv, int mode)  throws No\-Such\-Padding\-Exception, No\-Such\-Algorithm\-Exception, Invalid\-Key\-Exception, Invalid\-Algorithm\-Parameter\-Exception }\label{classCASUAL_1_1crypto_1_1AES128Handler_aa057ae7e639b9622dbed9b17443aa263}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{classCASUAL_1_1crypto_1_1AES128Handler_af7d875ad9b71ba6177d93b3f8d2e9b7f}{get\-C\-A\-S\-P\-A\-C\-Header\-Length} (File f)  throws File\-Not\-Found\-Exception, I\-O\-Exception 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+adam inspired by \href{http://stackoverflow.com/questions/8674018/pbkdf2-with-bouncycastle-in-java}{\tt http\-://stackoverflow.\-com/questions/8674018/pbkdf2-\/with-\/bouncycastle-\/in-\/java} inspired by \href{https://www.cigital.com/justice-league-blog/2009/08/14/proper-use-of-javas-securerandom/}{\tt https\-://www.\-cigital.\-com/justice-\/league-\/blog/2009/08/14/proper-\/use-\/of-\/javas-\/securerandom/} inspired by \href{http://stackoverflow.com/questions/1220751/how-to-choose-an-aes-encryption-mode-cbc-ecb-ctr-ocb-cfb}{\tt http\-://stackoverflow.\-com/questions/1220751/how-\/to-\/choose-\/an-\/aes-\/encryption-\/mode-\/cbc-\/ecb-\/ctr-\/ocb-\/cfb} severely beaten several times by Pulser 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCASUAL_1_1crypto_1_1AES128Handler_a27231903f5c8ee3bea634e915c0e1499}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}!decrypt@{decrypt}}
+\index{decrypt@{decrypt}!CASUAL::crypto::AES128Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}}
+\subsubsection[{decrypt}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler.\-decrypt (
+\begin{DoxyParamCaption}
+\item[{String}]{output, }
+\item[{char\mbox{[}$\,$\mbox{]}}]{key}
+\end{DoxyParamCaption}
+) throws Exception}}\label{classCASUAL_1_1crypto_1_1AES128Handler_a27231903f5c8ee3bea634e915c0e1499}
+decrypts a file
+
+
+\begin{DoxyParams}{Parameters}
+{\em output} & string name of file to output \\
+\hline
+{\em key} & password issued by encrytper \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+name of file written, null if error 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1crypto_1_1AES128Handler_ae444a266163b8c7983391cfeca91fd9f}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}!encrypt@{encrypt}}
+\index{encrypt@{encrypt}!CASUAL::crypto::AES128Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}}
+\subsubsection[{encrypt}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler.\-encrypt (
+\begin{DoxyParamCaption}
+\item[{String}]{output, }
+\item[{char\mbox{[}$\,$\mbox{]}}]{key}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1crypto_1_1AES128Handler_ae444a266163b8c7983391cfeca91fd9f}
+encrypts a file to the output file. Appends C\-A\-S\-P\-A\-C Header
+
+
+\begin{DoxyParams}{Parameters}
+{\em output} & string location of file output \\
+\hline
+{\em key} & password \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if encryption was sucessful 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1crypto_1_1AES128Handler_af7d875ad9b71ba6177d93b3f8d2e9b7f}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}!get\-C\-A\-S\-P\-A\-C\-Header\-Length@{get\-C\-A\-S\-P\-A\-C\-Header\-Length}}
+\index{get\-C\-A\-S\-P\-A\-C\-Header\-Length@{get\-C\-A\-S\-P\-A\-C\-Header\-Length}!CASUAL::crypto::AES128Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}}
+\subsubsection[{get\-C\-A\-S\-P\-A\-C\-Header\-Length}]{\setlength{\rightskip}{0pt plus 5cm}static int C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler.\-get\-C\-A\-S\-P\-A\-C\-Header\-Length (
+\begin{DoxyParamCaption}
+\item[{File}]{f}
+\end{DoxyParamCaption}
+) throws File\-Not\-Found\-Exception, I\-O\-Exception\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1crypto_1_1AES128Handler_af7d875ad9b71ba6177d93b3f8d2e9b7f}
+will return the length of the C\-A\-S\-P\-A\-C Header
+
+
+\begin{DoxyParams}{Parameters}
+{\em f} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if failed, will be between $>$18 if valid. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em File\-Not\-Found\-Exception} & \\
+\hline
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classCASUAL_1_1crypto_1_1AES128Handler_af8b956ca34bcdbb8a22551fe66ae2c65}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}!one\-Way\-Hash@{one\-Way\-Hash}}
+\index{one\-Way\-Hash@{one\-Way\-Hash}!CASUAL::crypto::AES128Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}}
+\subsubsection[{one\-Way\-Hash}]{\setlength{\rightskip}{0pt plus 5cm}byte \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler.\-one\-Way\-Hash (
+\begin{DoxyParamCaption}
+\item[{char\mbox{[}$\,$\mbox{]}}]{input}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1crypto_1_1AES128Handler_af8b956ca34bcdbb8a22551fe66ae2c65}
+provides a one-\/way hash on a password
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & your password \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+P\-B\-K\-D\-F2 with H\-M\-A\-C S\-H\-A1 password 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/crypto/A\-E\-S128\-Handler.\-java\end{DoxyCompactItemize}

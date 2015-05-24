@@ -1,0 +1,3 @@
+$ECHO Setting up storage folder in $HOMEFOLDERapps$SLASH
+$ON .apk, install $LINE
+$LISTDIR $HOMEFOLDERapps$SLASH

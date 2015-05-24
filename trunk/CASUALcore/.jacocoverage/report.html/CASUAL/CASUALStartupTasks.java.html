@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CASUALStartupTasks.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL</a> &gt; <span class="el_source">CASUALStartupTasks.java</span></div><h1>CASUALStartupTasks.java</h1><pre class="source lang-java linenums">package CASUAL;
+
+import CASUAL.communicationstools.adb.ADBTools;
+import CASUAL.misc.MandatoryThread;
+
+/*CASUALStartupTasks provides a place for storage of sequential and static items
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+/**
+ * CASUALStartupTasks provides a place for storage of sequential and static items
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+<span class="nc" id="L27">public class CASUALStartupTasks {</span>
+
+    /**
+     * Thread representing the Graphical User Interface.
+     */
+<span class="fc" id="L32">    public static MandatoryThread startGUI = new MandatoryThread();</span>
+
+    /**
+     * preparation state of the CASPAC. This is alive during the time the 
+     * CASPAC is being prepared.
+     */
+<span class="fc" id="L38">    public static MandatoryThread caspacPrepLock = new MandatoryThread();</span>
+
+    /**
+     * Script is run from this object script. this is alive when script is running.
+     */
+<span class="fc" id="L43">    public static MandatoryThread scriptRunLock = new MandatoryThread();</span>
+
+    /**
+     * ADB is started from this object.  monitoring of the state of ADB starting can be monitored here. This is alive while ADB is
+     * being deployed and the server is started.
+     */
+<span class="fc" id="L49">    public static MandatoryThread startADB = new MandatoryThread(new Runnable() {</span>
+            
+            @Override
+            public void run() {
+<span class="fc" id="L53">                new ADBTools().startServer();</span>
+<span class="fc" id="L54">                Log.level3Verbose(&quot;ADB Server Started!!!&quot;);</span>
+<span class="fc" id="L55">            }</span>
+        
+     });
+    /**
+     * Lock representing the GUI preparation. This is alive while the form is
+     * preparing itself.
+     */
+<span class="fc" id="L62">    public static boolean lockGUIformPrep = true;</span>
+
+    /**
+     * Lock representing the unzip phase of the CASPAC. This is alive during
+     * CASPACpreparation unzip and goes dead when information is available for
+     * the GUI. This is basically PrepCASAPC, but does not include unzip of
+     * resources.
+     */
+<span class="fc" id="L70">    public static boolean lockGUIunzip = true;</span>
+
+    /**
+     * is true while CASPAC is preparing a script.
+     *
+     */
+<span class="fc" id="L76">    public static boolean caspacScriptPrepLock = true;</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

@@ -1,0 +1,129 @@
+\hypertarget{classCASUAL_1_1HeimdallInstall}{\section{C\-A\-S\-U\-A\-L.\-Heimdall\-Install Class Reference}
+\label{classCASUAL_1_1HeimdallInstall}\index{C\-A\-S\-U\-A\-L.\-Heimdall\-Install@{C\-A\-S\-U\-A\-L.\-Heimdall\-Install}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+boolean \hyperlink{classCASUAL_1_1HeimdallInstall_a50633964b1eb9ae286cfaae3d1d288dd}{deploy\-Heimdall\-For\-Windows} ()
+\item 
+boolean \hyperlink{classCASUAL_1_1HeimdallInstall_aeed58a2f098e237d8532b553824f813d}{check\-Heimdall} ()
+\item 
+boolean \hyperlink{classCASUAL_1_1HeimdallInstall_a932c3a701a6dd740d2a4171cb3802544}{install\-Heimdall} ()
+\item 
+boolean \hyperlink{classCASUAL_1_1HeimdallInstall_aaa85ff3b6f6ddf52850fe791db21da15}{install\-Windows\-Drivers} ()
+\item 
+void \hyperlink{classCASUAL_1_1HeimdallInstall_aa884481a876d8d67c8b48c1252efaae4}{display\-Windows\-Permissions\-Message\-And\-Exit} ()
+\item 
+boolean \hyperlink{classCASUAL_1_1HeimdallInstall_a7d0022c631eef27a410a08f33b989e1a}{check\-And\-Deploy\-Heimdall} ()
+\item 
+boolean \hyperlink{classCASUAL_1_1HeimdallInstall_a706906189ba536381bc49d78f5702a25}{check\-Heimdall\-Version} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+String \hyperlink{classCASUAL_1_1HeimdallInstall_a5203df5605f1c468861edbacd3cc174d}{V\-I\-D} = \char`\"{}\char`\"{}
+\item 
+String \hyperlink{classCASUAL_1_1HeimdallInstall_ac8b2b370a75b48ad9efea5740aad4418}{P\-I\-D} = \char`\"{}\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+adam 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCASUAL_1_1HeimdallInstall_a7d0022c631eef27a410a08f33b989e1a}{\index{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}!check\-And\-Deploy\-Heimdall@{check\-And\-Deploy\-Heimdall}}
+\index{check\-And\-Deploy\-Heimdall@{check\-And\-Deploy\-Heimdall}!CASUAL::HeimdallInstall@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}}
+\subsubsection[{check\-And\-Deploy\-Heimdall}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-Heimdall\-Install.\-check\-And\-Deploy\-Heimdall (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1HeimdallInstall_a7d0022c631eef27a410a08f33b989e1a}
+checks and deploys heimdall
+
+\begin{DoxyReturn}{Returns}
+true if deployed 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1HeimdallInstall_aeed58a2f098e237d8532b553824f813d}{\index{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}!check\-Heimdall@{check\-Heimdall}}
+\index{check\-Heimdall@{check\-Heimdall}!CASUAL::HeimdallInstall@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}}
+\subsubsection[{check\-Heimdall}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-Heimdall\-Install.\-check\-Heimdall (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1HeimdallInstall_aeed58a2f098e237d8532b553824f813d}
+checks if heimdall is deployed
+
+\begin{DoxyReturn}{Returns}
+true if heidmall version returns anything 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1HeimdallInstall_a706906189ba536381bc49d78f5702a25}{\index{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}!check\-Heimdall\-Version@{check\-Heimdall\-Version}}
+\index{check\-Heimdall\-Version@{check\-Heimdall\-Version}!CASUAL::HeimdallInstall@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}}
+\subsubsection[{check\-Heimdall\-Version}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-Heimdall\-Install.\-check\-Heimdall\-Version (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1HeimdallInstall_a706906189ba536381bc49d78f5702a25}
+checks the heimdall version against version expected from \hyperlink{classCASUAL_1_1Statics}{Statics}
+
+\begin{DoxyReturn}{Returns}
+true if version is good 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1HeimdallInstall_a50633964b1eb9ae286cfaae3d1d288dd}{\index{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}!deploy\-Heimdall\-For\-Windows@{deploy\-Heimdall\-For\-Windows}}
+\index{deploy\-Heimdall\-For\-Windows@{deploy\-Heimdall\-For\-Windows}!CASUAL::HeimdallInstall@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}}
+\subsubsection[{deploy\-Heimdall\-For\-Windows}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-Heimdall\-Install.\-deploy\-Heimdall\-For\-Windows (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1HeimdallInstall_a50633964b1eb9ae286cfaae3d1d288dd}
+deploys heimdal
+
+\begin{DoxyReturn}{Returns}
+true if deployed 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1HeimdallInstall_aa884481a876d8d67c8b48c1252efaae4}{\index{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}!display\-Windows\-Permissions\-Message\-And\-Exit@{display\-Windows\-Permissions\-Message\-And\-Exit}}
+\index{display\-Windows\-Permissions\-Message\-And\-Exit@{display\-Windows\-Permissions\-Message\-And\-Exit}!CASUAL::HeimdallInstall@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}}
+\subsubsection[{display\-Windows\-Permissions\-Message\-And\-Exit}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-Heimdall\-Install.\-display\-Windows\-Permissions\-Message\-And\-Exit (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1HeimdallInstall_aa884481a876d8d67c8b48c1252efaae4}
+displays a message to the user that Windows permissions were not obtainable \hypertarget{classCASUAL_1_1HeimdallInstall_a932c3a701a6dd740d2a4171cb3802544}{\index{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}!install\-Heimdall@{install\-Heimdall}}
+\index{install\-Heimdall@{install\-Heimdall}!CASUAL::HeimdallInstall@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}}
+\subsubsection[{install\-Heimdall}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-Heimdall\-Install.\-install\-Heimdall (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1HeimdallInstall_a932c3a701a6dd740d2a4171cb3802544}
+installs heimdall
+
+\begin{DoxyReturn}{Returns}
+true if heimdall was detected 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1HeimdallInstall_aaa85ff3b6f6ddf52850fe791db21da15}{\index{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}!install\-Windows\-Drivers@{install\-Windows\-Drivers}}
+\index{install\-Windows\-Drivers@{install\-Windows\-Drivers}!CASUAL::HeimdallInstall@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}}
+\subsubsection[{install\-Windows\-Drivers}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-Heimdall\-Install.\-install\-Windows\-Drivers (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1HeimdallInstall_aaa85ff3b6f6ddf52850fe791db21da15}
+Installs windows drivers
+
+\begin{DoxyReturn}{Returns}
+always returns true  always returns true? 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classCASUAL_1_1HeimdallInstall_ac8b2b370a75b48ad9efea5740aad4418}{\index{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}!P\-I\-D@{P\-I\-D}}
+\index{P\-I\-D@{P\-I\-D}!CASUAL::HeimdallInstall@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}}
+\subsubsection[{P\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-Heimdall\-Install.\-P\-I\-D = \char`\"{}\char`\"{}}}\label{classCASUAL_1_1HeimdallInstall_ac8b2b370a75b48ad9efea5740aad4418}
+Device I\-D detected \hypertarget{classCASUAL_1_1HeimdallInstall_a5203df5605f1c468861edbacd3cc174d}{\index{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}!V\-I\-D@{V\-I\-D}}
+\index{V\-I\-D@{V\-I\-D}!CASUAL::HeimdallInstall@{C\-A\-S\-U\-A\-L\-::\-Heimdall\-Install}}
+\subsubsection[{V\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-Heimdall\-Install.\-V\-I\-D = \char`\"{}\char`\"{}}}\label{classCASUAL_1_1HeimdallInstall_a5203df5605f1c468861edbacd3cc174d}
+Vendor I\-D detected 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/Heimdall\-Install.\-java\end{DoxyCompactItemize}

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DriverOperations.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.communicationstools.heimdall.drivers</a> &gt; <span class="el_source">DriverOperations.java</span></div><h1>DriverOperations.java</h1><pre class="source lang-java linenums">/**
+ * *****************************************************************************
+ * This file is part of CADI a library of CASUAL.
+ * 
+* Copyright (C) 2014 Jeremy R. Loper &amp;lt;jrloper@gmail.com&amp;gt;
+ *
+ * CADI is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+* CADI is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+* You should have received a copy of the GNU General Public License along with
+ * this program. If not, see https://www.gnu.org/licenses/ .
+ * 
+******************************************************************************
+ */
+package CASUAL.communicationstools.heimdall.drivers;
+
+import CASUAL.CASUALMain;
+import CASUAL.CASUALSessionData;
+import CASUAL.FileOperations;
+import CASUAL.Log;
+import CASUAL.OSTools;
+import CASUAL.Shell;
+import CASUAL.archiving.Unzip;
+import CASUAL.misc.StringOperations;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ *
+ * @author Jeremy R. Loper &amp;lt;jrloper@gmail.com&amp;gt;
+ */
+public class DriverOperations {
+
+
+    /**
+     * driverExtracted this static member is toggled true upon a successful
+     * driver package decompression.
+     *
+     */
+<span class="nc" id="L49">    private static volatile boolean driverExtracted = false;</span>
+
+    /**
+     * CADI Windows Driver for Windows Vista and higher.
+     */
+    private final static String cadiDrivers = &quot;/CASUAL/communicationstools/heimdall/drivers/resources/CADI.zip&quot;;
+    /**
+     * pathToCADI contains the full path to the root folder of where driver
+     * package(s) are (or will be). This Member is populated on Class Object
+     * creation.
+     */
+    private final String pathToCADI;
+
+<span class="nc" id="L62">    public DriverOperations() {</span>
+<span class="nc" id="L63">        this.pathToCADI =CASUALMain.getSession().getTempFolder() + &quot;CADI&quot; + CASUALSessionData.slash;</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (!driverExtracted) {</span>
+            try {
+<span class="nc" id="L66">                driverExtract(pathToCADI);</span>
+<span class="nc" id="L67">            } catch (FileNotFoundException ex) {</span>
+<span class="nc" id="L68">                Log.errorHandler(ex);</span>
+<span class="nc" id="L69">                return;</span>
+<span class="nc" id="L70">            } catch (IOException ex) {</span>
+<span class="nc" id="L71">                Log.errorHandler(ex);</span>
+<span class="nc" id="L72">                return;</span>
+<span class="nc" id="L73">            }</span>
+<span class="nc" id="L74">            driverExtracted = true;</span>
+        }
+<span class="nc" id="L76">    }</span>
+
+    /**
+     * driverExtract extracts the contents of CADI.zip from CASUAL's resources
+     *
+     * @param pathToExtract the desired destination folders full path.
+     *
+     * @throws FileNotFoundException {@inheritDoc}
+     * @throws IOException {@inheritDoc}
+     *
+     * @return true if successful, false otherwise
+     */
+    private boolean driverExtract(String pathToExtract) throws FileNotFoundException, IOException {
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        if(new FileOperations().makeFolder(pathToCADI)) {</span>
+<span class="nc" id="L90">            Log.level4Debug(&quot;driverExtract() Unzipping CADI&quot;);</span>
+<span class="nc" id="L91">            Unzip.unZipResource(CASUALMain.getSession(),cadiDrivers, pathToExtract);</span>
+<span class="nc" id="L92">            return true;</span>
+        }
+<span class="nc" id="L94">        return false;</span>
+    }
+
+    /**
+     * getDeviceList parses installer output for connected USB devices of the
+     * specified VID; Any matching devices are stored for return in a String
+     * Array.
+     *
+     * @param VID a String containing a four character USB vendor ID code in
+     * hexadecimal
+     * @return is a String Array of matching connected devices, null otherwise
+     */
+    public String[] getDeviceList(String VID) {
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        if (VID.isEmpty()) {</span>
+<span class="nc" id="L108">            Log.level0Error(&quot;getDeviceList() no VID specified&quot;);</span>
+<span class="nc" id="L109">            return null;</span>
+        }
+<span class="nc" id="L111">        String rawDeviceList = find(&quot;*USB\\VID_&quot; + VID + &quot;*&quot;);</span>
+
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        if (rawDeviceList == null) {</span>
+<span class="nc" id="L114">            Log.level0Error(&quot;getDeviceList() installer returned null!&quot;);</span>
+<span class="nc" id="L115">            return null;</span>
+        }
+<span class="nc" id="L117">        Pattern pattern = regexPattern(PatternChoice.MATCHINGDEVICES);</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        if (pattern == null) {</span>
+<span class="nc" id="L119">            Log.level0Error(&quot;getDeviceList() getRegExPattern() returned null!&quot;);</span>
+<span class="nc" id="L120">            return null;</span>
+        }
+<span class="nc" id="L122">        pattern = regexPattern(PatternChoice.ALLDEVICES);</span>
+
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        if (pattern == null) {</span>
+<span class="nc" id="L125">            Log.level0Error(&quot;getDeviceList() getRegExPattern() returned null!&quot;);</span>
+<span class="nc" id="L126">            return null;</span>
+        }
+<span class="nc" id="L128">        pattern = regexPattern(PatternChoice.ALLDEVICES);</span>
+<span class="nc" id="L129">        Matcher matcher = pattern.matcher(rawDeviceList);</span>
+<span class="nc" id="L130">        ArrayList&lt;String&gt; al = new ArrayList&lt;String&gt;();</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        while (matcher.find()) {</span>
+<span class="nc" id="L132">            String replacedQuote = StringOperations.removeLeadingAndTrailingSpaces(matcher.group(0).replace(&quot;\&quot;&quot;, &quot;&quot;));</span>
+<span class="nc" id="L133">            al.add(replacedQuote);</span>
+<span class="nc" id="L134">        }</span>
+<span class="nc" id="L135">        String[] retval = al.toArray(new String[al.size()]);</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        if (retval.length == 0) {</span>
+<span class="nc" id="L137">            retval = null;</span>
+        }
+<span class="nc" id="L139">        return retval;</span>
+    }
+
+    /**
+     * getDeviceList parses installer output for devices specified Any matching
+     * devices are stored for return in a String Array.
+     *
+     * @param onlyConnected boolean for presently connected devices only
+     * @param onlyUSB boolean for USB devices only
+     * @return is a String Array of matching devices, null otherwise
+     */
+    public String[] getDeviceList(boolean onlyConnected, boolean onlyUSB) {
+        String rawDeviceList;
+<span class="nc bnc" id="L152" title="All 4 branches missed.">        if (onlyConnected &amp;&amp; onlyUSB) {</span>
+<span class="nc" id="L153">            rawDeviceList = find(&quot;USB*&quot;); //All present USB devices</span>
+<span class="nc bnc" id="L154" title="All 4 branches missed.">        } else if (onlyConnected &amp;&amp; !onlyUSB) {</span>
+<span class="nc" id="L155">            rawDeviceList = find(&quot;*&quot;); //All present devices</span>
+<span class="nc bnc" id="L156" title="All 4 branches missed.">        } else if (!onlyConnected &amp;&amp; onlyUSB) {</span>
+<span class="nc" id="L157">            rawDeviceList = findall(&quot;USB*&quot;); //All installed USB devices</span>
+        } else {
+<span class="nc" id="L159">            rawDeviceList = findall(&quot;*&quot;); //All installed devices</span>
+        }
+<span class="nc bnc" id="L161" title="All 2 branches missed.">        if (rawDeviceList == null) {</span>
+<span class="nc" id="L162">            Log.level0Error(&quot;getDeviceList() installer returned null!&quot;);</span>
+<span class="nc" id="L163">            return null;</span>
+        }
+<span class="nc" id="L165">        Pattern pattern = regexPattern(PatternChoice.MATCHINGDEVICES);</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">        if (pattern == null) {</span>
+<span class="nc" id="L167">            Log.level0Error(&quot;getDeviceList() getRegExPattern() returned null!&quot;);</span>
+<span class="nc" id="L168">            return null;</span>
+        }
+<span class="nc" id="L170">        pattern = regexPattern(PatternChoice.ALLDEVICES);</span>
+<span class="nc" id="L171">        Matcher matcher = pattern.matcher(rawDeviceList);</span>
+<span class="nc" id="L172">        ArrayList&lt;String&gt; al = new ArrayList&lt;String&gt;();</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">        while (matcher.find()) {</span>
+<span class="nc" id="L174">            String replacedQuote = StringOperations.removeLeadingAndTrailingSpaces(matcher.group(0).replace(&quot;\&quot;&quot;, &quot;&quot;));</span>
+<span class="nc" id="L175">            al.add(replacedQuote);</span>
+<span class="nc" id="L176">        }</span>
+<span class="nc" id="L177">        String[] retval = al.toArray(new String[al.size()]);</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">        if (retval.length == 0) {</span>
+<span class="nc" id="L179">            retval = null;</span>
+        }
+<span class="nc" id="L181">        return retval;</span>
+    }
+
+    /**
+     * regexPattern returns a Pattern Object of the requested REGEX pattern.
+     *
+     * @param whatPattern a predefined String name for a REGEX pattern.
+     * @return a compiled REGEX Pattern if requested pattern exists, otherwise
+     * null.
+     */
+    public Pattern regexPattern(PatternChoice whatPattern) {
+<span class="nc bnc" id="L192" title="All 7 branches missed.">        switch (whatPattern) {</span>
+            case ORPHANS:
+<span class="nc" id="L194">                return Pattern.compile(&quot;USB.?VID_[0-9a-fA-F]{4}&amp;PID_[0-9a-fA-F]{4}.*(?=:\\s[CASUAL's|Samsung]+\\s[Android\\sDevice])&quot;);</span>
+            case CASUALDRIVER:
+<span class="nc" id="L196">                return Pattern.compile(&quot;USB.?VID_[0-9a-fA-F]{4}&amp;PID_[0-9a-fA-F]{4}.*(?=:\\s[CASUAL's|Samsung]+\\s[Android\\sDevice])&quot;);</span>
+            case INF:
+<span class="nc" id="L198">                return Pattern.compile(&quot;[o|Oe|Em|M]{3}[0-9]{1,4}\\.inf(?=\\s*Provider:\\slibusbK\\s*Class:\\s*libusbK USB Devices)&quot;);</span>
+            case INSTALL:
+<span class="nc" id="L200">                return Pattern.compile(&quot;USB.?VID_[0-9a-fA-F]{4}&amp;PID_[0-9a-fA-F]{4}(?=.*:)&quot;);</span>
+            case MATCHINGDEVICES:
+<span class="nc" id="L202">                return Pattern.compile(&quot;(?&lt;=\\s)[0-9]{1,3}?(?=[\\smatching\\sdevice\\(s\\)\\sfound])&quot;);</span>
+            case ALLDEVICES:
+<span class="nc" id="L204">                return Pattern.compile(&quot;\\S+(?=\\s*:\\s)&quot;);</span>
+            default:
+<span class="nc" id="L206">                Log.level0Error(&quot;getRegExPattern() no known pattern requested&quot;);</span>
+<span class="nc" id="L207">                return null;</span>
+        }
+    }
+
+    /**
+     * getCASUALDriverCount parses installer output for all CASUAL driver
+     * installations and returns an integer count
+     *
+     * @return integer count of CASUAL driver installs
+     */
+    public int getCASUALDriverCount() {
+<span class="nc" id="L218">        int devCount = 0;</span>
+<span class="nc" id="L219">        String outputBuffer = findall(&quot;USB*&quot;);</span>
+<span class="nc bnc" id="L220" title="All 2 branches missed.">        if (outputBuffer == null) {</span>
+<span class="nc" id="L221">            Log.level0Error(&quot;removeOrphanedDevices() installer returned null!&quot;);</span>
+<span class="nc" id="L222">            return 0;</span>
+        }
+<span class="nc" id="L224">        Pattern pattern = regexPattern(PatternChoice.CASUALDRIVER);</span>
+<span class="nc bnc" id="L225" title="All 2 branches missed.">        if (pattern == null) {</span>
+<span class="nc" id="L226">            Log.level0Error(&quot;removeOrphanedDevices() getRegExPattern() returned null!&quot;);</span>
+<span class="nc" id="L227">            return 0;</span>
+        }
+<span class="nc" id="L229">        Matcher matcher = pattern.matcher(outputBuffer);</span>
+<span class="nc bnc" id="L230" title="All 2 branches missed.">        while (matcher.find()) {</span>
+<span class="nc" id="L231">            devCount++;</span>
+        }
+<span class="nc" id="L233">        return devCount;</span>
+    }
+
+    public String update(String HWID) {
+<span class="nc bnc" id="L237" title="All 2 branches missed.">        if (!HWID.isEmpty()) {</span>
+<span class="nc" id="L238">            return sendCommand(&quot;update &quot; + pathToCADI + &quot;cadi.inf &quot; + &quot;\&quot;&quot; + HWID);</span>
+        } else {
+<span class="nc" id="L240">            return null;</span>
+        }
+    }
+
+    public String remove(String HWID) {
+<span class="nc bnc" id="L245" title="All 2 branches missed.">        if (!HWID.isEmpty()) {</span>
+<span class="nc" id="L246">            return sendCommand(&quot;remove &quot; + HWID);</span>
+        } else {
+<span class="nc" id="L248">            return null;</span>
+        }
+    }
+
+    public String delete(String infName) {
+<span class="nc bnc" id="L253" title="All 2 branches missed.">        if (!infName.isEmpty()) {</span>
+<span class="nc" id="L254">            return sendCommand(&quot;-f dp_delete &quot; + infName);</span>
+        } else {
+<span class="nc" id="L256">            return null;</span>
+        }
+    }
+
+    public String find(String searchString) {
+<span class="nc bnc" id="L261" title="All 2 branches missed.">        if (!searchString.isEmpty()) {</span>
+<span class="nc" id="L262">            return sendCommand(&quot;find &quot; + searchString);</span>
+        } else {
+<span class="nc" id="L264">            return null;</span>
+        }
+    }
+
+    public String findall(String searchString) {
+<span class="nc bnc" id="L269" title="All 2 branches missed.">        if (!searchString.isEmpty()) {</span>
+<span class="nc" id="L270">            return sendCommand(&quot;findall &quot; + searchString);</span>
+        } else {
+<span class="nc" id="L272">            return null;</span>
+        }
+    }
+
+    public String enumerate() {
+<span class="nc" id="L277">        return sendCommand(&quot;dp_enum&quot;);</span>
+    }
+
+    public boolean rescan() {
+<span class="nc" id="L281">        return (sendCommand(&quot;rescan&quot;).contains(&quot;Scanning for new hardware&quot;));</span>
+    }
+
+    private String sendCommand(String cmd) {
+<span class="nc bnc" id="L285" title="All 2 branches missed.">        String retval, exec = pathToCADI + (OSTools.is64bitSystem() ? &quot;driver_x64.exe &quot; : &quot;driver_x86.exe &quot;) + cmd;</span>
+<span class="nc" id="L286">        retval = new Shell().timeoutShellCommand(new String[]{&quot;cmd.exe&quot;, &quot;/C&quot;, &quot;\&quot;&quot; + exec + &quot;\&quot;&quot;}, 90000); //1000 milliseconds — one second</span>
+<span class="nc bnc" id="L287" title="All 2 branches missed.">        if (retval.contains(&quot; failed&quot;)) {</span>
+<span class="nc bnc" id="L288" title="All 2 branches missed.">            exec = pathToCADI + (OSTools.is64bitSystem() ? &quot;driver_x64_elevate.exe &quot; : &quot;driver_x86_elevate.exe &quot;) + cmd;</span>
+<span class="nc" id="L289">            retval = new Shell().timeoutShellCommand(new String[]{&quot;cmd.exe&quot;, &quot;/C&quot;, &quot;\&quot;&quot; + exec + &quot;\&quot;&quot;}, 90000); //1000 milliseconds — one second</span>
+        }
+<span class="nc" id="L291">        Log.level2Information(retval);</span>
+<span class="nc" id="L292">        return retval;</span>
+    }
+
+<span class="nc" id="L295">    public enum PatternChoice {</span>
+
+<span class="nc" id="L297">        ORPHANS, CASUALDRIVER, INF, INSTALL, MATCHINGDEVICES, ALLDEVICES</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

@@ -1,0 +1,14 @@
+$ECHO --- STARTING ----
+$ECHO --- WAITING FOR DEVICE
+wait-for-device
+$ECHO --- pushing mempodroid
+push "$ZIPFILEmempodroid" /data/local
+$ECHO --- pushing su
+push "$ZIPFILEsu" /data/local
+$ECHO --- pushing script
+push "$ZIPFILEroot.sh" /data/local
+$ECHO --- correcting permissions
+shell chmod 777 /data/local/mempodroid
+$ECHO "--- executing mempodroid and script
+shell /data/local/mempodroid 0xd6c4 0xad33 sh /data/local/root.sh
+$ECHO "All Done!"

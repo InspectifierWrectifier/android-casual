@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MD5sum.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.crypto</a> &gt; <span class="el_source">MD5sum.java</span></div><h1>MD5sum.java</h1><pre class="source lang-java linenums">/*MD5sum provides MD5 tools for use in CASUAL
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.crypto;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+
+/*
+ * Inspired by R.J. Lorimer http://www.javalobby.org/java/forums/t84420.html
+ */
+/**
+ *MD5sum provides MD5 tools for use in CASUAL
+ * @author Adam Outler adamoutler@gmail.com
+ */
+<span class="fc" id="L36">public class MD5sum {</span>
+
+    /**
+     * compares an MD5 to a file
+     *
+     * @param f file to be compared
+     * @param MD5 expected MD5
+     * @return true if matches
+     */
+    public boolean compareFileToMD5(File f, String MD5) {
+<span class="nc" id="L46">        return md5sum(f).equals(MD5.toLowerCase());</span>
+    }
+
+    /**
+     * gets MD5 of input stream
+     *
+     * @param is stream to be MD5d
+     * @return md5 of stream
+     */
+    public String md5sum(InputStream is) {
+<span class="fc" id="L56">        return md5sumStream(is);</span>
+    }
+
+    /**
+     * MD5s a file
+     *
+     * @param f file to MD5
+     * @return md5 of file
+     */
+    public String md5sum(File f) {
+        InputStream is;
+        try {
+<span class="fc" id="L68">            is = new FileInputStream(f);</span>
+<span class="fc" id="L69">            return md5sumStream(is);</span>
+<span class="nc" id="L70">        } catch (FileNotFoundException ex) {</span>
+<span class="nc" id="L71">            return &quot;ERROR0FileNotFoundException00000&quot;;</span>
+        }
+    }
+
+    /**
+     * md5s an input stream
+     *
+     * @param is stream to MD5
+     * @return md5 of stream
+     */
+    public String md5sumStream(InputStream is) {
+        try {
+<span class="fc" id="L83">            MessageDigest digest = MessageDigest.getInstance(&quot;MD5&quot;);</span>
+
+<span class="fc" id="L85">            byte[] buffer = new byte[8192];</span>
+            int read;
+            try {
+<span class="fc bfc" id="L88" title="All 2 branches covered.">                while ((read = is.read(buffer)) &gt; 0) {</span>
+<span class="fc" id="L89">                    digest.update(buffer, 0, read);</span>
+                }
+<span class="fc" id="L91">                byte[] md5sum = digest.digest();</span>
+<span class="fc" id="L92">                BigInteger bigInt = new BigInteger(1, md5sum);</span>
+<span class="fc" id="L93">                String output = bigInt.toString(16);</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">                while (output.length() != 32) {</span>
+<span class="fc" id="L95">                    output = &quot;0&quot; + output;</span>
+                }
+<span class="fc" id="L97">                return output;</span>
+
+            } finally {
+<span class="pc bpc" id="L100" title="3 of 4 branches missed.">                if (is != null) {</span>
+<span class="pc" id="L101">                    is.close();</span>
+                }
+            }
+
+<span class="nc" id="L105">        } catch (NoSuchAlgorithmException ex) {</span>
+<span class="nc" id="L106">            return &quot;ERROR0NoSuchAlgorythemException0&quot;;</span>
+
+<span class="nc" id="L108">        } catch (IOException ex) {</span>
+<span class="nc" id="L109">            return &quot;ERROR00IOException00000000000000&quot;;</span>
+        }
+
+    }
+
+    /**
+     * compares files to MD5 to verify at least one matches
+     *
+     * @param LinuxFormat MD5 to compare
+     * @param MD5Filenames filenames to be checked
+     * @return true if all MD5s were matched to files
+     */
+    public boolean compareMD5StringsFromLinuxFormatToFilenames(String[] LinuxFormat, String[] MD5Filenames) {
+<span class="nc" id="L122">        String[][] FilenamesAndMD5 = splitFilenamesAndMD5(LinuxFormat);</span>
+<span class="nc" id="L123">        boolean[] matches = new boolean[MD5Filenames.length];</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        for (int n = 0; n &lt; MD5Filenames.length; n++) { //loop through files</span>
+<span class="nc" id="L125">            matches[n] = false; //set match as false by default</span>
+<span class="nc" id="L126">            String md5 = md5sum(new File(MD5Filenames[n]));// get MD5 for current file</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">            for (int nn = 0; nn &lt; FilenamesAndMD5.length; nn++) { //find MD5 in lookup table</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">                if (md5.length() != 32) { //if md5 is found while looping through lookup table set match true</span>
+<span class="nc" id="L129">                    matches[n] = true;</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">                } else if (md5.equals(FilenamesAndMD5[nn][0])) { //or if it is not an actual MD5 set as true;</span>
+<span class="nc" id="L131">                    matches[n] = true;</span>
+                }
+
+            }
+
+
+        }
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        for (int n = 0; n &lt; matches.length; n++) { //loop through all values</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">            if (matches[n] == false) {</span>
+<span class="nc" id="L140">                return false; //if all values don't match, return false</span>
+            }
+        }
+
+<span class="nc" id="L144">        return true;</span>
+    }
+
+    private String[][] splitFilenamesAndMD5(String[] idStrings) {
+<span class="nc" id="L148">        final int ROWS = idStrings.length;</span>
+<span class="nc" id="L149">        int COLUMNS = 2;</span>
+<span class="nc" id="L150">        final String[][] NameMD5 = new String[ROWS][COLUMNS];</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        for (int n = 0; n &lt; ROWS; n++) {</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">            if (idStrings[n].contains(&quot;  &quot;)) {</span>
+<span class="nc" id="L153">                String[] splitID = idStrings[n].split(&quot;  &quot;);</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">                if (splitID.length == 2) {</span>
+<span class="nc bnc" id="L155" title="All 4 branches missed.">                    if (splitID[0] != null &amp;&amp; splitID[1] != null) {</span>
+<span class="nc" id="L156">                        NameMD5[n][0] = splitID[0];</span>
+<span class="nc" id="L157">                        NameMD5[n][1] = splitID[1];</span>
+                        //this is a valid MD5 split
+                    } else {
+                        //spoof empty string
+<span class="nc" id="L161">                        NameMD5[n][0] = &quot;&quot;;</span>
+<span class="nc" id="L162">                        NameMD5[n][1] = &quot;&quot;;</span>
+                    }
+
+                } else {
+                    //spoof empty string;
+<span class="nc" id="L167">                    NameMD5[n][0] = &quot;&quot;;</span>
+<span class="nc" id="L168">                    NameMD5[n][1] = &quot;&quot;;</span>
+                }
+            }
+        }
+<span class="nc" id="L172">        return NameMD5;</span>
+    }
+
+    /**
+     * MD5Sums a file
+     * @param string representation of path to file on hard disk. 
+     * @return MD5Sum of file. 
+     */
+    public String md5sum(String string) {
+<span class="fc" id="L181">        return md5sum(new File(string));</span>
+
+    }
+
+    /**
+     * splits a Linux MD5sum value into a md5 and a filename
+     *
+     * @param md5 linux md5 sum
+     * @return md5,filename
+     */
+    public String[] splitMD5String(String md5) {
+<span class="nc" id="L192">        String[] retval = md5.split(&quot;  &quot;);</span>
+<span class="nc" id="L193">        return retval;</span>
+    }
+
+    /**
+     * returns MD5 from a linux md5sum
+     *
+     * @param md5 linux MD5sum
+     * @return md5
+     */
+    public String getMD5fromLinuxMD5String(String md5) {
+<span class="nc" id="L203">        return splitMD5String(md5)[0];</span>
+    }
+
+    /**
+     * Returns the standard md5sum found on Linux as though the file were in the
+     * same directory
+     *
+     * @param file to be MD5sum'd
+     * @return 32digitMd5Sum+&quot; &quot;+file.Name
+     */
+    public String getLinuxMD5Sum(File file) {
+<span class="fc" id="L214">        String md5 = this.md5sum(file);</span>
+<span class="fc" id="L215">        String filename = file.getName();</span>
+<span class="fc" id="L216">        return convertMD5andFiletoLinuxMD5Sum(md5, filename);</span>
+
+
+    }
+
+    /**
+     * Returns the standard md5sum found on Linux as though the file were in the
+     * same directory
+     *
+     * @param stream to be MD5sum'd
+     * @param filename to append to the stream
+     * @return 32digitMd5Sum+&quot; &quot;+file.Name
+     */
+    public String getLinuxMD5Sum(InputStream stream, String filename) {
+<span class="fc" id="L230">        String md5 = this.md5sum(stream);</span>
+<span class="fc" id="L231">        return convertMD5andFiletoLinuxMD5Sum(md5, filename);</span>
+
+
+
+    }
+
+    /**
+     * gets filename from linux md5sum
+     *
+     * @param md5 linux md5sum
+     * @return filename of md5sum input
+     */
+    public String getFileNamefromLinuxMD5String(String md5) {
+<span class="nc" id="L244">        String[] s = splitMD5String(md5);</span>
+<span class="nc bnc" id="L245" title="All 2 branches missed.">        if (s.length &gt; 0) {</span>
+<span class="nc" id="L246">            return s[1];</span>
+        }
+<span class="nc" id="L248">        return s[0];</span>
+    }
+
+    /**
+     * returns a standard md5sum
+     *
+     * @param md5 md5 to be inserted
+     * @param filename filename to be appended
+     * @return linux md5sum
+     */
+    public String convertMD5andFiletoLinuxMD5Sum(String md5, String filename) {
+<span class="fc" id="L259">        return md5 + &quot;  &quot; + filename;</span>
+    }
+
+    /**
+     * tests to see if a line matches an md5sum
+     *
+     * @param testLine line in question
+     * @return true if this is contains a 32 byte hex string
+     */
+    public boolean lineContainsMD5(String testLine) {
+<span class="nc" id="L269">        boolean x = testLine.matches(&quot;([0-9a-f]{32}([\\s\\S]*))&quot;);</span>
+<span class="nc" id="L270">        return x;</span>
+    }
+
+    /**
+     * picks the new MD5 if available
+     *
+     * @param newMd5List new MD5s
+     * @param OldMD5 old md5s
+     * @return new md5s if available
+     */
+    public String pickNewMD5fromArrayList(ArrayList&lt;String&gt; newMd5List, String OldMD5) {
+<span class="nc" id="L281">        String[] md5FileSplit = OldMD5.split(&quot;  &quot;);</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">        for (Object item : newMd5List.toArray()) {</span>
+<span class="nc bnc" id="L283" title="All 2 branches missed.">            if (((String) item).endsWith(md5FileSplit[1])) {</span>
+<span class="nc" id="L284">                return (String) item;</span>
+            }
+
+        }
+<span class="nc" id="L288">        return OldMD5;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

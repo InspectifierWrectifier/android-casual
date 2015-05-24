@@ -1,0 +1,9 @@
+$ADB install "$ZIPFILEframaroot.apk"
+$USERNOTIFICATION  Perform Actions, I've installed an app called "framaroot"\nPlease do the following:\n launch the app\n then select SuperSU and Frodo.  Then click OK on this window
+$ADB reboot
+$ADB wait-for-device
+$ADB shell "su -c 'mount -o remount,RW /system'"
+$ADB shell "mkdir /data/local/tmp"
+$ADB push "$ZIPFILEapns-conf.xml" /data/local/tmp/apns-conf.xml
+$ADB shell "su -c 'cat /data/local/tmp/apns-conf>/system/etc/apns-conf.xml'" 
+$ADB reboot

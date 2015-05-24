@@ -1,0 +1,1 @@
+This will install the apks from your casual folder to your device.

@@ -1,0 +1,2 @@
+$ADB reboot download
+$HEIMDALL flash --CACHE "$ZIPFILEcache.img" --RECOVERY "$ZIPFILErecovery.img"

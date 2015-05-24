@@ -1,0 +1,93 @@
+\hypertarget{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install}{\section{C\-A\-S\-U\-A\-L.\-communicationstools.\-heimdall.\-drivers.\-Driver\-Install Class Reference}
+\label{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install}\index{C\-A\-S\-U\-A\-L.\-communicationstools.\-heimdall.\-drivers.\-Driver\-Install@{C\-A\-S\-U\-A\-L.\-communicationstools.\-heimdall.\-drivers.\-Driver\-Install}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a3973890d1a2927f6df5cc86afa09434a}{Driver\-Install} (int prompt\-Init)
+\item 
+\hypertarget{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a244d7701888d5a8b2a308f7d942bacaf}{boolean {\bfseries install\-Known\-Drivers} ()}\label{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a244d7701888d5a8b2a308f7d942bacaf}
+
+\item 
+\hypertarget{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a18f48b07185e6c00735b8475f2915804}{Array\-List$<$ String\mbox{[}$\,$\mbox{]}$>$ {\bfseries parse\-Uid\-Vid\-From\-Qualified\-Devices} (Array\-List$<$ String $>$ qualified\-Devices, Array\-List$<$ String\mbox{[}$\,$\mbox{]}$>$ uid\-Vid)}\label{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a18f48b07185e6c00735b8475f2915804}
+
+\item 
+\hypertarget{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a0e507190d24893459acf15fa40d59d65}{Array\-List$<$ String $>$ {\bfseries add\-Device\-To\-Installation\-Queue\-If\-In\-List} (Array\-List$<$ String $>$ installqueue, String device)}\label{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a0e507190d24893459acf15fa40d59d65}
+
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a3973890d1a2927f6df5cc86afa09434a}{Driver\-Install} (int prompt\-Init)
+\item 
+\hypertarget{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a244d7701888d5a8b2a308f7d942bacaf}{boolean {\bfseries install\-Known\-Drivers} ()}\label{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a244d7701888d5a8b2a308f7d942bacaf}
+
+\item 
+\hypertarget{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a18f48b07185e6c00735b8475f2915804}{Array\-List$<$ String\mbox{[}$\,$\mbox{]}$>$ {\bfseries parse\-Uid\-Vid\-From\-Qualified\-Devices} (Array\-List$<$ String $>$ qualified\-Devices, Array\-List$<$ String\mbox{[}$\,$\mbox{]}$>$ uid\-Vid)}\label{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a18f48b07185e6c00735b8475f2915804}
+
+\item 
+\hypertarget{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a0e507190d24893459acf15fa40d59d65}{Array\-List$<$ String $>$ {\bfseries add\-Device\-To\-Installation\-Queue\-If\-In\-List} (Array\-List$<$ String $>$ installqueue, String device)}\label{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a0e507190d24893459acf15fa40d59d65}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static volatile int \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a12318e9687dad09e3f4978e7befd789b}{remove\-Driver\-On\-Completion}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+ \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install}{Driver\-Install} a.\-k.\-a. C\-A\-D\-I(v2) or (C\-A\-S\-U\-A\-L\-S Automated Driver Installer) is a C\-A\-S\-U\-A\-Lcore dependant class which attempts to automate \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L} process on Windows (Vista -\/ Win8) A generic driver is required for U\-S\-B I\-O via \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L}. This driver must temporarily take the place of the default O\-E\-M driver of targeted device (which must be currently connected). While many O\-E\-Ms use Win\-U\-S\-B (or compatible alternative) as a device interface, \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L} is not able communicate with the target because of proprietary (undocumented) driver service A\-P\-I. However once the generic driver is installed \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L} using reverse engineered open-\/source tools such as Heimdall -\/ \href{http://goo.gl/bqeulW}{\tt http\-://goo.\-gl/bqeul\-W} is able to interact with the target device directly.
+
+This class is heavily dependant upon R\-E\-G\-E\-X and a modified version of Devcon (M\-S-\/\-L\-P\-L). C\-A\-D\-I uses libusb\-K, which is a generic Win\-U\-S\-B compatible driver for libusbx communication via Heimdall. The drivers which are used (containing both an x86/x64 variant)are built with W\-D\-K 8.\-1 (for Windows 8.\-1 support). All driver components are built \& digitally signed by Jeremy Loper.
+
+W\-A\-R\-N\-I\-N\-G\-: Modifications to this class can result in system-\/wide crash of Windows. (I know, I've seen it \-:-\/\-D ) So plan out all modifications prior, and always ensure a null value is never passed to the installer.
+
+\begin{DoxyAuthor}{Author}
+Jeremy Loper \href{mailto:jrloper@gmail.com}{\tt jrloper@gmail.\-com} 
+
+Adam Outler \href{mailto:adamoutler@gmail.com}{\tt adamoutler@gmail.\-com} 
+
+ 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a3973890d1a2927f6df5cc86afa09434a}{\index{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::drivers\-::\-Driver\-Install@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::drivers\-::\-Driver\-Install}!Driver\-Install@{Driver\-Install}}
+\index{Driver\-Install@{Driver\-Install}!CASUAL::communicationstools::heimdall::drivers::DriverInstall@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::drivers\-::\-Driver\-Install}}
+\subsubsection[{Driver\-Install}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-communicationstools.\-heimdall.\-drivers.\-Driver\-Install.\-Driver\-Install (
+\begin{DoxyParamCaption}
+\item[{int}]{prompt\-Init}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a3973890d1a2927f6df5cc86afa09434a}
+Windows\-Drivers instantiates the windows driver class.
+
+
+\begin{DoxyParams}{Parameters}
+{\em prompt\-Init} & initializes remove\-Driver\-On\-Completion member and subsequent prompting action. 0 -\/ Unset (will prompt user) (default) 1 -\/ Do not remove driver on completion 2 -\/ Remove driver on script completion \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a3973890d1a2927f6df5cc86afa09434a}{\index{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::drivers\-::\-Driver\-Install@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::drivers\-::\-Driver\-Install}!Driver\-Install@{Driver\-Install}}
+\index{Driver\-Install@{Driver\-Install}!CASUAL::communicationstools::heimdall::drivers::DriverInstall@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::drivers\-::\-Driver\-Install}}
+\subsubsection[{Driver\-Install}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-communicationstools.\-heimdall.\-drivers.\-Driver\-Install.\-Driver\-Install (
+\begin{DoxyParamCaption}
+\item[{int}]{prompt\-Init}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a3973890d1a2927f6df5cc86afa09434a}
+Windows\-Drivers instantiates the windows driver class.
+
+
+\begin{DoxyParams}{Parameters}
+{\em prompt\-Init} & initializes remove\-Driver\-On\-Completion member and subsequent prompting action. 0 -\/ Unset (will prompt user) (default) 1 -\/ Do not remove driver on completion 2 -\/ Remove driver on script completion \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a12318e9687dad09e3f4978e7befd789b}{\index{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::drivers\-::\-Driver\-Install@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::drivers\-::\-Driver\-Install}!remove\-Driver\-On\-Completion@{remove\-Driver\-On\-Completion}}
+\index{remove\-Driver\-On\-Completion@{remove\-Driver\-On\-Completion}!CASUAL::communicationstools::heimdall::drivers::DriverInstall@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::drivers\-::\-Driver\-Install}}
+\subsubsection[{remove\-Driver\-On\-Completion}]{\setlength{\rightskip}{0pt plus 5cm}static volatile int C\-A\-S\-U\-A\-L.\-communicationstools.\-heimdall.\-drivers.\-Driver\-Install.\-remove\-Driver\-On\-Completion\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1drivers_1_1_driver_install_a12318e9687dad09e3f4978e7befd789b}
+remove\-Driver\-On\-Completion is a primarily user set variable, relating to driver package un-\/installation. Should driver be removed on script completion? 0 -\/ Unset (will prompt user) 1 -\/ Do not remove driver on completion 2 -\/ Remove driver on script completion This Member is populated on Class Object creation. 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/build/classes/\-C\-A\-S\-U\-A\-L/communicationstools/heimdall/drivers/Driver\-Install.\-java\end{DoxyCompactItemize}

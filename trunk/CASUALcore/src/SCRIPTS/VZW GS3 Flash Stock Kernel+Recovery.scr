@@ -1,0 +1,11 @@
+$ECHO Pushing boot.img to device
+push "$ZIPFILEboot.img" /sdcard/
+$ECHO Pushing recovery.img to device
+push "$ZIPFILErecovery.img" /sdcard/
+$ECHO Flashing boot.img
+shell su -c "dd if=/sdcard/boot.img of=/dev/block/mmcblk0p7 bs=256k;sync"
+$ECHO Flashing recovery.img
+shell su -c "dd if=/sdcard/recovery.img of=/dev/block/mmcblk0p18 bs=256k;sync"
+$USERCANCELOPTION Reboot, Your device will now reboot.
+reboot
+$ECHO Use an app like TriangleAway to remove the custom kernel indicator.

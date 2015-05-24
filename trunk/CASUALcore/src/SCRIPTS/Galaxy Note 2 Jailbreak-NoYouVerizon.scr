@@ -1,0 +1,63 @@
+$USERCANCELOPTION Are you sure?, This is your only warning.\n You will be Unlocked and Rooted. Your device will\n reboot once and then again into Odin mode.  CASUAL\n will then flash the No You Verizon Bootloader\n package for you.
+
+$ECHO Rebooting into download mode
+$ADB reboot download
+$HEIMDALL flash --pit "$ZIPFILEsch-i605-16gb.pit" --repartition --BOOTLOADER "$ZIPFILEsboot.bin" --8 "$ZIPFILEboot.img"
+
+
+
+$ECHO Your device should be rebooting into Android now.
+$ADB wait-for-device
+#Reboot to clear logs
+shell "mkdir /data/local/tmp"
+$ECHO Pushing dependencies
+$ECHO Pushing su binary...
+push "$ZIPFILEsu" /data/local/tmp/
+$ECHO Pushing SuperSU app...
+push "$ZIPFILESuperuser.apk" /data/local/tmp/
+$ECHO Pushing Exynos-Abuse exploit
+push "$ZIPFILEexynos-abuse" /data/local/tmp/
+$ECHO Pushing root script
+push "$ZIPFILErootGN.sh" /data/local/tmp/
+
+
+$ECHO Pushing pit
+push "$ZIPFILEexploit" /data/local/tmp/
+
+$ECHO Setting Permissions....
+shell "chmod 777 /data/local/tmp/su"
+shell "chmod 777 /data/local/tmp/Superuser.apk"
+shell "chmod 777 /data/local/tmp/exynos-abuse"
+shell "chmod 777 /data/local/tmp/rootGN.sh"
+$ECHO Executing Root Exploit.
+shell "/data/local/tmp/exynos-abuse </data/local/tmp/rootGN.sh"
+
+$ECHO [x]Ready for exploit
+
+
+#Verify Device is proper
+$IFNOTCONTAINS 3.0.31-414933 $INCOMMAND shell "cat /proc/version" $DO $USERCANCELOPTION Improper kernel, I have detected an unsupported kernel\n  You may continue if you are rooted. Otherwise click stop\n and restart the procedure.
+$ON noroot, $HALT $ECHO WHAT THE HELL ARE YOU DOING?  I EVEN GAVE YOU A DAMN WARNING.. DEVICE IS NOT ROOTED! ROOT YOUR DEVICE OR INSTALL THE KERNEL! Install any VRALJB kernel and disable any exploit killers --Adam Outler
+shell "su -c 'ls 2>&1 >/dev/null && echo [x]Found rooted device || echo noroot'"
+$CLEARON 
+
+$ECHO [x]Device Verification Checks Complete
+$ECHO [x]Ready for exploit
+$ECHO Injecting Code 
+shell "su -c 'dd if=/data/local/tmp/exploit of=/dev/block/mmcblk0 bs=512 seek=34 count=16'"
+$ECHO [x]Exploit Injection Done.
+reboot download
+
+$ECHO your device is now rebooting into a totally insecure download mode.  Press the Volume Up buton when requested by Download Mode.  You will then flash the Suck It Verizon bootloader located here: http://d-h.st/DQG.   Upon completion of this step, you will be rebooted into TWRP Recovery.  CASUAL will wait for you to complete the insecure flash of the No You Verizon Bootloader. 
+
+$HEIMDALL flash --82 "$ZIPFILEswagBoot" --60 "$ZIPFILErecoverThis"
+$ECHO waiting for device
+
+
+
+#END OF SCRIPT
+wait-for-device
+reboot recovery
+$ECHO Rebooting into recovery
+$USERNOTIFICATION Congratulations, You should be unlocked!
+

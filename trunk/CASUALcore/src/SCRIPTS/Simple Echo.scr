@@ -1,0 +1,1 @@
+$USERINPUTBOX "Simple echo", "whatever you type in here\n will be returned in the main window", shell "echo this is returned from the device: $USERINPUT"

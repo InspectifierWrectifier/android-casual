@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Translations.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL</a> &gt; <span class="el_source">Translations.java</span></div><h1>Translations.java</h1><pre class="source lang-java linenums">/*Translations provides tools for translating strings for CASUAL
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+/**
+ * Provides translations for the CASUAL project
+ * @author Adam Outler adamoutler@gmail.com
+ */
+<span class="nc" id="L26">public class Translations {</span>
+
+    //language resource bundle
+    static ResourceBundle translation;
+
+    /**
+     * Returns translated string from translation Resource Bundle. Checks to
+     * make sure there is a valid resource file. Default locale is loaded if
+     * required. The input String is split by &quot; &quot; and &quot;\n&quot;. If the split values
+     * start with the (at) character, a translation is attempted.
+     *
+     * @param line string to be translated
+     * @return translated line
+     */
+    public static String get(String line) {
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (translation == null) {</span>
+<span class="fc" id="L42">            Translations.setDefaultLanguage();</span>
+        }
+
+<span class="fc" id="L45">        Log.level4Debug(&quot;[TRANSLATION][&quot;+Locale.getDefault().getDisplayLanguage()+ &quot;]&quot; + line);</span>
+        //get translation
+<span class="fc" id="L47">        String[] splitRef = line.split(&quot;( )|(\n)&quot;);</span>
+<span class="fc" id="L48">        String retVal = &quot;&quot;;</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        for (String ref : splitRef) {</span>
+<span class="pc bpc" id="L50" title="1 of 6 branches missed.">            if (translation != null &amp;&amp; !ref.isEmpty() &amp;&amp; ref.startsWith(&quot;@&quot;)) {</span>
+                try {
+<span class="fc" id="L52">                    retVal = line.replace(ref, translation.getString(ref));</span>
+<span class="fc" id="L53">                } catch (java.util.MissingResourceException ex) {</span>
+<span class="fc" id="L54">                    Log.level3Verbose(&quot;*****MISSING TRANSLATION VALUE***** for &quot;+ref+&quot; &quot;);</span>
+<span class="fc" id="L55">                }</span>
+            }
+        }
+<span class="fc" id="L58">        return retVal;</span>
+    }
+
+    /**
+     * Sets language by Locale. If the translation is missing, the default is
+     * CASUAL/resources/Translations/English.properties.
+     */
+    private static void setDefaultLanguage() {
+<span class="fc" id="L66">        String lang = Locale.getDefault().getDisplayLanguage();</span>
+        try {
+            
+<span class="fc" id="L69">            translation = ResourceBundle.getBundle(&quot;CASUAL/resources/Translations/&quot;+lang, Locale.getDefault());</span>
+<span class="nc" id="L70">        } catch (Exception e) {</span>
+<span class="nc" id="L71">            translation = ResourceBundle.getBundle(&quot;CASUAL/resources/Translations/English&quot;);</span>
+<span class="nc" id="L72">            Log.level3Verbose(&quot;Language &quot; + lang + &quot; was not found in CASUAL/resources/Translations/&quot; + lang + &quot;.properties.  CASUAL will accept translations.  Defaulting to english. &quot;);</span>
+<span class="fc" id="L73">        }</span>
+<span class="fc" id="L74">    }</span>
+
+    /**
+     * Sets up a translation language for testing CASUAL. If the translation is
+     * missing, the default is CASUAL/resources/Translations/English.properties.
+     *
+     * @param lang attempts to load specified language.
+     */
+    public void setLanguage(String lang) {
+        try {
+<span class="nc" id="L84">            translation = ResourceBundle.getBundle(&quot;CASUAL/resources/Translations/&quot; + lang);</span>
+<span class="nc" id="L85">        } catch (Exception e) {</span>
+<span class="nc" id="L86">            translation = ResourceBundle.getBundle(&quot;CASUAL/resources/Translations/English&quot;);</span>
+<span class="nc" id="L87">            Log.level3Verbose(&quot;Language &quot; + lang + &quot; was not found in CASUAL/resources/Translations/&quot; + lang + &quot;.properties.  CASUAL will accept translations.  Defaulting to english. &quot;);</span>
+<span class="nc" id="L88">        }</span>
+<span class="nc" id="L89">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

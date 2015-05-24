@@ -1,0 +1,1 @@
+This keyboard input app will allow you to type as you would on the Android Keyboard

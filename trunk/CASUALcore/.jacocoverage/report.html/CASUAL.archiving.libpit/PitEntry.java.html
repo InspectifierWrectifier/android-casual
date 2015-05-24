@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PitEntry.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.archiving.libpit</a> &gt; <span class="el_source">PitEntry.java</span></div><h1>PitEntry.java</h1><pre class="source lang-java linenums">package CASUAL.archiving.libpit;
+/*PitEntry provides a method of organizing PIT entries and storing PIT data
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
+import java.util.Arrays;
+
+/**
+ * PitEntry provides a method of organizing PIT entries and storing PIT data
+ * Original Files may be found here:
+ * https://github.com/Benjamin-Dobell/libpit--Java-/tree/master/libpit/src/au/com/glassechidna/libpit
+ * modified by: Adam Outler
+ *
+ * @author Benjamin Dobell
+ */
+public class PitEntry {
+
+    /**
+     * maximum byte length of part_name
+     */
+    public static final int PARTITION_NAME_MAX_LENGTH = 32;
+
+    /**
+     * maximum byte length of file_name
+     */
+    public static final int FILENAME_MAX_LENGTH = 32;
+
+    /**
+     * maximum byte length of fota_name
+     */
+    public static final int FOTA_NAME_MAX_LENGTH = 32;
+
+    private int bin_type;
+    private int device_type;
+    private int part_id;
+    private int part_type;
+    private int filesystem;
+    private int block_start;
+    private int block_count;
+    private int file_offset;
+    private int file_size;
+
+    /**
+     * Partition name.
+     */
+<span class="fc" id="L59">    public char[] part_name = new char[32];</span>
+
+    /**
+     * File name.
+     */
+<span class="fc" id="L64">    public char[] file_name = new char[32];</span>
+
+    /**
+     * Firmware Over The Air name.
+     */
+<span class="fc" id="L69">    public char[] fota_name = new char[32];</span>
+
+    /**
+     * Constructor for PitEntry sets default values
+     */
+<span class="fc" id="L74">    public PitEntry() {</span>
+
+<span class="fc" id="L76">        device_type = 0;</span>
+<span class="fc" id="L77">        block_start = 0;</span>
+<span class="fc" id="L78">        part_id = 0;</span>
+<span class="fc" id="L79">        part_type = 0;</span>
+<span class="fc" id="L80">        file_offset = 0;</span>
+<span class="fc" id="L81">        file_size = 0;</span>
+<span class="fc" id="L82">        block_count = 0;</span>
+<span class="fc" id="L83">        filesystem = 0;</span>
+<span class="fc" id="L84">        bin_type = 0;</span>
+<span class="fc" id="L85">    }</span>
+
+    /**
+     * matches this entries parameters against another to detect equivalence.
+     *
+     * @param otherPitEntry entry to match against
+     * @return true if match
+     */
+    public boolean matches(PitEntry otherPitEntry) {
+<span class="fc" id="L94">        return this.toString().equals(otherPitEntry.toString());</span>
+    }
+
+    /**
+     * The major hardware structure that the partition belongs to. Call
+     * processor or App Processor
+     *
+     * @return type of binary
+     */
+    public int getBinType() {
+<span class="fc" id="L104">        return bin_type;</span>
+    }
+
+    /**
+     * gets the friendly name of bin AP or CP
+     *
+     * @return AP or CP
+     */
+    public String getBinFriendlyType() {
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">        if (bin_type == 0) {</span>
+<span class="fc" id="L114">            return &quot;AP&quot;;</span>
+        } else {
+<span class="nc" id="L116">            return &quot;CP&quot;;</span>
+        }
+    }
+
+    /**
+     * binary type
+     *
+     * @param binType unsigned integer
+     */
+    public void setBinType(int binType) {
+<span class="fc" id="L126">        this.bin_type = binType;</span>
+<span class="fc" id="L127">    }</span>
+
+    /**
+     * Device Type differs per-device. generally 0=emmc.
+     *
+     * @return device type
+     */
+    public int getDevType() {
+<span class="fc" id="L135">        return device_type;</span>
+    }
+
+    /**
+     * Device Type differs per-device. generally 0=emmc.
+     *
+     * @param devType unsigned integer
+     */
+    public void setDeviceType(int devType) {
+<span class="fc" id="L144">        this.device_type = devType;</span>
+<span class="fc" id="L145">    }</span>
+
+    /**
+     * Partition ID is a number which identifies the partition
+     *
+     * @return partition identifier
+     */
+    public int getPartID() {
+<span class="fc" id="L153">        return (part_id);</span>
+    }
+
+    /**
+     * Partition ID is a number which identifies the partition
+     *
+     * @param partitionIdentifier unsigned integer
+     */
+    public void setPartID(int partitionIdentifier) {
+<span class="fc" id="L162">        this.part_id = partitionIdentifier;</span>
+<span class="fc" id="L163">    }</span>
+
+    /**
+     * Partition Type bootloader, data, bct... This is the type of partition.
+     *
+     * @return attributes field in PIT
+     */
+    public int getPartitionType() {
+<span class="fc" id="L171">        return (part_type);</span>
+    }
+
+    /**
+     * Partition Attributes
+     *
+     * @param partitionFlags unsigned integer
+     */
+    public void setPartitionType(int partitionFlags) {
+<span class="fc" id="L180">        this.part_type = partitionFlags;</span>
+<span class="fc" id="L181">    }</span>
+
+    /**
+     * rfs=0 raw=1 ext4=2
+     *
+     * @return filesystem type
+     */
+    public int getFilesystem() {
+<span class="fc" id="L189">        return filesystem;</span>
+    }
+
+    /**
+     * sets filesystem type rfs=0 raw=1 ext4=2
+     *
+     * @param filesystem unsigned integer
+     */
+    public void setFilesystem(int filesystem) {
+<span class="fc" id="L198">        this.filesystem = filesystem;</span>
+<span class="fc" id="L199">    }</span>
+
+    /**
+     * starting block on EMMC in 512b blocks
+     *
+     * @return starting block
+     */
+    public int getBlockStart() {
+<span class="fc" id="L207">        return (block_start);</span>
+    }
+
+    /**
+     * starting block on EMMC in 512b blocks
+     *
+     * @param blockStart unsigned integer
+     */
+    public void setBlockStart(int blockStart) {
+<span class="fc" id="L216">        this.block_start = blockStart;</span>
+<span class="fc" id="L217">    }</span>
+
+    /**
+     * number of 512b blocks in partition
+     *
+     * @return block count
+     */
+    public int getBlockCount() {
+<span class="fc" id="L225">        return (block_count);</span>
+    }
+
+    /**
+     * number of 512b blocks in partition
+     *
+     * @param partitionBlockCount unsigned integer
+     */
+    public void setBlockCount(int partitionBlockCount) {
+<span class="fc" id="L234">        this.block_count = partitionBlockCount;</span>
+<span class="fc" id="L235">    }</span>
+
+    /**
+     * number of blocks to offset in partition before beginning write
+     *
+     * @return block offset
+     */
+    public int getFileOffset() {
+<span class="fc" id="L243">        return (file_offset);</span>
+    }
+
+    /**
+     * number of blocks to offset in partition before beginning write
+     *
+     * @param fileOffset unsigned integer
+     */
+    public void setFileOffset(int fileOffset) {
+<span class="fc" id="L252">        this.file_offset = fileOffset;</span>
+<span class="fc" id="L253">    }</span>
+
+    /**
+     * size of file in bytes
+     *
+     * @return partition size in bytes
+     */
+    public int getFileSize() {
+<span class="fc" id="L261">        return (file_size);</span>
+    }
+
+    /**
+     * size of file in bytes
+     *
+     * @param partitionBlockSize unsigned integer
+     */
+    public void setFileSize(int partitionBlockSize) {
+<span class="fc" id="L270">        this.file_size = partitionBlockSize;</span>
+<span class="fc" id="L271">    }</span>
+
+    /**
+     * Proper name of partition used to reference flash location
+     *
+     * @return byte representation of partition name
+     */
+    public byte[] getPartitionNameBytes() {
+<span class="fc" id="L279">        return convertCharArrayToByteArray(part_name);</span>
+    }
+
+    /**
+     * Proper name of partition used to reference flash location
+     *
+     * @return partition name
+     */
+    public String getPartitionName() {
+<span class="fc" id="L288">        String partitionName = &quot;&quot;;</span>
+<span class="fc" id="L289">        return new String(part_name).trim();</span>
+    }
+    
+    /**
+     * Proper name of partition used to reference flash location
+     *
+     * @return partition name
+     */
+    public String getOdinFlashablePartitionName() {
+<span class="nc" id="L298">        String partitionName = &quot;&quot;;</span>
+<span class="nc bnc" id="L299" title="All 2 branches missed.">        for (int i = 0; i &lt; part_name.length; i++) {</span>
+            //get first part of filename
+<span class="nc bnc" id="L301" title="All 2 branches missed.">            if (part_name[i] == 0) { //break on first \0 byte.</span>
+<span class="nc" id="L302">                break;</span>
+            } else {
+<span class="nc" id="L304">                partitionName += part_name[i];</span>
+            }
+        }
+<span class="nc" id="L307">        return partitionName;</span>
+    }
+
+    /**
+     * Proper Friendly name and parameters of partition used to reference flash
+     * location
+     *
+     * @return partition name
+     */
+    public String getPartitionFriendlyName() {
+<span class="fc" id="L317">        String filename = &quot;&quot;;</span>
+<span class="fc bfc" id="L318" title="All 2 branches covered.">        for (int i = 0; i &lt; part_name.length; i++) {</span>
+            //first part of file will be filename
+<span class="fc bfc" id="L320" title="All 2 branches covered.">            if (part_name[i] != 0) {</span>
+<span class="fc" id="L321">                filename += part_name[i];</span>
+            } else { //anything after first 0 byte will be a parameter
+<span class="pc bpc" id="L323" title="1 of 4 branches missed.">                while (part_name[i] == 0 &amp;&amp; i &lt; part_name.length - 1) {</span>
+<span class="fc" id="L324">                    i++;</span>
+<span class="fc bfc" id="L325" title="All 2 branches covered.">                    if (part_name[i] != 0) {</span>
+<span class="fc" id="L326">                        filename = filename + &quot;   param: &quot; + part_name[i];</span>
+<span class="fc" id="L327">                        break;</span>
+                    }
+                }
+            }
+
+        }
+<span class="fc" id="L333">        return (filename);</span>
+    }
+
+    /**
+     * Proper name of partition used to reference flash location
+     *
+     * @param partitionName unsigned integer
+     */
+    public void setPartitionName(byte[] partitionName) {
+<span class="fc" id="L342">        part_name = convertByteArrayToCharArray(partitionName);</span>
+<span class="fc" id="L343">    }</span>
+
+    /**
+     * Proper name of partition used to reference flash location
+     *
+     * @param partitionName unsigned integer
+     */
+    public void setPartitionName(String partitionName) {
+<span class="pc bpc" id="L351" title="1 of 2 branches missed.">        if (partitionName.length() &lt; part_name.length) { // &quot;Less than&quot; due to null byte.</span>
+<span class="fc" id="L352">            part_name = Arrays.copyOf(partitionName.toCharArray(), part_name.length);</span>
+        } else {
+<span class="nc" id="L354">            partitionName = partitionName.substring(0, part_name.length - 1);</span>
+<span class="nc" id="L355">            part_name = Arrays.copyOf(partitionName.toCharArray(), part_name.length);</span>
+        }
+<span class="fc" id="L357">    }</span>
+
+    /**
+     * Name of file when transferred from device
+     *
+     * @return byte representation of filename
+     */
+    public byte[] getFileNameBytes() {
+<span class="fc" id="L365">        return convertCharArrayToByteArray(file_name);</span>
+    }
+
+    /**
+     * Name of file when transferred from device
+     *
+     * @return file name
+     */
+    public String getFilenameString() {
+<span class="fc" id="L374">        String filename = &quot;&quot;;</span>
+<span class="fc bfc" id="L375" title="All 2 branches covered.">        for (int i = 0; i &lt; file_name.length; i++) {</span>
+<span class="fc bfc" id="L376" title="All 2 branches covered.">            if (file_name[i] != 0) {</span>
+<span class="fc" id="L377">                filename += file_name[i];</span>
+            }
+        }
+<span class="fc" id="L380">        return (filename);</span>
+    }
+
+    /**
+     * Name of file when transferred from device
+     *
+     * @return file name
+     */
+    public String getFriendlyFileName() {
+<span class="fc" id="L389">        String filename = &quot;&quot;;</span>
+<span class="fc bfc" id="L390" title="All 2 branches covered.">        for (int i = 0; i &lt; file_name.length; i++) {</span>
+            //first part of file will be filename
+<span class="fc bfc" id="L392" title="All 2 branches covered.">            if (file_name[i] != 0) {</span>
+<span class="fc" id="L393">                filename += file_name[i];</span>
+            } else { //anything after first 0 byte will be a parameter
+<span class="pc bpc" id="L395" title="1 of 4 branches missed.">                while (file_name[i] == 0 &amp;&amp; i &lt; file_name.length - 1) {</span>
+<span class="fc" id="L396">                    i++;</span>
+<span class="fc bfc" id="L397" title="All 2 branches covered.">                    if (file_name[i] != 0) {</span>
+<span class="fc" id="L398">                        filename = filename + &quot;   param: &quot; + file_name[i];</span>
+<span class="fc" id="L399">                        break;</span>
+                    }
+                }
+            }
+
+        }
+<span class="fc" id="L405">        return (filename);</span>
+    }
+
+    /**
+     * Name of file when transferred from device
+     *
+     * @param filename filename in pit entry
+     */
+    public void setFilename(byte[] filename) {
+<span class="fc" id="L414">        file_name = convertByteArrayToCharArray(filename);</span>
+<span class="fc" id="L415">    }</span>
+
+    /**
+     * Name of file when transferred from device
+     *
+     * @param filename filename in pit entry
+     */
+    public void setFilename(String filename) {
+<span class="pc bpc" id="L423" title="1 of 2 branches missed.">        if (filename.length() &lt; file_name.length) { // &quot;Less than&quot; due to null byte.</span>
+<span class="fc" id="L424">            file_name = Arrays.copyOf(filename.toCharArray(), file_name.length);</span>
+        } else {
+<span class="nc" id="L426">            filename = filename.substring(0, file_name.length - 1);</span>
+<span class="nc" id="L427">            file_name = Arrays.copyOf(filename.toCharArray(), file_name.length);</span>
+        }
+<span class="fc" id="L429">    }</span>
+
+    /**
+     * Name of file when receiving an OTA update
+     *
+     * @return byte representation of FOTA name
+     */
+    public byte[] getFotaNameBytes() {
+<span class="fc" id="L437">        return convertCharArrayToByteArray(fota_name);</span>
+    }
+
+    /**
+     * Name of file when receiving an OTA update
+     *
+     * @return FOTA name
+     */
+    public String getFotaName() {
+<span class="fc" id="L446">        String fotaname = &quot;&quot;;</span>
+<span class="fc bfc" id="L447" title="All 2 branches covered.">        for (int i = 0; i &lt; fota_name.length; i++) {</span>
+<span class="fc bfc" id="L448" title="All 2 branches covered.">            if (fota_name[i] != 0) {</span>
+<span class="fc" id="L449">                fotaname += fota_name[i];</span>
+            }
+        }
+<span class="fc" id="L452">        return fotaname;</span>
+    }
+
+    /**
+     * Proper Friendly name and parameters of partition used to reference flash
+     * location
+     *
+     * @return partition name
+     */
+    public String getFOTAFriendlyName() {
+<span class="fc" id="L462">        String fotaname = &quot;&quot;;</span>
+<span class="fc bfc" id="L463" title="All 2 branches covered.">        for (int i = 0; i &lt; fota_name.length; i++) {</span>
+            //first part of file will be filename
+<span class="fc bfc" id="L465" title="All 2 branches covered.">            if (fota_name[i] != 0) {</span>
+<span class="fc" id="L466">                fotaname += fota_name[i];</span>
+            } else { //anything after first 0 byte will be a parameter
+<span class="pc bpc" id="L468" title="1 of 4 branches missed.">                while (fota_name[i] == 0 &amp;&amp; i &lt; fota_name.length - 1) {</span>
+<span class="fc" id="L469">                    i++;</span>
+<span class="fc bfc" id="L470" title="All 2 branches covered.">                    if (fota_name[i] != 0) {</span>
+<span class="fc" id="L471">                        fotaname = fotaname + &quot;   param: &quot; + fota_name[i];</span>
+<span class="fc" id="L472">                        break;</span>
+                    }
+                }
+            }
+
+        }
+
+<span class="fc" id="L479">        return (fotaname);</span>
+    }
+
+    /**
+     * Name of file when receiving an OTA update
+     *
+     * @param fotaName name to set for FOTA entry
+     */
+    public void setFotaName(byte[] fotaName) {
+<span class="fc" id="L488">        fota_name = convertByteArrayToCharArray(fotaName);</span>
+<span class="fc" id="L489">    }</span>
+
+    /**
+     * Name of file when receiving an OTA update
+     *
+     * @param fotaName name to set for FOTA entry
+     */
+    public void setFotaName(String fotaName) {
+<span class="pc bpc" id="L497" title="1 of 2 branches missed.">        if (fotaName.length() &lt; file_name.length) { // &quot;Less than&quot; due to null byte.</span>
+<span class="fc" id="L498">            fota_name = Arrays.copyOf(fotaName.toCharArray(), fota_name.length);</span>
+        } else {
+<span class="nc" id="L500">            fotaName = fotaName.substring(0, file_name.length - 1);</span>
+<span class="nc" id="L501">            fota_name = Arrays.copyOf(fotaName.toCharArray(), fota_name.length);</span>
+        }
+<span class="fc" id="L503">    }</span>
+
+    /**
+     * returns partition type friendly name bct, bootloader, data, mbr, ebr,
+     * gp1, gpt, unknown
+     *
+     * @return friendly name of the partition type
+     */
+    public String getPartitionTypeFriendlyName() {
+<span class="pc bpc" id="L512" title="8 of 10 branches missed.">        switch (this.part_type) {</span>
+            case 0:
+<span class="nc" id="L514">                return &quot;Raw&quot;;</span>
+            case 1:
+<span class="nc" id="L516">                return &quot;Bct&quot;;</span>
+            case 2:
+<span class="fc" id="L518">                return &quot;Bootloader&quot;;</span>
+            case 4:
+<span class="nc" id="L520">                return &quot;Data&quot;;</span>
+            case 5:
+<span class="fc" id="L522">                return &quot;Data&quot;;</span>
+            case 6:
+<span class="nc" id="L524">                return &quot;MBR&quot;;</span>
+            case 7:
+<span class="nc" id="L526">                return &quot;EBR&quot;;</span>
+            case 8:
+<span class="nc" id="L528">                return &quot;GP1&quot;;</span>
+            case 9:
+<span class="nc" id="L530">                return &quot;GPT&quot;;</span>
+            default:
+<span class="nc" id="L532">                return &quot;undocumented&quot;;</span>
+        }
+    }
+
+    /**
+     * gets the friendly name of the filesystem type raw, basic, enhanced, ext2,
+     * yaffs2, unknown
+     *
+     * @return friendly filesystem type name
+     */
+    public String getFilesystemTypeFriendlyName() {
+<span class="pc bpc" id="L543" title="5 of 7 branches missed.">        switch (this.filesystem) {</span>
+            case 0:
+<span class="nc" id="L545">                return &quot;raw&quot;;</span>
+            case 1:
+<span class="fc" id="L547">                return &quot;Basic&quot;;</span>
+            case 2:
+<span class="nc" id="L549">                return &quot;Enhanced&quot;;</span>
+            case 3:
+<span class="nc" id="L551">                return &quot;EXT2&quot;;</span>
+            case 4:
+<span class="nc" id="L553">                return &quot;YAFFS2&quot;;</span>
+            case 5:
+<span class="fc" id="L555">                return &quot;EXT4&quot;;</span>
+            default:
+<span class="nc" id="L557">                return &quot;undocumented&quot;;</span>
+        }
+    }
+
+    /**
+     * returns the friendly hardware type nand, emmc, spi, ide, nand_x16,
+     * unknown
+     *
+     * @return the name of the hardware device
+     */
+    public String getDeviceTypeFriendlyName() {
+<span class="pc bpc" id="L568" title="5 of 6 branches missed.">        switch (this.device_type) {</span>
+            case 1:
+<span class="nc" id="L570">                return &quot;NAND&quot;;</span>
+            case 2:
+<span class="fc" id="L572">                return &quot;EMMC&quot;;</span>
+            case 3:
+<span class="nc" id="L574">                return &quot;SPI&quot;;</span>
+            case 4:
+<span class="nc" id="L576">                return &quot;IDE&quot;;</span>
+            case 5:
+<span class="nc" id="L578">                return &quot;NAND_X16&quot;;</span>
+            default:
+<span class="nc" id="L580">                return &quot;undocumented&quot;;</span>
+
+        }
+    }
+
+    //http://stackoverflow.com/questions/3758606/how-to-convert-byte-size-into-human-readable-format-in-java
+    /**
+     * convert block count into human-readable form.
+     *
+     * @param si use SI units (KB=1000B) or binary (KiB=1024B)
+     * @return human readable bytes from block count
+     */
+    public String getBlockCountFriendly(boolean si) {
+<span class="fc" id="L593">        long bytes = (long) block_count * 512;</span>
+<span class="pc bpc" id="L594" title="1 of 2 branches missed.">        int unit = si ? 1000 : 1024;</span>
+<span class="fc bfc" id="L595" title="All 2 branches covered.">        if (bytes &lt; unit) {</span>
+<span class="fc" id="L596">            return bytes + &quot;B&quot;;</span>
+        }
+<span class="fc" id="L598">        int exp = (int) (Math.log(bytes) / Math.log(unit));</span>
+<span class="pc bpc" id="L599" title="2 of 4 branches missed.">        String pre = (si ? &quot;kMGTPE&quot; : &quot;KMGTPE&quot;).charAt(exp - 1) + (si ? &quot;&quot; : &quot;i&quot;);</span>
+<span class="fc" id="L600">        return String.format(&quot;%.1f%sB&quot;, bytes / Math.pow(unit, exp), pre);</span>
+
+    }
+
+    /**
+     * gets the partition Description of the entry in human readable form.
+     *
+     * @return partition description.
+     */
+    public String getPartitionDescritpion() {
+<span class="fc" id="L610">        String n = System.getProperty(&quot;line.separator&quot;);</span>
+<span class="fc" id="L611">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L612">        sb.append(&quot;The &quot;).append(this.getPartitionFriendlyName());</span>
+<span class="fc" id="L613">        sb.append(&quot; partition, &quot;);</span>
+<span class="pc bpc" id="L614" title="1 of 2 branches missed.">        if (this.getPartID() &gt;= 0) {</span>
+<span class="fc" id="L615">            sb.append(&quot;identified as partition number &quot;).append(this.getPartID());</span>
+        } else {
+<span class="nc" id="L617">            sb.append(&quot; is invalid&quot;);</span>
+<span class="nc" id="L618">            return sb.toString();</span>
+        }
+<span class="fc" id="L620">        sb.append(&quot;, is &quot;).append(getBlockCountFriendly(true)).append(&quot; in size and carries a &quot;)</span>
+<span class="fc" id="L621">                .append(this.getFilesystemTypeFriendlyName())</span>
+<span class="fc" id="L622">                .append(&quot; format. This partition resides on the &quot;)</span>
+<span class="fc" id="L623">                .append(this.getPartitionTypeFriendlyName())</span>
+<span class="fc" id="L624">                .append(&quot; section of the &quot;)</span>
+<span class="fc" id="L625">                .append(this.getBinFriendlyType()).append(&quot; &quot;)</span>
+<span class="fc" id="L626">                .append(this.getDeviceTypeFriendlyName()).append(&quot;.&quot;);</span>
+
+<span class="pc bpc" id="L628" title="1 of 4 branches missed.">        if (!this.getFriendlyFileName().isEmpty() &amp;&amp; !this.getFriendlyFileName().startsWith(&quot;-&quot;)) {</span>
+<span class="fc" id="L629">            sb.append(&quot; It identifies itself to Odin as &quot;).append(this.getFriendlyFileName()).append(&quot;.&quot;);</span>
+        }
+<span class="pc bpc" id="L631" title="3 of 4 branches missed.">        if (this.file_offset != 0 &amp;&amp; this.file_size != 0) {</span>
+<span class="nc" id="L632">            sb.append(&quot;The partition carries a filesize of &quot;).append(this.file_size).append(&quot; and an offset of &quot;).append(this.file_offset).append(&quot;.&quot;);</span>
+        }
+<span class="fc" id="L634">        return sb.toString();</span>
+    }
+
+    @Override
+    public String toString() {
+        /*  original entry from Heimdall
+         Binary Type: 0 (AP)
+         Device Type: 2 (MMC)
+         Identifier: 73
+         Attributes: 5 (Read/Write)
+         Update Attributes: 1 (FOTA)
+         Partition Block Size/Offset: 30777311
+         Partition Block Count: 33
+         File Offset (Obsolete): 0
+         File Size (Obsolete): 0
+         Partition Name: SGPT
+         Flash Filename: sgpt.img
+         FOTA Filename: 
+         */
+<span class="fc" id="L653">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L654">        String n = System.getProperty(&quot;line.separator&quot;);</span>
+<span class="fc" id="L655">        sb.append(&quot;ID: &quot;).append(this.part_id);</span>
+<span class="fc" id="L656">        sb.append(&quot;   Partition Name: &quot;).append(this.getPartitionFriendlyName()).append(n);</span>
+<span class="fc" id="L657">        sb.append(&quot;Filename: &quot;).append(this.getFriendlyFileName()).append(n);</span>
+<span class="fc" id="L658">        sb.append(&quot;Block Size: &quot;).append(this.block_count).append(&quot; (&quot;).append(getBlockCountFriendly(true)).append(&quot;)&quot;).append(n);</span>
+<span class="fc" id="L659">        sb.append(&quot;Block range: &quot;).append(this.block_start).append(&quot; - &quot;).append(getPartitionEndBlock());</span>
+<span class="fc" id="L660">        sb.append(&quot; (hex 0x&quot;).append(Integer.toHexString(this.block_start)).append(&quot; - 0x&quot;).append(Integer.toHexString(getPartitionEndBlock())).append(&quot;)&quot;).append(n);</span>
+<span class="fc" id="L661">        sb.append(&quot;FilesystemType: &quot;).append(this.filesystem);</span>
+<span class="fc" id="L662">        sb.append(&quot;   PartType: &quot;).append(this.part_type);</span>
+<span class="fc" id="L663">        sb.append(&quot;   DevType: &quot;).append(this.device_type);</span>
+<span class="fc" id="L664">        sb.append(&quot;   BinType: &quot;).append(this.bin_type).append(n);</span>
+<span class="fc" id="L665">        sb.append(&quot;Offset:&quot;).append(this.file_offset);</span>
+<span class="fc" id="L666">        sb.append(&quot;   Size: &quot;).append(this.file_size);</span>
+<span class="fc" id="L667">        sb.append(&quot;   FOTA: &quot;).append(this.getFOTAFriendlyName()).append(n);</span>
+<span class="fc" id="L668">        sb.append(getPartitionDescritpion());</span>
+<span class="fc bfc" id="L669" title="All 2 branches covered.">        if (this.getFotaName().contains(&quot;remained&quot;)) {</span>
+<span class="fc" id="L670">            sb.append(&quot; The partition will expand to fill the remainder of the &quot;).append(this.getDeviceTypeFriendlyName()).append(&quot;.&quot;);</span>
+        }
+<span class="fc" id="L672">        sb.append(n).append(n).append(n);</span>
+<span class="fc" id="L673">        return sb.toString();</span>
+    }
+
+    /**
+     * calculated value for partition start + partition size -1 to account for
+     * first block's usage.
+     *
+     * @return last block used by partition
+     */
+    private int getPartitionEndBlock() {
+<span class="fc" id="L683">        return this.block_start + this.block_count - 1;</span>
+    }
+
+    /**
+     * converts a byte array to an equivalent char array
+     *
+     * @param byteArray array of bytes to be converted into chars
+     * @return byte representation of char array
+     */
+    public char[] convertByteArrayToCharArray(byte[] byteArray) {
+<span class="fc" id="L693">        char[] retval = new char[byteArray.length];</span>
+<span class="fc bfc" id="L694" title="All 2 branches covered.">        for (int i = 0; i &lt; byteArray.length; i++) {</span>
+<span class="fc" id="L695">            retval[i] = (char) byteArray[i];</span>
+        }
+<span class="fc" id="L697">        return retval;</span>
+    }
+
+    /**
+     * converts a char array to an equivalent byte array
+     *
+     * @param charArray array to be converted into bytes
+     * @return byte representation of char array
+     */
+    public byte[] convertCharArrayToByteArray(char[] charArray) {
+<span class="fc" id="L707">        byte[] retval = new byte[charArray.length];</span>
+<span class="fc bfc" id="L708" title="All 2 branches covered.">        for (int i = 0; i &lt; charArray.length; i++) {</span>
+<span class="fc" id="L709">            retval[i] = (byte) charArray[i];</span>
+        }
+<span class="fc" id="L711">        return retval;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

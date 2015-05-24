@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CASUALTools.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL</a> &gt; <span class="el_source">CASUALTools.java</span></div><h1>CASUALTools.java</h1><pre class="source lang-java linenums">/*CASUALTools is a miscellanious helper class
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL;
+
+import CASUAL.caspac.Caspac;
+import CASUAL.communicationstools.adb.ADBTools;
+import CASUAL.crypto.MD5sum;
+import CASUAL.misc.LinkedProperties;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * Provides a set of tools used in CASUAL 
+ * @author Adam Outler adamoutler@gmail.com
+ */
+<span class="fc" id="L37">public class CASUALTools {</span>
+    //final public String defaultPackage=&quot;ATT GS3 Root&quot;;
+
+    /**
+     * true if this is running on the flat filesystem. False if in a jar.
+     */
+<span class="fc" id="L43">    final public static boolean IDEMode = new CASUALTools().getIDEMode();</span>
+
+    
+    //CASUALZipPrep
+    /**
+     * thread used for preparing zip file. this should never be interrupted.
+     */
+    public static Thread zipPrep;
+
+
+    /**
+     * provides a runnable object for updating MD5s
+     */
+<span class="fc" id="L56">    public static Runnable updateMD5s = new Runnable() {</span>
+        @Override
+        public void run() {
+<span class="fc" id="L59">            new CASUALTools().md5sumTestScripts();</span>
+<span class="fc" id="L60">        }</span>
+    };
+
+    //This is only used in IDE mode for development
+    /**
+     * rewrites MD5s in the provided CASPAC. note: This is only used in IDE mode
+     * for development
+     *
+     * @param sd SessionData for this run
+     * @param CASPAC file to be checked and have MD5s rewritten.
+     */
+    public static void rewriteMD5OnCASPAC(CASUALSessionData sd,File CASPAC) {
+
+        Caspac caspac;
+        try {
+<span class="nc" id="L75">            caspac = new Caspac(sd,CASPAC, sd.getTempFolder(), 0);</span>
+<span class="nc" id="L76">            caspac.load();</span>
+<span class="nc" id="L77">            caspac.write();</span>
+<span class="nc" id="L78">            System.exit(0);</span>
+
+<span class="nc" id="L80">        } catch (IOException ex) {</span>
+<span class="nc" id="L81">            Log.errorHandler(ex);</span>
+<span class="nc" id="L82">        }</span>
+<span class="nc" id="L83">    }</span>
+
+    /**
+     * sleeps for 1000ms.
+     */    public static void sleepForOneSecond() {
+         try {
+<span class="nc" id="L89">             Thread.sleep(1000);</span>
+<span class="nc" id="L90">         } catch (InterruptedException ex) {</span>
+<span class="nc" id="L91">             Log.errorHandler(ex);</span>
+<span class="nc" id="L92">         }</span>
+<span class="nc" id="L93">     }</span>
+
+    /**
+     * sleeps for 100ms.
+     */
+     public static void sleepForOneTenthOfASecond() {
+         try {
+<span class="nc" id="L100">             Thread.sleep(100);</span>
+<span class="nc" id="L101">         } catch (InterruptedException ex) {</span>
+<span class="nc" id="L102">             Log.errorHandler(ex);</span>
+<span class="nc" id="L103">         }</span>
+<span class="nc" id="L104">    }</span>
+
+    /**
+     * gets the stored Subversion revision from the last build
+     *
+     * @return string representation of subversion revision
+     */
+     public static int getSVNVersion() {
+<span class="fc" id="L112">         return Integer.parseInt(java.util.ResourceBundle.getBundle(&quot;CASUAL/resources/CASUALApp&quot;).getString(&quot;Application.revision&quot;));</span>
+    }
+
+     private static void setiCASUALinteraction(Class&lt;?&gt; cls) throws InstantiationException, IllegalAccessException {  
+         iCASUALUI clsInstance;
+<span class="nc bnc" id="L117" title="All 2 branches missed.">         if (!java.awt.GraphicsEnvironment.isHeadless()) {</span>
+<span class="nc" id="L118">             clsInstance = (CASUAL.iCASUALUI) cls.newInstance();</span>
+<span class="nc" id="L119">             CASUALSessionData.setGUI(clsInstance);</span>
+         }
+
+<span class="nc" id="L122">    }</span>
+
+  
+
+    /**
+     * sets the GUI API based on property in CASUAL/resources/CASUALApp.
+     * The GUI API can be specified by modification of Application.GUI. The API
+    only requires that you specify a class which implements the
+    iCASUALUI class.
+     * @throws java.lang.ClassNotFoundException when UI cannot be found
+     * @throws java.lang.InstantiationException when UI cannot be instantiated
+     * @throws java.lang.IllegalAccessException when SecurityManager gets in the way
+     */
+     public static void setGUIAPI() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+<span class="fc" id="L136">         String messageAPI = java.util.ResourceBundle.getBundle(&quot;CASUAL/resources/CASUALApp&quot;).getString(&quot;Application.GUI&quot;);</span>
+         try {
+<span class="nc" id="L138">             Class&lt;?&gt; cls = Class.forName(messageAPI);</span>
+<span class="nc" id="L139">             setiCASUALGUI(cls);</span>
+<span class="fc" id="L140">         } catch (ClassNotFoundException ex) {</span>
+<span class="fc" id="L141">             Class&lt;?&gt; cls = Class.forName(&quot;GUI.development.CASUALGUIMain&quot;);</span>
+<span class="fc" id="L142">             setiCASUALGUI(cls);</span>
+<span class="nc" id="L143">         } catch (InstantiationException ex) {</span>
+<span class="nc" id="L144">             Class&lt;?&gt; cls = Class.forName(&quot;GUI.development.CASUALGUIMain&quot;);</span>
+<span class="nc" id="L145">             setiCASUALGUI(cls);</span>
+<span class="nc" id="L146">         } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L147">             Class&lt;?&gt; cls = Class.forName(&quot;GUI.development.CASUALGUIMain&quot;);</span>
+<span class="nc" id="L148">             setiCASUALGUI(cls);</span>
+<span class="pc" id="L149">        }</span>
+<span class="fc" id="L150">    }</span>
+
+     public static void setiCASUALGUI(Class&lt;?&gt; cls) throws InstantiationException, IllegalAccessException {
+         iCASUALUI clsInstance;
+<span class="fc" id="L154">         clsInstance = (CASUAL.iCASUALUI) cls.newInstance();</span>
+<span class="fc" id="L155">         CASUALSessionData.setGUI(clsInstance);</span>
+<span class="fc" id="L156">    }</span>
+
+    /**
+     * compares User ID from id -u on the device to the specified User ID.
+     * @param expectedUIDs  User ID specified.
+     * @return True if actua UID matches expected
+     */
+     public static boolean uidMatches(String[] expectedUIDs) {
+<span class="nc" id="L164">         String[] cmd = new String[]{new ADBTools().getBinaryLocation(), &quot;shell&quot;, &quot;id -u&quot;};</span>
+<span class="nc" id="L165">         String retval = new Shell().silentShellCommand(cmd);</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">         for (String expUID:expectedUIDs){</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">             if (retval.equals(expUID)){</span>
+<span class="nc" id="L168">                 return true;</span>
+             }
+        }
+<span class="nc" id="L171">        return false;</span>
+    }
+
+    /**
+     * Checks the device to get the command required for root access.  This
+     * accounts for both adb root and rooted devices.
+     * @return command used to get root, will be blank if unrooted. 
+     */
+     public static String rootAccessCommand() {
+<span class="nc" id="L180">         String[] normalUser=new String[]{&quot;\n2000&quot;};</span>
+<span class="nc" id="L181">         String[] rootUser=new String[]{&quot;\nuid=0&quot;,&quot;\n0&quot;};</span>
+         
+<span class="nc bnc" id="L183" title="All 2 branches missed.">         if (uidMatches(rootUser)) {</span>
+<span class="nc" id="L184">             return &quot;&quot;;</span>
+         } else  {
+<span class="nc" id="L186">             String retval = new Shell().silentShellCommand(new String[]{new ADBTools().getBinaryLocation(), &quot;shell&quot;, &quot;su -c 'id -u'&quot;});</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">             if (retval.contains(&quot;uid=0(&quot;)) {</span>
+<span class="nc" id="L188">                 return &quot;su -c &quot;;</span>
+             } else {
+<span class="nc" id="L190">                 new CASUALMessageObject(&quot;@interactionCouldNotObtainRootOnDevice&quot;).showErrorDialog();</span>
+<span class="nc" id="L191">                 return &quot;&quot;;</span>
+            }
+         }
+     }
+     
+     public static boolean rootAccessPossible() {
+<span class="nc bnc" id="L197" title="All 4 branches missed.">         return CASUALTools.uidMatches(new String[]{&quot;root&quot;,&quot;0&quot;})||!CASUALTools.rootAccessCommand().isEmpty();</span>
+    }
+    /**
+     * Starts the GUI, should be done last and only if needed.
+     */
+<span class="fc" id="L202">     public Runnable GUI = new Runnable() {</span>
+         @Override
+         public void run() {
+             try {
+<span class="fc" id="L206">                 setGUIAPI();</span>
+<span class="fc" id="L207">                 CASUALSessionData.getGUI().setVisible(true);</span>
+<span class="nc" id="L208">             } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L209">                 Logger.getLogger(CASUALTools.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L210">             } catch (InstantiationException ex) {</span>
+<span class="nc" id="L211">                 Logger.getLogger(CASUALTools.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L212">             } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L213">                 Logger.getLogger(CASUALTools.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="pc" id="L214">            }</span>
+<span class="fc" id="L215">        }</span>
+    };
+    /**
+     * md5sumTestScript Refreshes the MD5s on the scripts in the /SCRIPTS folder
+     */
+     private void md5sumTestScripts(){
+<span class="fc" id="L221">         Log.level4Debug(&quot;\nIDE Mode: Scanning and updating MD5s.\nWe are in &quot; + System.getProperty(&quot;user.dir&quot;));</span>
+<span class="fc" id="L222">         incrementBuildNumber();</span>
+         
+<span class="pc bpc" id="L224" title="1 of 2 branches missed.">         if (getIDEMode()) { //if we are in development mode</span>
+             //Set up scripts path
+<span class="fc" id="L226">             String scriptsPath = System.getProperty(&quot;user.dir&quot;) + CASUALSessionData.slash + &quot;SCRIPTS&quot; + CASUALSessionData.slash;</span>
+<span class="fc" id="L227">             final File folder = new File(scriptsPath);</span>
+<span class="pc bpc" id="L228" title="1 of 2 branches missed.">             if (folder.isDirectory()) {</span>
+<span class="fc bfc" id="L229" title="All 2 branches covered.">                 for (final File fileEntry : folder.listFiles()) {</span>
+<span class="fc bfc" id="L230" title="All 2 branches covered.">                     if (fileEntry.toString().endsWith(&quot;.meta&quot;)) {</span>
+<span class="fc" id="L231">                         InputStream in = null;</span>
+                         try {
+                             //load each meta file into a properties file
+<span class="fc" id="L234">                             Log.level3Verbose(&quot;Verifying meta: &quot; + fileEntry.toString());</span>
+<span class="fc" id="L235">                             LinkedProperties prop = new LinkedProperties();</span>
+<span class="fc" id="L236">                             in = new FileInputStream(fileEntry);</span>
+<span class="fc" id="L237">                             prop.load(in);</span>
+<span class="fc" id="L238">                             in.close();</span>
+                             //Identify and store the new MD5s
+                             String md5;
+<span class="fc" id="L241">                             int pos = 0;</span>
+<span class="fc" id="L242">                             boolean md5Changed = false;</span>
+<span class="fc bfc" id="L243" title="All 2 branches covered.">                             while ((md5 = prop.getProperty(&quot;Script.MD5[&quot; + pos + &quot;]&quot;)) != null) {</span>
+<span class="fc" id="L244">                                 String entry = &quot;Script.MD5[&quot; + pos + &quot;]&quot;;</span>
+<span class="fc" id="L245">                                 String[] md5File = md5.split(&quot;  &quot;);</span>
+<span class="fc" id="L246">                                 String newMD5 = new MD5sum().md5sum(scriptsPath + md5File[1]);</span>
+<span class="pc bpc" id="L247" title="1 of 2 branches missed.">                                 if (!md5.contains(newMD5)) {</span>
+<span class="nc" id="L248">                                     md5Changed = true;</span>
+<span class="nc" id="L249">                                     Log.level4Debug(&quot;Old MD5: &quot; + md5);</span>
+<span class="nc" id="L250">                                     Log.level4Debug(&quot;New MD5: &quot; + prop.getProperty(entry));</span>
+                                 }
+<span class="fc" id="L252">                                 prop.setProperty(entry, newMD5 + &quot;  &quot; + md5File[1]);</span>
+<span class="fc" id="L253">                                 pos++;</span>
+<span class="fc" id="L254">                             }</span>
+                             
+<span class="pc bpc" id="L256" title="1 of 2 branches missed.">                             if (md5Changed) {</span>
+<span class="nc" id="L257">                                 Log.level4Debug(&quot;MD5s for &quot; + fileEntry + &quot; changed. Updating...&quot;);</span>
+<span class="nc" id="L258">                                 FileOutputStream fos = new FileOutputStream(fileEntry);</span>
+<span class="nc" id="L259">                                 prop.store(fos, null);</span>
+<span class="nc" id="L260">                                 fos.close();</span>
+                                 
+                             }
+<span class="nc" id="L263">                         } catch (FileNotFoundException ex) {</span>
+<span class="nc" id="L264">                             Log.errorHandler(ex);</span>
+<span class="nc" id="L265">                         } catch (IOException ex) {</span>
+<span class="nc" id="L266">                             Log.errorHandler(ex);</span>
+                         } finally {
+<span class="nc" id="L268">                             try {</span>
+<span class="pc bpc" id="L269" title="7 of 8 branches missed.">                                 if (in != null) {</span>
+<span class="pc" id="L270">                                     in.close();</span>
+                                 }
+<span class="nc" id="L272">                             } catch (IOException ex) {</span>
+<span class="nc" id="L273">                                 Log.errorHandler(ex);</span>
+<span class="pc" id="L274">                             }</span>
+<span class="nc" id="L275">                         }</span>
+                    }
+                }
+            }
+        }
+<span class="fc" id="L280">    }</span>
+
+    /**
+     * prepares the script for execution by setting up environment
+     *
+     * @param scriptName
+     */
+     /**
+      * tells if CASUAL is running in Development or Execution mode
+      *
+      * @return true if in IDE mode
+      */
+     private boolean getIDEMode() {
+<span class="fc" id="L293">         String className = getClass().getName().replace('.', '/');</span>
+<span class="fc" id="L294">         String classJar = getClass().getResource(&quot;/&quot; + className + &quot;.class&quot;).toString();</span>
+<span class="fc" id="L295">        String path = new File(&quot;.&quot;).getAbsolutePath();</span>
+<span class="pc bpc" id="L296" title="2 of 4 branches missed.">        boolean isSource = path.contains(&quot;src&quot;) &amp;&amp; path.contains(&quot;CASUALcore&quot;);</span>
+<span class="pc bpc" id="L297" title="2 of 4 branches missed.">        return classJar.startsWith(&quot;file:&quot;) &amp;&amp; isSource;</span>
+     }
+     
+     //This is only used in IDE mode for development
+     private void incrementBuildNumber() throws NumberFormatException {
+<span class="fc" id="L302">         Properties prop = new Properties();</span>
+         try {
+<span class="pc bpc" id="L304" title="1 of 2 branches missed.">             if (new File(System.getProperty(&quot;user.dir&quot;) + &quot;/CASUAL/resources/CASUALApp.properties&quot;).exists()) {</span>
+<span class="fc" id="L305">                 prop.load(new FileInputStream(System.getProperty(&quot;user.dir&quot;) + &quot;/CASUAL/resources/CASUALApp.properties&quot;));</span>
+<span class="fc" id="L306">                 int x = Integer.parseInt(prop.getProperty(&quot;Application.buildnumber&quot;).replace(&quot;,&quot;, &quot;&quot;));</span>
+<span class="fc" id="L307">                 x++;</span>
+<span class="fc" id="L308">                 prop.setProperty(&quot;Application.buildnumber&quot;, Integer.toString(x));</span>
+<span class="fc" id="L309">                 prop.setProperty(&quot;Application.buildnumber&quot;, Integer.toString(x));</span>
+                 
+<span class="fc" id="L311">                 prop.store(new FileOutputStream(System.getProperty(&quot;user.dir&quot;) + &quot;/CASUAL/resources/CASUALApp.properties&quot;), &quot;Application.buildnumber=&quot; + x);</span>
+            }
+<span class="nc" id="L313">        } catch (IOException ex) {</span>
+<span class="nc" id="L314">            Log.errorHandler(ex);</span>
+<span class="fc" id="L315">        }</span>
+<span class="fc" id="L316">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

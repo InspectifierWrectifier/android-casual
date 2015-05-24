@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CASUALUpdates.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.network</a> &gt; <span class="el_source">CASUALUpdates.java</span></div><h1>CASUALUpdates.java</h1><pre class="source lang-java linenums">/*CASUALUpdates provides a way to check and update CASUAL
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.network;
+
+import CASUAL.CASUALMessageObject;
+import CASUAL.CASUALSessionData;
+import CASUAL.CASUALTools;
+import CASUAL.FileOperations;
+import CASUAL.Log;
+import CASUAL.OSTools;
+import CASUAL.caspac.Script;
+import CASUAL.crypto.MD5sum;
+import CASUAL.misc.StringOperations;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.util.Properties;
+import java.util.zip.ZipException;
+
+/**
+ * provides a way to check and update CASUAL
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+public class CASUALUpdates {
+    /*
+     * String Properties File
+     * Returns location of first downloaded file
+     */
+<span class="fc" id="L57">    static String arch = &quot;&quot;;</span>
+<span class="fc" id="L58">    static String system = &quot;&quot;;</span>
+
+    final CASUALSessionData sd;
+    
+    
+    /**
+     * location to CASUAL online repository
+     */
+<span class="fc" id="L66">    public final String CASUALRepo = &quot;http://android-casual.googlecode.com/svn/trunk/CASUALcore/src&quot;;</span>
+
+<span class="fc" id="L68">    public CASUALUpdates( CASUALSessionData sd) {</span>
+<span class="fc" id="L69">        this.sd=sd;</span>
+<span class="fc" id="L70">    }</span>
+
+    /*
+     * checks for updates returns: 0=no updates found 1=random error 2=Script
+     * Update Required 3=CASUAL update required- cannot continue. 4=download
+     * failed
+     */
+    /**
+     * downloads a file
+     *
+     * @param URL web location to download
+     * @param outputFile the local file to output
+     * @param friendlyName name displayed to user
+     * @return true if downloaded
+     */
+    public boolean downloadFileFromInternet(String URL, String outputFile, String friendlyName) {
+        try {
+<span class="fc" id="L87">            downloadFileFromInternet(stringToFormattedURL(URL), outputFile, friendlyName);</span>
+<span class="nc" id="L88">        } catch (MalformedURLException ex) {</span>
+<span class="nc" id="L89">            Log.errorHandler(ex);</span>
+<span class="nc" id="L90">        } catch (URISyntaxException ex) {</span>
+<span class="nc" id="L91">            Log.errorHandler(ex);</span>
+<span class="pc" id="L92">        }</span>
+<span class="fc" id="L93">        return true;</span>
+    }
+
+    /**
+     *
+     * downloads a file
+     *
+     * @param url web location to download
+     * @param outputFile the local file to output
+     * @param friendlyName name displayed to user
+     * @return true if downloaded
+     */
+    public boolean downloadFileFromInternet(URL url, String outputFile, String friendlyName) {
+<span class="fc" id="L106">        Log.progress(&quot;Downloading &quot;);</span>
+<span class="fc" id="L107">        Log.level4Debug(&quot;Downloading &quot; + url);</span>
+<span class="fc" id="L108">        Log.level4Debug(&quot;To: &quot; + outputFile);</span>
+        InputStream input;
+        try {
+
+<span class="fc" id="L112">            input = url.openStream();</span>
+<span class="fc" id="L113">            byte[] buffer = new byte[4096];</span>
+<span class="fc" id="L114">            File f = new File(outputFile);</span>
+<span class="fc" id="L115">            f.getParentFile().mkdirs();</span>
+<span class="fc" id="L116">            OutputStream output = new FileOutputStream(f);</span>
+<span class="fc" id="L117">            long bytes = 0;</span>
+<span class="fc" id="L118">            Log.progress(friendlyName.replace(&quot;/SCRIPTS/&quot;, &quot;&quot;));</span>
+<span class="fc" id="L119">            int lastlength = 0;</span>
+            long kilobytes;
+<span class="fc" id="L121">            int offset = 1;</span>
+
+            try {
+                int bytesRead;
+<span class="fc bfc" id="L125" title="All 2 branches covered.">                while ((bytesRead = input.read(buffer, 0, buffer.length)) &gt;= 0) {</span>
+<span class="fc" id="L126">                    output.write(buffer, 0, bytesRead);</span>
+<span class="fc" id="L127">                    bytes += bytesRead;</span>
+<span class="fc" id="L128">                    kilobytes = bytes / 1024;</span>
+<span class="fc" id="L129">                    int length = String.valueOf(kilobytes).length() + 2;</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">                    for (int i = 0; i &lt; length; i++) {</span>
+<span class="fc" id="L131">                        Log.progress(&quot;\b&quot;);  //backspace over the old value</span>
+                    }
+<span class="fc" id="L133">                    Log.progress(Long.toString(kilobytes) + &quot;kb &quot;); //write new</span>
+
+<span class="fc" id="L135">                }</span>
+            } finally {
+<span class="pc" id="L137">                output.flush();</span>
+<span class="pc" id="L138">                output.close();</span>
+
+<span class="fc" id="L140">            }</span>
+<span class="nc" id="L141">        } catch (IOException ex) {</span>
+<span class="nc" id="L142">            Log.level4Debug(&quot;Error Downloading &quot; + ex.getMessage());</span>
+<span class="nc" id="L143">            return false;</span>
+<span class="fc" id="L144">        }</span>
+<span class="fc" id="L145">        return true;</span>
+    }
+
+    /**
+     * displays data from a split meta file
+     *
+     * @param CASUALString meta information to be displayed 0-id 1-revsion
+     * 2-minimum svn 3-support URL 4-update message
+     */
+    public void displayCASUALString(String[] CASUALString) {
+        //SVN Revision, Script Revision, Script Identification, support URL, message to user
+<span class="nc" id="L156">        Log.level4Debug(&quot;Identification: &quot; + CASUALString[0]);</span>
+<span class="nc" id="L157">        Log.level4Debug(&quot;ScriptRevision: &quot; + CASUALString[1]);</span>
+<span class="nc" id="L158">        Log.level4Debug(&quot;CASUALRevision: &quot; + CASUALString[2]);</span>
+<span class="nc" id="L159">        Log.level4Debug(&quot;URL: &quot; + CASUALString[3]);</span>
+<span class="nc" id="L160">        Log.level4Debug(&quot;Server Message: &quot; + CASUALString[4]);</span>
+<span class="nc" id="L161">    }</span>
+
+    /**
+     * converts a string to a URL
+     *
+     * @param stringURL raw URL in string format
+     * @return URL formatted properly
+     * @throws MalformedURLException if URL is corrupt
+     * @throws URISyntaxException if URI is corrupt
+     */
+    public URL stringToFormattedURL(String stringURL) throws MalformedURLException, URISyntaxException {
+<span class="fc" id="L172">        URL url = new URL(stringURL);</span>
+<span class="fc" id="L173">        url = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef()).toURL();</span>
+<span class="fc" id="L174">        return url;</span>
+    }
+
+    /**
+     * gets the data from the online script
+     *
+     * @param script Script to pull online metadata for
+     * @return String representation of the metadata for the script.
+     * @throws MalformedURLException url is corrupt
+     * @throws IOException permission problem
+     * @throws URISyntaxException uri is corrupt
+     */
+    public String getWebData(String script) throws MalformedURLException, IOException, URISyntaxException {
+<span class="nc" id="L187">        URL url = stringToFormattedURL(script);</span>
+        String webData;
+<span class="nc" id="L189">        ReadableByteChannel rbc = Channels.newChannel(url.openStream());</span>
+<span class="nc" id="L190">        ByteBuffer buf = ByteBuffer.allocateDirect(10);</span>
+<span class="nc" id="L191">        webData = &quot;&quot;;</span>
+<span class="nc" id="L192">        int numRead = 0;</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">        while (numRead &gt;= 0) {</span>
+<span class="nc" id="L194">            buf.rewind();</span>
+<span class="nc" id="L195">            numRead = rbc.read(buf);</span>
+<span class="nc" id="L196">            buf.rewind();</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">            for (int i = 0; i &lt; numRead; i++) {</span>
+<span class="nc" id="L198">                byte b = buf.get();</span>
+<span class="nc" id="L199">                webData += new String(new byte[]{b});</span>
+            }
+        }
+
+<span class="nc" id="L203">        return webData;</span>
+    }
+
+    /**
+     * downloads metadata for the current script from the repository.
+     *
+     * @param s Script for information to be pulled
+     * @return InputStream representing a properties file with metadata about
+     * online version of the script.
+     * @throws MalformedURLException URL/URI is corrupt
+     * @throws URISyntaxException URL/URI is corrupt
+     * @throws IOException permission problem
+     */
+    public InputStream downloadMetaFromRepoForScript(Script s) throws MalformedURLException, URISyntaxException, IOException {
+        URL url;
+<span class="nc" id="L218">        String parentFolder = new File(s.getTempDir()).getParent() + &quot;/&quot;;</span>
+<span class="nc" id="L219">        String meta = s.getName() + &quot;.meta&quot;;</span>
+<span class="nc bnc" id="L220" title="All 2 branches missed.">        if (CASUALTools.IDEMode) {</span>
+<span class="nc" id="L221">            url = stringToFormattedURL(CASUALRepo + &quot;/SCRIPTS/&quot; + meta);</span>
+        } else {
+<span class="nc" id="L223">            Log.level3Verbose(CASUALRepo + meta);</span>
+<span class="nc" id="L224">            url = stringToFormattedURL(CASUALRepo + meta);</span>
+<span class="nc" id="L225">            System.out.println(url.toString());</span>
+        }
+<span class="nc" id="L227">        Log.level3Verbose(&quot;opening download stream&quot;);</span>
+
+<span class="nc" id="L229">        URLConnection con = url.openConnection();</span>
+<span class="nc" id="L230">        con.setConnectTimeout(300);</span>
+<span class="nc" id="L231">        con.setReadTimeout(300);</span>
+
+<span class="nc" id="L233">        return con.getInputStream();</span>
+
+    }
+
+    /**
+     * Opens a file from a URL as a stream
+     *
+     * @param link String representation of URL
+     * @return InputStream object to file.
+     * @throws MalformedURLException URL/URI is corrupt
+     * @throws URISyntaxException URL/URI is corrupt
+     * @throws IOException permission problem
+     */
+    public InputStream streamFileFromNet(String link) throws MalformedURLException, URISyntaxException, IOException {
+<span class="nc" id="L247">        URL url = new URL(link);</span>
+<span class="nc" id="L248">        return url.openStream();</span>
+    }
+
+    /**
+     * downloads proper file if available in repository
+     *
+     * @param propertiesFileInCASUALOnlineRepo requested file to be downloaded
+     * ie -&quot;heimdall&quot; will be translated to web url:heimdallWin32.zip,
+     * downloaded and the path to the downloaded file is returned.
+     * @return file downloaded for system/arch
+     * @throws FileNotFoundException file not found
+     * @throws IOException permission problem 
+     * @throws InterruptedException thread interrupted
+     */
+    public String CASUALRepoDownload(String propertiesFileInCASUALOnlineRepo) throws FileNotFoundException, IOException, InterruptedException {
+<span class="nc bnc" id="L263" title="All 2 branches missed.">        arch = OSTools.is64bitSystem() ? &quot;64&quot; : &quot;32&quot;;</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">        system = OSTools.isWindows() ? &quot;win&quot; : system;</span>
+<span class="nc bnc" id="L265" title="All 2 branches missed.">        system = OSTools.isLinux() ? &quot;linux&quot; : system;</span>
+<span class="nc bnc" id="L266" title="All 2 branches missed.">        system = OSTools.isMac() ? &quot;mac&quot; : system;</span>
+<span class="nc" id="L267">        Log.level3Verbose(&quot;Found &quot; + system + &quot; &quot; + arch + &quot;computer&quot;);</span>
+<span class="nc" id="L268">        String basename = new File(propertiesFileInCASUALOnlineRepo).getName();</span>
+        //download location, md5, and version information
+<span class="nc" id="L270">        downloadFileFromInternet(propertiesFileInCASUALOnlineRepo, sd.getTempFolder() + basename, &quot;locating files&quot;);</span>
+<span class="nc" id="L271">        Log.level3Verbose(&quot;downloaded&quot; + propertiesFileInCASUALOnlineRepo);</span>
+        //Set properties file
+<span class="nc" id="L273">        Properties prop = new Properties();</span>
+<span class="nc" id="L274">        prop.load(new FileInputStream(sd.getTempFolder() + basename));</span>
+        // get information from properties file
+<span class="nc" id="L276">        int counter = 1;</span>
+<span class="nc" id="L277">        String filenumber = &quot;&quot;;</span>
+
+        /*
+        * This loop uses the filenumber as a blank the first time through
+        * after that filenumber turns to &quot;2&quot;, so it will look for
+        * eg. &quot;win32&quot; property then &quot;win32-2&quot; property
+        *
+        * It will download the applicable files in the properties file. then
+        * MD5sum against the value in the properties file.
+        */
+<span class="nc bnc" id="L287" title="All 2 branches missed.">        while (prop.getProperty(system + arch + filenumber) != null) {</span>
+<span class="nc" id="L288">            String downloadURL = prop.getProperty(system + arch + filenumber);</span>
+<span class="nc" id="L289">            Log.level3Verbose(&quot;based on information, we need to download: &quot; + downloadURL);</span>
+
+<span class="nc" id="L291">            String downloadBasename = downloadURL.substring(downloadURL.lastIndexOf('/') + 1, downloadURL.length());</span>
+<span class="nc" id="L292">            String availableVersion = prop.getProperty(system + arch + filenumber + &quot;Version&quot;);</span>
+<span class="nc" id="L293">            String downloadedFile = sd.getTempFolder() + downloadBasename;</span>
+            //download update based on information available.
+
+<span class="nc" id="L296">            downloadFileFromInternet(downloadURL, downloadedFile, downloadBasename + &quot; ver&quot; + availableVersion);</span>
+
+            //get expected MD5
+<span class="nc" id="L299">            String expectedMD5 = new MD5sum().getMD5fromLinuxMD5String(prop.getProperty(system + arch + &quot;md5&quot;));</span>
+            //verify  we have an MD5
+            //if MD5 does not match
+<span class="nc bnc" id="L302" title="All 4 branches missed.">            if (expectedMD5.length() &gt;= 31 &amp;&amp; !new MD5sum().compareFileToMD5(new File(downloadedFile), expectedMD5)) {</span>
+                //show message and exit
+<span class="nc" id="L304">                new CASUALMessageObject(&quot;@interactionBadDownload&quot;).showErrorDialog();</span>
+<span class="nc" id="L305">                CASUAL.CASUALMain.shutdown(0);</span>
+            }
+<span class="nc" id="L307">            counter++;</span>
+<span class="nc" id="L308">            filenumber = &quot;-&quot; + Integer.toString(counter);</span>
+<span class="nc" id="L309">        }</span>
+<span class="nc" id="L310">        String downloadURL = prop.getProperty(system + arch);</span>
+<span class="nc" id="L311">        String downloadBasename = new File(downloadURL).getName();</span>
+<span class="nc" id="L312">        return sd.getTempFolder() + downloadBasename;</span>
+
+    }
+
+    /**
+     * Updates a script. Uses online repository specified in sd.
+     *
+     * @param script CASUAL.caspac.Script object to be updated
+     * @param tempFolder Temp Folder to use for updating.
+     * @return New, updated script.
+     * @throws ZipException zip corrupted
+     * @throws IOException permission problem 
+     * @throws MalformedURLException  url/uri malformed
+     * @throws URISyntaxException url/uri malformed
+     */
+    public Script updateScript(Script script, String tempFolder) throws ZipException, IOException, MalformedURLException, URISyntaxException {
+<span class="nc" id="L328">        MD5sum md5sum = new MD5sum();</span>
+
+<span class="nc bnc" id="L330" title="All 2 branches missed.">        for (String md5 : script.getMetaData().getMd5s()) {</span>
+<span class="nc" id="L331">            FileOperations fo = new FileOperations();</span>
+<span class="nc" id="L332">            String targetFilename = md5sum.getFileNamefromLinuxMD5String(md5);</span>
+            URL url;
+<span class="nc" id="L334">            url = stringToFormattedURL(CASUALRepo + &quot;/SCRIPTS/&quot; + targetFilename);</span>
+<span class="nc" id="L335">            System.out.println(url);</span>
+
+<span class="nc" id="L337">            String localFilename = tempFolder + targetFilename;</span>
+
+<span class="nc bnc" id="L339" title="All 2 branches missed.">            if (targetFilename.endsWith(&quot;.scr&quot;)) {</span>
+<span class="nc" id="L340">                script.setScriptContents(StringOperations.convertStreamToString(url.openStream()));</span>
+<span class="nc" id="L341">                script.getActualMD5s().add(md5sum.getLinuxMD5Sum(script.getScriptContents(), targetFilename));</span>
+<span class="nc bnc" id="L342" title="All 2 branches missed.">            } else if (targetFilename.endsWith(&quot;.txt&quot;)) {</span>
+<span class="nc" id="L343">                script.setDiscription(StringOperations.convertStreamToString(url.openStream()));</span>
+<span class="nc" id="L344">                script.getActualMD5s().add(md5sum.getLinuxMD5Sum(StringOperations.convertStringToStream(script.getDiscription()), targetFilename));</span>
+<span class="nc bnc" id="L345" title="All 2 branches missed.">            } else if (targetFilename.endsWith(&quot;.zip&quot;)) {</span>
+<span class="nc" id="L346">                this.downloadFileFromInternet(url, localFilename, targetFilename);</span>
+<span class="nc" id="L347">                script.scriptZipFile = localFilename;</span>
+                //MD5 is performed during unzip and checked at that time. 
+            }
+
+<span class="nc" id="L351">        }</span>
+<span class="nc" id="L352">        return script;</span>
+    }
+
+    public int tryGetFileSize(URL url) {
+<span class="nc" id="L356">        HttpURLConnection conn = null;</span>
+        try {
+<span class="nc" id="L358">            conn = (HttpURLConnection) url.openConnection();</span>
+<span class="nc" id="L359">            conn.setRequestMethod(&quot;HEAD&quot;);</span>
+<span class="nc" id="L360">            conn.setConnectTimeout(5000);</span>
+<span class="nc" id="L361">            System.out.println(conn.getReadTimeout());</span>
+<span class="nc" id="L362">            conn.getInputStream();</span>
+<span class="nc" id="L363">            return conn.getContentLength();</span>
+<span class="nc" id="L364">        } catch (IOException e) {</span>
+<span class="nc" id="L365">            Thread t = new Thread(new Runnable() {</span>
+                @Override
+                public void run() {
+<span class="nc" id="L368">                    Log.level0Error(&quot;@problemDownlaodingFile&quot;);</span>
+<span class="nc" id="L369">                    new CASUALMessageObject(&quot;@interactionBadDownload&quot;).showErrorDialog();</span>
+<span class="nc" id="L370">                }</span>
+            });
+<span class="nc" id="L372">            return -1;</span>
+        } finally {
+<span class="nc bnc" id="L374" title="All 6 branches missed.">            if (null!=conn){</span>
+<span class="nc" id="L375">                conn.disconnect();</span>
+            }
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

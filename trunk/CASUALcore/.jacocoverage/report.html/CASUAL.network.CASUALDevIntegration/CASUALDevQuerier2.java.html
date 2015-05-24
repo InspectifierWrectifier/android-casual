@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CASUALDevQuerier2.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.network.CASUALDevIntegration</a> &gt; <span class="el_source">CASUALDevQuerier2.java</span></div><h1>CASUALDevQuerier2.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2014 adamoutler
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
+/*CASUALDevQuerier queries the file-system at casual-dev.com for items pertaining to the provided build.prop 
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.network.CASUALDevIntegration;
+
+import CASUAL.communicationstools.adb.BuildProp;
+import CASUAL.network.HttpPost;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.StringReader;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
+/**
+ * queries the file-system at casual-dev.com for items pertaining to the
+ * provided build.prop
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+public class CASUALDevQuerier2 {
+
+    final static String buildsURL = &quot;https://builds.casual-dev.com/availableCaspacs/CASUALComms.php&quot;;
+    final static String rootPath = &quot;https://builds.casual-dev.com&quot;;
+
+    static String convertStreamToString(java.io.InputStream is) {
+<span class="fc" id="L65">        java.util.Scanner s = new java.util.Scanner(is).useDelimiter(&quot;\\A&quot;);</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">        return s.hasNext() ? s.next() : &quot;&quot;;</span>
+    }
+    final String buildProp;
+
+    /**
+     * accepts a build prop in CASUAL's BuildProp format
+     *
+     * @param bp BuildProp to be sent to server
+     * @param additionalProps additional lines of properties to claim as valid
+     */
+<span class="nc" id="L76">    public CASUALDevQuerier2(BuildProp bp, String[] additionalProps) {</span>
+<span class="nc" id="L77">        buildProp = addAdditionalPropsToBuildProp(bp.toString(), additionalProps);</span>
+<span class="nc" id="L78">    }</span>
+
+    /**
+     * accepts a build prop in file format
+     *
+     * @param bp BuildProp to be sent to server
+     * @param additionalProps additional lines of properties to claim as valid
+     * @throws FileNotFoundException when the build prop is not found
+     */
+<span class="fc" id="L87">    public CASUALDevQuerier2(File bp, String[] additionalProps) throws FileNotFoundException {</span>
+<span class="fc" id="L88">        buildProp = addAdditionalPropsToBuildProp(convertStreamToString(new FileInputStream(bp)), additionalProps);</span>
+<span class="fc" id="L89">    }</span>
+
+    /**
+     * accepts a buildprop in string format
+     *
+     * @param bp BuildProp to be sent to server
+     * @param additionalProps additional lines of properties to claim as valid
+     */
+<span class="nc" id="L97">    public CASUALDevQuerier2(String bp, String[] additionalProps) {</span>
+<span class="nc" id="L98">        addAdditionalPropsToBuildProp(bp, additionalProps);</span>
+<span class="nc" id="L99">        this.buildProp = bp;</span>
+<span class="nc" id="L100">    }</span>
+
+    private String addAdditionalPropsToBuildProp(String bp, String[] additionalProps) {
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        for (String prop : additionalProps) {</span>
+<span class="fc" id="L104">            bp = bp + &quot;\n&quot; + prop;</span>
+        }
+<span class="fc" id="L106">        return bp;</span>
+    }
+
+    /**
+     * gets an array of CASUALPackages available for this query on the build
+     * prop
+     *
+     * @return casualpackages array
+     */
+    public CASUALPackage[] getPackages() {
+<span class="fc" id="L116">        List&lt;CASUALPackage&gt; cp = getPackagesList();</span>
+<span class="fc" id="L117">        return cp.toArray(new CASUALPackage[cp.size()]);</span>
+    }
+
+    /**
+     * gets a list of URLs available for this query on the build prop
+     *
+     * @return String array of available URLs.
+     */
+    public String[] getPackagesString() {
+<span class="fc" id="L126">        CASUALPackage[] packs = getPackages();</span>
+<span class="fc" id="L127">        ArrayList&lt;String&gt; stringPacks = new ArrayList&lt;String&gt;();</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        for (CASUALPackage pack : packs) {</span>
+<span class="fc" id="L129">            stringPacks.add(pack.url);</span>
+        }
+<span class="fc" id="L131">        return stringPacks.toArray(new String[stringPacks.size()]);</span>
+    }
+
+    /**
+     * gets a list of CASUALPackages available for this query on the build prop
+     *
+     * @return list of CASUALPackages
+     */
+    public List&lt;CASUALPackage&gt; getPackagesList() {
+<span class="fc" id="L140">        ArrayList&lt;CASUALPackage&gt; cp = new ArrayList&lt;CASUALPackage&gt;();</span>
+
+<span class="fc" id="L142">        ArrayList&lt;String&gt; list = folderList();</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        for (String pack : list) {</span>
+<span class="fc" id="L144">            CASUALPackage packageMeta = new CASUALPackage(pack);</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">            if (packageMeta.isValid()) {</span>
+<span class="fc" id="L146">                cp.add(packageMeta);</span>
+            }
+<span class="fc" id="L148">        }</span>
+<span class="fc" id="L149">        System.out.println(&quot;Found &quot; + cp.size() + &quot; valid CASPACs&quot;);</span>
+<span class="fc" id="L150">        return cp;</span>
+
+    }
+
+    /**
+     * Performs the listing on the folder. This is performed after blacklist
+     * Gets folders and files. Adds files to the availableURLs list
+     *
+     * @param remoteFolder folder to do work on
+     * @param availableURLs reference to the master URL list
+     * @return new work items to be addressed.
+     * @throws MalformedURLException {@inheritDoc}
+     * @throws IOException {@inheritDoc}
+     */
+    private ArrayList&lt;String&gt; folderList() {
+        try {
+            //get JSON from website
+<span class="fc" id="L167">            BufferedReader in = new BufferedReader(new StringReader(HttpPost.postString(buildProp, buildsURL)));</span>
+<span class="fc" id="L168">            String json = extractJSONFromHTTPResponse(in);</span>
+<span class="fc" id="L169">            return parseCDevJSON(json);</span>
+<span class="nc" id="L170">        } catch (MalformedURLException ex) {</span>
+<span class="nc" id="L171">            Logger.getLogger(CASUALDevQuerier2.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L172">        } catch (IOException ex) {</span>
+<span class="nc" id="L173">            Logger.getLogger(CASUALDevQuerier2.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L174">        } catch (ScriptException ex) {</span>
+<span class="nc" id="L175">            Logger.getLogger(CASUALDevQuerier2.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L176">        }</span>
+
+<span class="nc" id="L178">        return new ArrayList&lt;String&gt;();</span>
+    }
+
+    private ArrayList&lt;String&gt; parseCDevJSON(String json) throws ScriptException {
+<span class="fc" id="L182">        ArrayList&lt;String&gt; returnList = new ArrayList&lt;String&gt;();</span>
+        // create a JavaScript engine
+<span class="fc" id="L184">        ScriptEngine engine = new ScriptEngineManager().getEngineByName(&quot;JavaScript&quot;);</span>
+        String parsed;
+<span class="fc" id="L186">        int x = 0;</span>
+        //evaluate the json as a JavaScript String[].. String parsed=json[1];
+<span class="fc bfc" id="L188" title="All 2 branches covered.">        while (null != (parsed = (String) engine.eval(json + &quot;[&quot; + x++ + &quot;]&quot;))) {</span>
+<span class="fc" id="L189">            returnList.add(rootPath + parsed);</span>
+        }
+<span class="fc" id="L191">        return returnList;</span>
+    }
+
+    private String extractJSONFromHTTPResponse(BufferedReader in) throws IOException {
+        String line;
+<span class="fc" id="L196">        String json = &quot;&quot;;</span>
+        //parse for JSON hint.
+<span class="fc bfc" id="L198" title="All 2 branches covered.">        while (!(line = in.readLine()).contains(&quot;-----END JSON OUTPUT-----&quot;)) {</span>
+<span class="fc" id="L199">            System.out.println(line);</span>
+<span class="fc bfc" id="L200" title="All 2 branches covered.">            if (line.contains(&quot;&lt;br&gt;----START JSON OUTPUT----&lt;br&gt;&quot;)) {</span>
+                //read the JSON Array into json string value
+<span class="fc" id="L202">                json = in.readLine();</span>
+            }
+        }
+<span class="fc" id="L205">        return json;</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

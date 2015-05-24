@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FileOperations.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL</a> &gt; <span class="el_source">FileOperations.java</span></div><h1>FileOperations.java</h1><pre class="source lang-java linenums">/*FileOperations provides a group of tools which relate to files.
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL;
+
+import CASUAL.misc.StringOperations;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+
+/**
+ * FileOperations provides a set of acellerators for working with files in Java.
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+public class FileOperations {
+
+    /**
+     * performs file operations
+     */
+<span class="fc" id="L46">    public FileOperations() {</span>
+<span class="fc" id="L47">    }</span>
+
+    /**
+     * recursively deletes a String path
+     *
+     * @param path path to delete recursively
+     */
+    public void recursiveDelete(String path) {
+<span class="fc" id="L55">        recursiveDelete(new File(path));</span>
+<span class="fc" id="L56">    }</span>
+
+    /**
+     * recursively deletes a file path
+     *
+     * @param path path to delete
+     */
+    public void recursiveDelete(File path) {
+
+<span class="fc" id="L65">        File[] c = path.listFiles();</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (path.exists()) {</span>
+<span class="fc" id="L67">            Log.level4Debug(&quot;Removing folder and contents:&quot; + path.toString());</span>
+<span class="fc bfc" id="L68" title="All 4 branches covered.">            if (c != null &amp;&amp; c.length &gt; 0) {</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">                for (File file : c) {</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">                    if (file.isDirectory()) {</span>
+<span class="fc" id="L71">                        recursiveDelete(file);</span>
+<span class="fc" id="L72">                        file.delete();</span>
+                    } else {
+<span class="fc" id="L74">                        file.delete();</span>
+                    }
+                }
+            }
+<span class="fc" id="L78">            path.delete();</span>
+        }
+<span class="fc" id="L80">    }</span>
+
+    /**
+     * verify ability to write to every file in a path
+     *
+     * @param path path to verify.
+     * @return true if permission to write
+     */
+    public boolean verifyWritePermissionsRecursive(String path) {
+
+<span class="fc" id="L90">        File Check = new File(path);</span>
+<span class="fc" id="L91">        File[] c = Check.listFiles();</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">        if (Check.exists()) {</span>
+<span class="fc" id="L93">            Log.level4Debug(&quot;Verifying permissions in folder:&quot; + path);</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">            for (File file : c) {</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">                if (!file.canWrite()) {</span>
+<span class="nc" id="L96">                    return false;</span>
+                }
+            }
+        }
+<span class="fc" id="L100">        return true;</span>
+    }
+
+    /**
+     * takes a path and a name returns qualified path to file
+     *
+     * @param PathToSearch  path to search
+     * @param FileName filename to locate
+     * @return absolute path to folder
+     */
+    public String findRecursive(String PathToSearch, String FileName) {
+
+<span class="fc" id="L112">        File Check = new File(PathToSearch);</span>
+<span class="fc" id="L113">        File[] c = Check.listFiles();</span>
+<span class="fc" id="L114">        String s = &quot;&quot;;</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">        if (Check.exists()) {</span>
+<span class="fc" id="L116">            Log.level3Verbose(&quot;Searching for file in folder:&quot; + PathToSearch);</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">            for (File file : c) {</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">                if (file.isDirectory()) {</span>
+<span class="fc" id="L119">                    return findRecursive(file.getAbsolutePath(), FileName);</span>
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">                } else if (file.getName().equals(FileName)) {</span>
+                    try {
+<span class="fc" id="L122">                        return file.getCanonicalPath();</span>
+<span class="nc" id="L123">                    } catch (IOException ex) {</span>
+<span class="nc" id="L124">                        Log.errorHandler(ex);</span>
+                    }
+
+                }
+            }
+        }
+<span class="nc" id="L130">        return s;</span>
+    }
+
+    /**
+     * verifies file/folder exists returns a boolean value if the file exists
+     *
+     * @param file  file to check
+     * @return true if exists
+     */
+    public boolean verifyExists(String file) {
+<span class="pc bpc" id="L140" title="2 of 4 branches missed.">        if (file != null &amp;&amp; !file.isEmpty()) {</span>
+<span class="fc" id="L141">            File f = new File(file);</span>
+<span class="pc bpc" id="L142" title="2 of 6 branches missed.">            if (!f.exists() &amp;&amp; !f.isDirectory() &amp;&amp; !f.isFile()) {</span>
+<span class="fc" id="L143">                return false;</span>
+            }
+<span class="fc" id="L145">        } else {</span>
+<span class="nc" id="L146">            return false;</span>
+        }
+<span class="fc" id="L148">        return true;</span>
+    }
+
+    /**
+     * makes a folder, works recursively
+     *
+     * @param Folder folder to create
+     * @return true if folder was created
+     */
+    public boolean makeFolder(String Folder) {
+
+<span class="fc bfc" id="L159" title="All 2 branches covered.">        if (Folder == null) {</span>
+<span class="fc" id="L160">            return false;</span>
+        }
+<span class="fc" id="L162">        File folder = new File(Folder);</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">        if (folder.exists()) {</span>
+<span class="fc" id="L164">            return true;</span>
+        } else {
+<span class="fc" id="L166">            folder.mkdirs();</span>
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">            if (folder.exists()) {</span>
+<span class="fc" id="L168">                return true;</span>
+            } else {
+<span class="nc" id="L170">                Log.level0Error(&quot;@couldNotCreateFolder &quot; + Folder);</span>
+<span class="nc" id="L171">                return false;</span>
+            }
+        }
+    }
+
+    /**
+     * writes a stream to a destination file
+     *
+     * @param stream Stream to be written
+     * @param destination output file
+     * @throws FileNotFoundException  when destination cannot be created
+     * @throws IOException with permission problems
+     */
+    public void writeStreamToFile(BufferedInputStream stream, String destination) throws FileNotFoundException, IOException {
+        int currentByte;
+<span class="fc" id="L186">        int buffer = 4096;</span>
+<span class="fc" id="L187">        byte data[] = new byte[buffer];</span>
+<span class="fc" id="L188">        File f = new File(destination);</span>
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">        if (!verifyExists(f.getParent())) {</span>
+<span class="nc" id="L190">            makeFolder(f.getParent());</span>
+        }
+<span class="fc" id="L192">        FileOutputStream fos = new FileOutputStream(f);</span>
+        BufferedOutputStream dest;
+<span class="fc" id="L194">        dest = new BufferedOutputStream(fos, buffer);</span>
+<span class="fc bfc" id="L195" title="All 2 branches covered.">        while ((currentByte = stream.read(data, 0, buffer)) != -1) {</span>
+<span class="fc" id="L196">            dest.write(data, 0, currentByte);</span>
+        }
+<span class="fc" id="L198">        dest.flush();</span>
+<span class="fc" id="L199">        dest.close();</span>
+<span class="fc" id="L200">    }</span>
+
+    /**
+     * takes a string and a filename, writes to the file
+     *
+     * @param Text text to write
+     * @param File file to write to
+     * @throws IOException when permission problems exist
+     */
+    public void writeToFile(String Text, String File) throws IOException {
+
+        BufferedWriter bw;
+<span class="fc" id="L212">        FileWriter fw = new FileWriter(File, true);</span>
+<span class="fc" id="L213">        bw = new BufferedWriter(fw);</span>
+<span class="fc" id="L214">        bw.write(Text);</span>
+<span class="fc" id="L215">        bw.flush();</span>
+<span class="fc" id="L216">        fw.close();</span>
+<span class="fc" id="L217">        Log.level4Debug(&quot;Write Finished&quot;);</span>
+<span class="fc" id="L218">    }</span>
+
+    /**
+     * takes a string and a filename, overwrites to the file
+     *
+     * @param Text text to write
+     * @param File file to write to
+     * @throws IOException when permission problems exist
+     */
+    public void overwriteFile(String Text, String File) throws IOException {
+
+        BufferedWriter bw;
+<span class="nc" id="L230">        bw = new BufferedWriter(new FileWriter(File, false));</span>
+<span class="nc" id="L231">        bw.write(Text);</span>
+<span class="nc" id="L232">        bw.close();</span>
+<span class="nc" id="L233">        Log.level4Debug(&quot;File overwrite Finished&quot;);</span>
+<span class="nc" id="L234">    }</span>
+
+    private boolean writeInputStreamToFile(InputStream is, File file) {
+
+<span class="nc" id="L238">        Log.level4Debug(&quot;Attempting to write &quot; + file.getPath());</span>
+        try {
+            BufferedOutputStream out;
+<span class="nc" id="L241">            out = new BufferedOutputStream(new FileOutputStream(file));</span>
+            int currentByte;
+            // establish buffer for writing file
+<span class="nc" id="L244">            int BUFFER = 4096;</span>
+<span class="nc" id="L245">            byte data[] = new byte[BUFFER];</span>
+<span class="nc bnc" id="L246" title="All 2 branches missed.">            if (is.available() &gt; 0) {</span>
+                // while stream does not return -1, fill data buffer and write.
+<span class="nc bnc" id="L248" title="All 2 branches missed.">                while ((currentByte = is.read(data, 0, BUFFER)) != -1) {</span>
+<span class="nc" id="L249">                    out.write(data, 0, currentByte);</span>
+                }
+            } else {
+<span class="nc" id="L252">                return false;</span>
+            }
+<span class="nc" id="L254">            is.close();</span>
+<span class="nc" id="L255">            out.flush();</span>
+<span class="nc" id="L256">            out.close();</span>
+<span class="nc" id="L257">        } catch (IOException e) {</span>
+<span class="nc" id="L258">            return false;</span>
+<span class="nc" id="L259">        }</span>
+<span class="nc bnc" id="L260" title="All 4 branches missed.">        if (file.exists() &amp;&amp; file.length() &gt;= 4) {</span>
+<span class="nc" id="L261">            Log.level4Debug(&quot;File verified.&quot;);</span>
+<span class="nc" id="L262">            return true;</span>
+        } else {
+<span class="nc" id="L264">            Log.level0Error(&quot;@failedToWriteFile&quot;);</span>
+<span class="nc" id="L265">            return false;</span>
+        }
+    }
+
+    /**
+     * takes a string filename returns a boolean if the file was deleted
+     *
+     * @param FileName filename to delete
+     * @return true if file was deleted
+     */
+    public Boolean deleteFile(String FileName) {
+
+        Boolean Deleted;
+<span class="fc" id="L278">        File file = new File(FileName);</span>
+<span class="fc bfc" id="L279" title="All 2 branches covered.">        if (file.exists()) {</span>
+<span class="pc bpc" id="L280" title="1 of 2 branches missed.">            if (file.delete()) {</span>
+<span class="fc" id="L281">                Deleted = true;</span>
+<span class="fc" id="L282">                Log.level4Debug(&quot;Deleted &quot; + FileName);</span>
+            } else {
+<span class="nc" id="L284">                Deleted = false;</span>
+<span class="nc" id="L285">                Log.level0Error(&quot;@couldNotDeleteFile&quot; + FileName);</span>
+            }
+        } else {
+<span class="fc" id="L288">            Deleted = true;</span>
+        }
+<span class="fc" id="L290">        return Deleted;</span>
+    }
+
+    /**
+     * deletes files
+     *
+     * @param cleanUp files to be deleted
+     * @return true if all files were deleted false and halts on error
+     */
+    public boolean deleteStringArrayOfFiles(String[] cleanUp) {
+<span class="fc bfc" id="L300" title="All 2 branches covered.">        for (String s : cleanUp) {</span>
+<span class="pc bpc" id="L301" title="1 of 2 branches missed.">            if (s != null) {</span>
+<span class="fc" id="L302">                new File(s).delete();</span>
+            } else {
+                continue;
+            }
+<span class="pc bpc" id="L306" title="1 of 2 branches missed.">            if (this.verifyExists(s)) {</span>
+<span class="nc" id="L307">                return false;</span>
+            }
+        } //all files were deleted
+<span class="fc" id="L310">        return true;</span>
+    }
+
+    /**
+     * copies a file from a source to a destination
+     *
+     * @param sourceFile  file to copy
+     * @param destFile destination to copy file (including filename)
+     * @throws IOException when permission problem exists
+     */
+    public void copyFile(File sourceFile, File destFile) throws IOException {
+
+<span class="fc" id="L322">        Log.level4Debug(&quot;Copying &quot; + sourceFile.getCanonicalPath() + &quot; to &quot; + destFile.getCanonicalPath());</span>
+<span class="pc bpc" id="L323" title="1 of 2 branches missed.">        if (!destFile.exists()) {</span>
+<span class="fc" id="L324">            destFile.createNewFile();</span>
+        }
+<span class="fc" id="L326">        FileChannel source = null;</span>
+<span class="fc" id="L327">        FileChannel destination = null;</span>
+        try {
+<span class="fc" id="L329">            source = new FileInputStream(sourceFile).getChannel();</span>
+<span class="fc" id="L330">            destination = new FileOutputStream(destFile).getChannel();</span>
+<span class="fc" id="L331">            destination.transferFrom(source, 0, source.size());</span>
+        } finally {
+<span class="pc bpc" id="L333" title="3 of 4 branches missed.">            if (source != null) {</span>
+<span class="pc" id="L334">                source.close();</span>
+            }
+        }
+<span class="pc bpc" id="L337" title="1 of 2 branches missed.">        if (destination != null) {</span>
+<span class="fc" id="L338">            destination.close();</span>
+
+        }
+
+<span class="fc" id="L342">    }</span>
+
+    /**
+     * returns the name of the current folder
+     *
+     * @return current folder
+     */
+    public String currentDir() {
+
+<span class="fc" id="L351">        String CurrentDir = new File(&quot;.&quot;).getAbsolutePath();</span>
+<span class="fc" id="L352">        Log.level4Debug(&quot;Detected current folder: &quot; + CurrentDir);</span>
+<span class="pc bpc" id="L353" title="1 of 2 branches missed.">        if (CurrentDir.endsWith(&quot;.&quot;)) {</span>
+<span class="fc" id="L354">            CurrentDir = CurrentDir.substring(0, CurrentDir.length() - 1);</span>
+        }
+<span class="fc" id="L356">        return CurrentDir;</span>
+    }
+
+    /**
+     * copies a file from a string path to a string path returns a boolean if
+     * completed
+     *
+     * @param FromFile  file to copy
+     * @param ToFile destination to copy to
+     * @return true if completed
+     */
+    public boolean copyFile(String FromFile, String ToFile) {
+<span class="fc" id="L368">        File OriginalFile = new File(FromFile);</span>
+<span class="fc" id="L369">        File DestinationFile = new File(ToFile);</span>
+        try {
+<span class="fc" id="L371">            copyFile(OriginalFile, DestinationFile);</span>
+<span class="fc" id="L372">            return true;</span>
+<span class="fc" id="L373">        } catch (IOException ex) {</span>
+<span class="fc" id="L374">            return false;</span>
+        }
+
+    }
+
+    /**
+     * takes a filename sets executable returns result
+     *
+     * @param Executable file to be set executable on linux/mac/unix
+     * @return true if executable bit was set
+     */
+    public boolean setExecutableBit(String Executable) {
+
+<span class="fc" id="L387">        File Exe = new File(Executable);</span>
+<span class="fc" id="L388">        boolean Result = Exe.setExecutable(true);</span>
+<span class="fc" id="L389">        Log.level4Debug(&quot;Setting executable &quot; + Exe + &quot;. Result=&quot; + Result);</span>
+<span class="fc" id="L390">        return Result;</span>
+    }
+
+    /**
+     * takes a string resource name returns result if it exists
+     *
+     * @param res resource to verify
+     * @return true if resource exists
+     */
+    public boolean verifyResource(String res) {
+<span class="pc bpc" id="L400" title="1 of 2 branches missed.">        return getClass().getResource(res) != null;</span>
+    }
+
+    /**
+     * takes a resource name returns a string of file contents
+     *
+     * @param Resource path to resource in jar or filesystem
+     * @return string contents of resource
+     */
+    public String readTextFromResource(String Resource) {
+
+<span class="nc" id="L411">        InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream(Resource);</span>
+<span class="nc" id="L412">        StringBuilder text = new StringBuilder();</span>
+        try {
+            InputStreamReader in;
+<span class="nc" id="L415">            in = new InputStreamReader(resourceAsStream, &quot;UTF-8&quot;);</span>
+            int read;
+<span class="nc bnc" id="L417" title="All 2 branches missed.">            while ((read = in.read()) != -1) {</span>
+<span class="nc" id="L418">                char C = (char) read;</span>
+<span class="nc" id="L419">                text.append(C);</span>
+<span class="nc" id="L420">            }</span>
+<span class="nc" id="L421">            in.close();</span>
+<span class="nc" id="L422">        } catch (NullPointerException ex) {</span>
+<span class="nc" id="L423">            Log.level0Error(&quot;@resourceNotFound:&quot; + Resource);</span>
+<span class="nc" id="L424">        } catch (IOException ex) {</span>
+<span class="nc" id="L425">            Log.level0Error(&quot;@resourceNotFound:&quot; + Resource);</span>
+<span class="nc" id="L426">        }</span>
+        //Log.level3(text.toString());
+<span class="nc" id="L428">        return text.toString();</span>
+    }
+
+    /**
+     * reads text from stream
+     *
+     * @param in stream to read
+     * @return text output
+     */
+    public String readTextFromStream(BufferedInputStream in) {
+<span class="fc" id="L438">        StringBuilder text = new StringBuilder();</span>
+        try {
+            int read;
+<span class="fc bfc" id="L441" title="All 2 branches covered.">            while ((read = in.read()) != -1) {</span>
+<span class="fc" id="L442">                char C = (char) read;</span>
+<span class="fc" id="L443">                text.append(C);</span>
+<span class="fc" id="L444">            }</span>
+<span class="fc" id="L445">            in.close();</span>
+<span class="nc" id="L446">        } catch (IOException ex) {</span>
+<span class="nc" id="L447">            Log.errorHandler(ex);</span>
+<span class="fc" id="L448">        }</span>
+        //Log.level3(text.toString());
+<span class="fc" id="L450">        return text.toString();</span>
+    }
+
+    /**
+     * reads file contents returns string
+     *
+     * @param FileOnDisk file to read
+     * @return string representation of file
+     */
+    public String readFile(String FileOnDisk) {
+
+<span class="fc" id="L461">        String EntireFile = &quot;&quot;;</span>
+        try {
+            String Line;
+<span class="fc" id="L464">            BufferedReader br = new BufferedReader(new FileReader(FileOnDisk));</span>
+<span class="fc bfc" id="L465" title="All 2 branches covered.">            while ((Line = br.readLine()) != null) {</span>
+                //Log.level3(Line);  
+<span class="fc" id="L467">                EntireFile = EntireFile + &quot;\n&quot; + Line;</span>
+
+            }
+<span class="fc" id="L470">            br.close();</span>
+<span class="nc" id="L471">        } catch (IOException ex) {</span>
+<span class="nc" id="L472">            Log.level2Information(&quot;@fileNotFound &quot; + FileOnDisk);</span>
+<span class="fc" id="L473">        }</span>
+<span class="fc" id="L474">        EntireFile = EntireFile.replaceFirst(&quot;\n&quot;, &quot;&quot;);</span>
+<span class="fc" id="L475">        return EntireFile;</span>
+    }
+
+    /**
+     * lists files in a folder
+     *
+     * @param folder folder to list
+     * @return array of filenames
+     */
+    public String[] listFolderFiles(String folder) {
+<span class="fc" id="L485">        File dir = new File(folder);</span>
+<span class="pc bpc" id="L486" title="1 of 2 branches missed.">        if (!dir.isDirectory()) {</span>
+<span class="nc" id="L487">            Log.level0Error(&quot;@fileNotAFolder&quot;);</span>
+<span class="nc" id="L488">            return null;</span>
+        }
+<span class="fc" id="L490">        ArrayList&lt;String&gt; files = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L491">        File[] list = dir.listFiles();</span>
+<span class="fc bfc" id="L492" title="All 2 branches covered.">        for (int x = 0; list.length &gt; x; x++) {</span>
+<span class="fc" id="L493">            files.add(list[x].getName());</span>
+        }
+<span class="fc" id="L495">        return StringOperations.convertArrayListToStringArray(files);</span>
+    }
+
+    /**
+     * lists files with full qualifiers
+     *
+     * @param folder folder to list
+     * @return array of files
+     */
+    public String[] listFolderFilesCannonically(String folder) {
+<span class="fc" id="L505">        File dir = new File(folder);</span>
+<span class="pc bpc" id="L506" title="1 of 2 branches missed.">        if (!dir.isDirectory()) {</span>
+<span class="nc" id="L507">            Log.level0Error(&quot;\&quot;@fileNotAFolder&quot;);</span>
+<span class="nc" id="L508">            return null;</span>
+        }
+<span class="fc" id="L510">        File[] list = dir.listFiles();</span>
+<span class="fc" id="L511">        String[] childOf = new String[list.length];</span>
+<span class="fc bfc" id="L512" title="All 2 branches covered.">        for (int x = 0; list.length &gt; x; x++) {</span>
+            try {
+<span class="fc" id="L514">                childOf[x] = list[x].getCanonicalFile().toString();</span>
+<span class="nc" id="L515">            } catch (IOException ex) {</span>
+<span class="nc" id="L516">                Log.errorHandler(ex);</span>
+<span class="fc" id="L517">            }</span>
+        }
+<span class="fc" id="L519">        return childOf;</span>
+    }
+
+    public ArrayList&lt;String&gt; listRecursive(String folder){
+<span class="nc" id="L523">        ArrayList&lt;String&gt; filesList=new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L524">        File[] files=new File(folder).listFiles();</span>
+<span class="nc bnc" id="L525" title="All 2 branches missed.">        for (File file:files){</span>
+<span class="nc bnc" id="L526" title="All 2 branches missed.">            if (file.isDirectory()){</span>
+<span class="nc" id="L527">                filesList.addAll(listRecursive(file.getAbsolutePath()));</span>
+            } else {
+<span class="nc" id="L529">                filesList.add(file.getAbsolutePath());</span>
+            }
+        }
+        
+        
+<span class="nc" id="L534">        return filesList;</span>
+        
+    }
+    
+    
+    /**
+     *
+     * @param sourceFile from locaton
+     * @param destFile to location
+     * @return true if moved
+     * @throws IOException when permission problem exists
+     */
+    public boolean moveFile(File sourceFile, File destFile) throws IOException {
+
+<span class="fc" id="L548">        FileOperations fO = new FileOperations();</span>
+<span class="pc bpc" id="L549" title="1 of 2 branches missed.">        if (!destFile.getParentFile().exists()) {</span>
+<span class="nc" id="L550">            File folder = destFile.getParentFile();</span>
+<span class="nc" id="L551">            folder.mkdirs();</span>
+        }
+<span class="pc bpc" id="L553" title="1 of 2 branches missed.">        if (destFile.exists()) {</span>
+<span class="nc" id="L554">            Log.level3Verbose(&quot;Cannot move file.  Destination file is in the way&quot;);</span>
+<span class="nc" id="L555">            return false;</span>
+        }
+<span class="fc" id="L557">        Log.level4Debug(&quot;moving &quot; + sourceFile.getAbsolutePath() + &quot; to &quot; + destFile.getAbsolutePath());</span>
+<span class="fc" id="L558">        return sourceFile.renameTo(destFile);</span>
+    }
+
+    /**
+     * moves a file
+     *
+     * @param sourceFile from location
+     * @param destFile to location
+     * @return true if moved
+     * @throws IOException when permissions problems exist
+     */
+    public boolean moveFile(String sourceFile, String destFile) throws IOException {
+
+<span class="fc" id="L571">        FileOperations fo = new FileOperations();</span>
+<span class="pc bpc" id="L572" title="1 of 2 branches missed.">        if (!fo.verifyExists(sourceFile)) {</span>
+<span class="nc" id="L573">            Log.level4Debug(&quot;[moveFile()] Source doesn't exist&quot;);</span>
+<span class="nc" id="L574">            return false;</span>
+        }
+<span class="pc bpc" id="L576" title="1 of 2 branches missed.">        if (fo.verifyExists(destFile)) {</span>
+<span class="nc" id="L577">            fo.deleteFile(destFile);</span>
+        }
+<span class="pc bpc" id="L579" title="1 of 2 branches missed.">        if (fo.copyFile(sourceFile, destFile)) {</span>
+<span class="pc bpc" id="L580" title="1 of 2 branches missed.">            if (fo.deleteFile(sourceFile)) {</span>
+<span class="fc" id="L581">                Log.level4Debug(&quot;[moveFile()]File moved successfully&quot;);</span>
+<span class="fc" id="L582">                return true;</span>
+            } else {
+<span class="nc" id="L584">                Log.level4Debug(&quot;[moveFile()]File copied, unable to remove source&quot;);</span>
+<span class="nc" id="L585">                return false;</span>
+            }
+        } else {
+<span class="nc" id="L588">            Log.level4Debug(&quot;[moveFile()]Unable to copy source to destination&quot;);</span>
+<span class="nc" id="L589">            return false;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

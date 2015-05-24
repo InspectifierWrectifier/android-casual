@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.embed.swing.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
+<?scenebuilder-background-color 0x383838ff?>
+
+<AnchorPane maxHeight="600.0" maxWidth="805.0" prefHeight="600.0" prefWidth="773.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.casual_dev.zodui.CASUALZodMainUI">
+   <children>
+      <GridPane fx:id="grid" minHeight="-1.0" minWidth="-1.0" prefHeight="600.0" prefWidth="805.0" stylesheets="@zodanchor.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <children>
+          <ScrollPane fx:id="content" content="$null" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.vgrow="SOMETIMES">
+            <effect>
+              <Lighting diffuseConstant="1.1417322834645671">
+                <bumpInput>
+                  <Shadow />
+                </bumpInput>
+                <light>
+                  <javafx.scene.effect.Light.Distant />
+                </light>
+              </Lighting>
+            </effect>
+               <content>
+                  <AnchorPane fx:id="frontPage" prefHeight="686.0" prefWidth="805.0" />
+               </content>
+          </ScrollPane>
+          <WebView fx:id="ad" minHeight="74.0" minWidth="800.0" prefHeight="105.0" prefWidth="805.0" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+            <effect>
+              <InnerShadow />
+            </effect>
+          </WebView>
+            <HBox alignment="CENTER" prefHeight="69.0" prefWidth="805.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <children>
+                  <Label text="nav" />
+                  <Separator prefWidth="50.0" visible="false" HBox.hgrow="SOMETIMES" />
+                  <Button mnemonicParsing="false" onAction="#showAbout" text="About" HBox.hgrow="NEVER" />
+                  <Separator prefWidth="25.0" HBox.hgrow="SOMETIMES" />
+                  <Button mnemonicParsing="false" text="Donate" HBox.hgrow="NEVER" />
+                  <Separator prefWidth="25.0" HBox.hgrow="SOMETIMES" />
+                  <Button mnemonicParsing="false" onAction="#showLog" text="Show Log" HBox.hgrow="NEVER" />
+                  <Separator visible="false" HBox.hgrow="ALWAYS" />
+                  <Separator prefWidth="50.0" visible="false" HBox.hgrow="SOMETIMES" />
+               </children>
+               <effect>
+                  <DropShadow color="#0000006b" height="24.04" offsetY="5.0" radius="8.4825" spread="0.17" width="11.89" />
+               </effect>
+            </HBox>
+        </children>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="467.0" valignment="TOP" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="81.0" minHeight="0.0" prefHeight="43.0" valignment="BOTTOM" vgrow="NEVER" />
+          <RowConstraints maxHeight="101.0" minHeight="65.0" prefHeight="90.0" valignment="BOTTOM" vgrow="NEVER" />
+        </rowConstraints>
+      </GridPane>
+      <AnchorPane fx:id="frontPage" maxHeight="479.0" prefHeight="479.0" prefWidth="805.0" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <TextArea opacity="0.8" prefHeight="469.0" prefWidth="805.0">
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Spot pointsAtX="200.0" pointsAtY="200.0" pointsAtZ="00.0" x="40.0" y="40.0" z="20.0" />
+                     </light>
+                  </Lighting>
+               </effect>
+            </TextArea>
+            <BorderPane layoutX="8.0" layoutY="8.0" prefHeight="469.0" prefWidth="805.0" stylesheets="@frontPage.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <center>
+                  <GridPane BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                      <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="265.0" minWidth="10.0" prefWidth="211.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="265.0" minWidth="0.0" prefWidth="9.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="628.0" minWidth="10.0" prefWidth="505.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Title">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label text="Donate to" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label text="Donation link" GridPane.rowIndex="3">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="startButton" disable="true" mnemonicParsing="false" onAction="#StartButtonActionPerformed" prefHeight="34.0" prefWidth="257.0" text="Do It!" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+                        <Label text="Device Status" GridPane.rowIndex="7" />
+                        <Label fx:id="title" text="please wait..." GridPane.columnIndex="2" />
+                        <Label fx:id="donateTo" text="please wait..." GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Label fx:id="donateLink" onMouseClicked="#launchDonationLink" text="please wait..." GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <Label fx:id="deviceStatus" text="Not Connected" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                        <Label text="Developer" GridPane.rowIndex="1" />
+                        <Label fx:id="developer" text="please wait..." GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Label text="CASUAL Status" GridPane.rowIndex="6" />
+                        <Label fx:id="casualStatus" text="Downloading" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                     </children>
+                     <BorderPane.margin>
+                        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+                     </BorderPane.margin>
+                  </GridPane>
+               </center>
+               <top>
+                  <AnchorPane prefHeight="80.0" prefWidth="805.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <FlowPane layoutX="14.0" layoutY="14.0" prefHeight="80.0" prefWidth="805.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Separator opacity="0.0" />
+                              <ImageView fitHeight="8.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" />
+                              <Label fx:id="bannertext" style="-fx-font-size: 35pt;" text="Banner Text" textFill="#4dd014">
+                                 <font>
+                                    <Font size="42.0" />
+                                 </font>
+                              </Label>
+                              <Separator opacity="0.0" />
+                           </children>
+                           <effect>
+                              <Lighting>
+                                 <bumpInput>
+                                    <Shadow />
+                                 </bumpInput>
+                                 <light>
+                                    <Light.Distant />
+                                 </light>
+                              </Lighting>
+                           </effect>
+                        </FlowPane>
+                     </children>
+                  </AnchorPane>
+               </top>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

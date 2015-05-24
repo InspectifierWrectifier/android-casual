@@ -1,0 +1,1 @@
+This exploit was designed by Ralekdev, AdamOutler and Rebellos, it will work with I605VRALJB. For best results you should flash Revision by AdamOutler as a baseline before attempting this exploit.  See XDA-Developers.com for more. Link: http://goo.gl/a1HMS

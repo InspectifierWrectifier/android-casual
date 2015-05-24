@@ -1,0 +1,11 @@
+[*]
+[*] Motofail: Universal Motorola Android Root Exploit (ALL OS's)
+[*] by Dan Rosenberg (@djrbliss)
+[*]
+[*] Tested on Droid 3, Droid Bionic, Droid RAZR, and Droid 4
+[*]
+[*] Before continuing, ensure USB debugging is enabled, that you
+[*] have the latest Motorola drivers installed, and that your phone
+[*] is connected via USB.
+[*]
+[*] Press the rediculously large button to root your phone...

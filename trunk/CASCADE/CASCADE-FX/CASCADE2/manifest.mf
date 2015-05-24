@@ -1,0 +1,9 @@
+
+Manifest-Version: 1.0
+Application-Name: CASCADE2
+description: Provides a development environment for CASPACs and CASUAL. 
+Codebase: *
+Permissions: all-permissions
+Application-Library-Allowable-Codebase: *
+Caller-Allowable-Codebase: *
+Created-By: Adam Outler

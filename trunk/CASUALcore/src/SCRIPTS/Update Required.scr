@@ -1,0 +1,3 @@
+#CASUAL168 , R21, ID TEH ROXOR, URL http://forum.xda-developers.com/showthread.php?t=2105263, Message CASUAL was updated to the latest greatest version of this script.  Cool huh? --AdamOutler
+shell "echo 'testing CASUAL'"
+reboot

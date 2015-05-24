@@ -1,0 +1,8 @@
+#$IFNOTCONTAINS ro.product.model=X909 $INCOMMAND shell "cat /system/build.prop" $DO $HALT $ECHO your system is not an X909. This won't work. halting.
+$ECHO rebooting device... please wait
+reboot bootloader
+$FASTBOOT flash recovery "$ZIPFILErecovery-twrp-kamma-beta1.img"
+$FASTBOOT reboot
+$ECHO Booting into recovery.. please wait
+wait-for-device
+reboot recovery

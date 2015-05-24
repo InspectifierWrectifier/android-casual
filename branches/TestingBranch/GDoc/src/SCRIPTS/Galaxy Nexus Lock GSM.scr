@@ -1,0 +1,9 @@
+$ECHO Pushing locked bootloader params
+push "$ZIPFILEparam.lfs" /sdcard/param.lfs
+$ECHO Flashing bootloader params
+shell su -c "dd if=/sdcard/param.lfs of=/dev/block/platform/omap/omap_hsmmc.0/by-name/param bs=4096"
+$ECHO Cleaning up
+shell rm /sdcard/param.lfs
+$USERCANCELOPTION Reboot?, Do you wish to reboot into recovery now? 
+reboot
+

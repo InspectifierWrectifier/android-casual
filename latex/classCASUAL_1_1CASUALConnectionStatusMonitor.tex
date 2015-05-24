@@ -1,0 +1,71 @@
+\hypertarget{classCASUAL_1_1CASUALConnectionStatusMonitor}{\section{C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Connection\-Status\-Monitor Class Reference}
+\label{classCASUAL_1_1CASUALConnectionStatusMonitor}\index{C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Connection\-Status\-Monitor@{C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Connection\-Status\-Monitor}}
+}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classCASUAL_1_1CASUALConnectionStatusMonitor_a8b18170642eaa60caadf87c180a4b3c8}{set\-Mode} (String mode)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classCASUAL_1_1CASUALConnectionStatusMonitor_a90e99917eda2f6d4ac56313ebb3fd4c7}{static final int {\bfseries O\-N\-E\-\_\-\-S\-E\-C\-O\-N\-D} = 1000}\label{classCASUAL_1_1CASUALConnectionStatusMonitor_a90e99917eda2f6d4ac56313ebb3fd4c7}
+
+\item 
+\hypertarget{classCASUAL_1_1CASUALConnectionStatusMonitor_a1c9e576e98ffbd5cd92060fb3dbf69ac}{static String\mbox{[}$\,$\mbox{]} {\bfseries Device\-Tracker}}\label{classCASUAL_1_1CASUALConnectionStatusMonitor_a1c9e576e98ffbd5cd92060fb3dbf69ac}
+
+\item 
+\hypertarget{classCASUAL_1_1CASUALConnectionStatusMonitor_a65f45d24cba3f9eed0d1837798330c58}{static int {\bfseries adb\-Locked\-Up} = 0}\label{classCASUAL_1_1CASUALConnectionStatusMonitor_a65f45d24cba3f9eed0d1837798330c58}
+
+\item 
+static Timer {\bfseries Device\-Check}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Adam Outler \href{mailto:adamoutler@gmail.com}{\tt adamoutler@gmail.\-com} 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCASUAL_1_1CASUALConnectionStatusMonitor_a8b18170642eaa60caadf87c180a4b3c8}{\index{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Connection\-Status\-Monitor@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Connection\-Status\-Monitor}!set\-Mode@{set\-Mode}}
+\index{set\-Mode@{set\-Mode}!CASUAL::CASUALConnectionStatusMonitor@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Connection\-Status\-Monitor}}
+\subsubsection[{set\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}static void C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Connection\-Status\-Monitor.\-set\-Mode (
+\begin{DoxyParamCaption}
+\item[{String}]{mode}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1CASUALConnectionStatusMonitor_a8b18170642eaa60caadf87c180a4b3c8}
+Starts and stops the A\-D\-B timer reference with Statics.\-casual\-Connection\-Status\-Monitor.\-Device\-Check O\-N\-L\-Y; 
+\begin{DoxyParams}{Parameters}
+{\em mode} & sets the monitoring mode \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classCASUAL_1_1CASUALConnectionStatusMonitor_a5d0a815804a5a296a4b8715e852f9b44}{\index{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Connection\-Status\-Monitor@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Connection\-Status\-Monitor}!Device\-Check@{Device\-Check}}
+\index{Device\-Check@{Device\-Check}!CASUAL::CASUALConnectionStatusMonitor@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Connection\-Status\-Monitor}}
+\subsubsection[{Device\-Check}]{\setlength{\rightskip}{0pt plus 5cm}Timer C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Connection\-Status\-Monitor.\-Device\-Check\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1CASUALConnectionStatusMonitor_a5d0a815804a5a296a4b8715e852f9b44}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \textcolor{keyword}{new} Timer(TIMERINTERVAL, \textcolor{keyword}{new} ActionListener() \{
+        @Override
+        \textcolor{keyword}{public} \textcolor{keywordtype}{void} actionPerformed(ActionEvent evt) \{
+            \textcolor{keywordflow}{if} (mode.equals(\textcolor{stringliteral}{"qprst"})) \{
+                
+            \} \textcolor{keywordflow}{else} \{  
+                Thread t = \textcolor{keyword}{new} Thread(adbDeviceCheck);
+                t.setName(\textcolor{stringliteral}{"Device Monitor"});
+                t.start();
+            \}
+        \}
+    \})
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+branches/\-C\-A\-S\-U\-A\-L-\/\-Headless/\-G\-U\-I/src/\-C\-A\-S\-U\-A\-L/C\-A\-S\-U\-A\-L\-Connection\-Status\-Monitor.\-java\item 
+branches/\-Testing\-Branch/\-G\-Doc/src/\-C\-A\-S\-U\-A\-L/C\-A\-S\-U\-A\-L\-Connection\-Status\-Monitor.\-java\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/C\-A\-S\-U\-A\-L\-Connection\-Status\-Monitor.\-java\end{DoxyCompactItemize}

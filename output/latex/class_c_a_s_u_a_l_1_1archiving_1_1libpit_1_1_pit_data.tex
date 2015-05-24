@@ -1,0 +1,760 @@
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data}{\section{C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data Class Reference}
+\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data}\index{C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data@{C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a575807b0b55555f13263cb9e11b0e8f0}{Pit\-Data} ()
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5b8cfb6f9c2f8f3c70f35bfe464ef3d2}{Pit\-Data} (\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_input_stream}{Pit\-Input\-Stream} Pit\-Stream)
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a9e4e20dbeacb01785f44e8e17bc38dee}{Pit\-Data} (File pit)  throws File\-Not\-Found\-Exception 
+\item 
+final boolean \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5c3639c6e3b5d9a75f105abccb033e20}{unpack} (\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_input_stream}{Pit\-Input\-Stream} pit\-Input\-Stream)
+\item 
+boolean \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ae1127a2be4d3e84705e23fcc8272d406}{pack} (Data\-Output\-Stream data\-Output\-Stream)
+\item 
+boolean \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ae1ee835acd4523c6e6d2d87d77dce53c}{matches} (\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data}{Pit\-Data} other\-Pit\-Data)
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a25d720cdeb7e6b50f2816d1fd4af4784}{clear} ()
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a74e2d83ff8b0a83e36bebbf96891c37c}{get\-Entry} (int index)
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ab1a4b23f0380c3e2ce26d85e519bd15a}{find\-Entry} (String partition\-Name)
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ac07383ca9cf4750eb9de5cdf1690121f}{find\-Entry\-By\-Filename} (String filename)
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5d139fcadf351b81b00298f1578a9cc5}{find\-Entry} (int partition\-Identifier)
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a2102b1e03aa2de4c6d80f8e43576b06d}{remove\-Entry} (\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} entry)
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_aea22df6b38acde79df88ea8255e60ec2}{add\-Entry} (\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} entry)
+\item 
+int \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a64a120bc22b1061952e01188a30f7eeb}{get\-Entry\-Count} ()
+\item 
+char\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a07f12e00c2077eebc28fc251f87752f8}{get\-File\-Type} ()
+\item 
+char\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a1cdc24d3cdfdd1e716a856fb3cb2c22d}{get\-Phone} ()
+\item 
+String \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ab1c581d014e995eab5c36c72ef8c4417}{get\-P\-I\-T\-Friendly\-Name} ()
+\item 
+String \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a16d06e906b55316b5559420e93ead64d}{get\-File\-Type\-Friendly\-Name} ()
+\item 
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a9f65e9c2ef9988d9dae1fbd30fd0b9fc}{String {\bfseries to\-String} ()}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a9f65e9c2ef9988d9dae1fbd30fd0b9fc}
+
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ad9bf38702c94c0e25ea1e2175a14e8c8}{resize\-Partition} (String part\-Name, int change\-To\-Size)  throws Class\-Not\-Found\-Exception 
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ac5958719c4de4485093dd5d7a6ca1c65}{resize\-Partition} (\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} entry, int change\-To\-Size)  throws Class\-Not\-Found\-Exception 
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry}\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_aad4e04c99c61973ec42a1737dd6f156a}{sort\-Entries\-By\-Block\-Location} ()
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a575807b0b55555f13263cb9e11b0e8f0}{Pit\-Data} ()
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5b8cfb6f9c2f8f3c70f35bfe464ef3d2}{Pit\-Data} (\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_input_stream}{Pit\-Input\-Stream} Pit\-Stream)
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a9e4e20dbeacb01785f44e8e17bc38dee}{Pit\-Data} (File pit)  throws File\-Not\-Found\-Exception 
+\item 
+final boolean \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5c3639c6e3b5d9a75f105abccb033e20}{unpack} (\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_input_stream}{Pit\-Input\-Stream} pit\-Input\-Stream)
+\item 
+boolean \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ae1127a2be4d3e84705e23fcc8272d406}{pack} (Data\-Output\-Stream data\-Output\-Stream)
+\item 
+boolean \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ae1ee835acd4523c6e6d2d87d77dce53c}{matches} (\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data}{Pit\-Data} other\-Pit\-Data)
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a25d720cdeb7e6b50f2816d1fd4af4784}{clear} ()
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a74e2d83ff8b0a83e36bebbf96891c37c}{get\-Entry} (int index)
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ab1a4b23f0380c3e2ce26d85e519bd15a}{find\-Entry} (String partition\-Name)
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ac07383ca9cf4750eb9de5cdf1690121f}{find\-Entry\-By\-Filename} (String filename)
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5d139fcadf351b81b00298f1578a9cc5}{find\-Entry} (int partition\-Identifier)
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a2102b1e03aa2de4c6d80f8e43576b06d}{remove\-Entry} (\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} entry)
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_aea22df6b38acde79df88ea8255e60ec2}{add\-Entry} (\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} entry)
+\item 
+int \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a64a120bc22b1061952e01188a30f7eeb}{get\-Entry\-Count} ()
+\item 
+char\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a07f12e00c2077eebc28fc251f87752f8}{get\-File\-Type} ()
+\item 
+char\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a1cdc24d3cdfdd1e716a856fb3cb2c22d}{get\-Phone} ()
+\item 
+String \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ab1c581d014e995eab5c36c72ef8c4417}{get\-P\-I\-T\-Friendly\-Name} ()
+\item 
+String \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a16d06e906b55316b5559420e93ead64d}{get\-File\-Type\-Friendly\-Name} ()
+\item 
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a9f65e9c2ef9988d9dae1fbd30fd0b9fc}{String {\bfseries to\-String} ()}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a9f65e9c2ef9988d9dae1fbd30fd0b9fc}
+
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ad9bf38702c94c0e25ea1e2175a14e8c8}{resize\-Partition} (String part\-Name, int change\-To\-Size)  throws Class\-Not\-Found\-Exception 
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ac5958719c4de4485093dd5d7a6ca1c65}{resize\-Partition} (\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} entry, int change\-To\-Size)  throws Class\-Not\-Found\-Exception 
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry}\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_aad4e04c99c61973ec42a1737dd6f156a}{sort\-Entries\-By\-Block\-Location} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a2532f4f5a317e6e8014f06d0f4625294}{entry\-Count}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static final int \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ac0cd0f93311de091c28229ad1e9b1fee}{F\-I\-L\-E\-\_\-\-I\-D\-E\-N\-T\-I\-F\-I\-E\-R} = 0x12349876
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Pitdata provides a way to work with the header information of the P\-I\-T file Original Files may be found here\-: \href{https://github.com/Benjamin-Dobell/libpit&ndash;Java-/tree/master/libpit/src/au/com/glassechidna/libpit}{\tt https\-://github.\-com/\-Benjamin-\/\-Dobell/libpit\&ndash;\-Java-\//tree/master/libpit/src/au/com/glassechidna/libpit} modified by\-: Adam Outler
+
+\begin{DoxyAuthor}{Author}
+Benjamin Dobell 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a575807b0b55555f13263cb9e11b0e8f0}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!Pit\-Data@{Pit\-Data}}
+\index{Pit\-Data@{Pit\-Data}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{Pit\-Data}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-Pit\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a575807b0b55555f13263cb9e11b0e8f0}
+Constructor for new P\-I\-T file. \hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5b8cfb6f9c2f8f3c70f35bfe464ef3d2}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!Pit\-Data@{Pit\-Data}}
+\index{Pit\-Data@{Pit\-Data}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{Pit\-Data}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-Pit\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Input\-Stream}}]{Pit\-Stream}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5b8cfb6f9c2f8f3c70f35bfe464ef3d2}
+Constructor to grab P\-I\-T file from an Input\-Stream
+
+
+\begin{DoxyParams}{Parameters}
+{\em Pit\-Stream} & input\-Stream containing a P\-I\-T file only \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a9e4e20dbeacb01785f44e8e17bc38dee}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!Pit\-Data@{Pit\-Data}}
+\index{Pit\-Data@{Pit\-Data}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{Pit\-Data}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-Pit\-Data (
+\begin{DoxyParamCaption}
+\item[{File}]{pit}
+\end{DoxyParamCaption}
+) throws File\-Not\-Found\-Exception}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a9e4e20dbeacb01785f44e8e17bc38dee}
+Constructor to grab P\-I\-T file from a File
+
+
+\begin{DoxyParams}{Parameters}
+{\em pit} & P\-I\-T file \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em File\-Not\-Found\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a575807b0b55555f13263cb9e11b0e8f0}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!Pit\-Data@{Pit\-Data}}
+\index{Pit\-Data@{Pit\-Data}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{Pit\-Data}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-Pit\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a575807b0b55555f13263cb9e11b0e8f0}
+Constructor for new P\-I\-T file. \hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5b8cfb6f9c2f8f3c70f35bfe464ef3d2}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!Pit\-Data@{Pit\-Data}}
+\index{Pit\-Data@{Pit\-Data}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{Pit\-Data}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-Pit\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Input\-Stream}}]{Pit\-Stream}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5b8cfb6f9c2f8f3c70f35bfe464ef3d2}
+Constructor to grab P\-I\-T file from an Input\-Stream
+
+
+\begin{DoxyParams}{Parameters}
+{\em Pit\-Stream} & input\-Stream containing a P\-I\-T file only \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a9e4e20dbeacb01785f44e8e17bc38dee}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!Pit\-Data@{Pit\-Data}}
+\index{Pit\-Data@{Pit\-Data}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{Pit\-Data}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-Pit\-Data (
+\begin{DoxyParamCaption}
+\item[{File}]{pit}
+\end{DoxyParamCaption}
+) throws File\-Not\-Found\-Exception}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a9e4e20dbeacb01785f44e8e17bc38dee}
+Constructor to grab P\-I\-T file from a File
+
+
+\begin{DoxyParams}{Parameters}
+{\em pit} & P\-I\-T file \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em File\-Not\-Found\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_aea22df6b38acde79df88ea8255e60ec2}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!add\-Entry@{add\-Entry}}
+\index{add\-Entry@{add\-Entry}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{add\-Entry}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-add\-Entry (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Entry}}]{entry}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_aea22df6b38acde79df88ea8255e60ec2}
+Adds a \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} to the list of entries
+
+
+\begin{DoxyParams}{Parameters}
+{\em entry} & entry to be added \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_aea22df6b38acde79df88ea8255e60ec2}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!add\-Entry@{add\-Entry}}
+\index{add\-Entry@{add\-Entry}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{add\-Entry}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-add\-Entry (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Entry}}]{entry}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_aea22df6b38acde79df88ea8255e60ec2}
+Adds a \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} to the list of entries
+
+
+\begin{DoxyParams}{Parameters}
+{\em entry} & entry to be added \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a25d720cdeb7e6b50f2816d1fd4af4784}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!clear@{clear}}
+\index{clear@{clear}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-clear (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a25d720cdeb7e6b50f2816d1fd4af4784}
+clears all data in the pit file. \hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a25d720cdeb7e6b50f2816d1fd4af4784}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!clear@{clear}}
+\index{clear@{clear}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-clear (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a25d720cdeb7e6b50f2816d1fd4af4784}
+clears all data in the pit file. \hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ab1a4b23f0380c3e2ce26d85e519bd15a}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!find\-Entry@{find\-Entry}}
+\index{find\-Entry@{find\-Entry}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{find\-Entry}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pit\-Entry} C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-find\-Entry (
+\begin{DoxyParamCaption}
+\item[{String}]{partition\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ab1a4b23f0380c3e2ce26d85e519bd15a}
+gets a \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} by Partition name
+
+
+\begin{DoxyParams}{Parameters}
+{\em partition\-Name} & partition name to be matched \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} matched by name 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ab1a4b23f0380c3e2ce26d85e519bd15a}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!find\-Entry@{find\-Entry}}
+\index{find\-Entry@{find\-Entry}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{find\-Entry}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pit\-Entry} C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-find\-Entry (
+\begin{DoxyParamCaption}
+\item[{String}]{partition\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ab1a4b23f0380c3e2ce26d85e519bd15a}
+gets a \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} by Partition name
+
+
+\begin{DoxyParams}{Parameters}
+{\em partition\-Name} & partition name to be matched \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} matched by name 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5d139fcadf351b81b00298f1578a9cc5}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!find\-Entry@{find\-Entry}}
+\index{find\-Entry@{find\-Entry}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{find\-Entry}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pit\-Entry} C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-find\-Entry (
+\begin{DoxyParamCaption}
+\item[{int}]{partition\-Identifier}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5d139fcadf351b81b00298f1578a9cc5}
+Gets a \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} based on partition I\-D
+
+
+\begin{DoxyParams}{Parameters}
+{\em partition\-Identifier} & identifier to match \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} matched on Partition\-Identifier 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5d139fcadf351b81b00298f1578a9cc5}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!find\-Entry@{find\-Entry}}
+\index{find\-Entry@{find\-Entry}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{find\-Entry}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pit\-Entry} C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-find\-Entry (
+\begin{DoxyParamCaption}
+\item[{int}]{partition\-Identifier}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5d139fcadf351b81b00298f1578a9cc5}
+Gets a \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} based on partition I\-D
+
+
+\begin{DoxyParams}{Parameters}
+{\em partition\-Identifier} & identifier to match \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} matched on Partition\-Identifier 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ac07383ca9cf4750eb9de5cdf1690121f}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!find\-Entry\-By\-Filename@{find\-Entry\-By\-Filename}}
+\index{find\-Entry\-By\-Filename@{find\-Entry\-By\-Filename}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{find\-Entry\-By\-Filename}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pit\-Entry} C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-find\-Entry\-By\-Filename (
+\begin{DoxyParamCaption}
+\item[{String}]{filename}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ac07383ca9cf4750eb9de5cdf1690121f}
+gets a \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} by filename
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & filename in pit entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} matched on filename 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ac07383ca9cf4750eb9de5cdf1690121f}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!find\-Entry\-By\-Filename@{find\-Entry\-By\-Filename}}
+\index{find\-Entry\-By\-Filename@{find\-Entry\-By\-Filename}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{find\-Entry\-By\-Filename}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pit\-Entry} C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-find\-Entry\-By\-Filename (
+\begin{DoxyParamCaption}
+\item[{String}]{filename}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ac07383ca9cf4750eb9de5cdf1690121f}
+gets a \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} by filename
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & filename in pit entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} matched on filename 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a74e2d83ff8b0a83e36bebbf96891c37c}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!get\-Entry@{get\-Entry}}
+\index{get\-Entry@{get\-Entry}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{get\-Entry}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pit\-Entry} C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-get\-Entry (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a74e2d83ff8b0a83e36bebbf96891c37c}
+Gets a \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} by index
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & index of entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} at index 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a74e2d83ff8b0a83e36bebbf96891c37c}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!get\-Entry@{get\-Entry}}
+\index{get\-Entry@{get\-Entry}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{get\-Entry}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pit\-Entry} C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-get\-Entry (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a74e2d83ff8b0a83e36bebbf96891c37c}
+Gets a \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} by index
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & index of entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} at index 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a64a120bc22b1061952e01188a30f7eeb}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!get\-Entry\-Count@{get\-Entry\-Count}}
+\index{get\-Entry\-Count@{get\-Entry\-Count}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{get\-Entry\-Count}]{\setlength{\rightskip}{0pt plus 5cm}int C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-get\-Entry\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a64a120bc22b1061952e01188a30f7eeb}
+gets the number of entries
+
+\begin{DoxyReturn}{Returns}
+entry count 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a64a120bc22b1061952e01188a30f7eeb}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!get\-Entry\-Count@{get\-Entry\-Count}}
+\index{get\-Entry\-Count@{get\-Entry\-Count}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{get\-Entry\-Count}]{\setlength{\rightskip}{0pt plus 5cm}int C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-get\-Entry\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a64a120bc22b1061952e01188a30f7eeb}
+gets the number of entries
+
+\begin{DoxyReturn}{Returns}
+entry count 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a07f12e00c2077eebc28fc251f87752f8}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!get\-File\-Type@{get\-File\-Type}}
+\index{get\-File\-Type@{get\-File\-Type}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{get\-File\-Type}]{\setlength{\rightskip}{0pt plus 5cm}char \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-get\-File\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a07f12e00c2077eebc28fc251f87752f8}
+returns the file type
+
+\begin{DoxyReturn}{Returns}
+file type 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a07f12e00c2077eebc28fc251f87752f8}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!get\-File\-Type@{get\-File\-Type}}
+\index{get\-File\-Type@{get\-File\-Type}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{get\-File\-Type}]{\setlength{\rightskip}{0pt plus 5cm}char \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-get\-File\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a07f12e00c2077eebc28fc251f87752f8}
+returns the file type
+
+\begin{DoxyReturn}{Returns}
+file type 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a16d06e906b55316b5559420e93ead64d}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!get\-File\-Type\-Friendly\-Name@{get\-File\-Type\-Friendly\-Name}}
+\index{get\-File\-Type\-Friendly\-Name@{get\-File\-Type\-Friendly\-Name}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{get\-File\-Type\-Friendly\-Name}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-get\-File\-Type\-Friendly\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a16d06e906b55316b5559420e93ead64d}
+returns filetype friendly name with parameters
+
+\begin{DoxyReturn}{Returns}
+File Type friendly name with parameters 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a16d06e906b55316b5559420e93ead64d}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!get\-File\-Type\-Friendly\-Name@{get\-File\-Type\-Friendly\-Name}}
+\index{get\-File\-Type\-Friendly\-Name@{get\-File\-Type\-Friendly\-Name}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{get\-File\-Type\-Friendly\-Name}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-get\-File\-Type\-Friendly\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a16d06e906b55316b5559420e93ead64d}
+returns filetype friendly name with parameters
+
+\begin{DoxyReturn}{Returns}
+File Type friendly name with parameters 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a1cdc24d3cdfdd1e716a856fb3cb2c22d}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!get\-Phone@{get\-Phone}}
+\index{get\-Phone@{get\-Phone}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{get\-Phone}]{\setlength{\rightskip}{0pt plus 5cm}char \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-get\-Phone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a1cdc24d3cdfdd1e716a856fb3cb2c22d}
+gets the name of the intended platform
+
+\begin{DoxyReturn}{Returns}
+platform name 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a1cdc24d3cdfdd1e716a856fb3cb2c22d}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!get\-Phone@{get\-Phone}}
+\index{get\-Phone@{get\-Phone}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{get\-Phone}]{\setlength{\rightskip}{0pt plus 5cm}char \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-get\-Phone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a1cdc24d3cdfdd1e716a856fb3cb2c22d}
+gets the name of the intended platform
+
+\begin{DoxyReturn}{Returns}
+platform name 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ab1c581d014e995eab5c36c72ef8c4417}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!get\-P\-I\-T\-Friendly\-Name@{get\-P\-I\-T\-Friendly\-Name}}
+\index{get\-P\-I\-T\-Friendly\-Name@{get\-P\-I\-T\-Friendly\-Name}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{get\-P\-I\-T\-Friendly\-Name}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-get\-P\-I\-T\-Friendly\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ab1c581d014e995eab5c36c72ef8c4417}
+returns pit name with parameters
+
+\begin{DoxyReturn}{Returns}
+P\-I\-T friendly name with parameters 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ab1c581d014e995eab5c36c72ef8c4417}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!get\-P\-I\-T\-Friendly\-Name@{get\-P\-I\-T\-Friendly\-Name}}
+\index{get\-P\-I\-T\-Friendly\-Name@{get\-P\-I\-T\-Friendly\-Name}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{get\-P\-I\-T\-Friendly\-Name}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-get\-P\-I\-T\-Friendly\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ab1c581d014e995eab5c36c72ef8c4417}
+returns pit name with parameters
+
+\begin{DoxyReturn}{Returns}
+P\-I\-T friendly name with parameters 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ae1ee835acd4523c6e6d2d87d77dce53c}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!matches@{matches}}
+\index{matches@{matches}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{matches}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-matches (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Data}}]{other\-Pit\-Data}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ae1ee835acd4523c6e6d2d87d77dce53c}
+tests for a match on a \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data}{Pit\-Data}
+
+
+\begin{DoxyParams}{Parameters}
+{\em other\-Pit\-Data} & second pit data to be ested \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if match 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ae1ee835acd4523c6e6d2d87d77dce53c}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!matches@{matches}}
+\index{matches@{matches}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{matches}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-matches (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Data}}]{other\-Pit\-Data}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ae1ee835acd4523c6e6d2d87d77dce53c}
+tests for a match on a \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data}{Pit\-Data}
+
+
+\begin{DoxyParams}{Parameters}
+{\em other\-Pit\-Data} & second pit data to be ested \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if match 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ae1127a2be4d3e84705e23fcc8272d406}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!pack@{pack}}
+\index{pack@{pack}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{pack}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-pack (
+\begin{DoxyParamCaption}
+\item[{Data\-Output\-Stream}]{data\-Output\-Stream}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ae1127a2be4d3e84705e23fcc8272d406}
+Packs current object into a P\-I\-T file
+
+
+\begin{DoxyParams}{Parameters}
+{\em data\-Output\-Stream} & dataoutputstream to write to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if sucessful 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ae1127a2be4d3e84705e23fcc8272d406}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!pack@{pack}}
+\index{pack@{pack}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{pack}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-pack (
+\begin{DoxyParamCaption}
+\item[{Data\-Output\-Stream}]{data\-Output\-Stream}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ae1127a2be4d3e84705e23fcc8272d406}
+Packs current object into a P\-I\-T file
+
+
+\begin{DoxyParams}{Parameters}
+{\em data\-Output\-Stream} & dataoutputstream to write to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if sucessful 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a2102b1e03aa2de4c6d80f8e43576b06d}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!remove\-Entry@{remove\-Entry}}
+\index{remove\-Entry@{remove\-Entry}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{remove\-Entry}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-remove\-Entry (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Entry}}]{entry}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a2102b1e03aa2de4c6d80f8e43576b06d}
+Removes a \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} from the list of Pit\-Entries
+
+
+\begin{DoxyParams}{Parameters}
+{\em entry} & entry to be removed \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a2102b1e03aa2de4c6d80f8e43576b06d}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!remove\-Entry@{remove\-Entry}}
+\index{remove\-Entry@{remove\-Entry}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{remove\-Entry}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-remove\-Entry (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Entry}}]{entry}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a2102b1e03aa2de4c6d80f8e43576b06d}
+Removes a \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} from the list of Pit\-Entries
+
+
+\begin{DoxyParams}{Parameters}
+{\em entry} & entry to be removed \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ad9bf38702c94c0e25ea1e2175a14e8c8}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!resize\-Partition@{resize\-Partition}}
+\index{resize\-Partition@{resize\-Partition}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{resize\-Partition}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-resize\-Partition (
+\begin{DoxyParamCaption}
+\item[{String}]{part\-Name, }
+\item[{int}]{change\-To\-Size}
+\end{DoxyParamCaption}
+) throws Class\-Not\-Found\-Exception}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ad9bf38702c94c0e25ea1e2175a14e8c8}
+Resizes a pitentry and adjusts starting blocks of all successive pitentries.
+
+
+\begin{DoxyParams}{Parameters}
+{\em part\-Name} & name of partition to be resized \\
+\hline
+{\em change\-To\-Size} & the amount to change the entry This can be positive or negative and will change the size relatively. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em java.\-lang.\-Class\-Not\-Found\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ad9bf38702c94c0e25ea1e2175a14e8c8}{resize\-Partition}(\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Entry}, int) 
+\end{DoxySeeAlso}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ad9bf38702c94c0e25ea1e2175a14e8c8}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!resize\-Partition@{resize\-Partition}}
+\index{resize\-Partition@{resize\-Partition}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{resize\-Partition}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-resize\-Partition (
+\begin{DoxyParamCaption}
+\item[{String}]{part\-Name, }
+\item[{int}]{change\-To\-Size}
+\end{DoxyParamCaption}
+) throws Class\-Not\-Found\-Exception}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ad9bf38702c94c0e25ea1e2175a14e8c8}
+Resizes a pitentry and adjusts starting blocks of all successive pitentries.
+
+
+\begin{DoxyParams}{Parameters}
+{\em part\-Name} & name of partition to be resized \\
+\hline
+{\em change\-To\-Size} & the amount to change the entry This can be positive or negative and will change the size relatively. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em java.\-lang.\-Class\-Not\-Found\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ad9bf38702c94c0e25ea1e2175a14e8c8}{resize\-Partition}(\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Entry}, int) 
+\end{DoxySeeAlso}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ac5958719c4de4485093dd5d7a6ca1c65}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!resize\-Partition@{resize\-Partition}}
+\index{resize\-Partition@{resize\-Partition}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{resize\-Partition}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-resize\-Partition (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Entry}}]{entry, }
+\item[{int}]{change\-To\-Size}
+\end{DoxyParamCaption}
+) throws Class\-Not\-Found\-Exception}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ac5958719c4de4485093dd5d7a6ca1c65}
+Resizes a pitentry and adjusts starting blocks of all successive pitentries.
+
+
+\begin{DoxyParams}{Parameters}
+{\em entry} & The entry to be resized \\
+\hline
+{\em change\-To\-Size} & the amount to change the entry This can be positive or negative and will change the size relatively. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em java.\-lang.\-Class\-Not\-Found\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ac5958719c4de4485093dd5d7a6ca1c65}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!resize\-Partition@{resize\-Partition}}
+\index{resize\-Partition@{resize\-Partition}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{resize\-Partition}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-resize\-Partition (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Entry}}]{entry, }
+\item[{int}]{change\-To\-Size}
+\end{DoxyParamCaption}
+) throws Class\-Not\-Found\-Exception}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ac5958719c4de4485093dd5d7a6ca1c65}
+Resizes a pitentry and adjusts starting blocks of all successive pitentries.
+
+
+\begin{DoxyParams}{Parameters}
+{\em entry} & The entry to be resized \\
+\hline
+{\em change\-To\-Size} & the amount to change the entry This can be positive or negative and will change the size relatively. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em java.\-lang.\-Class\-Not\-Found\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_aad4e04c99c61973ec42a1737dd6f156a}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!sort\-Entries\-By\-Block\-Location@{sort\-Entries\-By\-Block\-Location}}
+\index{sort\-Entries\-By\-Block\-Location@{sort\-Entries\-By\-Block\-Location}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{sort\-Entries\-By\-Block\-Location}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pit\-Entry} \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-sort\-Entries\-By\-Block\-Location (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_aad4e04c99c61973ec42a1737dd6f156a}
+returns an array of the Pit\-Entries sorted by block location
+
+\begin{DoxyReturn}{Returns}
+sorted Pit\-Entries 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_aad4e04c99c61973ec42a1737dd6f156a}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!sort\-Entries\-By\-Block\-Location@{sort\-Entries\-By\-Block\-Location}}
+\index{sort\-Entries\-By\-Block\-Location@{sort\-Entries\-By\-Block\-Location}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{sort\-Entries\-By\-Block\-Location}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pit\-Entry} \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-sort\-Entries\-By\-Block\-Location (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_aad4e04c99c61973ec42a1737dd6f156a}
+returns an array of the Pit\-Entries sorted by block location
+
+\begin{DoxyReturn}{Returns}
+sorted Pit\-Entries 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5c3639c6e3b5d9a75f105abccb033e20}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!unpack@{unpack}}
+\index{unpack@{unpack}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{unpack}]{\setlength{\rightskip}{0pt plus 5cm}final boolean C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-unpack (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Input\-Stream}}]{pit\-Input\-Stream}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5c3639c6e3b5d9a75f105abccb033e20}
+unpacks a P\-I\-T into the \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data}{Pit\-Data} and its \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} classes
+
+
+\begin{DoxyParams}{Parameters}
+{\em pit\-Input\-Stream} & Input\-Stream containing only a Pit F\-Ile \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if unpack was performed 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5c3639c6e3b5d9a75f105abccb033e20}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!unpack@{unpack}}
+\index{unpack@{unpack}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{unpack}]{\setlength{\rightskip}{0pt plus 5cm}final boolean C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-unpack (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Input\-Stream}}]{pit\-Input\-Stream}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a5c3639c6e3b5d9a75f105abccb033e20}
+unpacks a P\-I\-T into the \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data}{Pit\-Data} and its \hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{Pit\-Entry} classes
+
+
+\begin{DoxyParams}{Parameters}
+{\em pit\-Input\-Stream} & Input\-Stream containing only a Pit F\-Ile \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if unpack was performed 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a2532f4f5a317e6e8014f06d0f4625294}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!entry\-Count@{entry\-Count}}
+\index{entry\-Count@{entry\-Count}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{entry\-Count}]{\setlength{\rightskip}{0pt plus 5cm}int C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-entry\-Count}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_a2532f4f5a317e6e8014f06d0f4625294}
+number of entries available to be read. \hypertarget{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ac0cd0f93311de091c28229ad1e9b1fee}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}!F\-I\-L\-E\-\_\-\-I\-D\-E\-N\-T\-I\-F\-I\-E\-R@{F\-I\-L\-E\-\_\-\-I\-D\-E\-N\-T\-I\-F\-I\-E\-R}}
+\index{F\-I\-L\-E\-\_\-\-I\-D\-E\-N\-T\-I\-F\-I\-E\-R@{F\-I\-L\-E\-\_\-\-I\-D\-E\-N\-T\-I\-F\-I\-E\-R}!CASUAL::archiving::libpit::PitData@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Data}}
+\subsubsection[{F\-I\-L\-E\-\_\-\-I\-D\-E\-N\-T\-I\-F\-I\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}static final int C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Data.\-F\-I\-L\-E\-\_\-\-I\-D\-E\-N\-T\-I\-F\-I\-E\-R = 0x12349876\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_data_ac0cd0f93311de091c28229ad1e9b1fee}
+Magic Number to identify an Odin File. 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/build/classes/\-C\-A\-S\-U\-A\-L/archiving/libpit/Pit\-Data.\-java\end{DoxyCompactItemize}

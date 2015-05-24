@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CASUALPackage.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.network.CASUALDevIntegration</a> &gt; <span class="el_source">CASUALPackage.java</span></div><h1>CASUALPackage.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2014 adamoutler
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.network.CASUALDevIntegration;
+
+import CASUAL.network.NetworkProperties;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.Properties;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+/**
+ * creates a CASUAL Pacakge object.
+ *
+ * @author adamoutler
+ */
+public class CASUALPackage {
+
+    final String url;
+<span class="fc" id="L33">    private AtomicBoolean validCASPAC = new AtomicBoolean(false);</span>
+<span class="fc" id="L34">    private String[] validCASPACExtensions = new String[]{&quot;caspac&quot;, &quot;zip&quot;};</span>
+<span class="fc" id="L35">    Properties p = new Properties();</span>
+
+    private String developer;
+    private String donateTo;
+    private String donateLink;
+    private String windowTitle;
+<span class="fc" id="L41">    private String description = &quot;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;;</span>
+
+    private String revision;
+    private String supportURL;
+    private String uniqueID;
+    private String caspacSHA256sum;
+
+<span class="fc" id="L48">    public CASUALPackage(String url) {</span>
+<span class="fc" id="L49">        this.url = url;</span>
+        try {
+
+<span class="fc" id="L52">            processCASPAC(url);</span>
+<span class="fc" id="L53">            validCASPAC.set(true);</span>
+<span class="fc" id="L54">            return;</span>
+<span class="nc" id="L55">        } catch (MalformedURLException ex) {</span>
+<span class="nc" id="L56">        } catch (IOException ex) {</span>
+<span class="fc" id="L57">        } catch (NoMetaException ex) {</span>
+<span class="nc" id="L58">        }  //no need to catch any of these exceptions.  validCASPAC is set false.</span>
+<span class="fc" id="L59">        validCASPAC.set(false);</span>
+<span class="fc" id="L60">    }</span>
+
+    /**
+     * if not true, this should not be used.
+     *
+     * @return true if valid
+     */
+    public boolean isValid() {
+<span class="fc" id="L68">        return validCASPAC.get();</span>
+    }
+
+    public String getDescritpion() {
+<span class="nc" id="L72">        return getDescription();</span>
+    }
+
+    /**
+     * @return the developer
+     */
+    public String getDeveloper() {
+<span class="fc" id="L79">        return developer;</span>
+    }
+
+    /**
+     * @return the donateTo
+     */
+    public String getDonateTo() {
+<span class="fc" id="L86">        return donateTo;</span>
+    }
+
+    /**
+     * @return the donateLink
+     */
+    public String getDonateLink() {
+<span class="fc" id="L93">        return donateLink;</span>
+    }
+
+    /**
+     * @return the windowTitle
+     */
+    public String getWindowTitle() {
+<span class="fc" id="L100">        return windowTitle;</span>
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+<span class="fc" id="L107">        return description;</span>
+    }
+
+    /**
+     * @return the revision
+     */
+    public String getRevision() {
+<span class="fc" id="L114">        return revision;</span>
+    }
+
+    /**
+     * @return the supportURL
+     */
+    public String getSupportURL() {
+<span class="fc" id="L121">        return supportURL;</span>
+    }
+
+    /**
+     * @return the uniqueID
+     */
+    public String getUniqueID() {
+<span class="fc" id="L128">        return uniqueID;</span>
+    }
+
+    private void processCASPAC(String link) throws MalformedURLException, IOException, NoMetaException {
+<span class="fc" id="L132">        String noExtensionLink = getNoExtensionCaspacName(link);</span>
+<span class="fc" id="L133">        loadProperties(noExtensionLink);</span>
+
+        // LEAVE BLANK until implemented String description=p.getProperty(&quot;&quot;,&quot;&quot;);
+<span class="fc" id="L136">    }</span>
+
+    private void loadProperties(String noExtensionLink) throws IOException, NoMetaException {
+<span class="fc" id="L139">        NetworkProperties dotMeta = new NetworkProperties();</span>
+        try {
+<span class="fc" id="L141">            dotMeta = new NetworkProperties(noExtensionLink + &quot;.properties&quot;);</span>
+<span class="fc" id="L142">        } catch (IOException e) {</span>
+<span class="fc" id="L143">        }</span>
+
+<span class="fc" id="L145">        uniqueID = dotMeta.getProperties().getProperty(&quot;Script.ID&quot;, &quot;&quot;);</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        if (getUniqueID().isEmpty()) {</span>
+<span class="fc" id="L147">            throw new NoMetaException(&quot;no script id&quot;);</span>
+        }
+<span class="fc" id="L149">        revision = dotMeta.getProperties().getProperty(&quot;Script.Revision&quot;, &quot;&quot;);</span>
+<span class="fc" id="L150">        supportURL = dotMeta.getProperties().getProperty(&quot;Script.SupportURL&quot;, &quot;&quot;);</span>
+<span class="fc" id="L151">         description=dotMeta.getProperties().getProperty(&quot;CASPAC.Overview&quot;, &quot;&quot;);</span>
+<span class="fc" id="L152">        developer = dotMeta.getProperties().getProperty(&quot;Developer.Name&quot;, &quot;&quot;);</span>
+<span class="fc" id="L153">        donateTo = dotMeta.getProperties().getProperty(&quot;Developer.DonateToButtonText&quot;, &quot;&quot;);</span>
+<span class="fc" id="L154">        donateLink = dotMeta.getProperties().getProperty(&quot;Developer.DonateLink&quot;, &quot;&quot;);</span>
+<span class="fc" id="L155">        windowTitle = dotMeta.getProperties().getProperty(&quot;Window.Title&quot;, &quot;&quot;);</span>
+<span class="fc" id="L156">        caspacSHA256sum = dotMeta.getProperties().getProperty(&quot;CASPAC.SHA256sum&quot;, &quot;&quot;);</span>
+
+<span class="fc" id="L158">        System.out.println();</span>
+<span class="fc" id="L159">    }</span>
+
+    private String getNoExtensionCaspacName(String filename) {
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        for (String extension : validCASPACExtensions) {</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">            if (filename.toLowerCase().endsWith(&quot;.&quot; + extension)) {</span>
+<span class="fc" id="L164">                filename = filename.replace(&quot;.&quot; + extension, &quot;&quot;);</span>
+            }
+        }
+<span class="fc" id="L167">        return filename;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L172">        return this.windowTitle + &quot;\nby: &quot; + this.developer</span>
+                + &quot;\n SHA256sum:&quot; + caspacSHA256sum
+                + &quot;\n Script ID:&quot; + uniqueID
+                + &quot;\n revision:&quot; + revision
+                + &quot;\n donate to:&quot; + donateTo
+                + &quot;\n donations:&quot; + donateLink
+                + &quot;\n support: &quot; + supportURL
+                + &quot;\n&quot; + description;
+
+    }
+
+    /**
+     * @return the caspacSHA256sum
+     */
+    public String getCaspacSHA256sum() {
+<span class="fc" id="L187">        return caspacSHA256sum;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

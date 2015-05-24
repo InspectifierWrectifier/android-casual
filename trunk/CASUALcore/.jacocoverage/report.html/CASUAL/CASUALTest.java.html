@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CASUALTest.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL</a> &gt; <span class="el_source">CASUALTest.java</span></div><h1>CASUALTest.java</h1><pre class="source lang-java linenums">package CASUAL;
+
+/*CASUALTest provides an automation framework for CASUAL
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+import java.io.PrintStream;
+import java.util.Arrays;
+
+/**
+ * CASUALTest provides a test automation framework.
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+public class CASUALTest {
+
+    static String[] args;
+    /**
+     * true if shutdown is commanded
+     */
+<span class="nc" id="L38">    public static boolean shutdown = false;</span>
+    final CASUALSessionData sd;
+<span class="nc" id="L40">    int BUFFER = 4096;</span>
+    PipedOutputStream writeToCASUAL;
+    PipedInputStream toAppPipedInputStream;
+    BufferedReader readFromCASUAL;
+    PipedOutputStream fromAppPipedOutputStream;
+    PipedInputStream fromAppPipedInputStream;
+    final String[] valuesWeDontWantToSee;
+    boolean[] badChecks;
+    final String[] valuesWeWantToSee;
+    private boolean[] goodChecks;
+
+<span class="nc" id="L51">    StringBuilder sb = new StringBuilder();</span>
+
+    /**
+     * runs CASUAL, hits enter whenever it sees expected values
+     */
+<span class="nc" id="L56">    public Runnable readReactToCASUAL = new Runnable() {</span>
+        @Override
+        public void run() {
+            //output from CASUAL is logged to a file in the temp folder
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">            while (!shutdown) {</span>
+                try {
+                    String line;
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                    while ((line = readFromCASUAL.readLine()) != null) {</span>
+<span class="nc" id="L65">                        sb.append(line).append(&quot;\n&quot;);</span>
+<span class="nc" id="L66">                        doCasualOuputHandling(line);</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                        if (line.contains(&quot;[DEBUG]Shutting Down&quot;)) {</span>
+<span class="nc" id="L68">                            break;</span>
+                        }
+                    }
+<span class="nc bnc" id="L71" title="All 2 branches missed.">                    if (line.contains(&quot;[DEBUG]Shutting Down&quot;)) {</span>
+<span class="nc" id="L72">                        break;</span>
+                    }
+                    //nothing came out of CASUAL's Log, so lets sleep.
+<span class="nc" id="L75">                    doQuarterSecondSleep();</span>
+
+<span class="nc" id="L77">                } catch (Exception ex) {</span>
+<span class="nc" id="L78">                    Log.level4Debug(ex.getLocalizedMessage());</span>
+                    //no need to report this. its fine
+<span class="nc" id="L80">                }</span>
+            }
+
+<span class="nc" id="L83">        }</span>
+
+        private void doCasualOuputHandling(String line) {
+            try {
+                //Log.level4Debug(line);
+<span class="nc" id="L88">                validateLine(line);</span>
+
+<span class="nc bnc" id="L90" title="All 2 branches missed.">                if (line.contains(&quot;ERROR&quot;)) {</span>
+<span class="nc" id="L91">                    Log.level4Debug(line); //error</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">                } else if (line.contains(&quot;[INPUT][ANY]&quot;)) {</span>
+<span class="nc" id="L93">                   Log.level4Debug(line);//get textual input  </span>
+
+<span class="nc" id="L95">                    writeToCASUAL.write(13);</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">                } else if (line.contains(&quot;[USERTASK][Q or RETURN][CRITICAL]&quot;)) {</span>
+<span class="nc" id="L97">                    writeToCASUAL.write(13);</span>
+
+                    //perform an action now or stop
+<span class="nc bnc" id="L100" title="All 2 branches missed.">                } else if (line.contains(&quot;[CANCELOPTION][Q or RETURN]&quot;)) {</span>
+                    //are you sure you want to continue?
+<span class="nc" id="L102">                    writeToCASUAL.write(13);</span>
+
+<span class="nc bnc" id="L104" title="All 2 branches missed.">                } else if (line.contains(&quot;[INTERACTION][NOTIFICATION][RETURN]&quot;)) {</span>
+                    //general notification
+<span class="nc" id="L106">                    writeToCASUAL.write(13);</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">                } else if (line.contains(&quot;[RETURN]&quot;)) {</span>
+                    //general notification
+<span class="nc" id="L109">                    writeToCASUAL.write(13);</span>
+
+<span class="nc bnc" id="L111" title="All 2 branches missed.">                } else if (line.contains(&quot;[INFOMESSAGE][RETURN]&quot;)) {</span>
+                    //general information
+<span class="nc" id="L113">                    writeToCASUAL.write(13);</span>
+
+<span class="nc bnc" id="L115" title="All 2 branches missed.">                } else if (line.contains(&quot;[ERRORMESSAGE][RETURN]&quot;)) {</span>
+                    //general error 
+<span class="nc" id="L117">                    writeToCASUAL.write(13);</span>
+
+<span class="nc bnc" id="L119" title="All 2 branches missed.">                } else if (line.contains(&quot;[INTERACTION][CANCELOPTION][Q or RETURN]&quot;)) {</span>
+                    //general error 
+<span class="nc" id="L121">                    writeToCASUAL.write(13);</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">                } else if (line.contains(&quot;[INTERACTION][ACTIONREQUIRED][Q or RETURN]&quot;)) {</span>
+                    //general error 
+<span class="nc" id="L124">                    writeToCASUAL.write(13);</span>
+                }
+<span class="nc" id="L126">            } catch (IOException ex) {</span>
+<span class="nc" id="L127">                Log.errorHandler(ex);</span>
+
+<span class="nc" id="L129">            }</span>
+
+<span class="nc" id="L131">        }</span>
+
+        private void doQuarterSecondSleep() {
+            try {
+<span class="nc" id="L135">                Thread.sleep(250);</span>
+<span class="nc" id="L136">            } catch (InterruptedException ex) {</span>
+                //don't care program will continue on
+<span class="nc" id="L138">            }</span>
+<span class="nc" id="L139">        }</span>
+    };
+<span class="nc" id="L141">    Runnable launchCASUAL = new Runnable() {</span>
+        @Override
+        public void run() {
+<span class="nc" id="L144">            CASUAL.CASUALMain.beginCASUAL(args,sd);</span>
+<span class="nc" id="L145">            shutdown = true;</span>
+<span class="nc" id="L146">            CASUAL.CASUALMain.shutdown(0);</span>
+<span class="nc" id="L147">            shutdown = false;</span>
+<span class="nc" id="L148">        }</span>
+    };
+
+    /**
+     * sets up logging and parameters
+     * @param sd SessionData for this run
+     */
+<span class="nc" id="L155">    public CASUALTest(CASUALSessionData sd) {</span>
+<span class="nc" id="L156">        this.sd=sd;</span>
+<span class="nc" id="L157">        valuesWeWantToSee = new String[]{&quot;&quot;};</span>
+<span class="nc" id="L158">        goodChecks = new boolean[valuesWeWantToSee.length];</span>
+<span class="nc" id="L159">        Arrays.fill(goodChecks, Boolean.FALSE);</span>
+<span class="nc" id="L160">        valuesWeDontWantToSee = new String[]{};</span>
+<span class="nc" id="L161">        badChecks = new boolean[valuesWeDontWantToSee.length];</span>
+<span class="nc" id="L162">        Arrays.fill(badChecks, Boolean.FALSE);</span>
+        try {
+<span class="nc" id="L164">            fromAppPipedInputStream = new PipedInputStream(BUFFER);</span>
+<span class="nc" id="L165">            fromAppPipedOutputStream = new PipedOutputStream(fromAppPipedInputStream);</span>
+<span class="nc" id="L166">            readFromCASUAL = new BufferedReader(new InputStreamReader(fromAppPipedInputStream));</span>
+<span class="nc" id="L167">            CASUAL.Log.out = new PrintStream(fromAppPipedOutputStream);</span>
+            
+<span class="nc" id="L169">            toAppPipedInputStream = new PipedInputStream(BUFFER);</span>
+<span class="nc" id="L170">            writeToCASUAL = new PipedOutputStream(toAppPipedInputStream);</span>
+<span class="nc" id="L171">            sd.in = new BufferedReader(new InputStreamReader(toAppPipedInputStream));</span>
+            
+<span class="nc" id="L173">        } catch (IOException ex) {</span>
+<span class="nc" id="L174">            Log.errorHandler(ex);</span>
+<span class="nc" id="L175">        }</span>
+        
+<span class="nc" id="L177">    }</span>
+
+    /**
+     * Launches CASUAL and monitors output
+     *
+     * @param sd SessionData for this run
+     * @param CASUALLaunchCommand list of parameters to run
+     * @param valuesToCheckDuringRun desirable values from CASUAL
+     * @param valuesWeDontWantToSee undesirable values reported from CASUAL
+     */
+<span class="nc" id="L187">    public CASUALTest(CASUALSessionData sd, String[] CASUALLaunchCommand, String[] valuesToCheckDuringRun, String[] valuesWeDontWantToSee) {</span>
+<span class="nc" id="L188">        this.sd=sd;</span>
+<span class="nc" id="L189">        valuesWeWantToSee = valuesToCheckDuringRun;</span>
+<span class="nc" id="L190">        goodChecks = new boolean[valuesWeWantToSee.length];</span>
+<span class="nc" id="L191">        Arrays.fill(goodChecks, Boolean.FALSE);</span>
+<span class="nc" id="L192">        this.valuesWeDontWantToSee = valuesWeDontWantToSee;</span>
+<span class="nc" id="L193">        badChecks = new boolean[valuesWeDontWantToSee.length];</span>
+<span class="nc" id="L194">        Arrays.fill(badChecks, Boolean.FALSE);</span>
+        try {
+<span class="nc" id="L196">            fromAppPipedInputStream = new PipedInputStream(BUFFER);</span>
+<span class="nc" id="L197">            fromAppPipedOutputStream = new PipedOutputStream(fromAppPipedInputStream);</span>
+<span class="nc" id="L198">            readFromCASUAL = new BufferedReader(new InputStreamReader(fromAppPipedInputStream));</span>
+<span class="nc" id="L199">            CASUAL.Log.out = new PrintStream(fromAppPipedOutputStream);</span>
+            
+<span class="nc" id="L201">            toAppPipedInputStream = new PipedInputStream(BUFFER);</span>
+<span class="nc" id="L202">            writeToCASUAL = new PipedOutputStream(toAppPipedInputStream);</span>
+<span class="nc" id="L203">            sd.in = new BufferedReader(new InputStreamReader(toAppPipedInputStream));</span>
+            
+<span class="nc" id="L205">        } catch (IOException ex) {</span>
+<span class="nc" id="L206">            Log.errorHandler(ex);</span>
+<span class="nc" id="L207">        }</span>
+        
+<span class="nc" id="L209">        args = CASUALLaunchCommand;</span>
+<span class="nc" id="L210">    }</span>
+    
+    private void instantiateCASUAL() {
+        //Runnable launchCASUAL=new CASUALTest();
+<span class="nc" id="L214">        Thread launch = new Thread(launchCASUAL);</span>
+<span class="nc" id="L215">        launch.setName(&quot;CASUALMain&quot;);</span>
+<span class="nc" id="L216">        launch.start();</span>
+<span class="nc" id="L217">        Thread read = new Thread(readReactToCASUAL);</span>
+<span class="nc" id="L218">        read.setName(&quot;Reading and reacting to CASUAL&quot;);</span>
+        
+<span class="nc" id="L220">        read.start();</span>
+        try {
+<span class="nc" id="L222">            launch.join();</span>
+<span class="nc" id="L223">        } catch (InterruptedException ex) {</span>
+<span class="nc" id="L224">            Log.errorHandler(ex);</span>
+<span class="nc" id="L225">        }</span>
+<span class="nc" id="L226">    }</span>
+    
+    private void validateLine(String line) {
+<span class="nc bnc" id="L229" title="All 2 branches missed.">        for (int i = 0; i &lt; valuesWeWantToSee.length; i++) {</span>
+<span class="nc bnc" id="L230" title="All 2 branches missed.">            if (line.contains(valuesWeWantToSee[i])) {</span>
+<span class="nc" id="L231">                goodChecks[i] = true;</span>
+            }
+        }
+<span class="nc bnc" id="L234" title="All 2 branches missed.">        for (int i = 0; i &lt; valuesWeDontWantToSee.length; i++) {</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">            if (line.contains(valuesWeDontWantToSee[i])) {</span>
+<span class="nc" id="L236">                badChecks[i] = true;</span>
+            }
+        }
+<span class="nc" id="L239">    }</span>
+
+    /**
+     * Instantiates CASUAL and checks values
+     *
+     * @return true if no desired values were seen and all desired values were
+     * seen
+     */
+    public boolean checkTestPoints() {
+<span class="nc" id="L248">        instantiateCASUAL();</span>
+<span class="nc bnc" id="L249" title="All 4 branches missed.">        if (goodChecks != null &amp;&amp; goodChecks.length &gt; 0) {</span>
+<span class="nc bnc" id="L250" title="All 2 branches missed.">            for (boolean check : goodChecks) {</span>
+<span class="nc bnc" id="L251" title="All 2 branches missed.">                if (!check) {</span>
+<span class="nc" id="L252">                    return false;</span>
+                }
+            }
+        }
+<span class="nc bnc" id="L256" title="All 4 branches missed.">        if (badChecks != null &amp;&amp; badChecks.length &gt; 0) {</span>
+<span class="nc bnc" id="L257" title="All 2 branches missed.">            for (boolean check : badChecks) {</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">                if (check) {</span>
+<span class="nc" id="L259">                    return false;</span>
+                }
+            }
+        }
+
+<span class="nc" id="L264">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

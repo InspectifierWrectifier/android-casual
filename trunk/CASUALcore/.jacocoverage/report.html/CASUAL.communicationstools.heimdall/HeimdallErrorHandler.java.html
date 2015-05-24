@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>HeimdallErrorHandler.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.communicationstools.heimdall</a> &gt; <span class="el_source">HeimdallErrorHandler.java</span></div><h1>HeimdallErrorHandler.java</h1><pre class="source lang-java linenums">/*Handles errors from heimdall. 
+ * Copyright (C) 2013 adamoutler
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
+package CASUAL.communicationstools.heimdall;
+
+import CASUAL.CASUALMessageObject;
+import CASUAL.CASUALScriptParser;
+import CASUAL.Log;
+import CASUAL.OSTools;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * Used for detection and reaction to errors in heimdall. 
+ * @author Adam Outler adamoutler@gmail.com
+ */
+<span class="nc" id="L31">public class HeimdallErrorHandler {</span>
+<span class="nc" id="L32">    static final String[] errFail = {&quot;Failed to end phone file transfer sequence!&quot;, &quot;Failed to end modem file transfer sequence!&quot;, &quot;Failed to confirm end of file transfer sequence!&quot;, &quot;Failed to request dump!&quot;, &quot;Failed to receive dump size!&quot;, &quot;Failed to request dump part &quot;, &quot;Failed to receive dump part &quot;, &quot;Failed to send request to end dump transfer!&quot;, &quot;Failed to receive end dump transfer verification!&quot;, &quot;Failed to initialise file transfer!&quot;, &quot;Failed to begin file transfer sequence!&quot;, &quot;Failed to confirm beginning of file transfer sequence!&quot;, &quot;Failed to send file part packet!&quot;, &quot;Failed to request device info packet!&quot;, &quot;Failed to initialise PIT file transfer!&quot;, &quot;Failed to confirm transfer initialisation!&quot;, &quot;Failed to send PIT file part information!&quot;, &quot;Failed to confirm sending of PIT file part information!&quot;, &quot;Failed to send file part packet!&quot;, &quot;Failed to receive PIT file part response!&quot;, &quot;Failed to send end PIT file transfer packet!&quot;, &quot;Failed to confirm end of PIT file transfer!&quot;, &quot;Failed to request receival of PIT file!&quot;, &quot;Failed to receive PIT file size!&quot;, &quot;Failed to request PIT file part &quot;, &quot;Failed to receive PIT file part &quot;, &quot;Failed to send request to end PIT file transfer!&quot;, &quot;Failed to receive end PIT file transfer verification!&quot;, &quot;Failed to download PIT file!&quot;, &quot;Failed to send end session packet!&quot;, &quot;Failed to receive session end confirmation!&quot;, &quot;Failed to send reboot device packet!&quot;, &quot;Failed to receive reboot confirmation!&quot;, &quot;Failed to begin session!&quot;, &quot;Failed to send file part size packet!&quot;, &quot;Failed to complete sending of data: &quot;, &quot;Failed to complete sending of data!&quot;, &quot;Failed to unpack device's PIT file!&quot;, &quot;Failed to retrieve device description&quot;, &quot;Failed to retrieve config descriptor&quot;, &quot;Failed to find correct interface configuration&quot;, &quot;Failed to read PIT file.&quot;, &quot;Failed to open output file &quot;, &quot;Failed to write PIT data to output file.&quot;, &quot;Failed to open file &quot;, &quot;Failed to send total bytes device info packet!&quot;, &quot;Failed to receive device info response!&quot;, &quot;Expected file part index: &quot;, &quot;Expected file part index: &quot;, &quot;No partition with identifier &quot;, &quot;Could not identify the PIT partition within the specified PIT file.&quot;, &quot;Unexpected file part size response!&quot;, &quot;Unexpected device info response!&quot;, &quot;Attempted to send file to unknown destination!&quot;, &quot;The modem file does not have an identifier!&quot;, &quot;Incorrect packet size received - expected size = &quot;, &quot;does not exist in the specified PIT.&quot;, &quot;Partition name for &quot;, &quot;Failed to send data: &quot;, &quot;Failed to send data!&quot;, &quot;Failed to receive file part response!&quot;, &quot;Failed to unpack received packet.&quot;, &quot;Unexpected handshake response!&quot;, &quot;Failed to receive handshake response.&quot;};</span>
+<span class="nc" id="L33">    static final String[] epicFailures = {&quot;ERROR: No partition with identifier&quot;};</span>
+<span class="nc" id="L34">    static final String[] nonErrors={&quot;ERROR: Failed to detect compatible download-mode device.&quot;};</span>
+    
+    /**
+     * Checks for errors from Heimdall. 
+     * @param command command which was run. 
+     * @param result result from command. 
+     * @return disposition of command. 
+     */
+    public HeimdallTools.CommandDisposition doErrorCheck(String[] command, String result){
+<span class="nc" id="L43">        return errorCheckHeimdallOutput(result);</span>
+    }
+        
+    private void doErrorReport(String[] command, String result, HeimdallTools heimdallTools) {
+<span class="nc" id="L47">        Log.level0Error(&quot;@heimdallErrorReport&quot;);</span>
+<span class="nc" id="L48">        Log.level0Error(displayArray(command));</span>
+<span class="nc" id="L49">        Log.level0Error(&quot;@heimdallErrorReport&quot;);</span>
+<span class="nc" id="L50">        Log.level0Error(result);</span>
+<span class="nc" id="L51">        Log.level0Error(&quot;@heimdallErrorReport&quot;);</span>
+<span class="nc" id="L52">        CASUALScriptParser cLang = new CASUALScriptParser();</span>
+        try {
+<span class="nc" id="L54">            cLang.executeOneShotCommand(&quot;$HALT $SENDLOG&quot;);</span>
+<span class="nc" id="L55">        } catch (Exception ex) {</span>
+<span class="nc" id="L56">            Log.errorHandler(ex);</span>
+<span class="nc" id="L57">        }</span>
+<span class="nc" id="L58">    }</span>
+
+    /**
+     * errorCheckHeimdallOutput parses console log output of Heimdall, checking 
+     * for key error strings
+     *
+     * @param heimdallOutput CASUAL (console) log output of a Heimdall execution
+     * @return is an integer representation of a CommandDisposition        
+     *      0 HALTSCRIPT
+     *      1 NOACTIONREQUIRED
+     *      2 RUNAGAIN
+     *      3 ELEVATIONREQUIRED
+     *      4 INSTALLDRIVERS
+     *
+     * @author Jeremy Loper jrloper@gmail.com
+     */
+    private HeimdallTools.CommandDisposition errorCheckHeimdallOutput(String heimdallOutput) {
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        if (heimdallOutput.startsWith(&quot;Usage:&quot;))  {</span>
+<span class="nc" id="L76">            Log.level0Error(&quot;Did you intend to run a blank heimdall command without valid parameters?&quot;);</span>
+<span class="nc" id="L77">            return HeimdallTools.CommandDisposition.NOACTIONREQUIRED;</span>
+        }
+        
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        for (String code : HeimdallErrorHandler.epicFailures) {</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">            if (heimdallOutput.contains(code)) {</span>
+<span class="nc" id="L82">                Log.level0Error(&quot;ANALYSIS DETECTED ERROR:&quot;+ code);</span>
+<span class="nc" id="L83">                return HeimdallTools.CommandDisposition.HALTSCRIPT;</span>
+            }
+        }
+        
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        for (String code : HeimdallErrorHandler.errFail){</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">            if (heimdallOutput.contains(code)) {</span>
+<span class="nc" id="L89">                Log.level0Error(&quot;ANALYSIS DETECTED ERROR:&quot;+ code);</span>
+<span class="nc" id="L90">                return HeimdallTools.CommandDisposition.HALTSCRIPT;</span>
+            }
+        }
+        
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (heimdallOutput.contains(&quot;Failed to detect compatible download-mode device&quot;)) {</span>
+<span class="nc" id="L95">            Log.level0Error(&quot;ANALYSIS DETECTED ERROR: Device not in download mode or cable is borked.&quot;);</span>
+<span class="nc" id="L96">            return HeimdallTools.CommandDisposition.NOACTIONREQUIRED;</span>
+        }
+        
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (heimdallOutput.contains(&quot; failed!&quot;)) {</span>
+<span class="nc" id="L100">            Log.level0Error(&quot;Heimdall Failure Detected&quot;);</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">            if (heimdallOutput.contains(&quot;Claiming interface failed!&quot;)) {</span>
+<span class="nc" id="L102">                Log.level0Error(&quot;Claiming Interface failure&quot;);</span>
+<span class="nc" id="L103">                new CASUALMessageObject(null, &quot;@interactionRestartDownloadMode&quot;).showActionRequiredDialog();</span>
+<span class="nc" id="L104">                return HeimdallTools.CommandDisposition.RUNAGAIN;</span>
+            }
+            
+<span class="nc bnc" id="L107" title="All 2 branches missed.">            if (heimdallOutput.contains(&quot;Setting up interface failed!&quot;)){</span>
+<span class="nc" id="L108">                Log.level0Error(&quot;Setting up interface failure&quot;);</span>
+<span class="nc" id="L109">                return HeimdallTools.CommandDisposition.RUNAGAIN;</span>
+            }
+            
+<span class="nc bnc" id="L112" title="All 2 branches missed.">            if (heimdallOutput.contains(&quot;Protocol initialisation failed!&quot;)) {</span>
+<span class="nc" id="L113">                CASUALScriptParser cLang = new CASUALScriptParser();</span>
+                try {
+<span class="nc" id="L115">                    cLang.executeOneShotCommand(&quot;$HALT $ECHO A random error occurred while attempting initial communications with the device.\nYou will need disconnect USB and pull your battery out to restart your device.\nDo the same for CASUAL.&quot;);</span>
+<span class="nc" id="L116">                } catch (Exception ex) {</span>
+<span class="nc" id="L117">                    Logger.getLogger(HeimdallErrorHandler.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L118">                }</span>
+<span class="nc" id="L119">                Log.level0Error(&quot;Protocol Init failure&quot;);</span>
+<span class="nc" id="L120">                return HeimdallTools.CommandDisposition.RUNAGAIN;</span>
+            }
+<span class="nc bnc" id="L122" title="All 2 branches missed.">            if (heimdallOutput.contains(&quot;upload failed!&quot;)) {</span>
+<span class="nc" id="L123">                Log.level0Error(&quot;Upload Failure&quot;);</span>
+<span class="nc" id="L124">                return HeimdallTools.CommandDisposition.RUNAGAIN;</span>
+            }
+        }
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        if (heimdallOutput.contains(&quot;Flash aborted!&quot;)){</span>
+<span class="nc" id="L128">            Log.level0Error(&quot;Flash Aborted&quot;);</span>
+<span class="nc" id="L129">            return HeimdallTools.CommandDisposition.RUNAGAIN;</span>
+        }
+        
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        if (heimdallOutput.contains(&quot;libusb error&quot;)) {</span>
+<span class="nc" id="L133">            int startIndex = heimdallOutput.lastIndexOf(&quot;libusb error&quot;);</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">            if (heimdallOutput.charAt(startIndex + 1) == ':') startIndex = +3;</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">            while (heimdallOutput.charAt(startIndex) != '\n') {</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">                if (heimdallOutput.charAt(startIndex) == '-') {</span>
+<span class="nc" id="L137">                    String retVal = examineLibusbError(heimdallOutput, startIndex);</span>
+<span class="nc bnc" id="L138" title="All 4 branches missed.">                    if(retVal.contains(&quot;LIBUSB_ERROR_NOT_SUPPORTED&quot;) &amp;&amp; OSTools.isWindows()){</span>
+<span class="nc" id="L139">                        Log.level0Error(&quot;LIBUSB error not supported.  Installing drivers. &quot;);</span>
+<span class="nc" id="L140">                        return HeimdallTools.CommandDisposition.INSTALLDRIVERS;</span>
+                    }//Install driver
+<span class="nc bnc" id="L142" title="All 4 branches missed.">                    else if(retVal.contains(&quot;LIBUSB_ERROR_ACCESS&quot;) &amp;&amp; OSTools.isLinux()){</span>
+<span class="nc" id="L143">                        Log.level0Error(&quot;permissions elevation required&quot;);</span>
+<span class="nc" id="L144">                        return HeimdallTools.CommandDisposition.ELEVATIONREQUIRED;</span>
+                    }//Elevate Heimdall Command
+<span class="nc bnc" id="L146" title="All 2 branches missed.">                    else if(retVal.contains(&quot;LIBUSB_ERROR_OTHER&quot;)) {</span>
+<span class="nc" id="L147">                        Log.level0Error(&quot;Random LIBUSB error detected. &quot;);</span>
+<span class="nc" id="L148">                        return HeimdallTools.CommandDisposition.RUNAGAIN;</span>
+                    }//Other libUSB Error, Halt
+<span class="nc" id="L150">                    else return HeimdallTools.CommandDisposition.RUNAGAIN;//Hit me baby, one more time</span>
+                }
+<span class="nc" id="L152">                startIndex++;</span>
+            }
+        }
+<span class="nc" id="L155">        return HeimdallTools.CommandDisposition.NOACTIONREQUIRED;</span>
+    }
+
+    /**
+     * examineLibusbError parses console log output of Heimdall, checking 
+     * for key error strings
+     * 
+     * @param heimdallOutput CASUAL (console) log output of a Heimdall execution
+     * @param startIndex Integer representing a String index position of a libUSB
+     *                   error number
+     * @return is a String representation of the libUSB error   
+     */
+    private String examineLibusbError(String heimdallOutput, int startIndex) {
+<span class="nc bnc" id="L168" title="All 10 branches missed.">        switch (heimdallOutput.charAt(startIndex + 1)) {</span>
+            case '1':
+<span class="nc bnc" id="L170" title="All 4 branches missed.">                switch (heimdallOutput.charAt(startIndex + 2)) {</span>
+<span class="nc" id="L171">                    case '0': return &quot;LIBUSB_ERROR_INTERRUPTED&quot;;// -10</span>
+<span class="nc" id="L172">                    case '1': return &quot;LIBUSB_ERROR_NO_MEM&quot;;// -11</span>
+<span class="nc" id="L173">                    case '2': return &quot;LIBUSB_ERROR_NOT_SUPPORTED&quot;;// -12</span>
+<span class="nc" id="L174">                    default:  return &quot;LIBUSB_ERROR_IO&quot;;// -1</span>
+                }
+<span class="nc" id="L176">            case '2': return &quot;LIBUSB_ERROR_INVALID_PARAM&quot;;// -2</span>
+<span class="nc" id="L177">            case '3': return &quot;LIBUSB_ERROR_ACCESS&quot;;// -3</span>
+<span class="nc" id="L178">            case '4': return &quot;LIBUSB_ERROR_NO_DEVICE&quot;;// -4</span>
+<span class="nc" id="L179">            case '5': return &quot;LIBUSB_ERROR_NOT_FOUND&quot;;// -5</span>
+<span class="nc" id="L180">            case '6': return &quot;LIBUSB_ERROR_BUSY&quot;;// -6</span>
+<span class="nc" id="L181">            case '7': return &quot;LIBUSB_ERROR_TIMEOUT&quot;;// -7</span>
+<span class="nc" id="L182">            case '8': return &quot;LIBUSB_ERROR_OVERFLOW&quot;;// -8</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">            case '9': if (heimdallOutput.charAt(startIndex + 2) == 9){</span>
+<span class="nc" id="L184">                          return &quot;LIBUSB_ERROR_OTHER&quot;;</span>
+                      }// -99
+<span class="nc" id="L186">                      else return &quot;LIBUSB_ERROR_PIPE&quot;;//-9</span>
+<span class="nc" id="L187">            default:  return &quot;LIBUSB_ERROR_OTHER&quot;;//??</span>
+        }
+    }
+
+    String displayArray(String[] command) {
+<span class="nc" id="L192">        StringBuilder sb = new StringBuilder();</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">        for (String cmd : command) {</span>
+<span class="nc" id="L194">            sb.append(&quot;\&quot;&quot;).append(cmd).append(&quot;\&quot; &quot;);</span>
+        }
+<span class="nc" id="L196">        return sb.toString();</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

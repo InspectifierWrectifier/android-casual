@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CASUALMain.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL</a> &gt; <span class="el_source">CASUALMain.java</span></div><h1>CASUALMain.java</h1><pre class="source lang-java linenums">/*CASUALMain provides a place for the main thread to break out into different modes.
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL;
+
+import CASUAL.caspac.Caspac;
+import CASUAL.misc.MandatoryThread;
+import CASUAL.network.Pastebin;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.security.CodeSource;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.zip.ZipException;
+
+/**
+ * provides a place for the main thread to break out into different modes.
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+<span class="fc" id="L35">public final class CASUALMain {</span>
+
+    private static CASUALSessionData sd;
+    
+    
+    
+    //TODO: convert android-casual to Maven so it works better cross-platform
+    /**
+     * the default package used for IDE mode or if no scripts are found
+     */
+    final public static String defaultPackage = &quot;TestScript&quot;; //note this will be used for IDE only.
+    final private static boolean useOverrideArgs = false; // this will use overrideArguments.
+<span class="fc" id="L47">    final private static String[] overrideArguments = new String[]{&quot;&quot;};</span>
+
+    /**
+     *
+     * @return this CASUALSessionData
+     */
+    public static CASUALSessionData getSession() {
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        if (sd==null){</span>
+<span class="fc" id="L55">            sd=CASUALSessionData.newInstance();</span>
+        }
+<span class="fc" id="L57">        return sd;</span>
+    }
+
+    /**
+     * Main method launching the application.
+     *
+     * @param args command line args to send to casual
+     */
+    public static void main(String[] args) {
+        //reset initial variables for everything. 
+<span class="fc" id="L67">        CASUALSessionData sd= CASUALSessionData.newInstance();</span>
+<span class="fc" id="L68">        sd.initializeStatics();</span>
+        
+        
+        //Override args for test modes
+        if (useOverrideArgs) {
+            args = overrideArguments;
+        }
+<span class="fc" id="L75">        beginCASUAL(args,sd);</span>
+<span class="fc" id="L76">    }</span>
+
+    /**
+     * Begins actual CASUAL modes this can be called as a stop for CASUAL
+     * without losing state. This does not cause a stop.
+     *
+     * @param args command line args to send to casual
+     * @param sd CASUALSessionData to be used
+     */
+    public static void beginCASUAL(String[] args, CASUALSessionData sd) {
+<span class="fc" id="L86">        CASUALMain main = new CASUALMain();</span>
+<span class="fc" id="L87">        CASUALMain.sd=sd;</span>
+<span class="fc" id="L88">        String CASUALFileName = new File(main.getClass().getProtectionDomain().getCodeSource().getLocation().getPath()).toString();</span>
+<span class="fc" id="L89">        String CASUALSVNRevision = java.util.ResourceBundle.getBundle(&quot;CASUAL/resources/CASUALApp&quot;).getString(&quot;Application.revision&quot;);</span>
+<span class="fc" id="L90">        String CASUALBuildNumber = java.util.ResourceBundle.getBundle(&quot;CASUAL/resources/CASUALApp&quot;).getString(&quot;Application.buildnumber&quot;);</span>
+
+<span class="fc" id="L92">        System.out.println(&quot;CASUAL Cross-platform Android Scripting and Unified Auxiliary Loader\nRevision:&quot; + CASUALSVNRevision + &quot; build:&quot; + CASUALBuildNumber + &quot;\n&quot;</span>
+                + &quot;    CASUAL  Copyright (C) 2015  Adam Outler\n&quot;
+                + &quot;    This program comes with ABSOLUTELY NO WARRANTY.  This is free software,\n&quot;
+                + &quot;    and you are welcome to redistribute it, under certain conditions; run\n&quot;
+                + &quot;    '&quot; + CASUALFileName + &quot; --license'\n&quot;
+                + &quot;    for details. http://android-casual.googlecode.com for source.\n&quot;);
+<span class="fc" id="L98">        Log.level4Debug(Diagnostics.getDiagnosticReportOneLine(sd));</span>
+<span class="fc" id="L99">        main.arguments.checkArguments(args);</span>
+<span class="fc" id="L100">        main.startup(sd);</span>
+<span class="fc" id="L101">        System.gc();</span>
+<span class="fc" id="L102">    }</span>
+
+    /**
+     * shuts down CASUAL
+     *
+     * @param i code to throw
+     */
+    public static void shutdown(int i) {
+<span class="fc" id="L110">        Log.level4Debug(&quot;Shutting Down&quot;);</span>
+<span class="fc" id="L111">        AudioHandler.useSound = false;</span>
+<span class="fc" id="L112">        Log.out.flush();</span>
+<span class="pc bpc" id="L113" title="3 of 4 branches missed.">        if (sd.CASPAC != null &amp;&amp; sd.CASPAC.getActiveScript() != null) {</span>
+<span class="nc" id="L114">            sd.CASPAC.getActiveScript().setScriptContinue(false);</span>
+        }
+<span class="fc" id="L116">        CASUALConnectionStatusMonitor.stop();</span>
+        
+        //No logs if Developing, No GUI, or CASPAC.  Only if CASUAL distribution.
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">        if (!CASUALTools.IDEMode) {</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">            if (!CASUALSessionData.isGUIIsAvailable()) {</span>
+                try {
+<span class="nc" id="L122">                    new Pastebin().pasteAnonymousLog();</span>
+<span class="nc" id="L123">                } catch (MalformedURLException ex) {</span>
+<span class="nc" id="L124">                    Log.errorHandler(ex);</span>
+<span class="nc" id="L125">                }</span>
+            }
+        }
+        
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">        if (CASUALSessionData.getGUI() != null) {</span>
+<span class="fc" id="L130">            CASUALSessionData.getGUI().dispose();</span>
+<span class="fc" id="L131">            CASUALSessionData.setGUI(null);</span>
+        }
+<span class="fc" id="L133">        CASUALConnectionStatusMonitor.stop();</span>
+        
+<span class="fc" id="L135">        sd.initializeStatics();</span>
+
+<span class="fc" id="L137">    }</span>
+
+    private static void doSleep() {
+        try {
+<span class="nc" id="L141">            Thread.sleep(300);</span>
+<span class="nc" id="L142">        } catch (InterruptedException ex) {</span>
+<span class="nc" id="L143">            Logger.getLogger(CASUALMain.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L144">        }</span>
+<span class="nc" id="L145">    }</span>
+<span class="fc" id="L146">    boolean exitWhenDone = false;</span>
+<span class="fc" id="L147">    CASUALSettings arguments = new CASUALSettings();</span>
+    /**
+     * Scans /SCRIPTS/ Folder to locate scripts.
+     */
+<span class="fc" id="L151">    public Runnable setupCASUALCASPAC = new Runnable() {</span>
+        @Override
+        public void run() {
+            
+<span class="pc bpc" id="L155" title="3 of 4 branches missed.">            if (arguments.getCaspacLocation() != null &amp;&amp; arguments.getCaspacLocation().exists()) {</span>
+                try {
+                    Caspac cp;
+<span class="nc bnc" id="L158" title="All 2 branches missed.">                    if (!arguments.getPassword().isEmpty()) {</span>
+<span class="nc" id="L159">                        cp = new Caspac(sd,arguments.getCaspacLocation(), sd.getTempFolder(), 0, arguments.getPassword().toCharArray());</span>
+<span class="nc" id="L160">                        arguments.setPassword(&quot;&quot;);</span>
+                    } else {
+<span class="nc" id="L162">                        cp = new Caspac(sd,arguments.getCaspacLocation(), sd.getTempFolder(), 0);</span>
+                        
+                    }
+<span class="nc" id="L165">                    cp.loadFirstScriptFromCASPAC();</span>
+<span class="nc" id="L166">                    sd.CASPAC = cp;</span>
+<span class="nc" id="L167">                } catch (IOException ex) {</span>
+<span class="nc" id="L168">                    Log.errorHandler(ex);</span>
+<span class="nc" id="L169">                } catch (Exception ex) {</span>
+<span class="nc" id="L170">                    Log.errorHandler(ex);</span>
+<span class="nc" id="L171">                }</span>
+                
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">            } else if (!arguments.isExecute()) {   //execute is for single commands</span>
+                //Build a CASPAC from the SCRIPTS folder
+<span class="fc" id="L175">                CodeSource src = getClass().getProtectionDomain().getCodeSource();</span>
+                Caspac cp;
+                try {
+<span class="fc" id="L178">                    cp = new Caspac(sd, src, sd.getTempFolder(), 1);</span>
+                    
+                    //cp.load();
+<span class="fc" id="L181">                    sd.CASPAC = cp;</span>
+<span class="nc" id="L182">                } catch (ZipException ex) {</span>
+                    
+<span class="nc" id="L184">                    Log.errorHandler(ex);</span>
+<span class="nc" id="L185">                } catch (IOException ex) {</span>
+<span class="nc" id="L186">                    Log.errorHandler(ex);</span>
+<span class="pc" id="L187">                }</span>
+            }
+<span class="fc" id="L189">        }</span>
+    };
+
+    /**
+     * startup is where CASUAL starts its normal routines for both
+* @param sd CASUALSessionData to be used
+     */
+    public void startup(CASUALSessionData sd) {
+        //starts the scriptRunLock so that the lock will not be enabled when checked for the first time. 
+<span class="fc" id="L198">        CASUALStartupTasks.scriptRunLock.start();</span>
+        //make the temp folder if not created
+<span class="fc" id="L200">        new FileOperations().makeFolder(sd.getTempFolder());</span>
+
+<span class="pc bpc" id="L202" title="3 of 5 branches missed.">        switch (arguments.getCASPACType()) {</span>
+            case CASUAL:
+<span class="fc" id="L204">                Log.level4Debug(&quot;Loading CASUAL Type package&quot;);</span>
+
+<span class="fc" id="L206">                startGUI();</span>
+<span class="fc" id="L207">                commonCASUALCASPACStartupTasks();</span>
+<span class="fc" id="L208">                waitForGUI();</span>
+<span class="fc" id="L209">                sd.CASPAC.setActiveScript(sd.CASPAC.getScriptByName(sd.CASPAC.getScriptNames()[0]));</span>
+<span class="fc" id="L210">                CASUALSessionData.getGUI().setCASPAC(sd.CASPAC);</span>
+<span class="fc" id="L211">                CASUALStartupTasks.startADB.waitFor();</span>
+<span class="fc" id="L212">                startConnectionStatusMonitor();</span>
+<span class="fc" id="L213">                return;</span>
+            case CASPAC:
+<span class="nc" id="L215">                Log.level4Debug(&quot;Loading CASPAC Type package&quot;);</span>
+<span class="nc" id="L216">                iCASUALUI gui=CASUALSessionData.getGUI();</span>
+                        
+<span class="nc bnc" id="L218" title="All 2 branches missed.">                if (CASUALSessionData.getGUI() == null) {</span>
+<span class="nc" id="L219">                    CASUALSessionData.setGUI(new GUI.CommandLine.CommandLineUI());</span>
+                }
+                
+<span class="nc" id="L222">                commonCASUALCASPACStartupTasks();</span>
+<span class="nc" id="L223">                sd.CASPAC.setActiveScript(sd.CASPAC.getScriptByName(sd.CASPAC.getScriptNames()[0]));</span>
+                try {
+<span class="nc" id="L225">                    sd.CASPAC.loadActiveScript();</span>
+<span class="nc" id="L226">                } catch (IOException ex) {</span>
+<span class="nc" id="L227">                    Logger.getLogger(CASUALMain.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L228">                }</span>
+<span class="nc" id="L229">                CASUALStartupTasks.caspacPrepLock.waitFor();</span>
+<span class="nc" id="L230">                sd.CASPAC.waitForUnzip();</span>
+<span class="nc" id="L231">                CASUALStartupTasks.startADB.waitFor();</span>
+<span class="nc" id="L232">                new CASUALScriptParser().executeActiveScript(sd.CASPAC);</span>
+
+                //caspacExecute();
+<span class="nc" id="L235">                break;</span>
+            case EXECUTE:
+                try {
+<span class="fc" id="L238">                    CASUALTools.setiCASUALGUI(Class.forName(&quot;GUI.CommandLine.CommandLineUI&quot;));</span>
+<span class="nc" id="L239">                } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L240">                    Log.level0Error(&quot;Could not find Command Line class&quot;);</span>
+<span class="nc" id="L241">                } catch (InstantiationException ex) {</span>
+<span class="nc" id="L242">                    Log.level0Error(&quot;Could not instantiate Command Line class&quot;);</span>
+<span class="nc" id="L243">                } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L244">                    Log.level0Error(&quot;Could not access Command Line class&quot;);</span>
+<span class="pc" id="L245">                }</span>
+<span class="fc" id="L246">                this.doConsoleStartup(arguments.getExecuteCommand());</span>
+<span class="fc" id="L247">                break;</span>
+            case EXIT:
+<span class="nc" id="L249">                shutdown(1);</span>
+<span class="nc" id="L250">                break;</span>
+            default:
+<span class="nc" id="L252">                shutdown(1);</span>
+                break;
+        }
+<span class="fc" id="L255">        shutdown(0);</span>
+
+<span class="fc" id="L257">    }</span>
+
+    private void waitForGUI() {
+        try {
+<span class="fc" id="L261">            CASUALStartupTasks.startGUI.join();</span>
+<span class="nc" id="L262">        } catch (InterruptedException ex) {</span>
+<span class="nc" id="L263">            Logger.getLogger(CASUALMain.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L264">        }</span>
+<span class="fc" id="L265">    }</span>
+
+    private void commonCASUALCASPACStartupTasks() {
+<span class="fc" id="L268">        CASUALStartupTasks.startADB.setName(&quot;ADB Startup Task&quot;);</span>
+<span class="fc" id="L269">        CASUALStartupTasks.startADB.start();</span>
+<span class="fc" id="L270">        prepareCaspac();</span>
+<span class="fc" id="L271">        setDefaultCASPACScript();</span>
+<span class="fc" id="L272">        sd.setStatus(&quot;waiting for CASPAC&quot;);</span>
+<span class="fc" id="L273">        CASUALStartupTasks.caspacPrepLock.waitFor();</span>
+
+<span class="fc" id="L275">    }</span>
+
+    private void caspacExecute() {
+        //Using command line mode
+
+        //start the device monitor
+        //wait for complete;
+<span class="nc" id="L282">        CASUALConnectionStatusMonitor.stop();</span>
+<span class="nc" id="L283">        sd.CASPAC.startAndWaitForUnzip();</span>
+
+<span class="nc" id="L285">        new CASUALScriptParser().executeActiveScript(sd.CASPAC);</span>
+
+<span class="nc" id="L287">    }</span>
+
+    private void setDefaultCASPACScript() {
+<span class="pc bpc" id="L290" title="5 of 6 branches missed.">        if (sd.CASPAC != null &amp;&amp; sd.CASPAC.getScripts() != null &amp;&amp; sd.CASPAC.getScripts().size() &gt;= 1) {</span>
+<span class="nc" id="L291">            Log.level4Debug(&quot;Finalizing active script up to be run&quot;);</span>
+
+<span class="nc" id="L293">            sd.CASPAC.setActiveScript(sd.CASPAC.getScripts().get(0));</span>
+<span class="nc" id="L294">            sd.CASPAC.getActiveScript().setScriptContinue(true);</span>
+        }
+<span class="fc" id="L296">    }</span>
+
+    private void startGUI() {
+<span class="fc" id="L299">        CASUALStartupTasks.startGUI = new MandatoryThread(new CASUALTools().GUI);</span>
+<span class="fc" id="L300">        CASUALStartupTasks.startGUI.setName(&quot;CASUAL GUI&quot;);</span>
+<span class="fc" id="L301">        CASUALStartupTasks.startGUI.start();//starts the GUI if required</span>
+<span class="fc" id="L302">    }</span>
+
+    private void doConsoleStartup(String cmd) {
+<span class="fc" id="L305">        CASUALConnectionStatusMonitor.stop();</span>
+<span class="fc" id="L306">        CASUALScriptParser csp = new CASUALScriptParser();</span>
+        try {
+<span class="fc" id="L308">            csp.executeOneShotCommand(cmd);</span>
+<span class="nc" id="L309">        } catch (Exception ex) {</span>
+<span class="nc" id="L310">            Log.errorHandler(ex);</span>
+<span class="fc" id="L311">        }</span>
+<span class="fc" id="L312">        Log.level2Information(&quot;@scriptComplete&quot;);</span>
+
+<span class="fc" id="L314">    }</span>
+
+    private void startConnectionStatusMonitor() {
+
+<span class="pc bpc" id="L318" title="3 of 4 branches missed.">        switch (arguments.getMonitorMode()) {</span>
+            case ADB:
+<span class="fc" id="L320">                new CASUALConnectionStatusMonitor().start(sd,new CASUAL.communicationstools.adb.ADBTools());</span>
+<span class="fc" id="L321">                break;</span>
+            case FASTBOOT:
+<span class="nc" id="L323">                new CASUALConnectionStatusMonitor().start(sd, new CASUAL.communicationstools.fastboot.FastbootTools());</span>
+<span class="nc" id="L324">                break;</span>
+            case HEIMDALL:
+<span class="nc" id="L326">                new CASUALConnectionStatusMonitor().start(sd, new CASUAL.communicationstools.heimdall.HeimdallTools());</span>
+<span class="nc" id="L327">                break;</span>
+            default:
+<span class="nc" id="L329">                new CASUALConnectionStatusMonitor().start(sd, new CASUAL.communicationstools.adb.ADBTools());</span>
+        }
+<span class="fc" id="L331">    }</span>
+
+    /**
+     * starts preparing the CASPAC provided.
+     */
+    public void prepareCaspac() {
+<span class="fc" id="L337">        CASUALStartupTasks.caspacPrepLock = new MandatoryThread(setupCASUALCASPAC);</span>
+<span class="fc" id="L338">        CASUALStartupTasks.caspacPrepLock.setName(&quot;Preparing Scripts&quot;);</span>
+<span class="fc" id="L339">        CASUALStartupTasks.caspacPrepLock.start(); //scan self for embedded scripts</span>
+<span class="fc" id="L340">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

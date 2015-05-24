@@ -1,0 +1,1 @@
+This is a tool which will root, unlock, and install a custom recovery on a Verizon Galaxy Note 10.1.  Put your device into ADB mode. Credit for the exploit goes to Lee Harrison.

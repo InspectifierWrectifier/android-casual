@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>RemoteCASPACHandler.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.network</a> &gt; <span class="el_source">RemoteCASPACHandler.java</span></div><h1>RemoteCASPACHandler.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2015 adamoutler
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.network;
+
+import CASUAL.CASUALScriptParser;
+import CASUAL.CASUALSessionData;
+import CASUAL.caspac.Caspac;
+import CASUAL.crypto.SHA256sum;
+import CASUAL.network.CASUALDevIntegration.CASUALPackage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.security.NoSuchAlgorithmException;
+
+/**
+ *
+ * @author adamoutler
+ */
+<span class="fc" id="L38">public class RemoteCASPACHandler {</span>
+
+    final static String repository = &quot;https://builds.casual-dev.com/files/CASPAC/&quot;;
+
+    public String executeCaspac(CASUALSessionData sd, String urlPath) throws FileNotFoundException, IOException {
+<span class="nc" id="L43">        File  downloaded= downloadFromRemoteRepository(sd.getTempFolder(),urlPath);</span>
+<span class="nc" id="L44">        Caspac caspac=new Caspac(sd,downloaded);</span>
+<span class="nc" id="L45">        sd.CASPAC=caspac;</span>
+<span class="nc" id="L46">        caspac.loadFirstScriptFromCASPAC();</span>
+<span class="nc" id="L47">        new CASUALScriptParser().loadFileAndExecute(caspac, false);</span>
+<span class="nc" id="L48">        return &quot;&quot;;</span>
+    }
+    
+    
+    
+    
+    
+    
+    
+    public File downloadFromRemoteRepository(String tempFolder, String urlPath) throws MalformedURLException, FileNotFoundException, IOException {
+<span class="fc" id="L58">        URL caspacURL = new URL(repository + urlPath);</span>
+<span class="fc" id="L59">        String localCaspac=tempFolder+caspacURL.getFile();</span>
+<span class="fc" id="L60">        CASUALPackage cp=new CASUALPackage(repository + urlPath);</span>
+<span class="fc" id="L61">        System.out.println(cp.toString());</span>
+<span class="fc" id="L62">        downloadFileFromURLToFolder(caspacURL,localCaspac);</span>
+        String downloadedSha;
+        try {
+<span class="fc" id="L65">              SHA256sum sha256= new SHA256sum(new File(localCaspac));</span>
+          
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">            if (!sha256.getSha256().equals(cp.getCaspacSHA256sum())){</span>
+<span class="nc" id="L68">                return null;</span>
+            }
+<span class="nc" id="L70">        } catch (NoSuchAlgorithmException ex) {</span>
+<span class="nc" id="L71">            return null;</span>
+<span class="fc" id="L72">        }</span>
+<span class="fc" id="L73">          return new File(localCaspac);</span>
+    }
+
+    private void downloadFileFromURLToFolder(URL url, String tempFile) throws FileNotFoundException, IOException {
+<span class="fc" id="L77">        ReadableByteChannel rbc = Channels.newChannel(url.openStream());</span>
+<span class="fc" id="L78">        File f=new File(tempFile);</span>
+<span class="fc" id="L79">        f.getParentFile().mkdirs();</span>
+<span class="fc" id="L80">        FileOutputStream fos = new FileOutputStream(f);</span>
+<span class="fc" id="L81">        fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);</span>
+<span class="fc" id="L82">    }</span>
+
+    private String getPropertiesURL(String input) {
+<span class="nc" id="L85">            input=input.substring(0, input.lastIndexOf(&quot;.&quot;))+&quot;properties&quot;;</span>
+<span class="nc" id="L86">            return input;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

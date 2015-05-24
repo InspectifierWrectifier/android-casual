@@ -1,0 +1,17 @@
+.label{
+    -fx-text-fill: #00FF00;
+    -fx-font-size: 20pt;
+
+}
+
+.button {
+
+    -fx-border-color: #e2e2e2;
+    -fx-border-width: 2;
+    -fx-background-radius: 0;
+    -fx-background-color: #39a7ca;
+
+    -fx-font-size: 20pt;
+    -fx-text-fill: #d8d8d8;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+}

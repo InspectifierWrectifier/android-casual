@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+<?scenebuilder-background-color 0xdfdfdfff?>
+
+<AnchorPane id="AnchorPane" disable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="728.0002999999924" prefWidth="883.000022070315" snapToPixel="true" stylesheets="@JOdin.css" visible="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.casual_dev.jodin.JOdinController">
+  <children>
+    <AnchorPane id="AnchorPane" fx:id="mainSurface" layoutX="0.0" layoutY="0.0" prefHeight="626.0001831054688" prefWidth="883.0" rotate="0.0" translateX="0.0" visible="true">
+      <children>
+        <ImageView cache="true" cacheHint="SPEED" depthTest="DISABLE" fitHeight="69.99999699475198" fitWidth="854.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@images/header.png" />
+          </image>
+        </ImageView>
+        <Label layoutX="158.0" layoutY="33.0" prefHeight="42.0" prefWidth="704.0" text="   CASUAL" textFill="WHITE">
+          <effect>
+            <Glow level="0.8974842767295597" />
+          </effect>
+          <font>
+            <Font name="Arial Bold" size="16.0" />
+          </font>
+        </Label>
+        <ScrollPane focusTraversable="false" hbarPolicy="NEVER" layoutX="15.0" layoutY="84.0" mouseTransparent="false" prefHeight="154.0" prefWidth="854.0" vbarPolicy="NEVER" visible="true">
+          <content>
+            <AnchorPane mouseTransparent="false" pickOnBounds="true" prefHeight="154.0" prefWidth="852.0">
+              <children>
+                <ProgressBar fx:id="progress" disable="false" layoutX="3.0" layoutY="77.0" prefHeight="15.9609375" prefWidth="99.0" progress="0.0" />
+                <ProgressBar cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="false" layoutX="109.0" layoutY="78.0" mouseTransparent="true" opacity="1.0" prefHeight="16.0" prefWidth="100.0" progress="0.0" />
+                <ProgressBar cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="false" layoutX="213.0" layoutY="78.0" mouseTransparent="true" prefHeight="15.9609375" prefWidth="99.0" progress="0.0" />
+                <ProgressBar cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="false" layoutX="320.0" layoutY="77.0" mouseTransparent="true" prefHeight="15.9609375" prefWidth="99.0" progress="0.0" />
+                <ProgressBar cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="false" layoutX="426.0" layoutY="77.0" mouseTransparent="true" prefHeight="15.9609375" prefWidth="99.0" progress="0.0" />
+                <ProgressBar cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="false" layoutX="532.0" layoutY="77.0" mouseTransparent="true" prefHeight="15.9609375" prefWidth="99.0" progress="0.0" />
+                <ProgressBar cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="false" layoutX="640.0" layoutY="77.0" mouseTransparent="true" prefHeight="15.9609375" prefWidth="99.0" progress="0.0" />
+                <ProgressBar cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="false" layoutX="745.0" layoutY="77.0" mouseTransparent="true" prefHeight="15.9609375" prefWidth="99.0" progress="0.0" />
+                <Rectangle id="passIndicator" fx:id="passFailBox" arcHeight="5.0" arcWidth="5.0" height="63.0" layoutX="3.0" layoutY="10.0" strokeType="INSIDE" width="99.0">
+                  <fill>
+                    <Color blue="0.875" green="0.875" red="0.875" fx:id="x1" />
+                  </fill>
+                  <stroke>
+                    <Color blue="0.625" green="0.625" red="0.625" fx:id="x2" />
+                  </stroke>
+                </Rectangle>
+                <Rectangle arcHeight="5.0" arcWidth="5.0" cache="true" cacheHint="SPEED" depthTest="DISABLE" fill="$x1" height="63.0" layoutX="108.0" layoutY="10.0" mouseTransparent="true" stroke="$x2" strokeType="INSIDE" width="99.0" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" cache="true" cacheHint="SPEED" depthTest="DISABLE" fill="$x1" height="63.0" layoutX="212.0" layoutY="10.0" mouseTransparent="true" stroke="$x2" strokeType="INSIDE" width="99.0" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" cache="true" cacheHint="SPEED" depthTest="DISABLE" fill="$x1" height="63.0" layoutX="319.0" layoutY="10.0" mouseTransparent="true" stroke="$x2" strokeType="INSIDE" width="99.0" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" cache="true" cacheHint="SPEED" depthTest="DISABLE" fill="$x1" height="63.0" layoutX="425.0" layoutY="10.0" mouseTransparent="true" stroke="$x2" strokeType="INSIDE" width="99.0" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" cache="true" cacheHint="SPEED" depthTest="DISABLE" fill="$x1" height="63.0" layoutX="531.0" layoutY="10.0" mouseTransparent="true" stroke="$x2" strokeType="INSIDE" width="99.0" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" cache="true" cacheHint="SPEED" depthTest="DISABLE" fill="$x1" height="63.0" layoutX="639.0" layoutY="10.0" mouseTransparent="true" stroke="$x2" strokeType="INSIDE" width="99.0" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" cache="true" cacheHint="SPEED" depthTest="DISABLE" fill="$x1" height="63.0" layoutX="745.0" layoutY="10.0" mouseTransparent="true" stroke="$x2" strokeType="INSIDE" width="99.0" />
+                <TitledPane animated="false" collapsible="false" focusTraversable="false" layoutX="1.0" layoutY="99.0" minWidth="198.0" prefHeight="55.0" prefWidth="852.0" text="ID:COM" textAlignment="CENTER">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <children>
+                        <TextField fx:id="connectedIndicator" disable="false" editable="false" layoutX="0.0" layoutY="4.0" mouseTransparent="false" opacity="1.0" prefWidth="99.00009999999747" visible="true" />
+                        <TextField cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="false" editable="false" layoutX="319.0" layoutY="4.0" mouseTransparent="true" opacity="0.2" prefWidth="99.0" />
+                        <TextField cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="false" editable="false" layoutX="424.0" layoutY="4.0" mouseTransparent="true" opacity="0.2" prefWidth="99.0" />
+                        <TextField id="connectedIndicator" cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="false" editable="false" layoutX="531.0" layoutY="4.0" mouseTransparent="true" opacity="0.2" prefWidth="99.0" />
+                        <TextField cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="false" editable="false" layoutX="639.0" layoutY="4.0" mouseTransparent="true" opacity="0.2" prefWidth="99.0" />
+                        <TextField cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="false" editable="false" layoutX="744.0" layoutY="4.0" mouseTransparent="true" opacity="0.2" prefWidth="99.0" />
+                        <TextField cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="false" editable="false" layoutX="213.0" layoutY="4.0" mouseTransparent="true" opacity="0.2" prefWidth="99.00009999999747" />
+                        <TextField cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="false" editable="false" layoutX="105.0" layoutY="4.0" mouseTransparent="true" opacity="0.2" prefWidth="100.0" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+                <Label fx:id="passFailLabel" alignment="CENTER" layoutX="-2.0" layoutY="28.0" minHeight="16.000091552734375" prefHeight="31.0" prefWidth="109.0" text="RECOVERY" textAlignment="CENTER">
+                  <font>
+                    <Font name="Arial" size="18.0" />
+                  </font>
+                </Label>
+              </children>
+            </AnchorPane>
+          </content>
+        </ScrollPane>
+        <TitledPane animated="false" collapsible="false" layoutX="350.0" layoutY="239.0" minWidth="513.9999000000025" prefWidth="518.9998779296875" text="Partition Table">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="29.000099999997474" prefWidth="514.0">
+              <children>
+                <Button fx:id="pitSelection" layoutX="0.0" layoutY="0.0" mnemonicParsing="false" onMouseReleased="#pitPressed" onTouchReleased="#pitPressed" prefHeight="29.0" prefWidth="99.0" text="PIT" />
+                <TextField fx:id="pitLocation" editable="false" layoutX="104.0" layoutY="1.0" prefHeight="29.0" prefWidth="405.0" />
+              </children>
+            </AnchorPane>
+          </content>
+        </TitledPane>
+        <TitledPane animated="false" collapsible="false" layoutX="350.0" layoutY="295.0" minWidth="478.0" prefHeight="212.0" prefWidth="519.0" text="Files [Download]">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="186.0" prefWidth="519.0">
+              <children>
+                <Group id="Group" layoutX="14.0" layoutY="36.0" scaleX="1.0" scaleY="1.0">
+                  <children>
+                    <Button fx:id="pdaSelection" layoutX="19.0" layoutY="0.0" mnemonicParsing="false" onMouseReleased="#pdaPressed" onTouchReleased="#pdaPressed" prefHeight="29.0" prefWidth="99.0" text="PDA" />
+                    <CheckBox fx:id="pdaFlash" layoutX="0.0" layoutY="6.0" mnemonicParsing="false" selected="true" text="" />
+                    <TextField fx:id="pdaLocation" editable="false" layoutX="118.0" layoutY="0.0" prefHeight="30.0" prefWidth="377.0" text="" />
+                  </children>
+                </Group>
+                <Group id="Group" layoutX="14.0" layoutY="0.0">
+                  <children>
+                    <Button fx:id="bootloaderSelection" layoutX="19.0" layoutY="0.0" mnemonicParsing="false" onMouseReleased="#bootloaderPressed" onTouchReleased="#bootloaderPressed" prefHeight="29.0" prefWidth="99.0" text="Bootloader" />
+                    <CheckBox fx:id="bootloaderFlash" layoutX="0.0" layoutY="6.0" mnemonicParsing="false" selected="true" text="" />
+                    <TextField fx:id="bootloaderLocation" editable="false" layoutX="118.0" layoutY="0.0" prefHeight="30.0" prefWidth="377.0" />
+                  </children>
+                </Group>
+                <Group id="Group" layoutX="14.0" layoutY="70.0">
+                  <children>
+                    <Button fx:id="phoneSelection" layoutX="19.0" layoutY="0.0" mnemonicParsing="false" onMouseReleased="#phonePressed" onTouchReleased="#phonePressed" prefHeight="29.000022070315026" prefWidth="99.0001220703125" text="PHONE" />
+                    <CheckBox fx:id="phoneFlash" layoutX="0.0" layoutY="6.0" mnemonicParsing="false" selected="false" text="" />
+                    <TextField fx:id="phoneLocation" editable="false" layoutX="118.0" layoutY="0.0" prefHeight="30.0" prefWidth="377.0" text="" />
+                  </children>
+                </Group>
+                <Group id="Group" layoutX="14.0" layoutY="109.0">
+                  <children>
+                    <Button fx:id="cscSelection" layoutX="19.0" layoutY="0.0" mnemonicParsing="false" onMouseReleased="#cscPressed" onTouchReleased="#cscPressed" prefHeight="29.0" prefWidth="99.0" text="CSC" />
+                    <CheckBox fx:id="cscFlash" layoutX="0.0" layoutY="6.0" mnemonicParsing="false" selected="true" text="" />
+                    <TextField fx:id="cscLocation" editable="false" layoutX="118.0" layoutY="0.0" prefHeight="30.0" prefWidth="377.0" />
+                  </children>
+                </Group>
+                <Group id="Group" cache="true" cacheHint="SPEED" disable="true" layoutX="14.0" layoutY="147.0" mouseTransparent="true">
+                  <children>
+                    <Button cache="true" cacheHint="SPEED" depthTest="DISABLE" layoutX="19.0" layoutY="0.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="99.0" text="UMS" />
+                    <CheckBox cache="true" cacheHint="SPEED" depthTest="DISABLE" layoutX="0.0" layoutY="6.0" mnemonicParsing="false" text="" />
+                    <TextField cache="true" cacheHint="SPEED" depthTest="DISABLE" layoutX="118.0" layoutY="0.0" prefHeight="30.0" prefWidth="377.0" />
+                  </children>
+                </Group>
+              </children>
+            </AnchorPane>
+          </content>
+        </TitledPane>
+        <TitledPane animated="false" cache="true" cacheHint="SPEED" collapsible="false" layoutX="350.0" layoutY="507.0" prefHeight="56.0" prefWidth="519.0" text="File [Dump]">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <Group id="Group" cache="true" cacheHint="SPEED" layoutX="5.0" layoutY="-1.0" />
+                <Button cache="true" cacheHint="SPEED" disable="true" layoutX="424.0" layoutY="0.0" mnemonicParsing="false" prefHeight="29.000099999997474" prefWidth="85.0" text="open" />
+                <TextField cache="true" cacheHint="SPEED" disable="true" layoutX="14.0" layoutY="-1.0" prefHeight="30.0" prefWidth="405.0" />
+              </children>
+            </AnchorPane>
+          </content>
+        </TitledPane>
+        <Separator blendMode="MULTIPLY" layoutX="20.0" layoutY="570.0" prefWidth="848.0" />
+        <TitledPane animated="false" collapsible="false" layoutX="16.0" layoutY="239.0" prefHeight="148.0" prefWidth="332.0" text="Option">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <CheckBox id="AutoReboot" fx:id="autoReboot" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" selected="true" text="Auto Reboot" />
+                <CheckBox id="Repartition" fx:id="repartition" layoutX="107.0" layoutY="6.0" mnemonicParsing="false" text="Re-Partiton" />
+                <CheckBox cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="true" layoutX="14.0" layoutY="25.0" mnemonicParsing="false" text="Flash Lock" />
+                <CheckBox cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="true" layoutX="14.0" layoutY="45.0" mnemonicParsing="false" text="T Flash" />
+                <CheckBox cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="true" layoutX="107.0" layoutY="25.0" mnemonicParsing="false" text="LED Control" />
+                <CheckBox cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="true" layoutX="217.0" layoutY="6.0" mnemonicParsing="false" prefWidth="96.0" text="F. Reset Time" />
+                <CheckBox cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="true" layoutX="217.0" layoutY="25.0" mnemonicParsing="false" prefWidth="99.0001220703125" text="Nand Erase All" />
+                <Separator cache="true" cacheHint="SPEED" depthTest="DISABLE" layoutX="14.0" layoutY="61.0" prefWidth="303.0" />
+                <CheckBox cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="true" layoutX="14.0" layoutY="68.0" mnemonicParsing="false" text="Dump" />
+                <Separator cache="true" cacheHint="SPEED" depthTest="DISABLE" layoutX="14.0" layoutY="88.0" prefWidth="303.0" />
+                <CheckBox cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="true" layoutX="14.0" layoutY="100.0" mnemonicParsing="false" text="Phone Bootloader Update" />
+                <CheckBox cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="true" layoutX="187.0" layoutY="100.0" mnemonicParsing="false" prefWidth="109.0" text="Phone EFS Clear" />
+                <MenuButton cache="true" cacheHint="SPEED" depthTest="DISABLE" disable="true" layoutX="88.0" layoutY="65.0" mnemonicParsing="false" prefWidth="96.0" text="AP Ram">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Action 1" />
+                    <MenuItem mnemonicParsing="false" text="Action 2" />
+                  </items>
+                </MenuButton>
+                <TextField cache="true" cacheHint="SPEED" layoutX="210.0" layoutY="65.0" prefWidth="33.0" />
+              </children>
+            </AnchorPane>
+          </content>
+        </TitledPane>
+        <TitledPane animated="false" collapsible="false" layoutX="16.0" layoutY="387.0" prefHeight="176.0" prefWidth="332.0" text="Message">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="110.0" prefWidth="328.0">
+              <children>
+                <TextArea fx:id="messageBox" editable="false" layoutX="0.0" layoutY="0.0" prefHeight="148.0" prefWidth="328.0" text="&lt;ID:0/008&gt; Added!!" wrapText="true" />
+              </children>
+            </AnchorPane>
+          </content>
+        </TitledPane>
+        <Button fx:id="exit" layoutX="738.0" layoutY="571.0" mnemonicParsing="false" onAction="#dispose" prefHeight="31.0" prefWidth="109.0" text="Exit" />
+        <Button fx:id="reset" defaultButton="false" layoutX="604.0" layoutY="571.0" mnemonicParsing="false" onAction="#reset" prefHeight="31.0" prefWidth="109.0" text="Reset" />
+        <Button fx:id="start" defaultButton="false" layoutX="480.0" layoutY="571.0" mnemonicParsing="false" onAction="#StartButtonActionPerformed" prefHeight="31.0" prefWidth="109.0" text="Start" />
+        <Label layoutX="53.0" layoutY="28.0" minHeight="31.0" prefHeight="31.0" prefWidth="38.0" text="J" textFill="WHITE">
+          <effect>
+            <Glow level="0.7548387096774194" />
+          </effect>
+          <font>
+            <Font name="Arial Bold" size="33.0" />
+          </font>
+        </Label>
+        <Button fx:id="donate" layoutX="334.0" layoutY="582.0" minWidth="46.0" mnemonicParsing="false" onAction="#donatePressed" opacity="0.56" prefHeight="31.0" prefWidth="125.0" rotate="14.0" text="Donate" textOverrun="CLIP">
+          <font>
+            <Font size="12.0" />
+          </font>
+        </Button>
+        <Label fx:id="browserMode" layoutX="107.0" layoutY="0.0" minHeight="90.0" prefHeight="104.0" prefWidth="674.0" text="Browser Mode" textAlignment="CENTER" textFill="#5200ff" visible="false" wrapText="false">
+          <font>
+            <Font name="System Bold" size="80.0" />
+          </font>
+        </Label>
+        <Button fx:id="reportProblem" layoutX="225.0" layoutY="582.0" mnemonicParsing="false" onAction="#sendReport" opacity="0.7" prefHeight="31.0" prefWidth="125.0" rotate="14.0" text="report problem" />
+        <Button fx:id="testButton" layoutX="120.0" layoutY="582.0" minHeight="16.0" mnemonicParsing="false" onAction="#installDriverButton" opacity="0.79" prefHeight="31.0" prefWidth="125.0" rotate="14.0" text="Install Drivers" />
+        <Button id="testButton" fx:id="showLegal" layoutX="9.0" layoutY="582.0" minHeight="16.0" mnemonicParsing="false" onAction="#showLegal" prefHeight="31.0" prefWidth="125.0" rotate="14.0" text="Legal" />
+      </children>
+      <rotationAxis>
+        <Point3D x="2.0" y="2.0" z="2.0" />
+      </rotationAxis>
+    </AnchorPane>
+    <AnchorPane id="MessageGroup" fx:id="displaySurface" layoutX="0.0" layoutY="0.0" prefHeight="626.0001831054688" prefWidth="883.0" visible="false">
+      <children>
+        <ScrollPane fx:id="surfaceHider" hbarPolicy="NEVER" layoutX="2.0" layoutY="1.0" mouseTransparent="true" opacity="0.73" prefHeight="627.0" prefWidth="881.0" vbarPolicy="NEVER">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="627.0" prefWidth="890.0" />
+          </content>
+          <effect>
+            <Shadow height="81.63492063492063" radius="40.317460317460316" width="81.63492063492063">
+              <input>
+                <Lighting>
+                  <bumpInput>
+                    <Shadow />
+                  </bumpInput>
+                  <light>
+                    <javafx.scene.effect.Light.Spot pointsAtX="400.0" pointsAtY="400.0" pointsAtZ="-100.0" x="50.0" y="125.0" z="50.0" />
+                  </light>
+                </Lighting>
+              </input>
+            </Shadow>
+          </effect>
+        </ScrollPane>
+        <AnchorPane fx:id="interactions" layoutX="0.0" layoutY="1.0" prefHeight="634.0" prefWidth="899.0" visible="true">
+          <children>
+            <Button id="displaySurface" fx:id="button1" defaultButton="true" layoutX="628.0" layoutY="98.0" mnemonicParsing="false" onAction="#button1ClickAction" prefHeight="113.0" prefWidth="227.0" text="OK">
+              <font>
+                <Font size="40.0" fx:id="x3" />
+              </font>
+            </Button>
+            <Button fx:id="button2" defaultButton="false" font="$x3" layoutX="628.0" layoutY="269.0" mnemonicParsing="false" onAction="#button2ClickAction" prefHeight="113.0" prefWidth="227.0" text="NO" />
+            <Button fx:id="button3" cancelButton="true" defaultButton="false" font="$x3" layoutX="628.0" layoutY="439.0" mnemonicParsing="false" onAction="#button3ClickAction" prefHeight="113.0" prefWidth="227.0" text="Cancel" />
+            <Label fx:id="messageTitle" font="$x3" layoutX="17.0" layoutY="14.0" prefHeight="75.0" prefWidth="852.0" text="This is a Message How do you react?" textFill="#52ff00" />
+            <TextArea fx:id="messageDisplay" editable="false" layoutX="25.0" layoutY="98.0" opacity="1.0" prefHeight="454.0" prefWidth="546.0" style="    -fx-font: 25px &quot;Arial&quot;;&#10;    -fx-padding: 15;&#10;    -fx-background-color: rgba(50,0,50,.3);&#10;    -fx-text-fill: #44FF44;" text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum" wrapText="true" />
+            <TextField fx:id="inputText" layoutX="37.0" layoutY="453.0" onAction="#sendReport" prefHeight="70.0" prefWidth="546.0" style="-fx-font-size: 40pt;&#10;-fx-text-fill: lime;&#10;" text="" />
+          </children>
+        </AnchorPane>
+      </children>
+      <rotationAxis>
+        <Point3D />
+      </rotationAxis>
+    </AnchorPane>
+    <AnchorPane fx:id="legal" cache="true" cacheHint="SPEED" depthTest="DISABLE" layoutX="0.0" layoutY="0.0" prefHeight="620.0" prefWidth="883.0" visible="false">
+      <children>
+        <ScrollPane cache="true" cacheHint="SPEED" depthTest="DISABLE" layoutX="1.0" layoutY="1.0" opacity="0.89" prefHeight="617.7518920898438" prefWidth="882.0">
+          <content>
+            <AnchorPane id="Content" cache="true" cacheHint="SPEED" depthTest="DISABLE" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+          </content>
+          <effect>
+            <Lighting diffuseConstant="0.5238095238095238" specularConstant="0.665079365079365" specularExponent="6.666666666666666" surfaceScale="1.0238095238095237">
+              <bumpInput>
+                <Shadow />
+              </bumpInput>
+              <light>
+                <javafx.scene.effect.Light.Spot color="#fdffff" pointsAtX="400.0" pointsAtY="400.0" pointsAtZ="-100.0" x="100.0" y="100.0" z="100.0" />
+              </light>
+            </Lighting>
+          </effect>
+        </ScrollPane>
+        <AnchorPane layoutX="0.0" layoutY="1.0" prefHeight="618.0" prefWidth="883.0">
+          <children>
+            <Button fx:id="dismissLegal" font="$x3" layoutX="726.0" layoutY="521.0" minHeight="60.0" mnemonicParsing="false" onAction="#dismissLegal" prefHeight="70.0" prefWidth="125.0" text="OK" />
+            <TextArea cache="false" cacheHint="QUALITY" depthTest="INHERIT" editable="false" layoutX="59.0" layoutY="31.0" prefHeight="450.0" prefWidth="738.0" style="-fx-font: 18px &quot;Arial&quot;; -fx-background-color: rgba(0.0.0.0); -fx-text-fill: #AAAAFFFF; -fx-padding: 15;" text="JOdin3 CASUAL flashes Samsung Odin files on Windows, Linux and Mac&#10;Copyright (C) 2015  Adam Outler&#10;Development: Adam Outler &lt;adamoutler@gmail.com&gt;&#10;Security &amp; Drivers: Jeremy Loper &lt;jrloper@gmail.com&gt;&#10;Web Infrastructure: Logan Ludington &lt;loglud@logatech.org&gt;&#10;&#10; This program is free software: you can redistribute it and/or modify&#10; it under the terms of the GNU General Public License as published by&#10; the Free Software Foundation, either version 3 of the License, or&#10; (at your option) any later version.&#10;&#10; This program is distributed in the hope that it will be useful,&#10; but WITHOUT ANY WARRANTY; without even the implied warranty of&#10; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#10; GNU General Public License for more details.&#10;&#10; You should have received a copy of the GNU General Public License&#10; along with this program.  If not, see https://www.gnu.org/licenses/ .&#10; &#10;This project includes distributable forms of:&#10;ADB, Heimdall, Fastboot, and busybox&#10;&#10;&#10;This project contains Fastboot&#10;Copyright (C) 2008 The Android Open Source Project&#10; All rights reserved.&#10;  Redistribution and use in source and binary forms, with or without&#10; modification, are permitted provided that the following conditions&#10; are met:&#10;  * Redistributions of source code must retain the above copyright&#10;    notice, this list of conditions and the following disclaimer.&#10;  * Redistributions in binary form must reproduce the above copyright&#10;    notice, this list of conditions and the following disclaimer in&#10;    the documentation and/or other materials provided with the &#10;  distribution.&#10;  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS&#10; &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT&#10; LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS&#10; FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE&#10; COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,&#10; INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,&#10; BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS&#10; OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED &#10; AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,&#10; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT&#10; OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF&#10; SUCH DAMAGE.&#10;&#10;This project contains ADB&#10;Copyright (C) 2008 The Android Open Source Project&#10; All rights reserved.&#10;  Redistribution and use in source and binary forms, with or without&#10; modification, are permitted provided that the following conditions&#10; are met:&#10;  * Redistributions of source code must retain the above copyright&#10;    notice, this list of conditions and the following disclaimer.&#10;  * Redistributions in binary form must reproduce the above copyright&#10;    notice, this list of conditions and the following disclaimer in&#10;    the documentation and/or other materials provided with the &#10;  distribution.&#10;  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS&#10; &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT&#10; LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS&#10; FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE&#10; COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,&#10; INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,&#10; BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS&#10; OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED &#10; AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,&#10; OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT&#10; OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF&#10; SUCH DAMAGE.&#10; &#10;This project contains Heimdall&#10;Copyright (c) 2010-2012, Benjamin Dobell, Glass Echidna&#10;http://www.glassechidna.com.au/&#10;This software is provided free of charge. Copying and redistribution is&#10;encouraged. If you appreciate this software and you would like to support future&#10;development please consider donating: http://www.glassechidna.com.au/donate/&#10;Heimdall utilises libusb-1.0 for all USB communication:&#10;    http://www.libusb.org/&#10;libusb-1.0 is licensed under the LGPL-2.1:&#10;    http://www.gnu.org/licenses/licenses.html#LGPL&#10;&#10;This project contains Busybox&#10;BusyBox v1.20.2 (Ubuntu 1:1.20.0-8ubuntu1) multi-call binary.&#10;Copyright (C) 1998-2011 Erik Andersen, Rob Landley, Denys Vlasenko&#10;and others. Licensed under GPLv2.&#10;See source distribution for full notice.&#10;" wrapText="true" />
+          </children>
+        </AnchorPane>
+      </children>
+    </AnchorPane>
+    <AnchorPane fx:id="loading" disable="false" layoutX="0.0" layoutY="0.0" prefHeight="617.0" prefWidth="883.0" visible="false">
+      <children>
+        <Label layoutX="172.0" layoutY="250.0" prefHeight="118.0" prefWidth="539.0" text="Loading.... Please wait...">
+          <font>
+            <Font size="50.0" />
+          </font>
+        </Label>
+        <ProgressIndicator cache="true" layoutX="83.0" layoutY="0.0" opacity="0.14" prefHeight="617.0" prefWidth="717.0" progress="-1.0" visible="true" />
+      </children>
+    </AnchorPane>
+    <WebView fx:id="ad" layoutX="15.0" layoutY="627.0" maxHeight="90.0" maxWidth="1.7976931348623157E308" minHeight="90.0" onMouseClicked="#webViewClicked" onMouseEntered="#webviewHover" onMouseExited="#webViewLeave" prefHeight="90.0" prefWidth="863.0" />
+  </children>
+</AnchorPane>

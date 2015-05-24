@@ -1,0 +1,14 @@
+#Sun, 05 Aug 2012 22:38:29 -0500
+# Application global resources
+
+Application.name=CASUAL
+Application.title=CASUAL R
+Application.version=${Application.revision}.${Application.buildnumber}
+Application.vendor=AdamOutler
+Application.homepage=xda-developers.com
+Application.description=CASUAL Cross-platform ADB Scripting Universal Android Loader
+Application.vendorId=Sun
+Application.id=${Application.name}
+Application.lookAndFeel=system
+Application.buildnumber=2,534
+Application.revision=131

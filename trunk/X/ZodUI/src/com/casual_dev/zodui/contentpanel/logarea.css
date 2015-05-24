@@ -1,0 +1,28 @@
+#logarea {
+    -fx-text-fill: #00d800; 
+       
+    -fx-background-color: transparent;
+}
+.text-area{
+    -fx-background-color: transparent;
+    
+}
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+.text-area .scroll-bar:vertical:disabled {
+    -fx-opacity: 0;
+}
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
+#logPane{
+    -fx-background-color: transparent;
+    
+}

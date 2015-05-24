@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PitInputStream.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.archiving.libpit</a> &gt; <span class="el_source">PitInputStream.java</span></div><h1>PitInputStream.java</h1><pre class="source lang-java linenums">package CASUAL.archiving.libpit;
+/*PitInputStream provides tools used for writing a pit.
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
+import java.io.IOException;
+import java.io.InputStream;
+
+/**
+ * PitInputStream provides tools used for writing a pit. Original Files may be
+ * found here:
+ * https://github.com/Benjamin-Dobell/libpit--Java-/tree/master/libpit/src/au/com/glassechidna/libpit
+ * modified by: Adam Outler
+ *
+ * @author Benjamin Dobell
+ */
+public class PitInputStream {
+
+    private final InputStream inputStream;
+
+    /**
+     * Constructs a PitInputStream
+     *
+     * @see InputStream
+     * @param inputStream PIT as InputStream
+     */
+<span class="fc" id="L40">    public PitInputStream(InputStream inputStream) {</span>
+<span class="fc" id="L41">        this.inputStream = inputStream;</span>
+<span class="fc" id="L42">    }</span>
+
+    /**
+     * reads an int (four bytes) from the input stream
+     *
+     * @return integer value from four bytes
+     * @see InputStream
+     * @throws IOException  {@inheritDoc}
+     */
+    public int readInt() throws IOException {
+<span class="fc" id="L52">        return (inputStream.read() | (inputStream.read() &lt;&lt; 8) | (inputStream.read() &lt;&lt; 16)</span>
+<span class="fc" id="L53">                | (inputStream.read() &lt;&lt; 24));</span>
+    }
+
+    /**
+     * reads a short (two bytes) from the inputstream
+     *
+     * @return short value from two bytes
+     * @see InputStream
+     * @throws IOException  {@inheritDoc}
+     */
+    public short readShort() throws IOException {
+<span class="nc" id="L64">        return ((short) (inputStream.read() | (inputStream.read() &lt;&lt; 8)));</span>
+    }
+
+    /**
+     * reads parameterized bytes from the InputStream
+     *
+     * @param buffer byte buffer
+     * @param offset bytes to discard
+     * @param length number of bytes to read
+     * @return value requested from stream, specified by buffer, offset and
+     * length
+     * @see InputStream
+     * @throws IOException  {@inheritDoc}
+     */
+    public int read(byte[] buffer, int offset, int length) throws IOException {
+<span class="fc" id="L79">        return (inputStream.read(buffer, offset, length));</span>
+    }
+
+    /**
+     * reads a byte from the InputStream
+     *
+     * @see InputStream
+     * @return one byte
+     */
+    public int read() {
+        try {
+<span class="fc" id="L90">            return inputStream.read();</span>
+<span class="nc" id="L91">        } catch (IOException ex) {</span>
+<span class="nc" id="L92">            return -1; //if this happens the whole thing blew up or we are at the end</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

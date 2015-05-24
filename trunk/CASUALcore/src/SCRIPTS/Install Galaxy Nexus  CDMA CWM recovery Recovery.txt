@@ -1,0 +1,8 @@
+#############################################
+DO NOT USE THIS UNLESS YOU HAVE A CDMA NEXUS!
+#############################################
+*Requires root
+This option will install:  
+recovery-clockwork-5.5.0.4-toro.img
+
+After flashing you will be presented the option to reboot into recovery.  

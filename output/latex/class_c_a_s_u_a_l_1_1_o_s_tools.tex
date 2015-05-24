@@ -1,0 +1,134 @@
+\hypertarget{class_c_a_s_u_a_l_1_1_o_s_tools}{\section{C\-A\-S\-U\-A\-L.\-O\-S\-Tools Class Reference}
+\label{class_c_a_s_u_a_l_1_1_o_s_tools}\index{C\-A\-S\-U\-A\-L.\-O\-S\-Tools@{C\-A\-S\-U\-A\-L.\-O\-S\-Tools}}
+}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static boolean \hyperlink{class_c_a_s_u_a_l_1_1_o_s_tools_a0e56ffe8c5d4bb116822b580bc446f88}{is\-Mac} ()
+\item 
+static boolean \hyperlink{class_c_a_s_u_a_l_1_1_o_s_tools_a8068ad9e8a1c65f19983881b0e0b24a1}{is64bit\-System} ()
+\item 
+static String \hyperlink{class_c_a_s_u_a_l_1_1_o_s_tools_aec6bfc5a30c3575087ed4f01fe097224}{check\-Linux\-Arch} ()
+\item 
+static boolean \hyperlink{class_c_a_s_u_a_l_1_1_o_s_tools_aba47c5eb8808b1068b08e95879dd3398}{is\-Windows64\-Arch} ()
+\item 
+static String \hyperlink{class_c_a_s_u_a_l_1_1_o_s_tools_a30268489d47f25c2bf74fc081e2f059a}{O\-S\-Name} ()
+\item 
+static boolean \hyperlink{class_c_a_s_u_a_l_1_1_o_s_tools_a41ba4fa3af5e04583de46598a9d39e73}{is\-Linux} ()
+\item 
+static boolean \hyperlink{class_c_a_s_u_a_l_1_1_o_s_tools_ab0171f3f220d9e3bdbf131e0f0546e00}{is\-Windows} ()
+\item 
+static boolean \hyperlink{class_c_a_s_u_a_l_1_1_o_s_tools_a5fd7419f960454a449ec1aa1e77b2548}{is\-Mac\-Linux64\-Arch} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides a set of tools designed to identify the operating system and archetecture.
+
+\begin{DoxyAuthor}{Author}
+Adam Outler \href{mailto:adamoutler@gmail.com}{\tt adamoutler@gmail.\-com} 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1_o_s_tools_aec6bfc5a30c3575087ed4f01fe097224}{\index{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools@{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools}!check\-Linux\-Arch@{check\-Linux\-Arch}}
+\index{check\-Linux\-Arch@{check\-Linux\-Arch}!CASUAL::OSTools@{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools}}
+\subsubsection[{check\-Linux\-Arch}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-O\-S\-Tools.\-check\-Linux\-Arch (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1_o_s_tools_aec6bfc5a30c3575087ed4f01fe097224}
+Returns the arch from Linux
+
+\begin{DoxyReturn}{Returns}
+arch command results or \char`\"{}\-Linux\char`\"{} on an unsupported machine. Currently Debian based are supported. 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_o_s_tools_a8068ad9e8a1c65f19983881b0e0b24a1}{\index{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools@{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools}!is64bit\-System@{is64bit\-System}}
+\index{is64bit\-System@{is64bit\-System}!CASUAL::OSTools@{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools}}
+\subsubsection[{is64bit\-System}]{\setlength{\rightskip}{0pt plus 5cm}static boolean C\-A\-S\-U\-A\-L.\-O\-S\-Tools.\-is64bit\-System (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1_o_s_tools_a8068ad9e8a1c65f19983881b0e0b24a1}
+Operating System is 64 bit as reported by operating system.
+
+\begin{DoxyReturn}{Returns}
+true if 64 bit. 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_o_s_tools_a41ba4fa3af5e04583de46598a9d39e73}{\index{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools@{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools}!is\-Linux@{is\-Linux}}
+\index{is\-Linux@{is\-Linux}!CASUAL::OSTools@{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools}}
+\subsubsection[{is\-Linux}]{\setlength{\rightskip}{0pt plus 5cm}static boolean C\-A\-S\-U\-A\-L.\-O\-S\-Tools.\-is\-Linux (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1_o_s_tools_a41ba4fa3af5e04583de46598a9d39e73}
+Checks if system is Linux.
+
+\begin{DoxyReturn}{Returns}
+true if Linux 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_o_s_tools_a0e56ffe8c5d4bb116822b580bc446f88}{\index{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools@{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools}!is\-Mac@{is\-Mac}}
+\index{is\-Mac@{is\-Mac}!CASUAL::OSTools@{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools}}
+\subsubsection[{is\-Mac}]{\setlength{\rightskip}{0pt plus 5cm}static boolean C\-A\-S\-U\-A\-L.\-O\-S\-Tools.\-is\-Mac (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1_o_s_tools_a0e56ffe8c5d4bb116822b580bc446f88}
+Operating System is Mac.
+
+\begin{DoxyReturn}{Returns}
+true if mac 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_o_s_tools_a5fd7419f960454a449ec1aa1e77b2548}{\index{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools@{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools}!is\-Mac\-Linux64\-Arch@{is\-Mac\-Linux64\-Arch}}
+\index{is\-Mac\-Linux64\-Arch@{is\-Mac\-Linux64\-Arch}!CASUAL::OSTools@{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools}}
+\subsubsection[{is\-Mac\-Linux64\-Arch}]{\setlength{\rightskip}{0pt plus 5cm}static boolean C\-A\-S\-U\-A\-L.\-O\-S\-Tools.\-is\-Mac\-Linux64\-Arch (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1_o_s_tools_a5fd7419f960454a449ec1aa1e77b2548}
+Checks if Mac/\-Linux 64 bit
+
+\begin{DoxyReturn}{Returns}
+true if 64 bit mac/linux. 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_o_s_tools_ab0171f3f220d9e3bdbf131e0f0546e00}{\index{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools@{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools}!is\-Windows@{is\-Windows}}
+\index{is\-Windows@{is\-Windows}!CASUAL::OSTools@{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools}}
+\subsubsection[{is\-Windows}]{\setlength{\rightskip}{0pt plus 5cm}static boolean C\-A\-S\-U\-A\-L.\-O\-S\-Tools.\-is\-Windows (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1_o_s_tools_ab0171f3f220d9e3bdbf131e0f0546e00}
+Checks if system is Windows.
+
+\begin{DoxyReturn}{Returns}
+True if Windows 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_o_s_tools_aba47c5eb8808b1068b08e95879dd3398}{\index{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools@{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools}!is\-Windows64\-Arch@{is\-Windows64\-Arch}}
+\index{is\-Windows64\-Arch@{is\-Windows64\-Arch}!CASUAL::OSTools@{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools}}
+\subsubsection[{is\-Windows64\-Arch}]{\setlength{\rightskip}{0pt plus 5cm}static boolean C\-A\-S\-U\-A\-L.\-O\-S\-Tools.\-is\-Windows64\-Arch (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1_o_s_tools_aba47c5eb8808b1068b08e95879dd3398}
+Checks if this is Windows64
+
+\begin{DoxyReturn}{Returns}
+true if Windows 64. 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_o_s_tools_a30268489d47f25c2bf74fc081e2f059a}{\index{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools@{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools}!O\-S\-Name@{O\-S\-Name}}
+\index{O\-S\-Name@{O\-S\-Name}!CASUAL::OSTools@{C\-A\-S\-U\-A\-L\-::\-O\-S\-Tools}}
+\subsubsection[{O\-S\-Name}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-O\-S\-Tools.\-O\-S\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1_o_s_tools_a30268489d47f25c2bf74fc081e2f059a}
+gets O\-S name
+
+\begin{DoxyReturn}{Returns}
+string representing O\-S\-Name 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/O\-S\-Tools.\-java\end{DoxyCompactItemize}

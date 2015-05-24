@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ScriptMeta.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.caspac</a> &gt; <span class="el_source">ScriptMeta.java</span></div><h1>ScriptMeta.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2015 adamoutler
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.caspac;
+
+import CASUAL.CASUALSettings;
+import CASUAL.CASUALSettings.MonitorMode;
+import CASUAL.FileOperations;
+import CASUAL.Log;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+/**
+ * Meta provides a holding area and parsing for the metadata in the script.
+ */
+public class ScriptMeta {
+
+    /**
+     * Minimum Subversion revision required for script.
+     */
+<span class="pc" id="L43">    private String minSVNversion = &quot;&quot;;</span>
+    /**
+     * The revision of this script (used to determine update required status).
+     */
+<span class="pc" id="L47">    private String scriptRevision = &quot;&quot;;</span>
+    /**
+     * Unique script identification string.
+     */
+<span class="pc" id="L51">    private String uniqueIdentifier = &quot;&quot;;</span>
+    /**
+     * URL for support of this Script.
+     */
+<span class="pc" id="L55">    private String supportURL = &quot;&quot;;</span>
+    /**
+     * Message to be shown during script update.
+     */
+<span class="pc" id="L59">    private String updateMessage = &quot;&quot;;</span>
+    /**
+     * Message to be shown if killswitch is thrown on script.
+     */
+<span class="pc" id="L63">    private String killSwitchMessage = &quot;&quot;;</span>
+    /**
+     * Properties extracted from meta.properties.
+     */
+    private Properties metaProp;
+    /**
+     * List of expected MD5s for all files in the script (except meta).
+     */
+<span class="pc" id="L71">    private List&lt;String&gt; md5s = new ArrayList&lt;String&gt;();</span>
+    private Script script;
+
+<span class="pc" id="L74">    private CASUALSettings.MonitorMode monitorMode = MonitorMode.ADB;</span>
+
+    /**
+     * constructor for new Meta.
+     *
+     * @param script script this meta belongs to
+     */
+<span class="fc" id="L81">    public ScriptMeta(final Script script) {</span>
+<span class="fc" id="L82">        this.script = script;</span>
+<span class="fc" id="L83">        metaProp = new Properties();</span>
+<span class="fc" id="L84">    }</span>
+
+    /**
+     * Constructor for meta if properties file is available.
+     *
+     * @param prop properties file to load
+     * @param script script this meta belongs to
+     */
+<span class="nc" id="L92">    public ScriptMeta(Properties prop, final Script script) {</span>
+<span class="nc" id="L93">        this.script = script;</span>
+<span class="nc" id="L94">        metaProp = prop;</span>
+<span class="nc" id="L95">        setVariablesFromProperties(prop);</span>
+<span class="nc" id="L96">    }</span>
+
+    /**
+     * Constructor for meta if inputstrem properties is available.
+     *
+     * @param prop properties as inputstream.
+     * @param script script this meta belongs to
+     * @throws IOException when permissions problem exists.
+     */
+<span class="nc" id="L105">    public ScriptMeta(InputStream prop, final Script script) throws IOException {</span>
+<span class="nc" id="L106">        this.script = script;</span>
+<span class="nc" id="L107">        metaProp.load(prop);</span>
+<span class="nc" id="L108">        setVariablesFromProperties(metaProp);</span>
+<span class="nc" id="L109">    }</span>
+
+    /**
+     * verifies metadata is not empty
+     *
+     * @return true if filled in
+     */
+    public boolean verifyMeta() {
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        if (minSVNversion.isEmpty()) {</span>
+<span class="nc" id="L118">            Log.level0Error(script.getName() + &quot;minSVNversion is empty! Cannot continue.&quot;);</span>
+<span class="nc" id="L119">            return false;</span>
+        }
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        if (scriptRevision.isEmpty()) {</span>
+<span class="nc" id="L122">            Log.level0Error(script.getName() + &quot;scriptRevision is empty! Cannot continue.&quot;);</span>
+<span class="nc" id="L123">            return false;</span>
+        }
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        if (uniqueIdentifier.isEmpty()) {</span>
+<span class="nc" id="L126">            Log.level0Error(script.getName() + &quot;uniqueIdentifier  is empty! Cannot continue.&quot;);</span>
+<span class="nc" id="L127">            return false;</span>
+        }
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (supportURL.isEmpty()) {</span>
+<span class="nc" id="L130">            Log.level0Error(script.getName() + &quot;supportURL  is empty! Cannot continue.&quot;);</span>
+<span class="nc" id="L131">            return false;</span>
+        }
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        if (updateMessage.isEmpty()) {</span>
+<span class="nc" id="L134">            Log.level0Error(script.getName() + &quot;updateMessage is empty! Cannot continue.&quot;);</span>
+<span class="nc" id="L135">            return false;</span>
+        }
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        if (killSwitchMessage.isEmpty()) {</span>
+<span class="nc" id="L138">            Log.level0Error(script.getName() + &quot; killSwitchMessage is empty! Cannot continue.&quot;);</span>
+<span class="nc" id="L139">            return false;</span>
+        }
+<span class="nc" id="L141">        return true;</span>
+    }
+
+    /**
+     * gets the metadata as an inputstream
+     *
+     * @return metadata as inputstream.
+     */
+    public InputStream getMetaInputStream() {
+<span class="nc" id="L150">        setPropsFromVariables();</span>
+<span class="nc" id="L151">        ByteArrayOutputStream output = new ByteArrayOutputStream();</span>
+        try {
+<span class="nc" id="L153">            metaProp.store(output, &quot;This properties file was generated by CASUAL&quot;);</span>
+<span class="nc" id="L154">        } catch (IOException ex) {</span>
+<span class="nc" id="L155">            Log.errorHandler(ex);</span>
+<span class="nc" id="L156">        }</span>
+<span class="nc" id="L157">        return new ByteArrayInputStream(output.toByteArray());</span>
+    }
+
+    /**
+     * writes meta properties to a file
+     *
+     * @param output file to write
+     * @return true if file was written
+     * @throws FileNotFoundException when file cannot be created
+     * @throws IOException when permissions problem exists.
+     */
+    public boolean write(String output) throws FileNotFoundException, IOException {
+<span class="nc" id="L169">        File f = new File(output);</span>
+<span class="nc" id="L170">        return write(f);</span>
+    }
+
+    /**
+     * writes meta properties to a file
+     *
+     * @param output file to write
+     * @return true if file was written
+     * @throws FileNotFoundException when file cannot be created
+     * @throws IOException when permissions problem exists.
+     */
+    public boolean write(File output) throws FileNotFoundException, IOException {
+<span class="nc" id="L182">        setPropsFromVariables();</span>
+<span class="nc" id="L183">        FileOutputStream fos = new FileOutputStream(output);</span>
+<span class="nc" id="L184">        metaProp.store(fos, &quot;This properties file was generated by CASUAL&quot;);</span>
+<span class="nc" id="L185">        return new FileOperations().verifyExists(output.toString());</span>
+    }
+
+    /**
+     * sets the properties object from local variables for writing
+     *
+     * @return this ScriptMeta
+     */
+    public ScriptMeta setPropsFromVariables() {
+<span class="nc" id="L194">        metaProp.setProperty(&quot;CASUAL.minSVN&quot;, minSVNversion);</span>
+<span class="nc" id="L195">        metaProp.setProperty(&quot;Script.Revision&quot;, scriptRevision);</span>
+<span class="nc" id="L196">        metaProp.setProperty(&quot;Script.ID&quot;, uniqueIdentifier);</span>
+<span class="nc" id="L197">        metaProp.setProperty(&quot;Script.SupportURL&quot;, supportURL);</span>
+<span class="nc" id="L198">        metaProp.setProperty(&quot;Script.UpdateMessage&quot;, updateMessage);</span>
+<span class="nc" id="L199">        metaProp.setProperty(&quot;Script.KillSwitchMessage&quot;, killSwitchMessage);</span>
+<span class="nc" id="L200">        metaProp.setProperty(&quot;Script.MonitorMode&quot;, this.monitorMode.name());</span>
+<span class="nc" id="L201">        return this;</span>
+    }
+
+    /**
+     * sets the variables from properties object for loading
+     *
+     * @param prop properties file
+     */
+    private void setVariablesFromProperties(Properties prop) {
+<span class="fc" id="L210">        minSVNversion = prop.getProperty(&quot;CASUAL.minSVN&quot;, &quot;&quot;);</span>
+<span class="fc" id="L211">        scriptRevision = prop.getProperty(&quot;Script.Revision&quot;, &quot;&quot;);</span>
+<span class="fc" id="L212">        uniqueIdentifier = prop.getProperty(&quot;Script.ID&quot;, &quot;&quot;);</span>
+<span class="fc" id="L213">        supportURL = prop.getProperty(&quot;Script.SupportURL&quot;, &quot;&quot;);</span>
+<span class="fc" id="L214">        updateMessage = prop.getProperty(&quot;Script.UpdateMessage&quot;, &quot;&quot;);</span>
+<span class="fc" id="L215">        killSwitchMessage = prop.getProperty(&quot;Script.KillSwitchMessage&quot;, &quot;&quot;);</span>
+<span class="fc" id="L216">        md5s = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L217">        int i = 0;</span>
+<span class="fc" id="L218">        monitorMode = MonitorMode.valueOf(prop.getProperty(&quot;Script.MonitorMode&quot;, &quot;ADB&quot;));</span>
+<span class="fc bfc" id="L219" title="All 2 branches covered.">        while (!prop.getProperty(&quot;Script.MD5[&quot; + i + &quot;]&quot;, &quot;&quot;).isEmpty()) {</span>
+<span class="fc" id="L220">            md5s.add(prop.getProperty(&quot;Script.MD5[&quot; + i + &quot;]&quot;));</span>
+<span class="fc" id="L221">            i++;</span>
+        }
+<span class="fc" id="L223">    }</span>
+
+    /**
+     *
+     * @param prop properties file to load
+     * @return this ScriptMeta
+     */
+    public ScriptMeta load(Properties prop) {
+<span class="nc" id="L231">        this.metaProp = prop;</span>
+<span class="nc" id="L232">        setVariablesFromProperties(metaProp);</span>
+<span class="nc" id="L233">        return this;</span>
+    }
+
+    void load(BufferedInputStream streamFileFromZip) {
+        try {
+<span class="fc" id="L238">            this.metaProp.load(streamFileFromZip);</span>
+<span class="nc" id="L239">        } catch (IOException ex) {</span>
+<span class="nc" id="L240">            Log.errorHandler(ex);</span>
+<span class="fc" id="L241">        }</span>
+<span class="fc" id="L242">        setVariablesFromProperties(metaProp);</span>
+<span class="fc" id="L243">    }</span>
+
+    /**
+     * Minimum CASUAL SVN version requied by this script.
+     *
+     * @return svn version required.
+     */
+    public int minSVNversion() {
+<span class="nc" id="L251">        return Integer.parseInt(minSVNversion);</span>
+    }
+
+    /**
+     * @return the minSVNversion
+     */
+    public String getMinSVNversion() {
+<span class="fc" id="L258">        return minSVNversion;</span>
+    }
+
+    /**
+     * @param minSVNversion the minSVNversion to set
+     * @return this ScriptMeta
+     */
+    public ScriptMeta setMinSVNversion(String minSVNversion) {
+<span class="nc" id="L266">        this.minSVNversion = minSVNversion;</span>
+<span class="nc" id="L267">        return this;</span>
+    }
+
+    /**
+     * @return the scriptRevision
+     */
+    public String getScriptRevision() {
+<span class="fc" id="L274">        return scriptRevision;</span>
+    }
+
+    /**
+     * @param scriptRevision the scriptRevision to set
+     * @return this ScriptMeta
+     */
+    public ScriptMeta setScriptRevision(String scriptRevision) {
+<span class="nc" id="L282">        this.scriptRevision = scriptRevision;</span>
+<span class="nc" id="L283">        return this;</span>
+    }
+
+    /**
+     * @return the uniqueIdentifier
+     */
+    public String getUniqueIdentifier() {
+<span class="fc" id="L290">        return uniqueIdentifier;</span>
+    }
+
+    /**
+     * @param uniqueIdentifier the uniqueIdentifier to set
+     * @return this ScriptMeta
+     */
+    public ScriptMeta setUniqueIdentifier(String uniqueIdentifier) {
+<span class="nc" id="L298">        this.uniqueIdentifier = uniqueIdentifier;</span>
+<span class="nc" id="L299">        return this;</span>
+    }
+
+    /**
+     * @return the supportURL
+     */
+    public String getSupportURL() {
+<span class="fc" id="L306">        return supportURL;</span>
+    }
+
+    /**
+     * @param supportURL the supportURL to set
+     * @return this ScriptMeta
+     */
+    public ScriptMeta setSupportURL(String supportURL) {
+<span class="nc" id="L314">        this.supportURL = supportURL;</span>
+<span class="nc" id="L315">        return this;</span>
+    }
+
+    /**
+     * @return the updateMessage
+     */
+    public String getUpdateMessage() {
+<span class="fc" id="L322">        return updateMessage;</span>
+    }
+
+    /**
+     * @param updateMessage the updateMessage to set
+     * @return this ScriptMeta
+     */
+    public ScriptMeta setUpdateMessage(String updateMessage) {
+<span class="nc" id="L330">        this.updateMessage = updateMessage;</span>
+<span class="nc" id="L331">        return this;</span>
+    }
+
+    /**
+     * @return the killSwitchMessage
+     */
+    public String getKillSwitchMessage() {
+<span class="fc" id="L338">        return killSwitchMessage;</span>
+    }
+
+    /**
+     * @param killSwitchMessage the killSwitchMessage to set
+     * @return this ScriptMeta
+     */
+    public ScriptMeta setKillSwitchMessage(String killSwitchMessage) {
+<span class="nc" id="L346">        this.killSwitchMessage = killSwitchMessage;</span>
+<span class="nc" id="L347">        return this;</span>
+    }
+
+    /**
+     * @return the metaProp
+     */
+    public Properties getMetaProp() {
+<span class="nc" id="L354">        return metaProp;</span>
+    }
+
+    /**
+     * @param metaProp the metaProp to set
+     * @return this ScriptMeta
+     */
+    public ScriptMeta setMetaProp(Properties metaProp) {
+<span class="nc" id="L362">        this.metaProp = metaProp;</span>
+<span class="nc" id="L363">        return this;</span>
+    }
+
+    /**
+     * @return the md5s
+     */
+    public List&lt;String&gt; getMd5s() {
+<span class="fc" id="L370">        return md5s;</span>
+    }
+
+    /**
+     * @param md5s the md5s to set
+     * @return this ScriptMeta
+     */
+    public ScriptMeta setMd5s(List&lt;String&gt; md5s) {
+<span class="nc" id="L378">        this.md5s = md5s;</span>
+<span class="nc" id="L379">        return this;</span>
+    }
+
+    /**
+     * @return the script
+     */
+    public Script getScript() {
+<span class="nc" id="L386">        return script;</span>
+    }
+
+    /**
+     * @param script the script to set
+     * @return this ScriptMeta
+     */
+    public ScriptMeta setScript(Script script) {
+<span class="nc" id="L394">        this.script = script;</span>
+<span class="nc" id="L395">        return this;</span>
+    }
+
+    /**
+     * @return the monitorMode
+     */
+    public CASUALSettings.MonitorMode getMonitorMode() {
+<span class="nc" id="L402">        return monitorMode;</span>
+    }
+
+    /**
+     * @param monitorMode the monitorMode to set
+     * @return  this ScriptMeta
+     */
+    public ScriptMeta setMonitorMode(CASUALSettings.MonitorMode monitorMode) {
+<span class="nc" id="L410">        this.monitorMode = monitorMode;</span>
+<span class="nc" id="L411">        return this;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

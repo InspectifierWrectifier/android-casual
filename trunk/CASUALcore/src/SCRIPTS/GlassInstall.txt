@@ -1,0 +1,1 @@
+This will install a modified version of Google's Glass applications to your device.  

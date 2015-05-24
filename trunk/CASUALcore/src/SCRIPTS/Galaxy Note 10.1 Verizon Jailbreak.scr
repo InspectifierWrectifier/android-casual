@@ -1,0 +1,42 @@
+$USERCANCELOPTION Are you sure?, This is your only warning.\n You will be Unlocked and Rooted. Your device will\n reboot once and then again into Odin mode.  CASUAL\n will then flash the Take Note Verizon\n package for you.
+
+$ADB install "$ZIPFILEFramaroot.apk"
+$ADB shell "am start -n com.alephzain.framaroot/com.alephzain.framaroot.FramaActivity"
+$ACTIONREQUIRED I've launched "Framaroot" on your device. \nPlease run this, select "Frodo", and then\ncontinue with CASUAL after you are rooted and rebooted.
+
+#check for root
+$ADB wait-for-device
+$ON noroot, $HALT $ECHO WHAT THE HELL ARE YOU DOING?  I EVEN GAVE YOU A DAMN WARNING.. DEVICE IS NOT ROOTED! Finish the process, reboot the device and disable any exploit killers --Adam Outler
+shell 'su -c "ls 2>&1 >/dev/null && echo [x]Found rooted device || echo noroot"'
+$CLEARON 
+$ECHO [x]Verified Root
+
+#Verify Device
+$IFNOTCONTAINS SCH-I925 $INCOMMAND $ADB shell "cat /system/build.prop" $DO $HALT $ECHO "Improper device detected, This is not for you."
+$ECHO [x]Ready for exploit
+
+
+shell "mkdir /data/local/tmp"
+$ECHO Pushing Exploit
+push "$ZIPFILEexploit" /data/local/tmp/
+
+$ECHO Setting Permissions....
+shell "chmod 777 /data/local/tmp/busybox"
+
+$ECHO [x]Device Verification Checks Complete
+
+$ECHO Injecting Code 
+shell "su -c 'dd if=/data/local/tmp/exploit of=/dev/block/mmcblk0 bs=512 seek=34 count=16'"
+$ECHO [x]Exploit Injection Done.
+reboot download
+
+$ECHO your device is now rebooting into a totally insecure download mode.  We will auto-flash the bootloaders. You will be rebooted into TWRP Recovery.
+$HEIMDALL flash --82 "$ZIPFILESBoot.bin" --60 "$ZIPFILERecovery.img"
+$ECHO waiting for device
+
+#END OF SCRIPT
+wait-for-device
+reboot recovery
+$ECHO Rebooting into recovery
+$USERNOTIFICATION Congratulations, Rebooting into Recovery now!\nIf you see "Team Win" you're unlocked.\nBe careful when flashing! 
+$ECHO Done

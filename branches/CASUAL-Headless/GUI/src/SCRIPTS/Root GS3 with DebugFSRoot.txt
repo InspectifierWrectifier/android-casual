@@ -1,0 +1,1 @@
+This will root a Verizon Galaxy S3 Tested on SCH-I535 running Android 4.0.4

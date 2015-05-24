@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PitData.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.archiving.libpit</a> &gt; <span class="el_source">PitData.java</span></div><h1>PitData.java</h1><pre class="source lang-java linenums">package CASUAL.archiving.libpit;
+/*Pitdata provides a way to work with the header information of the PIT file
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+
+/**
+ * Pitdata provides a way to work with the header information of the PIT file
+ * Original Files may be found here:
+ * https://github.com/Benjamin-Dobell/libpit--Java-/tree/master/libpit/src/au/com/glassechidna/libpit
+ * modified by: Adam Outler
+ *
+ * @author Benjamin Dobell
+ */
+public class PitData {
+
+    /**
+     * Magic Number to identify an Odin File.
+     */
+    public static final int FILE_IDENTIFIER = 0x12349876;
+    /**
+     * number of entries available to be read.
+     */
+    public int entryCount;
+    /**
+     * PIT Type in Char array. eg. new char[]{C,O,M,_,T,A,R,2}
+     */
+<span class="fc" id="L49">    char[] fileType = new char[8];</span>
+    /**
+     * Pit name in char array. eg new char[]{M,S,M,8,9,2,0,\0,\0,\0,\0,\0} where
+     * \0 is a 0-byte
+     */
+<span class="fc" id="L54">    char[] pitName = new char[12];</span>
+
+    // Entries start at 0x1C
+<span class="fc" id="L57">    private final ArrayList&lt;PitEntry&gt; entries = new ArrayList&lt;PitEntry&gt;();</span>
+<span class="fc" id="L58">    ByteArrayOutputStream signature = new ByteArrayOutputStream();</span>
+
+    /**
+     * Constructor for new PIT file.
+     */
+<span class="fc" id="L63">    public PitData() {</span>
+<span class="fc" id="L64">    }</span>
+
+    /**
+     * Constructor to grab PIT file from an InputStream
+     *
+     * @param PitStream inputStream containing a PIT file only
+     */
+<span class="fc" id="L71">    public PitData(PitInputStream PitStream) {</span>
+<span class="fc" id="L72">        unpack(PitStream);</span>
+<span class="fc" id="L73">    }</span>
+
+    /**
+     * Constructor to grab PIT file from a File
+     *
+     * @param pit PIT file
+     * @throws FileNotFoundException {@inheritDoc}
+     */
+    public PitData(File pit) throws FileNotFoundException {
+<span class="fc" id="L82">        this(new PitInputStream(new FileInputStream(pit)));</span>
+<span class="fc" id="L83">    }</span>
+
+    /**
+     * unpacks a PIT into the PitData and its PitEntry classes
+     *
+     * @param pitInputStream InputStream containing only a Pit FIle
+     * @return true if unpack was performed
+     */
+    public final boolean unpack(PitInputStream pitInputStream) {
+        try {
+<span class="fc" id="L93">            int pitID = pitInputStream.readInt();</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">            if (pitID != FILE_IDENTIFIER) {</span>
+<span class="nc" id="L95">                return (false);</span>
+            }
+
+<span class="fc" id="L98">            entries.clear();</span>
+
+<span class="fc" id="L100">            entryCount = pitInputStream.readInt();</span>
+
+<span class="fc" id="L102">            entries.ensureCapacity(entryCount);</span>
+
+            //read 8 bytes of filetype
+<span class="fc bfc" id="L105" title="All 2 branches covered.">            for (int i = 0; i &lt; 8; i++) {</span>
+<span class="fc" id="L106">                fileType[i] = (char) pitInputStream.read();</span>
+            }
+
+            //read 12 bytes of phone name
+<span class="fc bfc" id="L110" title="All 2 branches covered.">            for (int i = 0; i &lt; 12; i++) {</span>
+<span class="fc" id="L111">                pitName[i] = (char) pitInputStream.read();</span>
+            }
+
+<span class="fc" id="L114">            byte[] buffer = new byte[PitEntry.FILENAME_MAX_LENGTH];</span>
+
+<span class="fc bfc" id="L116" title="All 2 branches covered.">            for (int i = 0; i &lt; entryCount; i++) {</span>
+<span class="fc" id="L117">                PitEntry entry = new PitEntry();</span>
+<span class="fc" id="L118">                entries.add(entry);</span>
+
+<span class="fc" id="L120">                entry.setBinType(pitInputStream.readInt());</span>
+<span class="fc" id="L121">                entry.setDeviceType(pitInputStream.readInt());</span>
+<span class="fc" id="L122">                entry.setPartID(pitInputStream.readInt());</span>
+<span class="fc" id="L123">                entry.setPartitionType(pitInputStream.readInt());</span>
+<span class="fc" id="L124">                entry.setFilesystem(pitInputStream.readInt());</span>
+<span class="fc" id="L125">                entry.setBlockStart(pitInputStream.readInt());</span>
+<span class="fc" id="L126">                entry.setBlockCount(pitInputStream.readInt());</span>
+<span class="fc" id="L127">                entry.setFileOffset(pitInputStream.readInt());</span>
+<span class="fc" id="L128">                entry.setFileSize(pitInputStream.readInt());</span>
+
+                //read partition name
+<span class="fc" id="L131">                pitInputStream.read(buffer, 0, PitEntry.PARTITION_NAME_MAX_LENGTH);</span>
+<span class="fc" id="L132">                entry.setPartitionName(buffer);</span>
+
+                //read filename
+<span class="fc" id="L135">                pitInputStream.read(buffer, 0, PitEntry.FILENAME_MAX_LENGTH);</span>
+<span class="fc" id="L136">                entry.setFilename(buffer);</span>
+
+                //read fota name
+<span class="fc" id="L139">                pitInputStream.read(buffer, 0, PitEntry.FOTA_NAME_MAX_LENGTH);</span>
+<span class="fc" id="L140">                entry.setFotaName(buffer);</span>
+
+            }
+
+            int byteRead;
+<span class="fc bfc" id="L145" title="All 2 branches covered.">            while ((byteRead = pitInputStream.read()) != -1) {</span>
+<span class="fc" id="L146">                signature.write(byteRead);</span>
+            }
+<span class="fc" id="L148">            return (true);</span>
+<span class="nc" id="L149">        } catch (IOException e) {</span>
+<span class="nc" id="L150">            return (false);</span>
+        }
+    }
+
+    /**
+     * Packs current object into a PIT file
+     *
+     * @param dataOutputStream dataoutputstream to write to
+     * @return true if sucessful
+     */
+    public boolean pack(DataOutputStream dataOutputStream) {
+        try {
+
+<span class="fc" id="L163">            dataOutputStream.writeInt(Integer.reverseBytes(FILE_IDENTIFIER));</span>
+
+<span class="fc" id="L165">            dataOutputStream.writeInt(Integer.reverseBytes(entryCount));</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">            for (int i = 0; i &lt; fileType.length; i++) {</span>
+<span class="fc" id="L167">                dataOutputStream.write( fileType[i]);</span>
+            }
+<span class="fc bfc" id="L169" title="All 2 branches covered.">            for (int i = 0; i &lt; pitName.length; i++) {</span>
+<span class="fc" id="L170">                dataOutputStream.write(pitName[i]);</span>
+            }
+
+<span class="fc bfc" id="L173" title="All 2 branches covered.">            for (int i = 0; i &lt; entryCount; i++) {</span>
+<span class="fc" id="L174">                PitEntry entry = entries.get(i);</span>
+<span class="fc" id="L175">                dataOutputStream.writeInt(Integer.reverseBytes(entry.getBinType()));</span>
+<span class="fc" id="L176">                dataOutputStream.writeInt(Integer.reverseBytes(entry.getDevType()));</span>
+<span class="fc" id="L177">                dataOutputStream.writeInt(Integer.reverseBytes(entry.getPartID()));</span>
+<span class="fc" id="L178">                dataOutputStream.writeInt(Integer.reverseBytes(entry.getPartitionType()));</span>
+<span class="fc" id="L179">                dataOutputStream.writeInt(Integer.reverseBytes(entry.getFilesystem()));</span>
+<span class="fc" id="L180">                dataOutputStream.writeInt(Integer.reverseBytes(entry.getBlockStart()));</span>
+<span class="fc" id="L181">                dataOutputStream.writeInt(Integer.reverseBytes(entry.getBlockCount()));</span>
+<span class="fc" id="L182">                dataOutputStream.writeInt(Integer.reverseBytes(entry.getFileOffset()));</span>
+<span class="fc" id="L183">                dataOutputStream.writeInt(Integer.reverseBytes(entry.getFileSize()));</span>
+<span class="fc" id="L184">                dataOutputStream.write(entry.getPartitionNameBytes());</span>
+<span class="fc" id="L185">                dataOutputStream.write(entry.getFileNameBytes());</span>
+<span class="fc" id="L186">                dataOutputStream.write(entry.getFotaNameBytes());</span>
+            }
+<span class="fc" id="L188">            dataOutputStream.write(signature.toByteArray());</span>
+
+<span class="fc" id="L190">            return (true);</span>
+<span class="nc" id="L191">        } catch (IOException e) {</span>
+<span class="nc" id="L192">            return (false);</span>
+        }
+    }
+
+    /**
+     * tests for a match on a PitData
+     *
+     * @param otherPitData second pit data to be ested
+     * @return true if match
+     */
+    public boolean matches(PitData otherPitData) {
+<span class="fc" id="L203">        return this.toString().equals(otherPitData.toString());</span>
+    }
+
+    /**
+     * clears all data in the pit file.
+     */
+    public void clear() {
+<span class="fc" id="L210">        entryCount = 0;</span>
+<span class="fc" id="L211">        fileType = new char[8];</span>
+<span class="fc" id="L212">        pitName = new char[12];</span>
+<span class="fc" id="L213">        entries.clear();</span>
+<span class="fc" id="L214">    }</span>
+
+    /**
+     * Gets a PitEntry by index
+     *
+     * @param index index of entry
+     * @return PitEntry at index
+     */
+    public PitEntry getEntry(int index) {
+<span class="fc" id="L223">        return (entries.get(index));</span>
+    }
+
+    /**
+     * gets a PitEntry by Partition name
+     *
+     * @param partitionName partition name to be matched
+     * @return PitEntry matched by name
+     */
+    public PitEntry findEntry(String partitionName) {
+<span class="pc bpc" id="L233" title="1 of 2 branches missed.">        for (int i = 0; i &lt; entries.size(); i++) {</span>
+<span class="fc" id="L234">            PitEntry entry = entries.get(i);</span>
+<span class="fc" id="L235">            String s = entry.getPartitionName().trim();</span>
+
+<span class="fc bfc" id="L237" title="All 2 branches covered.">            if (entry.getPartitionName().equals(partitionName)) {</span>
+<span class="fc" id="L238">                return (entry);</span>
+            }
+        }
+
+<span class="nc" id="L242">        return (null);</span>
+    }
+
+    /**
+     * gets a PitEntry by filename
+     *
+     * @param filename filename in pit entry
+     * @return PitEntry matched on filename
+     */
+    public PitEntry findEntryByFilename(String filename) {
+<span class="pc bpc" id="L252" title="1 of 2 branches missed.">        for (int i = 0; i &lt; entries.size(); i++) {</span>
+<span class="fc" id="L253">            PitEntry entry = entries.get(i);</span>
+<span class="fc" id="L254">            String nameCheck = &quot;&quot;;</span>
+<span class="pc bpc" id="L255" title="1 of 2 branches missed.">            for (char c : entry.file_name) {</span>
+<span class="fc bfc" id="L256" title="All 2 branches covered.">                if (c == 0) {  //character signifying the end of the name and the beginning of modifier &quot;md5&quot;</span>
+<span class="fc" id="L257">                    break;</span>
+                } else {
+<span class="fc" id="L259">                    nameCheck += c;</span>
+                }
+            }
+
+<span class="fc bfc" id="L263" title="All 2 branches covered.">            if (filename.equals(nameCheck)) {</span>
+<span class="fc" id="L264">                return (entry);</span>
+            }
+        }
+<span class="nc" id="L267">        return (null);</span>
+    }
+
+    /**
+     * Gets a PitEntry based on partition ID
+     *
+     * @param partitionIdentifier identifier to match
+     * @return PitEntry matched on PartitionIdentifier
+     */
+    public PitEntry findEntry(int partitionIdentifier) {
+<span class="fc bfc" id="L277" title="All 2 branches covered.">        for (int i = 0; i &lt; entries.size(); i++) {</span>
+<span class="fc" id="L278">            PitEntry entry = entries.get(i);</span>
+
+<span class="fc bfc" id="L280" title="All 2 branches covered.">            if (entry.getPartID() == partitionIdentifier) {</span>
+<span class="fc" id="L281">                return (entry);</span>
+            }
+        }
+
+<span class="fc" id="L285">        return (null);</span>
+    }
+
+    /**
+     * Removes a PitEntry from the list of PitEntries
+     *
+     * @param entry entry to be removed
+     */
+    public void removeEntry(PitEntry entry) {
+<span class="fc" id="L294">        entries.remove(entry);</span>
+<span class="fc" id="L295">    }</span>
+
+    /**
+     * Adds a PitEntry to the list of entries
+     *
+     * @param entry entry to be added
+     */
+    public void addEntry(PitEntry entry) {
+<span class="fc" id="L303">        entries.add(entryCount++, entry);</span>
+<span class="fc" id="L304">    }</span>
+
+    /**
+     * gets the number of entries
+     *
+     * @return entry count
+     */
+    public int getEntryCount() {
+<span class="fc" id="L312">        return (entryCount);</span>
+    }
+
+    /**
+     * returns the file type
+     *
+     * @return file type
+     */
+    public char[] getFileType() {
+<span class="fc" id="L321">        return fileType;</span>
+    }
+
+    /**
+     * gets the name of the intended platform
+     *
+     * @return platform name
+     */
+    public char[] getPhone() {
+<span class="fc" id="L330">        return pitName;</span>
+    }
+
+    /**
+     * returns pit name with parameters
+     *
+     * @return PIT friendly name with parameters
+     */
+    public String getPITFriendlyName() {
+<span class="fc" id="L339">        String pitFriendlyName = &quot;&quot;;</span>
+<span class="fc bfc" id="L340" title="All 2 branches covered.">        for (int i = 0; i &lt; pitName.length; i++) {</span>
+            //first part of file will be filename
+<span class="fc bfc" id="L342" title="All 2 branches covered.">            if (pitName[i] != 0) {</span>
+<span class="fc" id="L343">                pitFriendlyName += pitName[i];</span>
+            } else { //anything after first 0 byte will be a parameter
+<span class="pc bpc" id="L345" title="1 of 4 branches missed.">                while (pitName[i] == 0 &amp;&amp; i &lt; pitName.length - 1) {</span>
+<span class="fc" id="L346">                    i++;</span>
+<span class="pc bpc" id="L347" title="1 of 2 branches missed.">                    if (pitName[i] != 0) {</span>
+<span class="nc" id="L348">                        pitFriendlyName = pitFriendlyName + &quot;\nPIT Parameter: &quot; + pitName[i];</span>
+<span class="nc" id="L349">                        break;</span>
+                    }
+                }
+            }
+        }
+<span class="fc" id="L354">        return pitFriendlyName;</span>
+    }
+
+    /**
+     * returns filetype friendly name with parameters
+     *
+     * @return File Type friendly name with parameters
+     */
+    public String getFileTypeFriendlyName() {
+<span class="fc" id="L363">        String filetypeFriendlyName = &quot;&quot;;</span>
+<span class="fc bfc" id="L364" title="All 2 branches covered.">        for (int i = 0; i &lt; fileType.length; i++) {</span>
+            //first part of file will be filename
+<span class="pc bpc" id="L366" title="1 of 2 branches missed.">            if (fileType[i] != 0) {</span>
+<span class="fc" id="L367">                filetypeFriendlyName += fileType[i];</span>
+            } else { //anything after first 0 byte will be a parameter
+<span class="nc bnc" id="L369" title="All 4 branches missed.">                while (fileType[i] == 0 &amp;&amp; i &lt; fileType.length - 1) {</span>
+<span class="nc" id="L370">                    i++;</span>
+<span class="nc bnc" id="L371" title="All 2 branches missed.">                    if (fileType[i] != 0) {</span>
+<span class="nc" id="L372">                        filetypeFriendlyName = filetypeFriendlyName + &quot;\nPIT Parameter: &quot; + fileType[i];</span>
+<span class="nc" id="L373">                        break;</span>
+                    }
+                }
+            }
+        }
+<span class="fc" id="L378">        return filetypeFriendlyName;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L383">        String n = System.getProperty(&quot;line.separator&quot;);</span>
+<span class="fc" id="L384">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L385">        sb.append(n);</span>
+<span class="fc" id="L386">        sb.append(&quot;PIT Name: &quot;).append(getPITFriendlyName()).append(n);</span>
+<span class="fc" id="L387">        sb.append(&quot;Entry Count: &quot;).append(this.entryCount).append(n);</span>
+<span class="fc" id="L388">        sb.append(&quot;File Type: &quot;).append(getFileTypeFriendlyName()).append(n);</span>
+<span class="fc" id="L389">        sb.append(n);</span>
+<span class="fc" id="L390">        sb.append(n);</span>
+<span class="fc bfc" id="L391" title="All 2 branches covered.">        for (int i = 0; i &lt; this.entries.size(); i++) {</span>
+<span class="fc" id="L392">            sb.append(&quot;--- Entry #&quot;).append(i).append(&quot; ---&quot;).append(n);</span>
+<span class="fc" id="L393">            sb.append(entries.get(i).toString());</span>
+        }
+<span class="fc" id="L395">        sb.append(n).append(n);</span>
+<span class="fc" id="L396">        return sb.toString();</span>
+    }
+
+    /**
+     * Resizes a pitentry and adjusts starting blocks of all successive
+     * pitentries.
+     *
+     * @param partName name of partition to be resized
+     * @param changeToSize the amount to change the entry This can be positive
+     * or negative and will change the size relatively.
+     * @throws java.lang.ClassNotFoundException {@inheritDoc}
+     * @see #resizePartition(CASUAL.archiving.libpit.PitEntry, int) 
+     */
+    public void resizePartition(String partName, int changeToSize) throws ClassNotFoundException {
+<span class="fc" id="L410">        resizePartition(this.findEntry(partName), changeToSize);</span>
+<span class="fc" id="L411">    }</span>
+
+    /**
+     * Resizes a pitentry and adjusts starting blocks of all successive
+     * pitentries.
+     *
+     * @param entry The entry to be resized
+     * @param changeToSize the amount to change the entry This can be positive
+     * or negative and will change the size relatively.
+     * @throws java.lang.ClassNotFoundException {@inheritDoc}
+     */
+    public void resizePartition(PitEntry entry, int changeToSize) throws ClassNotFoundException {
+<span class="fc" id="L423">        PitEntry[] sorted = sortEntriesByBlockLocation();</span>
+        //get entry location
+<span class="fc" id="L425">        int entryLocation = -1;</span>
+<span class="fc" id="L426">        String type = entry.getPartitionTypeFriendlyName();</span>
+<span class="pc bpc" id="L427" title="1 of 2 branches missed.">        for (int i = 0; i &lt; sorted.length; i++) {</span>
+<span class="fc bfc" id="L428" title="All 2 branches covered.">            if (entry == sorted[i]) {</span>
+<span class="fc" id="L429">                entryLocation = i;</span>
+<span class="fc" id="L430">                break;</span>
+            }
+        }
+        //halt if not found
+<span class="pc bpc" id="L434" title="1 of 2 branches missed.">        if (entryLocation == -1) {</span>
+<span class="nc" id="L435">            throw new ClassNotFoundException(&quot;The PitEntry Specified was not found:&quot; + entry);</span>
+        }
+        //resize the partition
+<span class="fc" id="L438">        sorted[entryLocation].setBlockCount(sorted[entryLocation].getBlockCount() + changeToSize);</span>
+        //adjust the offset of the remainders
+<span class="fc bfc" id="L440" title="All 2 branches covered.">        for (int i = entryLocation + 1; i &lt; sorted.length; i++) {</span>
+            //ignore partitions on a different device
+<span class="pc bpc" id="L442" title="1 of 2 branches missed.">            if (sorted[i].getPartitionTypeFriendlyName().equals(type)) {</span>
+<span class="fc" id="L443">                sorted[i].setBlockStart(sorted[i].getBlockStart() + changeToSize);</span>
+            }
+        }
+        //put each entry back into the original array
+<span class="fc bfc" id="L447" title="All 2 branches covered.">        for (PitEntry finalEntry : sorted) {</span>
+<span class="fc bfc" id="L448" title="All 2 branches covered.">            for (int i = 0; i &lt; entries.size(); i++) {</span>
+<span class="fc bfc" id="L449" title="All 2 branches covered.">                if (entries.get(i).getPartID() == finalEntry.getPartID()) {</span>
+<span class="fc" id="L450">                    entries.set(i, finalEntry);</span>
+                }
+            }
+        }
+
+<span class="fc" id="L455">    }</span>
+
+    /**
+     * returns an array of the PitEntries sorted by block location
+     *
+     * @return sorted PitEntries
+     */
+    public PitEntry[] sortEntriesByBlockLocation() {
+<span class="fc" id="L463">        boolean enumerated = false;</span>
+<span class="fc" id="L464">        LinkedList&lt;PitEntry&gt; ll = new LinkedList&lt;PitEntry&gt;();</span>
+<span class="fc" id="L465">        ll.addAll(entries);</span>
+        //while not every entry is enumerated
+<span class="fc bfc" id="L467" title="All 2 branches covered.">        while (!enumerated) {</span>
+<span class="fc" id="L468">            enumerated = true;</span>
+<span class="fc" id="L469">            int lastBlock = 0;</span>
+            //for each entry
+<span class="fc bfc" id="L471" title="All 2 branches covered.">            for (int i = 0; i &lt; ll.size(); i++) {</span>
+                //check
+<span class="fc bfc" id="L473" title="All 2 branches covered.">                if (lastBlock &lt; ll.get(i).getBlockStart()) {</span>
+<span class="fc" id="L474">                    lastBlock = ll.get(i).getBlockStart();</span>
+                } else {
+
+<span class="fc bfc" id="L477" title="All 2 branches covered.">                    if (i != 0) {</span>
+<span class="fc" id="L478">                        enumerated = false;</span>
+                        // this entry needs to be bumped up
+<span class="fc" id="L480">                        ll.add(i - 2, ll.get(i));</span>
+<span class="fc" id="L481">                        ll.remove(i + 1);</span>
+                    }
+
+                }
+            }
+
+<span class="fc" id="L487">        }</span>
+
+<span class="fc" id="L489">        PitEntry[] retval = ll.toArray(new PitEntry[ll.size()]);</span>
+<span class="fc" id="L490">        return retval;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

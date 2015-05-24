@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Pastebin.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.network</a> &gt; <span class="el_source">Pastebin.java</span></div><h1>Pastebin.java</h1><pre class="source lang-java linenums">/*Pastebin provides automated pastebin submisson
+ * 
+ *  Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.network;
+
+import CASUAL.CASUALMain;
+import CASUAL.CASUALMessageObject;
+import CASUAL.CASUALSessionData;
+import CASUAL.FileOperations;
+import CASUAL.Log;
+import CASUAL.OSTools;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * @author Jeremy Loper jrloper@gmail.com
+
+ Modified From: https://code.google.com/p/pastebin-click/ Originally released
+ under the MIT license (http://www.opensource.org/licenses/mit-license.php)
+ */
+<span class="nc" id="L50">public class Pastebin {</span>
+
+    /**
+     * Notice: The following users should be considered a threat to data logging
+     * integrity because they do really stupid things like changing variables
+     * and introducing errors in the code on a regular basis so they are hereby
+     * banned from submitting any further reports to the Pastebin.
+     */
+<span class="nc" id="L58">    final private String[] incompetentUsers = {&quot;adamoutler&quot;, &quot;adam&quot;, &quot;Jeremy&quot;, &quot;loganludington&quot;};</span>
+    //Pastebin User DEV API Key
+<span class="nc" id="L60">    final private String devKey = &quot;027c63663a6023d774b5392f380e5923&quot;;</span>
+<span class="nc" id="L61">    final private String user = &quot;CASUAL-Automated&quot;;</span>
+<span class="nc" id="L62">    final private String passwd = &quot;2J2y7SK172p46m1&quot;;</span>
+<span class="nc" id="L63">    final private String format = &quot;text&quot;;</span>
+
+    /**
+     * Automatically prompts the user for their XDA username and submits a
+     * pasting to Pastebin
+     *
+     * @throws IOException when Permission problem exists
+     * @throws URISyntaxException if invalid URI 
+     */
+    public void doPosting() throws IOException, URISyntaxException {
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (CASUALMain.getSession().debugMode) {</span>
+<span class="nc" id="L74">            return;</span>
+        }
+<span class="nc" id="L76">        String xdaUsername = new CASUALMessageObject(&quot;@interactionPastebinError&quot;).inputDialog();</span>
+<span class="nc bnc" id="L77" title="All 4 branches missed.">        if (xdaUsername != null &amp;&amp; !xdaUsername.equals(&quot;1&quot;)) {//CANCEL_OPTION will rerturn a null String</span>
+<span class="nc" id="L78">            API paste = new API(devKey);</span>
+            
+<span class="nc bnc" id="L80" title="All 4 branches missed.">            if (!(user.isEmpty()) &amp;&amp; !(passwd.isEmpty())) {</span>
+<span class="nc" id="L81">                String lResult = paste.login(user, passwd);</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">                if (lResult.equals(&quot;false&quot;)) {</span>
+<span class="nc" id="L83">                    Log.level4Debug(&quot;Pastebin Login Failed&quot;);</span>
+                } else {
+<span class="nc" id="L85">                    paste.setToken(lResult);</span>
+<span class="nc" id="L86">                    Log.level4Debug(&quot;Pastebin Login Successful&quot;);</span>
+                }
+<span class="nc" id="L88">                String pasteData = new FileOperations().readFile(CASUALMain.getSession().getTempFolder() + &quot;Log.txt&quot;);</span>
+
+<span class="nc" id="L90">                String output = paste.makePaste(pasteData, &quot;CASUAL r&quot; + java.util.ResourceBundle.getBundle(&quot;CASUAL/resources/CASUALApp&quot;).getString(&quot;Application.revision&quot;) + &quot;-&quot; + xdaUsername, format);</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">                if (output.substring(0, 4).equals(&quot;http&quot;)) {</span>
+<span class="nc" id="L92">                    new LinkLauncher(output).launch();</span>
+<span class="nc" id="L93">                    StringSelection stringSelection = new StringSelection(output);</span>
+<span class="nc" id="L94">                    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();</span>
+<span class="nc" id="L95">                    clipboard.setContents(stringSelection, null);</span>
+<span class="nc" id="L96">                    new CASUALMessageObject(&quot;@interactionThankyouForPastebin&quot;).showInformationMessage();</span>
+<span class="nc" id="L97">                    Log.level4Debug(output);</span>
+<span class="nc" id="L98">                } else {</span>
+<span class="nc" id="L99">                    Log.level4Debug(output);</span>
+                }
+            }
+        }
+<span class="nc" id="L103">    }</span>
+
+    /**
+     * strips user info and pastes an anonymous log to pastebin
+     *
+     * @throws MalformedURLException when URL cannot be reached
+     */
+    public void pasteAnonymousLog() throws MalformedURLException {
+<span class="nc" id="L111">        Pattern svnRev = Pattern.compile(&quot;(?=[setViewedRevision]?.{2})[0-9]{3,4}&quot;);</span>
+<span class="nc" id="L112">        FileOperations fO = new FileOperations();</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        if (!fO.verifyExists(CASUALMain.getSession().getTempFolder() + &quot;Log.txt&quot;)) {</span>
+<span class="nc" id="L114">            return;</span>
+        }
+<span class="nc" id="L116">        String casualLog = fO.readFile(CASUALMain.getSession().getTempFolder() + &quot;Log.txt&quot;);</span>
+        Matcher matcher;
+        try {
+<span class="nc" id="L119">            matcher = svnRev.matcher(new API().getPage(&quot;http://code.google.com/p/android-casual/source/browse/&quot;));</span>
+<span class="nc" id="L120">        } catch (NullPointerException ex) {</span>
+<span class="nc" id="L121">            return;</span>
+<span class="nc" id="L122">        }</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">        int SVNrev = Integer.parseInt(matcher.find() ? matcher.group(0) : &quot;5&quot;);</span>
+<span class="nc" id="L124">        int CASRev = Integer.parseInt(java.util.ResourceBundle.getBundle(&quot;CASUAL/resources/CASUALApp&quot;).getString(&quot;Application.revision&quot;));</span>
+<span class="nc bnc" id="L125" title="All 8 branches missed.">        if ((SVNrev - 5) &gt;= CASRev &amp;&amp; casualLog.contains(&quot;failed&quot;) || casualLog.contains(&quot;FAILED&quot;) || casualLog.contains(&quot;ERROR&quot;)) { //build.prop contains the word error on some devices so error is not a good word to track. </span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">            String slashrep = OSTools.isWindows() ? &quot;\\&quot; : &quot;//&quot;;</span>
+<span class="nc" id="L127">            String userhome = System.getProperty(&quot;user.home&quot;);</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">            casualLog = casualLog.replace(userhome, slashrep + &quot;USERHOME&quot; + (userhome.endsWith(CASUALSessionData.slash) ? slashrep : &quot;&quot;));</span>
+<span class="nc" id="L129">            String username = System.getProperty(&quot;user.name&quot;);</span>
+<span class="nc bnc" id="L130" title="All 4 branches missed.">            if (username == null || username.isEmpty()) {</span>
+<span class="nc" id="L131">                username = System.getenv(&quot;USERNAME&quot;);</span>
+            }
+<span class="nc bnc" id="L133" title="All 4 branches missed.">            if (username != null &amp;&amp; casualLog.contains(username)) {</span>
+<span class="nc" id="L134">                casualLog = casualLog.replace(username, &quot;USER&quot;);</span>
+            }
+<span class="nc bnc" id="L136" title="All 4 branches missed.">            if (CASUALMain.getSession().debugMode || Arrays.asList(incompetentUsers).contains(username)) {</span>
+<span class="nc" id="L137">                return; //only log results from non-devs :)</span>
+            }
+
+            try {
+<span class="nc" id="L141">                API paste = new API(devKey);</span>
+<span class="nc" id="L142">                String lResult = paste.login(user, passwd);</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">                if (lResult.equals(&quot;false&quot;)) {</span>
+<span class="nc" id="L144">                    return;</span>
+                } else {
+<span class="nc" id="L146">                    paste.setToken(lResult);</span>
+                }
+<span class="nc bnc" id="L148" title="All 2 branches missed.">                if (casualLog.isEmpty()) {</span>
+<span class="nc" id="L149">                    return;</span>
+                }
+<span class="nc" id="L151">                paste.makePaste(casualLog, &quot;CASUAL r&quot; + java.util.ResourceBundle.getBundle(&quot;CASUAL/resources/CASUALApp&quot;).getString(&quot;Application.revision&quot;) + &quot;-Anonymous&quot;, format);</span>
+<span class="nc" id="L152">            } catch (IOException ex) {</span>
+<span class="nc" id="L153">                Log.errorHandler(ex);</span>
+<span class="nc" id="L154">            }</span>
+        }
+<span class="nc" id="L156">    }</span>
+
+    /**
+     * This is the API for Pastebin
+     *
+     */
+<span class="nc" id="L162">    private class API {</span>
+
+        private String token; //used for instance
+        private String devkey; //used for our program
+        final private String loginURL;
+        final private String pasteURL;
+
+<span class="nc" id="L169">        private API() {</span>
+<span class="nc" id="L170">            this.pasteURL = &quot;http://www.pastebin.com/api/api_post.php&quot;;</span>
+<span class="nc" id="L171">            this.loginURL = &quot;http://www.pastebin.com/api/api_login.php&quot;;</span>
+<span class="nc" id="L172">        }</span>
+
+<span class="nc" id="L174">        private API(String devkey) {</span>
+<span class="nc" id="L175">            this.pasteURL = &quot;http://www.pastebin.com/api/api_post.php&quot;;</span>
+<span class="nc" id="L176">            this.loginURL = &quot;http://www.pastebin.com/api/api_login.php&quot;;</span>
+<span class="nc" id="L177">            this.devkey = devkey;</span>
+<span class="nc" id="L178">        }</span>
+
+        private boolean checkResponse(String response) {
+<span class="nc bnc" id="L181" title="All 4 branches missed.">            return !response.substring(0, 15).equals(&quot;Bad API request&quot;) || response.substring(17) == null;</span>
+        }
+
+        public String login(String username, String password) throws UnsupportedEncodingException, MalformedURLException {
+<span class="nc" id="L185">            String api_user_name = URLEncoder.encode(username, &quot;UTF-8&quot;);</span>
+<span class="nc" id="L186">            String api_user_password = URLEncoder.encode(password, &quot;UTF-8&quot;);</span>
+<span class="nc" id="L187">            String data = &quot;api_dev_key=&quot; + this.devkey + &quot;&amp;api_user_name=&quot; + api_user_name + &quot;&amp;api_user_password=&quot; + api_user_password;</span>
+<span class="nc" id="L188">            String response = this.page(this.loginURL, data);</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">            if (!this.checkResponse(response)) {</span>
+<span class="nc" id="L190">                return &quot;false&quot;;</span>
+            }
+
+<span class="nc" id="L193">            this.token = response;</span>
+<span class="nc" id="L194">            return response;</span>
+        }
+
+        public String makePaste(String code, String name, String format) throws UnsupportedEncodingException, MalformedURLException {
+<span class="nc" id="L198">            String content = URLEncoder.encode(code, &quot;UTF-8&quot;);</span>
+<span class="nc" id="L199">            String title = URLEncoder.encode(name, &quot;UTF-8&quot;);</span>
+<span class="nc" id="L200">            String data = &quot;api_option=paste&amp;api_user_key=&quot; + this.token + &quot;&amp;api_paste_private=0&amp;api_paste_name=&quot; + title + &quot;&amp;api_paste_expire_date=N&amp;api_paste_format=&quot; + format + &quot;&amp;api_dev_key=&quot; + this.devkey + &quot;&amp;api_paste_code=&quot; + content;</span>
+<span class="nc" id="L201">            String response = this.page(this.pasteURL, data);</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">            if (!this.checkResponse(response)) {</span>
+<span class="nc" id="L203">                return response.substring(17);</span>
+            }
+<span class="nc" id="L205">            return response;</span>
+        }
+
+        public String page(String uri, String urlParameters) throws MalformedURLException {
+            try {
+                // Create connection
+<span class="nc" id="L211">                URL url = new URL(uri);</span>
+<span class="nc" id="L212">                HttpURLConnection connection = (HttpURLConnection) url.openConnection();</span>
+<span class="nc" id="L213">                connection.setRequestMethod(&quot;POST&quot;);</span>
+<span class="nc" id="L214">                connection.setRequestProperty(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);</span>
+<span class="nc" id="L215">                connection.setRequestProperty(&quot;Content-Length&quot;, &quot;&quot; + Integer.toString(urlParameters.getBytes().length));</span>
+<span class="nc" id="L216">                connection.setRequestProperty(&quot;Content-Language&quot;, &quot;en-US&quot;);</span>
+<span class="nc" id="L217">                connection.setUseCaches(false);</span>
+<span class="nc" id="L218">                connection.setDoInput(true);</span>
+<span class="nc" id="L219">                connection.setDoOutput(true);</span>
+<span class="nc" id="L220">                DataOutputStream wr = new DataOutputStream(connection.getOutputStream());</span>
+<span class="nc" id="L221">                wr.writeBytes(urlParameters);</span>
+<span class="nc" id="L222">                wr.flush();</span>
+
+                // Get Response
+<span class="nc" id="L225">                InputStream is = connection.getInputStream();</span>
+                StringBuilder response;
+<span class="nc" id="L227">                BufferedReader rd = new BufferedReader(new InputStreamReader(is));</span>
+                String line;
+<span class="nc" id="L229">                response = new StringBuilder();</span>
+<span class="nc bnc" id="L230" title="All 2 branches missed.">                while ((line = rd.readLine()) != null) {</span>
+<span class="nc" id="L231">                    response.append(line);</span>
+                }
+<span class="nc" id="L233">                return response.toString();</span>
+<span class="nc" id="L234">            } catch (IOException ex) {</span>
+<span class="nc" id="L235">                Log.errorHandler(ex);</span>
+            }
+<span class="nc" id="L237">            return null;</span>
+        }
+
+        private String getPage(String uri) throws MalformedURLException {
+            try {
+                // Create connection
+<span class="nc" id="L243">                URL url = new URL(uri);</span>
+<span class="nc" id="L244">                HttpURLConnection connection = (HttpURLConnection) url.openConnection();</span>
+<span class="nc" id="L245">                connection.setReadTimeout(5000);</span>
+<span class="nc" id="L246">                connection.addRequestProperty(&quot;Accept-Language&quot;, &quot;en-US,en;q=0.8&quot;);</span>
+<span class="nc" id="L247">                connection.addRequestProperty(&quot;User-Agent&quot;, &quot;Mozilla&quot;);</span>
+                StringBuffer html;
+<span class="nc" id="L249">                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));</span>
+                String inputLine;
+<span class="nc" id="L251">                html = new StringBuffer();</span>
+<span class="nc bnc" id="L252" title="All 2 branches missed.">                while ((inputLine = in.readLine()) != null) {</span>
+<span class="nc" id="L253">                    html.append(inputLine);</span>
+                }
+
+<span class="nc" id="L256">                return html.toString();</span>
+<span class="nc" id="L257">            } catch (IOException ex) {</span>
+<span class="nc" id="L258">                Log.errorHandler(ex);</span>
+            }
+<span class="nc" id="L260">            return null;</span>
+        }
+
+        public void setToken(String token) {
+<span class="nc" id="L264">            this.token = token;</span>
+<span class="nc" id="L265">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

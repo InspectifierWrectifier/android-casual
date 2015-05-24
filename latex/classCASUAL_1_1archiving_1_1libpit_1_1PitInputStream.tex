@@ -1,0 +1,138 @@
+\hypertarget{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream}{\section{C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Input\-Stream Class Reference}
+\label{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream}\index{C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Input\-Stream@{C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Input\-Stream}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream_ace85a9c91595391bfe159a6e6a153827}{Pit\-Input\-Stream} (Input\-Stream input\-Stream)
+\item 
+int \hyperlink{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream_abba0bb2226797c2f0d6c9436a96f640b}{read\-Int} ()  throws I\-O\-Exception 
+\item 
+short \hyperlink{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream_a14b405dae50f11155d6e103060c030c8}{read\-Short} ()  throws I\-O\-Exception 
+\item 
+int \hyperlink{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream_afc530392ae793883b5a1f620440ab9fa}{read} (byte\mbox{[}$\,$\mbox{]} buffer, int offset, int length)  throws I\-O\-Exception 
+\item 
+int \hyperlink{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream_ad47d7e44758ae65cdf4aca98443b00cd}{read} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream}{Pit\-Input\-Stream} provides tools used for writing a pit. Original Files may be found here\-: \href{https://github.com/Benjamin-Dobell/libpit&ndash;Java-/tree/master/libpit/src/au/com/glassechidna/libpit}{\tt https\-://github.\-com/\-Benjamin-\/\-Dobell/libpit\&ndash;\-Java-\//tree/master/libpit/src/au/com/glassechidna/libpit} modified by\-: Adam Outler
+
+\begin{DoxyAuthor}{Author}
+Benjamin Dobell 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream_ace85a9c91595391bfe159a6e6a153827}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Input\-Stream@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Input\-Stream}!Pit\-Input\-Stream@{Pit\-Input\-Stream}}
+\index{Pit\-Input\-Stream@{Pit\-Input\-Stream}!CASUAL::archiving::libpit::PitInputStream@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Input\-Stream}}
+\subsubsection[{Pit\-Input\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Input\-Stream.\-Pit\-Input\-Stream (
+\begin{DoxyParamCaption}
+\item[{Input\-Stream}]{input\-Stream}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream_ace85a9c91595391bfe159a6e6a153827}
+Constructs a \hyperlink{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream}{Pit\-Input\-Stream}
+
+\begin{DoxySeeAlso}{See Also}
+Input\-Stream 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em input\-Stream} & P\-I\-T as Input\-Stream \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream_afc530392ae793883b5a1f620440ab9fa}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Input\-Stream@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Input\-Stream}!read@{read}}
+\index{read@{read}!CASUAL::archiving::libpit::PitInputStream@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Input\-Stream}}
+\subsubsection[{read}]{\setlength{\rightskip}{0pt plus 5cm}int C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Input\-Stream.\-read (
+\begin{DoxyParamCaption}
+\item[{byte\mbox{[}$\,$\mbox{]}}]{buffer, }
+\item[{int}]{offset, }
+\item[{int}]{length}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream_afc530392ae793883b5a1f620440ab9fa}
+reads parameterized bytes from the Input\-Stream
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & byte buffer \\
+\hline
+{\em offset} & bytes to discard \\
+\hline
+{\em length} & number of bytes to read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+value requested from stream, specified by buffer, offset and length 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+Input\-Stream 
+\end{DoxySeeAlso}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream_ad47d7e44758ae65cdf4aca98443b00cd}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Input\-Stream@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Input\-Stream}!read@{read}}
+\index{read@{read}!CASUAL::archiving::libpit::PitInputStream@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Input\-Stream}}
+\subsubsection[{read}]{\setlength{\rightskip}{0pt plus 5cm}int C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Input\-Stream.\-read (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream_ad47d7e44758ae65cdf4aca98443b00cd}
+reads a byte from the Input\-Stream
+
+\begin{DoxySeeAlso}{See Also}
+Input\-Stream 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+one byte 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream_abba0bb2226797c2f0d6c9436a96f640b}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Input\-Stream@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Input\-Stream}!read\-Int@{read\-Int}}
+\index{read\-Int@{read\-Int}!CASUAL::archiving::libpit::PitInputStream@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Input\-Stream}}
+\subsubsection[{read\-Int}]{\setlength{\rightskip}{0pt plus 5cm}int C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Input\-Stream.\-read\-Int (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream_abba0bb2226797c2f0d6c9436a96f640b}
+reads an int (four bytes) from the input stream
+
+\begin{DoxyReturn}{Returns}
+integer value from four bytes 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+Input\-Stream 
+\end{DoxySeeAlso}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream_a14b405dae50f11155d6e103060c030c8}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Input\-Stream@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Input\-Stream}!read\-Short@{read\-Short}}
+\index{read\-Short@{read\-Short}!CASUAL::archiving::libpit::PitInputStream@{C\-A\-S\-U\-A\-L\-::archiving\-::libpit\-::\-Pit\-Input\-Stream}}
+\subsubsection[{read\-Short}]{\setlength{\rightskip}{0pt plus 5cm}short C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Input\-Stream.\-read\-Short (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classCASUAL_1_1archiving_1_1libpit_1_1PitInputStream_a14b405dae50f11155d6e103060c030c8}
+reads a short (two bytes) from the inputstream
+
+\begin{DoxyReturn}{Returns}
+short value from two bytes 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+Input\-Stream 
+\end{DoxySeeAlso}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/archiving/libpit/Pit\-Input\-Stream.\-java\end{DoxyCompactItemize}

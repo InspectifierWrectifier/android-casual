@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>OSCommands.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.language.commands</a> &gt; <span class="el_source">OSCommands.java</span></div><h1>OSCommands.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2014 adamoutler
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
+package CASUAL.language.commands;
+
+import CASUAL.Log;
+import CASUAL.OSTools;
+import CASUAL.language.Command;
+
+/**
+ *
+ * @author adamoutler
+ */
+<span class="fc" id="L28">public class OSCommands {</span>
+
+    public boolean operatingSystemCommands(Command cmd) {
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (cmd.get().startsWith(&quot;$LINUXMAC&quot;)) {</span>
+<span class="pc bpc" id="L32" title="3 of 4 branches missed.">            if (OSTools.isLinux() || OSTools.isMac()) {</span>
+<span class="fc" id="L33">                String removeCommand = &quot;$LINUXMAC&quot;;</span>
+<span class="fc" id="L34">                cmd.set(removeIdentifiedString(removeCommand, cmd.get()));</span>
+<span class="fc" id="L35">                Log.progress(&quot;Linux Or Mac Detected: &quot;);</span>
+<span class="fc" id="L36">                Log.level4Debug(&quot;OS IS LINUX or MAC! remaining commands:&quot; + cmd.get());</span>
+<span class="fc" id="L37">            } else {</span>
+<span class="nc" id="L38">                return true;</span>
+            }
+        }
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (cmd.get().startsWith(&quot;$LINUXWINDOWS&quot;)) {</span>
+<span class="pc bpc" id="L42" title="3 of 4 branches missed.">            if (OSTools.isLinux() || OSTools.isWindows()) {</span>
+<span class="fc" id="L43">                String removeCommand = &quot;$LINUXWINDOWS&quot;;</span>
+<span class="fc" id="L44">                cmd.set(removeIdentifiedString(removeCommand, cmd.get()));</span>
+<span class="fc" id="L45">                Log.progress(&quot;Windows or Linux Detected: &quot;);</span>
+<span class="fc" id="L46">                Log.level4Debug(&quot;OS IS WINDOWS OR LINUX! remaining commands:&quot; + cmd.get());</span>
+<span class="fc" id="L47">            } else {</span>
+<span class="nc" id="L48">                return true;</span>
+            }
+        }
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (cmd.get().startsWith(&quot;$WINDOWSMAC&quot;)) {</span>
+<span class="pc bpc" id="L52" title="2 of 4 branches missed.">            if (OSTools.isWindows() || OSTools.isMac()) {</span>
+<span class="nc" id="L53">                String removeCommand = &quot;$WINDOWSMAC&quot;;</span>
+<span class="nc" id="L54">                cmd.set(removeIdentifiedString(removeCommand, cmd.get()));</span>
+<span class="nc" id="L55">                Log.progress(&quot;Mac or Windows Detected: &quot;);</span>
+<span class="nc" id="L56">                Log.level4Debug(&quot;OS IS Windows or Mac! remaining commands:&quot; + cmd.get());</span>
+<span class="nc" id="L57">            } else {</span>
+<span class="fc" id="L58">                return true;</span>
+            }
+        }
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (cmd.get().startsWith(&quot;$LINUX&quot;)) {</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">            if (OSTools.isLinux()) {</span>
+<span class="fc" id="L63">                String removeCommand = &quot;$LINUX&quot;;</span>
+<span class="fc" id="L64">                cmd.set(removeIdentifiedString(removeCommand, cmd.get()));</span>
+<span class="fc" id="L65">                Log.progress(&quot;Linux Detected: &quot;);</span>
+<span class="fc" id="L66">                Log.level4Debug(&quot;OS IS LINUX! remaining commands:&quot; + cmd.get());</span>
+<span class="fc" id="L67">            } else {</span>
+<span class="nc" id="L68">                return true;</span>
+            }
+        }
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (cmd.get().startsWith(&quot;$WINDOWS&quot;)) {</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">            if (OSTools.isWindows()) {</span>
+<span class="nc" id="L73">                Log.progress(&quot;Windows Detected: &quot;);</span>
+<span class="nc" id="L74">                String removeCommand = &quot;$WINDOWS&quot;;</span>
+<span class="nc" id="L75">                cmd.set(removeIdentifiedString(removeCommand, cmd.get()));</span>
+<span class="nc" id="L76">                Log.level4Debug(&quot;OS IS WINDOWS! remaining commands:&quot; + cmd.get());</span>
+<span class="nc" id="L77">            } else {</span>
+<span class="fc" id="L78">                return true;</span>
+            }
+        }
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (cmd.get().startsWith(&quot;$MAC&quot;)) {</span>
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">            if (OSTools.isMac()) {</span>
+<span class="nc" id="L83">                Log.progress(&quot;Mac Detected: &quot;);</span>
+<span class="nc" id="L84">                String removeCommand = &quot;$MAC&quot;;</span>
+<span class="nc" id="L85">                cmd.set(removeIdentifiedString(removeCommand, cmd.get()));</span>
+<span class="nc" id="L86">                Log.level4Debug(&quot;OS IS MAC! remaining commands:&quot; + cmd.get());</span>
+<span class="nc" id="L87">            } else {</span>
+<span class="fc" id="L88">                return true;</span>
+            }
+        }
+<span class="fc" id="L91">        return false;</span>
+    }
+        public String removeIdentifiedString(String identified, String line) {
+<span class="fc" id="L94">        line = line.replace(identified, &quot;&quot;).trim();</span>
+<span class="fc" id="L95">        Log.level4Debug(&quot;Processing &quot; + identified);</span>
+        
+<span class="fc" id="L97">        return line;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

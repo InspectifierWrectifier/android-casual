@@ -1,0 +1,3 @@
+#CASUAL176 , R20, ID TEH ROXOR, URL http://forum.xda-developers.com/showthread.php?t=2105263, Message You should see this message because its important --AdamOutler
+shell "echo 'testing CASUAL'"
+reboot

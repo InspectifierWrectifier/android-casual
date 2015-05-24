@@ -1,0 +1,411 @@
+\hypertarget{classCASUAL_1_1archiving_1_1Zip}{\section{C\-A\-S\-U\-A\-L.\-archiving.\-Zip Class Reference}
+\label{classCASUAL_1_1archiving_1_1Zip}\index{C\-A\-S\-U\-A\-L.\-archiving.\-Zip@{C\-A\-S\-U\-A\-L.\-archiving.\-Zip}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCASUAL_1_1archiving_1_1Zip_af739cb60ce5a0d3a5348cb9e679ceba7}{Zip} (File zip)  throws I\-O\-Exception 
+\item 
+String \hyperlink{classCASUAL_1_1archiving_1_1Zip_a0e55040227d73b64d691017a57e88c30}{get\-Temp\-Folder} ()
+\item 
+void \hyperlink{classCASUAL_1_1archiving_1_1Zip_aa1bf6893e99618dfc73e5e15d90a233e}{add\-To\-Temp\-Folder\-Loc} (String Temp\-Folder)
+\item 
+void \hyperlink{classCASUAL_1_1archiving_1_1Zip_a2a84e31123f657e9c5e6cc73bcf85fc0}{add\-Files\-To\-Existing\-Zip} (String file\-To\-Add)  throws I\-O\-Exception 
+\item 
+void \hyperlink{classCASUAL_1_1archiving_1_1Zip_aacdd5cd6f2847e0ee6bb77ea202ecdab}{add\-Files\-To\-Existing\-Zip} (String\mbox{[}$\,$\mbox{]} files\-To\-Be\-Zipped)  throws I\-O\-Exception 
+\item 
+void \hyperlink{classCASUAL_1_1archiving_1_1Zip_a9dc2f94fce74e938b6f529cdf300ad91}{add\-Files\-To\-Existing\-Zip} (File file\-To\-Add)  throws I\-O\-Exception 
+\item 
+void \hyperlink{classCASUAL_1_1archiving_1_1Zip_afb0e0e812a4fb259b8c4af21ece047ba}{add\-Files\-To\-Existing\-Zip} (File\mbox{[}$\,$\mbox{]} files)  throws I\-O\-Exception 
+\item 
+void \hyperlink{classCASUAL_1_1archiving_1_1Zip_a79c5b8d507f0b2207657968ce04d7662}{stream\-Entry\-To\-Existing\-Zip} (Input\-Stream in, String name)  throws I\-O\-Exception 
+\item 
+void \hyperlink{classCASUAL_1_1archiving_1_1Zip_afba344b319d35382ac45f0019135f2bb}{inject\-Zip} (String injection\-Zip)
+\item 
+void \hyperlink{classCASUAL_1_1archiving_1_1Zip_a793ea3d539a12d8dac7a623f98372cf7}{inject\-Zip} (File injection\-Zip)
+\item 
+void \hyperlink{classCASUAL_1_1archiving_1_1Zip_ae822ac657cc2f6ecda6789a9fb5dd03a}{inject\-Zip} (File injection\-Zip, String injection\-Path)
+\item 
+void \hyperlink{classCASUAL_1_1archiving_1_1Zip_ae77b937fded9d3d6d0a2cf8759ab6b93}{stream\-Entry\-To\-Existing\-Zip} (Map$<$ String, Input\-Stream $>$ name\-Stream)  throws I\-O\-Exception 
+\item 
+void \hyperlink{classCASUAL_1_1archiving_1_1Zip_a5f5fae25d91196d11da0e6387dfbba97}{add\-Folder\-Files\-To\-New\-Zip} (String new\-Zip, String to\-Be\-Zipped)  throws Exception 
+\item 
+void \hyperlink{classCASUAL_1_1archiving_1_1Zip_a4d9cc06f35c9d8ffcece89cec48e045b}{add\-File\-To\-Zip\-D\-Ir} (File file)  throws I\-O\-Exception 
+\item 
+void \hyperlink{classCASUAL_1_1archiving_1_1Zip_a42720ff4df86cf4f26b465a7c078fb75}{compress\-Zip\-Dir} (String file)  throws File\-Not\-Found\-Exception, I\-O\-Exception 
+\item 
+void \hyperlink{classCASUAL_1_1archiving_1_1Zip_a8e9092ce77563c5b450d1e9c5c56a872}{compress\-Zip\-Dir} ()  throws File\-Not\-Found\-Exception, I\-O\-Exception 
+\item 
+void \hyperlink{classCASUAL_1_1archiving_1_1Zip_a265a180ad36454517d139b18d1e0ef45}{zip\-Dir} (String directory, Zip\-Output\-Stream zos, String path)  throws I\-O\-Exception 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+adam 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classCASUAL_1_1archiving_1_1Zip_af739cb60ce5a0d3a5348cb9e679ceba7}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}!Zip@{Zip}}
+\index{Zip@{Zip}!CASUAL::archiving::Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}}
+\subsubsection[{Zip}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-archiving.\-Zip.\-Zip (
+\begin{DoxyParamCaption}
+\item[{File}]{zip}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classCASUAL_1_1archiving_1_1Zip_af739cb60ce5a0d3a5348cb9e679ceba7}
+Constructor for the \hyperlink{classCASUAL_1_1archiving_1_1Zip}{Zip} class. 
+
+The File set in this is not the folder where the files to be zipped are, but instead the actual file that will be created by the zip. 
+
+Example\-: ./test.zip
+
+
+\begin{DoxyParams}{Parameters}
+{\em zip} & output file to be worked with \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCASUAL_1_1archiving_1_1Zip_a2a84e31123f657e9c5e6cc73bcf85fc0}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}!add\-Files\-To\-Existing\-Zip@{add\-Files\-To\-Existing\-Zip}}
+\index{add\-Files\-To\-Existing\-Zip@{add\-Files\-To\-Existing\-Zip}!CASUAL::archiving::Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}}
+\subsubsection[{add\-Files\-To\-Existing\-Zip}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-Zip.\-add\-Files\-To\-Existing\-Zip (
+\begin{DoxyParamCaption}
+\item[{String}]{file\-To\-Add}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classCASUAL_1_1archiving_1_1Zip_a2a84e31123f657e9c5e6cc73bcf85fc0}
+Streams a file directly into a zipfile. 
+
+This bypasses the uses of temp folder to stream the selected file into a zip folder by writing the Zip\-Output\-Stream from an existing zip file directly into the Zip\-Input\-Stream of another.
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\-To\-Add} & file to be added \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classCASUAL_1_1archiving_1_1Zip_aacdd5cd6f2847e0ee6bb77ea202ecdab}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}!add\-Files\-To\-Existing\-Zip@{add\-Files\-To\-Existing\-Zip}}
+\index{add\-Files\-To\-Existing\-Zip@{add\-Files\-To\-Existing\-Zip}!CASUAL::archiving::Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}}
+\subsubsection[{add\-Files\-To\-Existing\-Zip}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-Zip.\-add\-Files\-To\-Existing\-Zip (
+\begin{DoxyParamCaption}
+\item[{String\mbox{[}$\,$\mbox{]}}]{files\-To\-Be\-Zipped}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classCASUAL_1_1archiving_1_1Zip_aacdd5cd6f2847e0ee6bb77ea202ecdab}
+Streams files directly into a zipfile. 
+
+This bypasses the uses of temp folder to stream the selected files into a zip folder by writing the Zip\-Output\-Stream from an existing zip file directly into the Zip\-Input\-Stream of another.
+
+
+\begin{DoxyParams}{Parameters}
+{\em files\-To\-Be\-Zipped} & file to be added \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxySeeAlso}{See Also}
+Zip\-Input\-Stream 
+
+Zip\-Output\-Stream 
+\end{DoxySeeAlso}
+\hypertarget{classCASUAL_1_1archiving_1_1Zip_a9dc2f94fce74e938b6f529cdf300ad91}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}!add\-Files\-To\-Existing\-Zip@{add\-Files\-To\-Existing\-Zip}}
+\index{add\-Files\-To\-Existing\-Zip@{add\-Files\-To\-Existing\-Zip}!CASUAL::archiving::Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}}
+\subsubsection[{add\-Files\-To\-Existing\-Zip}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-Zip.\-add\-Files\-To\-Existing\-Zip (
+\begin{DoxyParamCaption}
+\item[{File}]{file\-To\-Add}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classCASUAL_1_1archiving_1_1Zip_a9dc2f94fce74e938b6f529cdf300ad91}
+Streams a file directly into a zipfile. 
+
+This bypasses the uses of temp folder to stream the selected file into a zip folder by writing the Zip\-Output\-Stream from an existing zip file directly into the Zip\-Input\-Stream of another.
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\-To\-Add} & file to be added \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classCASUAL_1_1archiving_1_1Zip_afb0e0e812a4fb259b8c4af21ece047ba}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}!add\-Files\-To\-Existing\-Zip@{add\-Files\-To\-Existing\-Zip}}
+\index{add\-Files\-To\-Existing\-Zip@{add\-Files\-To\-Existing\-Zip}!CASUAL::archiving::Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}}
+\subsubsection[{add\-Files\-To\-Existing\-Zip}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-Zip.\-add\-Files\-To\-Existing\-Zip (
+\begin{DoxyParamCaption}
+\item[{File\mbox{[}$\,$\mbox{]}}]{files}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classCASUAL_1_1archiving_1_1Zip_afb0e0e812a4fb259b8c4af21ece047ba}
+Streams files directly into a zipfile. 
+
+This bypasses the uses of temp folder to stream the selected files into a zip folder by writing the Zip\-Output\-Stream from an existing zip file directly into the Zip\-Input\-Stream of another. 
+
+This method is used once the File\mbox{[}\mbox{]} has been created.
+
+
+\begin{DoxyParams}{Parameters}
+{\em files} & files to be zipped \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classCASUAL_1_1archiving_1_1Zip_a4d9cc06f35c9d8ffcece89cec48e045b}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}!add\-File\-To\-Zip\-D\-Ir@{add\-File\-To\-Zip\-D\-Ir}}
+\index{add\-File\-To\-Zip\-D\-Ir@{add\-File\-To\-Zip\-D\-Ir}!CASUAL::archiving::Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}}
+\subsubsection[{add\-File\-To\-Zip\-D\-Ir}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-Zip.\-add\-File\-To\-Zip\-D\-Ir (
+\begin{DoxyParamCaption}
+\item[{File}]{file}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classCASUAL_1_1archiving_1_1Zip_a4d9cc06f35c9d8ffcece89cec48e045b}
+
+\begin{DoxyParams}{Parameters}
+{\em file} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classCASUAL_1_1archiving_1_1Zip_a5f5fae25d91196d11da0e6387dfbba97}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}!add\-Folder\-Files\-To\-New\-Zip@{add\-Folder\-Files\-To\-New\-Zip}}
+\index{add\-Folder\-Files\-To\-New\-Zip@{add\-Folder\-Files\-To\-New\-Zip}!CASUAL::archiving::Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}}
+\subsubsection[{add\-Folder\-Files\-To\-New\-Zip}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-Zip.\-add\-Folder\-Files\-To\-New\-Zip (
+\begin{DoxyParamCaption}
+\item[{String}]{new\-Zip, }
+\item[{String}]{to\-Be\-Zipped}
+\end{DoxyParamCaption}
+) throws Exception}}\label{classCASUAL_1_1archiving_1_1Zip_a5f5fae25d91196d11da0e6387dfbba97}
+S\-T\-A\-T\-I\-C Creates a new zip from a folder. 
+
+This method creates a new zip file from the folder that is handed in the second argument.
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\-Zip} & output .zip File \\
+\hline
+{\em to\-Be\-Zipped} & File or folder to be placed in the \hyperlink{classCASUAL_1_1archiving_1_1Zip}{Zip} File. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classCASUAL_1_1archiving_1_1Zip_aa1bf6893e99618dfc73e5e15d90a233e}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}!add\-To\-Temp\-Folder\-Loc@{add\-To\-Temp\-Folder\-Loc}}
+\index{add\-To\-Temp\-Folder\-Loc@{add\-To\-Temp\-Folder\-Loc}!CASUAL::archiving::Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}}
+\subsubsection[{add\-To\-Temp\-Folder\-Loc}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-Zip.\-add\-To\-Temp\-Folder\-Loc (
+\begin{DoxyParamCaption}
+\item[{String}]{Temp\-Folder}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1archiving_1_1Zip_aa1bf6893e99618dfc73e5e15d90a233e}
+Changes the depth of the tempfolder. 
+
+This is used to specify a different temp folder then the tempfolder stated in \hyperlink{classCASUAL_1_1Statics}{C\-A\-S\-U\-A\-L.\-Statics}. It will add a new folder within that tempfolder to be used too add all the files that must be zipped up into. 
+
+If the folder does not exist it will be created.
+
+
+\begin{DoxyParams}{Parameters}
+{\em Temp\-Folder} & string of name of folder to dive into \\
+\hline
+\end{DoxyParams}
+\hypertarget{classCASUAL_1_1archiving_1_1Zip_a42720ff4df86cf4f26b465a7c078fb75}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}!compress\-Zip\-Dir@{compress\-Zip\-Dir}}
+\index{compress\-Zip\-Dir@{compress\-Zip\-Dir}!CASUAL::archiving::Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}}
+\subsubsection[{compress\-Zip\-Dir}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-Zip.\-compress\-Zip\-Dir (
+\begin{DoxyParamCaption}
+\item[{String}]{file}
+\end{DoxyParamCaption}
+) throws File\-Not\-Found\-Exception, I\-O\-Exception}}\label{classCASUAL_1_1archiving_1_1Zip_a42720ff4df86cf4f26b465a7c078fb75}
+S\-T\-A\-T\-I\-C Compresses a folder into a .zip file
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & folder to be compressed \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em File\-Not\-Found\-Exception} & \\
+\hline
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classCASUAL_1_1archiving_1_1Zip_a8e9092ce77563c5b450d1e9c5c56a872}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}!compress\-Zip\-Dir@{compress\-Zip\-Dir}}
+\index{compress\-Zip\-Dir@{compress\-Zip\-Dir}!CASUAL::archiving::Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}}
+\subsubsection[{compress\-Zip\-Dir}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-Zip.\-compress\-Zip\-Dir (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws File\-Not\-Found\-Exception, I\-O\-Exception}}\label{classCASUAL_1_1archiving_1_1Zip_a8e9092ce77563c5b450d1e9c5c56a872}
+Compresses the Temp\-Folder into a .zip file
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em File\-Not\-Found\-Exception} & \\
+\hline
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classCASUAL_1_1archiving_1_1Zip_a0e55040227d73b64d691017a57e88c30}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}!get\-Temp\-Folder@{get\-Temp\-Folder}}
+\index{get\-Temp\-Folder@{get\-Temp\-Folder}!CASUAL::archiving::Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}}
+\subsubsection[{get\-Temp\-Folder}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-archiving.\-Zip.\-get\-Temp\-Folder (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1archiving_1_1Zip_a0e55040227d73b64d691017a57e88c30}
+Getter for the Temp\-Folder where the files are to be transfered into before they get steamed into a zip file.
+
+\begin{DoxyReturn}{Returns}
+the string for the location of the Temp\-Folder 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See Also}
+C\-A\-S\-U\-A\-L.\-Statics\-::\-Temp\-Folder 
+\end{DoxySeeAlso}
+\hypertarget{classCASUAL_1_1archiving_1_1Zip_afba344b319d35382ac45f0019135f2bb}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}!inject\-Zip@{inject\-Zip}}
+\index{inject\-Zip@{inject\-Zip}!CASUAL::archiving::Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}}
+\subsubsection[{inject\-Zip}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-Zip.\-inject\-Zip (
+\begin{DoxyParamCaption}
+\item[{String}]{injection\-Zip}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1archiving_1_1Zip_afba344b319d35382ac45f0019135f2bb}
+This merges two separate zipfiles into a single file. 
+
+Injects the zip into the root of the initial zip.
+
+
+\begin{DoxyParams}{Parameters}
+{\em injection\-Zip} & string of the zipfile \\
+\hline
+\end{DoxyParams}
+\hypertarget{classCASUAL_1_1archiving_1_1Zip_a793ea3d539a12d8dac7a623f98372cf7}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}!inject\-Zip@{inject\-Zip}}
+\index{inject\-Zip@{inject\-Zip}!CASUAL::archiving::Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}}
+\subsubsection[{inject\-Zip}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-Zip.\-inject\-Zip (
+\begin{DoxyParamCaption}
+\item[{File}]{injection\-Zip}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1archiving_1_1Zip_a793ea3d539a12d8dac7a623f98372cf7}
+This merges two separate zipfiles into a single file. 
+
+Injects the zip into the root of the initial zip.
+
+
+\begin{DoxyParams}{Parameters}
+{\em injection\-Zip} & the zip that is to be injected \\
+\hline
+\end{DoxyParams}
+\hypertarget{classCASUAL_1_1archiving_1_1Zip_ae822ac657cc2f6ecda6789a9fb5dd03a}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}!inject\-Zip@{inject\-Zip}}
+\index{inject\-Zip@{inject\-Zip}!CASUAL::archiving::Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}}
+\subsubsection[{inject\-Zip}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-Zip.\-inject\-Zip (
+\begin{DoxyParamCaption}
+\item[{File}]{injection\-Zip, }
+\item[{String}]{injection\-Path}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1archiving_1_1Zip_ae822ac657cc2f6ecda6789a9fb5dd03a}
+This merges two separate zipfiles into a single file. 
+
+If the injection path is empty, the root of the injected files will be the root of the initial zip. If it is not the location will injected at the path relative to the root of the current zip
+
+
+\begin{DoxyParams}{Parameters}
+{\em injection\-Zip} & the zip that is to be injected \\
+\hline
+{\em injection\-Path} & the path relative to the root of the \\
+\hline
+\end{DoxyParams}
+\hypertarget{classCASUAL_1_1archiving_1_1Zip_a79c5b8d507f0b2207657968ce04d7662}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}!stream\-Entry\-To\-Existing\-Zip@{stream\-Entry\-To\-Existing\-Zip}}
+\index{stream\-Entry\-To\-Existing\-Zip@{stream\-Entry\-To\-Existing\-Zip}!CASUAL::archiving::Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}}
+\subsubsection[{stream\-Entry\-To\-Existing\-Zip}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-Zip.\-stream\-Entry\-To\-Existing\-Zip (
+\begin{DoxyParamCaption}
+\item[{Input\-Stream}]{in, }
+\item[{String}]{name}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classCASUAL_1_1archiving_1_1Zip_a79c5b8d507f0b2207657968ce04d7662}
+Streams an Input\-Stream directly into a zipfile. 
+
+This takes an Input\-Stream and streams it directly into a zipfile.
+
+
+\begin{DoxyParams}{Parameters}
+{\em in} & the Input\-Stream to be injected into the zipfile \\
+\hline
+{\em name} & the name of the File that the Input\-Stream will create inside the zip \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxySeeAlso}{See Also}
+Input\-Stream 
+\end{DoxySeeAlso}
+\hypertarget{classCASUAL_1_1archiving_1_1Zip_ae77b937fded9d3d6d0a2cf8759ab6b93}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}!stream\-Entry\-To\-Existing\-Zip@{stream\-Entry\-To\-Existing\-Zip}}
+\index{stream\-Entry\-To\-Existing\-Zip@{stream\-Entry\-To\-Existing\-Zip}!CASUAL::archiving::Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}}
+\subsubsection[{stream\-Entry\-To\-Existing\-Zip}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-Zip.\-stream\-Entry\-To\-Existing\-Zip (
+\begin{DoxyParamCaption}
+\item[{Map$<$ String, Input\-Stream $>$}]{name\-Stream}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classCASUAL_1_1archiving_1_1Zip_ae77b937fded9d3d6d0a2cf8759ab6b93}
+Streams multiple Input\-Stream directly into a zipfile. 
+
+This takes an a keyed pair of String names, and Input\-Streams and streams them directly into a zipfile.
+
+
+\begin{DoxyParams}{Parameters}
+{\em name\-Stream} & map that contains keys that are Strings, and values that are Input\-Stream \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxySeeAlso}{See Also}
+Map 
+
+Input\-Stream 
+\end{DoxySeeAlso}
+\hypertarget{classCASUAL_1_1archiving_1_1Zip_a265a180ad36454517d139b18d1e0ef45}{\index{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}!zip\-Dir@{zip\-Dir}}
+\index{zip\-Dir@{zip\-Dir}!CASUAL::archiving::Zip@{C\-A\-S\-U\-A\-L\-::archiving\-::\-Zip}}
+\subsubsection[{zip\-Dir}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-archiving.\-Zip.\-zip\-Dir (
+\begin{DoxyParamCaption}
+\item[{String}]{directory, }
+\item[{Zip\-Output\-Stream}]{zos, }
+\item[{String}]{path}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classCASUAL_1_1archiving_1_1Zip_a265a180ad36454517d139b18d1e0ef45}
+\hyperlink{classCASUAL_1_1archiving_1_1Zip}{Zip} up a directory path
+
+
+\begin{DoxyParams}{Parameters}
+{\em directory} & \\
+\hline
+{\em zos} & \\
+\hline
+{\em path} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/archiving/Zip.\-java\end{DoxyCompactItemize}

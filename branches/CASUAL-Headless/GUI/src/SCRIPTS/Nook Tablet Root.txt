@@ -1,0 +1,1 @@
+Nook Tablet Root will perform the zergRush exploit, mount your system RW, install 'su', 'busybox', 'sqlite' and the 'SuperUser.apk' controller app. 

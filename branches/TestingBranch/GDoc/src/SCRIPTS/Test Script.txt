@@ -1,0 +1,1 @@
+When you click the button below, Test Script will execute, showing devices and then perform a ls command.

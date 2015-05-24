@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="topLevel" cache="false" focusTraversable="false" minHeight="-1.0" minWidth="-1.0" opacity="1.0" rotate="0.0" style="-fx-background-color:rgba(234,234,234, .3); " xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.casual_dev.zodui.contentpanel.ZodPanelController">
+  <bottom>
+    <GridPane alignment="CENTER" maxWidth="1.7976931348623157E308">
+      <children>
+        <ProgressIndicator fx:id="progressIndicator" maxWidth="1.7976931348623157E308" prefHeight="43.0" prefWidth="47.26092529296875" progress="0.1" GridPane.rowIndex="1" />
+        <ProgressBar fx:id="progressBar" maxHeight="-1.0" maxWidth="1.7976931348623157E308" opacity="0.52" prefHeight="30.0" progress="0.26" style="-f-fx-accent: green;" visible="true" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+            <Label fx:id="status" maxWidth="1.7976931348623157E308" onMouseClicked="#showLog" onTouchPressed="#showLog" text="Label" textAlignment="CENTER" GridPane.columnIndex="1" />
+      </children>
+      <columnConstraints>
+        <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="10.0" prefWidth="50.0" />
+        <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="684.0" />
+        <ColumnConstraints hgrow="NEVER" maxWidth="171.0" minWidth="0.0" prefWidth="63.0" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+  </bottom>
+  <right>
+      <AnchorPane fx:id="logPane" stylesheets="@logarea.css">
+         <children>
+            <TextArea fx:id="logArea" editable="false" layoutY="-3.0" prefHeight="335.0" prefWidth="444.0" stylesheets="@logarea.css" wrapText="true" />
+         </children>
+      </AnchorPane>
+  </right>
+  <rotationAxis>
+    <Point3D x="2.0" y="-3.0" z="-1.0" />
+  </rotationAxis>
+  <top>
+    <GridPane BorderPane.alignment="TOP_LEFT">
+      <children>
+        <VBox prefHeight="84.0" prefWidth="547.0" GridPane.rowIndex="0">
+          <children>
+            <Label fx:id="title" contentDisplay="RIGHT" labelFor="$test" prefWidth="-1.0" text="Lorem ipsum dolor sit amet adfasfd asfdasfdasfdas" textAlignment="RIGHT" underline="false" wrapText="false" VBox.vgrow="SOMETIMES">
+              <font>
+                <Font size="30.0" />
+              </font>
+            </Label>
+            <Label fx:id="message" minHeight="-1.0" prefHeight="-1.0" prefWidth="-1.0" text=" consectetur adipisicing elit, sed do eiusmod tempor adfadfadfasfdasfasf" textAlignment="RIGHT" wrapText="true" VBox.vgrow="SOMETIMES">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+            </Label>
+          </children>
+        </VBox>
+      </children>
+      <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="-1.0" prefWidth="-1.0" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints minHeight="-1.0" prefHeight="-1.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+  </top>
+   <left>
+      <AnchorPane fx:id="imageArea" prefHeight="200.0" prefWidth="200.0" stylesheets="@logarea.css" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="image" fitHeight="320.0" fitWidth="358.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/CASUAL-casual.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </left>
+</BorderPane>

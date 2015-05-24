@@ -1,0 +1,1223 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Caspac.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.caspac</a> &gt; <span class="el_source">Caspac.java</span></div><h1>Caspac.java</h1><pre class="source lang-java linenums">/*Caspac handles gathering, reading and writing of CASPACs in a unified manner
+ *Copyright (C) 2015  Adam Outler &amp; Logan Ludington
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.caspac;
+
+import CASUAL.CASUALSessionData;
+import CASUAL.CASUALStartupTasks;
+import CASUAL.CASUALTools;
+import CASUAL.FileOperations;
+import CASUAL.Log;
+import CASUAL.archiving.Unzip;
+import CASUAL.archiving.Zip;
+import CASUAL.crypto.AES128Handler;
+import CASUAL.crypto.MD5sum;
+import CASUAL.misc.MandatoryThread;
+import CASUAL.misc.StringOperations;
+import CASUAL.network.CASUALDevIntegration.CasualDevCounter;
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.security.CodeSource;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipInputStream;
+import javax.imageio.ImageIO;
+
+/**
+ * handles gathering, reading and writing of CASPACs in a unified manner
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+public final class Caspac {
+
+    /**
+     * If we are debugging a script, we dont want to delete the script contents
+     * to prevent further execution on error. This is used for debugging
+     * purposes.
+     */
+<span class="fc" id="L68">    private static boolean debug = false;</span>
+    
+    
+    
+    /**
+     * @return the debug
+     */
+    public static boolean isDebug() {
+<span class="nc" id="L76">        return debug;</span>
+    }
+
+    /**
+     * @param aDebug the debug to set
+     */
+    public static void setDebug(boolean aDebug) {
+<span class="nc" id="L83">        debug = aDebug;</span>
+<span class="nc" id="L84">    }</span>
+
+    /**
+     * returns an empty CASPAC.
+     *
+     * @return empty CASPAC &amp;gt;
+     * @throws IOException when permission problem exists
+     */
+    public static final Caspac makeGenericCaspac() throws IOException {
+<span class="nc" id="L93">        CASUALSessionData cd=CASUALSessionData.newInstance();</span>
+<span class="nc" id="L94">        File f = new File(cd.getTempFolder() + &quot;newfile&quot;);</span>
+<span class="nc" id="L95">        Caspac c = new Caspac(cd, f, cd.getTempFolder(), 2);</span>
+<span class="nc" id="L96">        Script s = new Script(cd,&quot;oneshot&quot;, cd.getTempFolder());</span>
+        
+<span class="nc" id="L98">        return c;</span>
+    }
+    private final CASUALSessionData sd;
+
+    /**
+     * Loads a CASPAC Type 0 CASPAC, Type 1 CASUAL, Type 2 Filesystem.
+     */
+    private int type;
+    //public File logo;
+
+    /**
+     * BufferedImage for logo.png in CASPAC.
+     */
+    private BufferedImage logo;
+
+    /**
+     * CASPAC which is being used.
+     */
+    private File CASPAC;
+
+    /**
+     * CodeSource if available to CASPAC. Generally used in place of CASPAC
+     * file.
+     */
+    private CodeSource CASPACsrc;
+
+    /**
+     * CASPAC -Overview.txt file contents.
+     */
+<span class="pc" id="L127">    private String overview = &quot;&quot;;</span>
+    /**
+     * CASPAC -Build.properties file.
+     */
+    private Build build;
+
+    /**
+     * ArrayList of scripts contained in CASPAC.
+     */
+<span class="pc" id="L136">    private List&lt;Script&gt; scripts = new ArrayList&lt;Script&gt;();</span>
+
+    /**
+     * TempDir used for CASPAC.
+     */
+    private String TempFolder;
+
+<span class="pc" id="L143">    private ArrayList&lt;CASUAL.misc.MandatoryThread&gt; unzipThreads = new ArrayList&lt;CASUAL.misc.MandatoryThread&gt;();</span>
+    //For CASUAL mode
+    private Script activeScript;
+
+    /**
+     * deletes an unencrypted CASPAC from disk after extraction occurs.
+     */
+<span class="pc" id="L150">    private boolean caspacShouldBeDeletedAfterExtraction = false;</span>
+
+    private String tempbannerpic;
+<span class="pc" id="L153">    private String[] controlFiles = {&quot;-Overview.txt&quot;, &quot;-build.properties&quot;, &quot;-logo.png&quot;};</span>
+    /**
+     * Constructor for Caspac
+     *
+     * @param sd The CASUALSessionData instace to use for this.
+     * @param caspac file containing CASPAC information.
+     * @param tempDir temp folder to use
+     * @throws IOException when permission problem exists
+     */
+<span class="nc" id="L162">    public Caspac(CASUALSessionData sd, File caspac, String tempDir) throws IOException {</span>
+<span class="nc" id="L163">        this.sd=sd;</span>
+<span class="nc" id="L164">        this.CASPAC = caspac;</span>
+<span class="nc" id="L165">        this.CASPACsrc = null;</span>
+<span class="nc" id="L166">        this.TempFolder = tempDir;</span>
+<span class="nc" id="L167">        this.type = 0;</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        if (caspac.exists()) {</span>
+<span class="nc" id="L169">            loadCASPACcontrolFilesFromCASPAC();</span>
+        } else {
+<span class="nc" id="L171">            Log.level4Debug(&quot;CASPAC Not Found, treating as a request to create new CASPAC&quot;);</span>
+        }
+<span class="nc" id="L173">    }</span>
+    
+       /**
+     * Constructor for Caspac
+     *
+     * @param sd The CASUALSessionData instace to use for this.
+     * @param caspac file containing CASPAC information.
+     * @throws IOException when permission problem exists
+     */
+<span class="nc" id="L182">    public Caspac(CASUALSessionData sd, File caspac) throws IOException {</span>
+<span class="nc" id="L183">        this.sd=sd;</span>
+<span class="nc" id="L184">        this.CASPAC = caspac;</span>
+<span class="nc" id="L185">        this.CASPACsrc = null;</span>
+<span class="nc" id="L186">        this.TempFolder = sd.getTempFolder();</span>
+<span class="nc" id="L187">        this.type = 0;</span>
+<span class="nc bnc" id="L188" title="All 2 branches missed.">        if (caspac.exists()) {</span>
+<span class="nc" id="L189">            loadCASPACcontrolFilesFromCASPAC();</span>
+        } else {
+<span class="nc" id="L191">            Log.level4Debug(&quot;CASPAC Not Found, treating as a request to create new CASPAC&quot;);</span>
+        }
+<span class="nc" id="L193">    }</span>
+
+    /**
+     * Constructor for Caspac
+     *
+     * @param sd The CASUALSessionData instace to use for this.
+     * @param caspac file containing CASPAC information.
+     * @param tempDir temp folder to use
+     * @param type Type of CASPAC CASPAC, Type 1 CASUAL, Type 2 Filesystem
+     * @throws IOException when permission problem exists
+     */
+<span class="fc" id="L204">    public Caspac(CASUALSessionData sd, File caspac, String tempDir, int type) throws IOException {</span>
+<span class="fc" id="L205">        this.sd=sd;</span>
+<span class="fc" id="L206">        this.CASPAC = caspac;</span>
+<span class="fc" id="L207">        this.CASPACsrc = null;</span>
+<span class="fc" id="L208">        this.TempFolder = tempDir;</span>
+<span class="fc" id="L209">        this.type = type;</span>
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">        if (caspac.exists()) {</span>
+<span class="fc" id="L211">            loadCASPACcontrolFilesFromCASPAC();</span>
+        } else {
+<span class="nc" id="L213">            Log.level4Debug(&quot;CASPAC Not Found, treating as a request to create new CASPAC&quot;);</span>
+        }
+<span class="fc" id="L215">    }</span>
+
+    /**
+     * secure constructor for Caspac always call startAndWaitForUnzip in order
+     * to delete file and maintain security
+     *
+     * @param sd The CASUALSessionData instace to use for this.
+     * @param caspac file containing CASPAC information.
+     * @param tempDir temp folder to use
+     * @param type Type of CASPAC CASPAC, Type 1 CASUAL, Type 2 Filesystem
+     * @param securityKey key to decrypt CASPAC.
+     * @throws IOException when permission problem exists
+     * @throws Exception when crypto problem exists
+     */
+<span class="nc" id="L229">    public Caspac(CASUALSessionData sd,File caspac, String tempDir, int type, char[] securityKey) throws IOException, Exception {</span>
+<span class="nc" id="L230">    this.sd=sd;</span>
+<span class="nc" id="L231">        AES128Handler ch = new AES128Handler(caspac);</span>
+<span class="nc" id="L232">        ch.decrypt(tempDir + caspac.getName(), securityKey);</span>
+<span class="nc" id="L233">        this.CASPAC = new File(tempDir + caspac.getName());</span>
+<span class="nc" id="L234">        this.CASPACsrc = null;</span>
+<span class="nc" id="L235">        this.TempFolder = tempDir;</span>
+<span class="nc" id="L236">        this.type = type;</span>
+<span class="nc" id="L237">        caspacShouldBeDeletedAfterExtraction = true;</span>
+<span class="nc" id="L238">        loadCASPACcontrolFilesFromCASPAC();</span>
+<span class="nc bnc" id="L239" title="All 2 branches missed.">        if (tempbannerpic != null) {</span>
+<span class="nc" id="L240">            this.build.setBannerPic(tempbannerpic);</span>
+        }
+<span class="nc" id="L242">    }</span>
+
+    /*
+     * Constructor for CASUAL
+     */
+    /**
+     * Constructor for CASUAL
+     *
+     * @param sd The CASUALSessionData instace to use for this.
+     * @param src CodeSource reference, used to reference SCRIPTS folder.
+     * @param tempDir Temporary folder to use
+     * @param type Type of CASPAC CASPAC, Type 1 CASUAL, Type 2 Filesystem
+     * (should be 1 generally)
+     * @throws IOException when permission problem exists
+     */
+<span class="fc" id="L257">    public Caspac(CASUALSessionData sd,CodeSource src, String tempDir, int type) throws IOException {</span>
+<span class="fc" id="L258">        this.sd=sd;</span>
+<span class="fc" id="L259">        this.CASPACsrc = src;</span>
+<span class="fc" id="L260">        URL jar = src.getLocation();</span>
+<span class="fc" id="L261">        this.CASPAC = new File(tempDir + jar.getFile());</span>
+<span class="fc" id="L262">        this.TempFolder = tempDir;</span>
+<span class="fc" id="L263">        this.type = type;</span>
+<span class="pc bpc" id="L264" title="1 of 2 branches missed.">        if (CASUALTools.IDEMode) {</span>
+<span class="fc" id="L265">            updateMD5s();</span>
+            //Statics.scriptLocations = new String[]{&quot;&quot;};
+<span class="fc" id="L267">            setupIDEModeScriptForCASUAL(CASUAL.CASUALMain.defaultPackage);</span>
+        } else {
+<span class="nc" id="L269">            Log.level4Debug(&quot;Opening self as stream for scan&quot;);</span>
+<span class="nc" id="L270">            ZipInputStream zip = new ZipInputStream(jar.openStream());</span>
+            ZipEntry ZEntry;
+<span class="nc" id="L272">            Log.level4Debug(&quot;Picking Jar File:&quot; + src.toString() + &quot; ..scanning.&quot;);</span>
+<span class="nc bnc" id="L273" title="All 2 branches missed.">            while ((ZEntry = zip.getNextEntry()) != null) {</span>
+<span class="nc" id="L274">                String entry = ZEntry.getName();</span>
+<span class="nc bnc" id="L275" title="All 4 branches missed.">                if (entry.startsWith(&quot;SCRIPTS/&quot;) || entry.startsWith(&quot;SCRIPTS\\&quot;)) { //part of CASPAC</span>
+<span class="nc" id="L276">                    handleCASPACJarFiles(entry);</span>
+
+                }
+<span class="nc" id="L279">            }</span>
+
+        }
+<span class="fc" id="L282">    }</span>
+
+    /**
+     * Sets the active script to an instace of a script.
+     *
+     * @param s script to make active.
+     * @return Active Script
+     */
+    public synchronized Script setActiveScript(Script s) {
+<span class="fc" id="L291">        CasualDevCounter.doIncrementCounter(s.getName() + s.getMetaData().getUniqueIdentifier());</span>
+<span class="fc" id="L292">        CASUALStartupTasks.caspacScriptPrepLock = true;</span>
+<span class="fc bfc" id="L293" title="All 2 branches covered.">        if (type == 1) {  //CASUAL checks for updates</span>
+            try {
+<span class="fc" id="L295">                Log.level3Verbose(&quot;Setting script &quot; + s.getName() + &quot; as active and loading&quot;);</span>
+<span class="fc" id="L296">                activeScript = s;</span>
+<span class="pc bpc" id="L297" title="1 of 2 branches missed.">                if (!s.isLoaded.get()) {</span>
+<span class="fc" id="L298">                    loadActiveScript();</span>
+                }
+                //update script
+
+<span class="nc" id="L302">            } catch (MalformedURLException ex) {</span>
+<span class="nc" id="L303">            } catch (IOException ex) {</span>
+<span class="pc" id="L304">            }</span>
+
+        } else {
+<span class="fc" id="L307">            activeScript = s;</span>
+        }
+<span class="fc" id="L309">        return s;</span>
+    }
+
+    /**
+     * gets the active script.
+     *
+     * @return reference to active script.
+     */
+    public Script getActiveScript() {
+<span class="fc" id="L318">        return this.activeScript;</span>
+    }
+
+    /**
+     * removes a script
+     *
+     * @param script Script reference
+     * @return this CASPAC
+     */
+    public Caspac removeScript(Script script) {
+<span class="pc bpc" id="L328" title="1 of 2 branches missed.">        if (scripts.contains(script)) {</span>
+<span class="fc" id="L329">            scripts.remove(script);</span>
+<span class="fc" id="L330">            Log.level4Debug(&quot;Removing Script: &quot; + script.getName());</span>
+        }
+<span class="fc" id="L332">        return this;</span>
+    }
+
+    public Caspac removeAllScripts() {
+<span class="nc" id="L336">        this.scripts.clear();</span>
+<span class="nc" id="L337">        return this;</span>
+    }
+
+    public Script getFirstScript() {
+<span class="nc bnc" id="L341" title="All 2 branches missed.">        if (scripts.size() &gt; 0) {</span>
+<span class="nc" id="L342">            return scripts.get(0);</span>
+        }
+<span class="nc" id="L344">        return null;</span>
+    }
+
+    public Caspac addScript(Script script) {
+<span class="nc bnc" id="L348" title="All 2 branches missed.">        if (!scripts.contains(script)) {</span>
+<span class="nc" id="L349">            scripts.add(script);</span>
+<span class="nc" id="L350">            Log.level4Debug(&quot;Adding Script &quot; + script.getName());</span>
+
+        }
+<span class="nc" id="L353">        return this;</span>
+    }
+
+    /**
+     * writes a CASPAC
+     *
+     * @throws IOException when permission problem exists
+     */
+    public void write() throws IOException {
+<span class="nc" id="L362">        Map&lt;String, InputStream&gt; nameStream = new HashMap&lt;String, InputStream&gt;();</span>
+<span class="nc bnc" id="L363" title="All 2 branches missed.">        if (!CASPAC.exists()) {</span>
+<span class="nc" id="L364">            CASPAC.createNewFile();</span>
+        }
+<span class="nc" id="L366">        Zip zip = new Zip(sd, CASPAC);</span>
+        //write Properties File
+<span class="nc" id="L368">        nameStream.put(&quot;-build.properties&quot;, build.getBuildPropInputStream());</span>
+<span class="nc" id="L369">        nameStream.put(&quot;-Overview.txt&quot;, StringOperations.convertStringToStream(overview));</span>
+
+<span class="nc bnc" id="L371" title="All 2 branches missed.">        if (logo != null) {</span>
+<span class="nc" id="L372">            ByteArrayOutputStream baos = new ByteArrayOutputStream();</span>
+<span class="nc" id="L373">            ImageIO.write(logo, &quot;png&quot;, baos);</span>
+<span class="nc" id="L374">            InputStream is = new ByteArrayInputStream(baos.toByteArray());</span>
+<span class="nc" id="L375">            nameStream.put(&quot;-logo.png&quot;, is);</span>
+        }
+<span class="nc bnc" id="L377" title="All 2 branches missed.">        for (Script s : scripts) {</span>
+            //individualFiles.toArray();
+<span class="nc" id="L379">            File[] list = s.getIndividualFiles().toArray(new File[s.getIndividualFiles().size()]);</span>
+<span class="nc bnc" id="L380" title="All 2 branches missed.">            if (list != null) {</span>
+<span class="nc bnc" id="L381" title="All 2 branches missed.">                for (File test : list) {</span>
+
+                    //todo: what does this do?
+<span class="nc" id="L384">                    boolean delete = true;</span>
+<span class="nc bnc" id="L385" title="All 2 branches missed.">                    for (File f : s.getIndividualFiles()) {</span>
+<span class="nc bnc" id="L386" title="All 2 branches missed.">                        if (test.getCanonicalFile().equals(f.getCanonicalFile())) {</span>
+<span class="nc" id="L387">                            delete = false;</span>
+                        }
+<span class="nc" id="L389">                    }</span>
+<span class="nc bnc" id="L390" title="All 2 branches missed.">                    if (delete) {</span>
+<span class="nc bnc" id="L391" title="All 2 branches missed.">                        if (test.toString().contains(s.getTempDir())) {</span>
+<span class="nc" id="L392">                            test.delete();</span>
+                        }
+
+                    }
+                }
+            }
+<span class="nc" id="L398">            nameStream.putAll(s.getScriptAsMapForCASPAC());</span>
+<span class="nc" id="L399">        }</span>
+
+<span class="nc" id="L401">        Log.level4Debug(&quot;Placeing the following files in the caspac Zip&quot;);</span>
+<span class="nc" id="L402">        String s = zip.streamEntryToExistingZip(nameStream).getAbsolutePath();</span>
+<span class="nc" id="L403">        System.out.println(s);</span>
+<span class="nc" id="L404">    }</span>
+
+    /**
+     * sets build properties
+     *
+     * @param prop properties file
+     * @return build.prop
+     */
+    public Build setBuild(Properties prop) {
+<span class="fc" id="L413">        build = new Build(prop, this);</span>
+<span class="fc" id="L414">        build.loadPropsToVariables();</span>
+<span class="fc" id="L415">        return build;</span>
+    }
+
+    /**
+     * parses CASPAC and loads the first script seen identified by non-caspac
+     * controller files.
+     *
+     * @return  this CASPAC
+     * @throws ZipException when zip file is corrupt
+     * @throws IOException when permission problem exists
+     */
+    public synchronized Caspac loadFirstScriptFromCASPAC() throws ZipException, IOException {
+<span class="fc" id="L427">        Log.level4Debug(&quot;Starting loadFirstScriptFromCASPAC unzip on &quot; + CASPAC.getAbsolutePath());</span>
+<span class="fc" id="L428">        String scriptName = &quot;&quot;;</span>
+<span class="fc" id="L429">        Unzip unzip = new Unzip(CASPAC);</span>
+<span class="fc bfc" id="L430" title="All 2 branches covered.">        while (unzip.zipFileEntries.hasMoreElements()) {</span>
+<span class="fc" id="L431">            Object entry = unzip.zipFileEntries.nextElement(); //get the object and begin examination</span>
+<span class="fc" id="L432">            String filename = unzip.getEntryName(entry);</span>
+
+            //detect if file is Overview, Logo, or build.properties, otherwise its a script
+<span class="fc bfc" id="L435" title="All 2 branches covered.">            boolean isScript = !Arrays.asList(controlFiles).contains(entry.toString());</span>
+
+            //if it's a script, and we havent set a script, or if it's a script and it matches the script we set
+<span class="pc bpc" id="L438" title="1 of 8 branches missed.">            if (isScript &amp;&amp; scriptName.isEmpty() || isScript &amp;&amp; scriptName.equals(activeScript.getName())) {</span>
+<span class="fc" id="L439">                handleCASPACScriptFiles(filename, unzip, entry);</span>
+                //entry.toString().subst
+<span class="fc" id="L441">                scriptName = entry.toString().substring(0, entry.toString().lastIndexOf(&quot;.&quot;));</span>
+<span class="fc" id="L442">                this.activeScript = this.getScriptByFilename(filename);</span>
+            }
+<span class="fc" id="L444">        }</span>
+<span class="fc" id="L445">        Log.level4Debug(&quot;loading CASPAC script&quot;);</span>
+<span class="fc" id="L446">        performUnzipOnQueue();</span>
+<span class="fc" id="L447">        return this;</span>
+    }
+
+    /**
+     * Loads the active script after its been set.
+     *
+     * @return active script
+     * @throws IOException when permission problem exists
+     */
+    public synchronized Script loadActiveScript() throws IOException {
+<span class="fc" id="L457">        Log.level4Debug(&quot;Starting loadActiveScript CASPAC unzip.&quot;);</span>
+<span class="fc" id="L458">        String scriptName = activeScript.getName();</span>
+<span class="pc bpc" id="L459" title="1 of 2 branches missed.">        if (activeScript.isLoaded.get()) {</span>
+<span class="nc" id="L460">            return this.getActiveScript();</span>
+        }
+<span class="pc bpc" id="L462" title="1 of 2 branches missed.">        if (type == 0) {</span>
+<span class="nc" id="L463">            Unzip unzip = new Unzip(CASPAC);</span>
+<span class="nc bnc" id="L464" title="All 2 branches missed.">            while (unzip.zipFileEntries.hasMoreElements()) {</span>
+<span class="nc" id="L465">                Object entry = unzip.zipFileEntries.nextElement(); //get the object and begin examination</span>
+<span class="nc" id="L466">                String filename = unzip.getEntryName(entry);</span>
+<span class="nc bnc" id="L467" title="All 2 branches missed.">                if (entry.toString().startsWith(scriptName)) {</span>
+<span class="nc" id="L468">                    handleCASPACScriptFiles(filename, unzip, entry);</span>
+                }
+<span class="nc" id="L470">            }</span>
+
+<span class="pc bpc" id="L472" title="1 of 2 branches missed.">        } else if (type == 1) {</span>
+<span class="fc" id="L473">            Log.level3Verbose(&quot;This is a CASUAL jar with resources&quot;);</span>
+            try {
+<span class="fc" id="L475">                activeScript = updateIfRequired(activeScript);</span>
+<span class="nc" id="L476">            } catch (URISyntaxException ex) {</span>
+<span class="nc" id="L477">                Log.errorHandler(ex);</span>
+<span class="fc" id="L478">            }</span>
+<span class="fc" id="L479">            Log.level4Debug(&quot;returned from checking updates.&quot;);</span>
+            //no need to update again because it is being updated
+<span class="fc" id="L481">            replaceScriptByName(activeScript);</span>
+<span class="fc" id="L482">            unzipThreads = new ArrayList&lt;CASUAL.misc.MandatoryThread&gt;();</span>
+
+<span class="fc" id="L484">            CASUAL.misc.MandatoryThread t = new CASUAL.misc.MandatoryThread(activeScript.getExtractionRunnable());</span>
+<span class="fc" id="L485">            t.setName(&quot;Active Script Preparation&quot;);</span>
+<span class="fc" id="L486">            this.unzipThreads.add(t);</span>
+<span class="fc" id="L487">            Log.level4Debug(&quot;Size of unzipThreads =&quot; + unzipThreads.size());</span>
+<span class="fc" id="L488">            performUnzipOnQueue();</span>
+        }
+<span class="fc" id="L490">        return this.getActiveScript();</span>
+    }
+
+    /**
+     * loads a CASPAC.zip file
+     *
+     * @return this CASPAC
+     * @throws ZipException when zip file is corrupt
+     * @throws IOException when permission problem exists
+     */
+    public Caspac load() throws ZipException, IOException {
+
+<span class="pc bpc" id="L502" title="1 of 2 branches missed.">        if (type == 1) {</span>
+<span class="nc" id="L503">            Script s = this.scripts.get(0);</span>
+<span class="nc" id="L504">            InputStream in = getClass().getClassLoader()</span>
+<span class="nc" id="L505">                    .getResourceAsStream(s.scriptZipFile.toString());</span>
+<span class="nc" id="L506">            Unzip.unZipInputStream(sd, in, s.getTempDir());</span>
+<span class="nc" id="L507">            in.close();</span>
+<span class="nc" id="L508">            this.activeScript = s;</span>
+
+<span class="nc" id="L510">            return this;</span>
+        }
+        //Type 0
+<span class="fc" id="L513">        Log.level4Debug(&quot;Starting commanded Load CASPAC unzip.&quot;);</span>
+<span class="fc" id="L514">        Unzip unzip = new Unzip(CASPAC);</span>
+<span class="fc bfc" id="L515" title="All 2 branches covered.">        while (unzip.zipFileEntries.hasMoreElements()) {</span>
+<span class="fc" id="L516">            Object entry = unzip.zipFileEntries.nextElement(); //get the object and begin examination</span>
+<span class="fc" id="L517">            handleCASPACFiles(entry, unzip);</span>
+<span class="fc" id="L518">        }</span>
+<span class="fc" id="L519">        Log.level4Debug(&quot;Starting to unzip script zips&quot;);</span>
+<span class="fc" id="L520">        performUnzipOnQueue();</span>
+<span class="fc" id="L521">        Log.level4Debug(&quot;CASPAC load completed.&quot;);</span>
+<span class="fc" id="L522">        return this;</span>
+    }
+
+    /**
+     * waits for unzip to complete and executes a runnable.
+     *
+     * @param action runnable to execute.
+     * @return this caspac
+     */
+    public Caspac waitForUnzipAndRun(Runnable action) {
+<span class="nc" id="L532">        waitForUnzipAndRun(action, false, null);</span>
+<span class="nc" id="L533">        return this;</span>
+    }
+
+    /**
+     * waits for unzip to complete and executes a runnable.
+     *
+     * @param action runnable to execute.
+     * @param onASeparateThread true if multi-threadded
+     * @param ThreadName name for the alternate thread.
+     */
+    public void waitForUnzipAndRun(Runnable action, boolean onASeparateThread, String ThreadName) {
+<span class="nc" id="L544">        startAndWaitForUnzip();</span>
+<span class="nc bnc" id="L545" title="All 2 branches missed.">        if (onASeparateThread) {</span>
+<span class="nc" id="L546">            MandatoryThread t = new MandatoryThread(action);</span>
+<span class="nc" id="L547">            t.setName(ThreadName);</span>
+<span class="nc" id="L548">            t.start();</span>
+<span class="nc" id="L549">        } else {</span>
+<span class="nc" id="L550">            action.run();</span>
+        }
+<span class="nc" id="L552">    }</span>
+
+    /**
+     * causes the current thread to wait until all unzipThreads have completed.
+     * this is the longest part and the last part of completion of the CASPAC
+     * prep.
+     */
+    public synchronized void startAndWaitForUnzip() {
+<span class="nc" id="L560">        boolean[] isUnzipping = new boolean[unzipThreads.size()];</span>
+<span class="nc" id="L561">        Log.level4Debug(&quot;Currently waiting for Threads:&quot; + Integer.toString(isUnzipping.length));</span>
+<span class="nc bnc" id="L562" title="All 2 branches missed.">        for (CASUAL.misc.MandatoryThread t : unzipThreads) {</span>
+<span class="nc bnc" id="L563" title="All 6 branches missed.">            if (t != null &amp;&amp; !t.isComplete() &amp;&amp; !t.isAlive()) {</span>
+<span class="nc" id="L564">                t.start();</span>
+<span class="nc" id="L565">                t.waitFor();</span>
+
+            }
+<span class="nc" id="L568">            Log.level4Debug(&quot;Unzip completed!&quot;);</span>
+<span class="nc" id="L569">        }</span>
+
+<span class="nc bnc" id="L571" title="All 2 branches missed.">        if (this.caspacShouldBeDeletedAfterExtraction) {</span>
+<span class="nc" id="L572">            this.CASPAC.delete();</span>
+        }
+<span class="nc" id="L574">        Log.level4Debug(&quot;Unzipping complete.&quot;);</span>
+<span class="nc" id="L575">    }</span>
+
+    /**
+     * loops through active unzip threads and waits for all unzip to complete.
+     *
+     * @return this CASPAC
+     */
+    public Caspac waitForUnzip() {
+<span class="nc bnc" id="L583" title="All 2 branches missed.">        for (CASUAL.misc.MandatoryThread t : unzipThreads) {</span>
+<span class="nc bnc" id="L584" title="All 2 branches missed.">            if (t == null) {</span>
+<span class="nc" id="L585">                continue;</span>
+            }
+<span class="nc bnc" id="L587" title="All 4 branches missed.">            if (!t.isAlive() &amp;&amp; !t.isComplete()) {</span>
+<span class="nc" id="L588">                t.start();</span>
+            }
+<span class="nc bnc" id="L590" title="All 2 branches missed.">            if (!t.isComplete()) {</span>
+<span class="nc" id="L591">                t.waitFor();</span>
+            }
+<span class="nc" id="L593">            Log.level4Debug(&quot;Unzip completed!&quot;);</span>
+<span class="nc" id="L594">        }</span>
+<span class="nc" id="L595">        return this;</span>
+    }
+
+    /**
+     * handles each CASPAC file appropriately
+     *
+     * @param entry entry from CASPAC
+     * @param pack CASPAC file to be processed
+     * @throws IOException when permission problem exists
+     */
+    private void handleCASPACFiles(Object entry, Unzip pack) throws IOException {
+
+        //get the filename from the entry
+<span class="fc" id="L608">        String filename = pack.getEntryName(entry);</span>
+<span class="fc bfc" id="L609" title="All 2 branches covered.">        boolean isScript = !handleCASPACInformationFiles(filename, pack, entry);</span>
+<span class="fc bfc" id="L610" title="All 2 branches covered.">        if (isScript) {</span>
+<span class="fc" id="L611">            handleCASPACScriptFiles(filename, pack, entry);</span>
+        }
+<span class="fc" id="L613">    }</span>
+
+    /**
+     * script instance which is being referenced. creates a new script if not
+     * found
+     *
+     * @param fileName filename of script
+     * @return script instance of script to be processed
+     */
+    private Script getScriptInstanceByFilename(String fileName) {
+<span class="fc bfc" id="L623" title="All 2 branches covered.">        for (Script s : scripts) {</span>
+<span class="pc bpc" id="L624" title="1 of 2 branches missed.">            if (s.getName().equals(fileName.substring(0, fileName.lastIndexOf(&quot;.&quot;)))) {</span>
+<span class="fc" id="L625">                return s;</span>
+            }
+<span class="nc" id="L627">        }</span>
+<span class="fc" id="L628">        Script script = new Script(sd,fileName.substring(0, fileName.lastIndexOf(&quot;.&quot;)), this.TempFolder + fileName + CASUALSessionData.slash, this.type);</span>
+        //Add script 
+<span class="fc" id="L630">        scripts.add(script);</span>
+<span class="fc" id="L631">        return scripts.get(scripts.indexOf(script));</span>
+    }
+
+    /**
+     * script instance which is being referenced
+     *
+     * @param fileName filename of script
+     * @return script instance of script to be processed null if not found
+     */
+    public Script getScriptByFilename(String fileName) {
+<span class="fc" id="L641">        Log.level4Debug(&quot;Looking up &quot; + fileName);</span>
+<span class="fc" id="L642">        String scriptName = &quot;&quot;;</span>
+        try {
+<span class="fc" id="L644">            scriptName = fileName.substring(0, fileName.lastIndexOf(&quot;.&quot;));</span>
+<span class="pc bpc" id="L645" title="1 of 2 branches missed.">            for (Script s : scripts) {</span>
+<span class="pc bpc" id="L646" title="1 of 2 branches missed.">                if (s.getName().equals(scriptName)) {</span>
+<span class="fc" id="L647">                    return s;</span>
+                }
+<span class="nc" id="L649">            }</span>
+
+<span class="nc" id="L651">        } catch (Exception ex) {</span>
+<span class="nc" id="L652">        }</span>
+<span class="nc bnc" id="L653" title="All 2 branches missed.">        if (!scriptName.isEmpty()) {</span>
+<span class="nc" id="L654">            Script s = new Script(sd,scriptName, this.TempFolder + scriptName + CASUALSessionData.slash, this.type);</span>
+<span class="nc" id="L655">            this.scripts.add(s);</span>
+<span class="nc" id="L656">            return this.scripts.get(scripts.size() - 1);</span>
+        } else {
+<span class="nc" id="L658">            return null;</span>
+        }
+    }
+
+    /**
+     * returns all script names
+     *
+     * @return list of script names
+     */
+    public String[] getScriptNames() {
+<span class="fc" id="L668">        List&lt;String&gt; scriptNames = new ArrayList&lt;String&gt;();</span>
+<span class="fc bfc" id="L669" title="All 2 branches covered.">        for (Script s : scripts) {</span>
+<span class="fc" id="L670">            scriptNames.add(s.getName());</span>
+<span class="fc" id="L671">        }</span>
+<span class="fc" id="L672">        return StringOperations.convertArrayListToStringArray(scriptNames);</span>
+    }
+
+    /**
+     * gets script by name
+     *
+     * @param name name of script to be pulled
+     * @return Script object or null
+     */
+    public Script getScriptByName(String name) {
+<span class="fc bfc" id="L682" title="All 2 branches covered.">        for (Script s : scripts) {</span>
+<span class="fc bfc" id="L683" title="All 2 branches covered.">            if (s.getName().equals(name)) {</span>
+<span class="fc" id="L684">                return s;</span>
+            }
+<span class="fc" id="L686">        }</span>
+<span class="fc" id="L687">        Script s = new Script(sd,name, this.TempFolder + CASUALSessionData.slash + name + CASUALSessionData.slash, this.type);</span>
+<span class="fc" id="L688">        this.scripts.add(s);</span>
+<span class="fc" id="L689">        return this.scripts.get(scripts.size() - 1);</span>
+    }
+
+    private void performUnzipOnQueue() {
+<span class="fc" id="L693">        Log.level3Verbose(&quot;Performing unzip of resources.&quot;);</span>
+<span class="fc bfc" id="L694" title="All 2 branches covered.">        for (MandatoryThread t : this.unzipThreads) {</span>
+<span class="pc bpc" id="L695" title="2 of 4 branches missed.">            if (!t.isComplete() &amp;&amp; !t.isAlive()) {</span>
+<span class="fc" id="L696">                Log.level4Debug(&quot;Starting unzip of &quot; + t.getName() + &quot; from performUnzipOnQueue.&quot;);</span>
+<span class="fc" id="L697">                t.start();</span>
+            }
+<span class="fc" id="L699">        }</span>
+<span class="fc" id="L700">    }</span>
+
+    private void setBuildPropInformation(Unzip pack, Object entry) throws IOException {
+<span class="fc" id="L703">        Log.level4Debug(&quot;Found -build.properties adding information to &quot;</span>
+                + &quot;CASPAC&quot;);
+<span class="fc" id="L705">        build = new Build(pack.streamFileFromZip(entry), this);</span>
+<span class="fc" id="L706">        build.loadPropsToVariables();</span>
+<span class="fc" id="L707">    }</span>
+
+    private void extractCASPACBanner(Unzip pack, Object entry, String filename) throws IOException {
+<span class="nc" id="L710">        Log.level4Debug(&quot;Found logo adding information to &quot;</span>
+                + &quot;CASPAC&quot;);
+<span class="nc" id="L712">        logo = ImageIO.read(ImageIO.createImageInputStream(pack.streamFileFromZip(entry)));</span>
+<span class="nc bnc" id="L713" title="All 2 branches missed.">        if (filename.isEmpty()) {</span>
+<span class="nc" id="L714">            filename = this.TempFolder + &quot;-logo.png&quot;;</span>
+        }
+<span class="nc bnc" id="L716" title="All 2 branches missed.">        if (build != null) {</span>
+<span class="nc" id="L717">            build.setBannerPic(filename);</span>
+        } else {
+<span class="nc" id="L719">            tempbannerpic = filename;</span>
+        }
+
+<span class="nc" id="L722">    }</span>
+
+    private boolean handleCASPACInformationFiles(String filename, Unzip pack, Object entry) throws IOException {
+<span class="fc" id="L725">        boolean isAControlFile = false;</span>
+<span class="fc bfc" id="L726" title="All 2 branches covered.">        if (filename.equals(&quot;-build.properties&quot;)) {</span>
+<span class="fc" id="L727">            setBuildPropInformation(pack, entry);</span>
+<span class="fc" id="L728">            isAControlFile = true;</span>
+<span class="pc bpc" id="L729" title="1 of 2 branches missed.">        } else if (filename.endsWith(&quot;.png&quot;)) {</span>
+<span class="nc bnc" id="L730" title="All 2 branches missed.">            if (filename.isEmpty()) {</span>
+<span class="nc" id="L731">                filename = this.TempFolder + &quot;-logo.png&quot;;</span>
+            }
+<span class="nc" id="L733">            extractCASPACBanner(pack, entry, filename);</span>
+<span class="nc" id="L734">            isAControlFile = true;</span>
+<span class="fc bfc" id="L735" title="All 2 branches covered.">        } else if (filename.equals(&quot;-Overview.txt&quot;)) {</span>
+<span class="fc" id="L736">            overview = StringOperations.convertStreamToString(pack.streamFileFromZip(entry));</span>
+<span class="fc" id="L737">            isAControlFile = true;</span>
+        }
+<span class="fc" id="L739">        return isAControlFile;</span>
+    }
+
+    private void handleCASPACScriptFiles(String filename, Unzip pack, Object entry) throws IOException {
+<span class="fc" id="L743">        FileOperations fo = new FileOperations();</span>
+<span class="fc" id="L744">        MD5sum md5sum = new MD5sum();</span>
+<span class="fc bfc" id="L745" title="All 2 branches covered.">        if (filename.endsWith(&quot;.meta&quot;)) {</span>
+
+<span class="fc" id="L747">            Script script = getScriptInstanceByFilename(filename);</span>
+<span class="fc" id="L748">            Log.level4Debug(&quot;Found METADATA for &quot; + script.getName() + &quot;.&quot;);</span>
+            int i;
+<span class="pc bpc" id="L750" title="1 of 2 branches missed.">            if (!scripts.contains(script)) {</span>
+<span class="nc" id="L751">                Log.level4Debug(script.getName() + &quot; not found in CASPAC adding&quot;</span>
+                        + &quot; script to CASPAC.&quot;);
+<span class="nc" id="L753">                scripts.add(script);</span>
+            }
+<span class="fc" id="L755">            i = scripts.indexOf(script);</span>
+
+<span class="fc" id="L757">            script.getMetaData().load(pack.streamFileFromZip(entry));</span>
+<span class="fc" id="L758">            Log.level4Debug(&quot;Added METADATA to &quot; + script.getName() + &quot;.&quot;);</span>
+<span class="fc" id="L759">            int md5ArrayPosition = 0;</span>
+<span class="fc" id="L760">            scripts.set(i, script);</span>
+<span class="fc bfc" id="L761" title="All 2 branches covered.">        } else if (filename.endsWith(&quot;.scr&quot;)) {</span>
+<span class="fc" id="L762">            Script script = getScriptInstanceByFilename(filename);</span>
+<span class="fc" id="L763">            script.setScriptContents(fo.readTextFromStream(pack.streamFileFromZip(entry)));</span>
+<span class="fc" id="L764">            Log.level4Debug(&quot;Added Script for &quot; + script.getName() + &quot;.&quot;);</span>
+<span class="fc" id="L765">            script.getActualMD5s().add(md5sum.getLinuxMD5Sum(script.getScriptContents(), filename));</span>
+
+<span class="fc bfc" id="L767" title="All 2 branches covered.">        } else if (filename.endsWith(&quot;.zip&quot;)) {</span>
+<span class="fc" id="L768">            Script script = getScriptInstanceByFilename(filename);</span>
+<span class="fc" id="L769">            script.scriptZipFile = entry;</span>
+<span class="fc" id="L770">            script.setZipfile(pack);</span>
+<span class="fc" id="L771">            CASUAL.misc.MandatoryThread t = new CASUAL.misc.MandatoryThread(script.getExtractionRunnable());</span>
+<span class="fc" id="L772">            t.setName(&quot;zip File Preparation &quot; + unzipThreads.size());</span>
+<span class="fc" id="L773">            this.unzipThreads.add(t);</span>
+
+<span class="fc" id="L775">            Log.level4Debug(&quot;Added .zip to &quot; + script.getName() + &quot;. It will be unziped at end of unpacking.&quot;);</span>
+
+<span class="pc bpc" id="L777" title="1 of 2 branches missed.">        } else if (filename.endsWith(&quot;.txt&quot;)) {</span>
+<span class="fc" id="L778">            Script script = getScriptInstanceByFilename(filename);</span>
+<span class="fc" id="L779">            String description = fo.readTextFromStream(pack.streamFileFromZip(entry));</span>
+<span class="fc" id="L780">            script.setDiscription(description);</span>
+<span class="fc" id="L781">            Log.level4Debug(&quot;Added Description to &quot; + script.getName() + &quot;.&quot;);</span>
+<span class="fc" id="L782">            script.getActualMD5s().add(md5sum.getLinuxMD5Sum(StringOperations.convertStringToStream(script.getDiscription()), filename));</span>
+        }
+<span class="fc" id="L784">    }</span>
+
+    private void setBuild(InputStream in) throws IOException {
+<span class="fc" id="L787">        Properties prop = new Properties();</span>
+<span class="fc" id="L788">        prop.load(in);</span>
+<span class="fc" id="L789">        this.setBuild(prop);</span>
+<span class="fc" id="L790">        Log.level4Debug(StringOperations.convertStreamToString(this.build.getBuildPropInputStream()));</span>
+
+<span class="fc" id="L792">    }</span>
+
+    private void handleCASPACJarFiles(String entry) throws IOException {
+<span class="nc" id="L795">        FileOperations fo = new FileOperations();</span>
+<span class="nc bnc" id="L796" title="All 2 branches missed.">        if (entry.startsWith(&quot;/&quot;)) {</span>
+<span class="nc" id="L797">            entry = entry.replaceFirst(&quot;/&quot;, &quot;&quot;);</span>
+        }
+
+<span class="nc bnc" id="L800" title="All 4 branches missed.">        if (entry.equals(&quot;SCRIPTS/-Overview.txt&quot;) || entry.equals(&quot;SCRIPTS\\-Overview.txt&quot;)) {</span>
+
+<span class="nc" id="L802">            Log.level4Debug(&quot;processing:&quot; + entry);</span>
+<span class="nc" id="L803">            this.overview = fo.readTextFromResource(entry);</span>
+<span class="nc" id="L804">            System.out.println(&quot;overview &quot; + overview);</span>
+<span class="nc bnc" id="L805" title="All 4 branches missed.">        } else if (entry.equals(&quot;SCRIPTS/-build.properties&quot;) || entry.equals(&quot;SCRIPTS\\-build.properties&quot;)) {</span>
+<span class="nc" id="L806">            Log.level4Debug(&quot;processing:&quot; + entry);</span>
+<span class="nc" id="L807">            InputStream in = getClass().getClassLoader()</span>
+<span class="nc" id="L808">                    .getResourceAsStream(entry);</span>
+<span class="nc" id="L809">            setBuild(in);</span>
+<span class="nc bnc" id="L810" title="All 4 branches missed.">        } else if (entry.equals(&quot;SCRIPTS/-logo.png&quot;) || entry.equals(&quot;SCRIPTS\\-logo.png&quot;)) {</span>
+<span class="nc" id="L811">            Log.level4Debug(&quot;processing:&quot; + entry);</span>
+<span class="nc" id="L812">            InputStream in = getClass().getClassLoader()</span>
+<span class="nc" id="L813">                    .getResourceAsStream(entry);</span>
+<span class="nc" id="L814">            logo = ImageIO.read(ImageIO.createImageInputStream(in));</span>
+<span class="nc bnc" id="L815" title="All 2 branches missed.">        } else if (entry.endsWith(&quot;.txt&quot;)) {</span>
+<span class="nc" id="L816">            Log.level4Debug(&quot;processing:&quot; + entry);</span>
+<span class="nc" id="L817">            InputStream in = getClass().getClassLoader()</span>
+<span class="nc" id="L818">                    .getResourceAsStream(entry);</span>
+<span class="nc" id="L819">            this.getScriptByFilename(entry).setDiscription(fo.readTextFromResource(entry));</span>
+<span class="nc bnc" id="L820" title="All 2 branches missed.">        } else if (entry.endsWith(&quot;.scr&quot;)) {</span>
+<span class="nc" id="L821">            Log.level4Debug(&quot;processing:&quot; + entry);</span>
+<span class="nc" id="L822">            System.out.println(&quot;SCRIPT CONTENTS:&quot; + fo.readTextFromResource(entry));</span>
+<span class="nc" id="L823">            this.getScriptByFilename(entry).setScriptContents(fo.readTextFromResource(entry));</span>
+
+<span class="nc bnc" id="L825" title="All 2 branches missed.">        } else if (entry.endsWith(&quot;.meta&quot;)) {</span>
+<span class="nc" id="L826">            Log.level4Debug(&quot;processing:&quot; + entry);</span>
+<span class="nc" id="L827">            System.out.println(&quot;loading meta &quot; + entry);</span>
+<span class="nc" id="L828">            InputStream in = getClass().getClassLoader()</span>
+<span class="nc" id="L829">                    .getResourceAsStream(entry);</span>
+<span class="nc" id="L830">            Properties prop = new Properties();</span>
+<span class="nc" id="L831">            prop.load(in);</span>
+<span class="nc" id="L832">            this.getScriptByFilename(entry).getMetaData().load(prop);</span>
+<span class="nc bnc" id="L833" title="All 2 branches missed.">        } else if (entry.endsWith(&quot;.zip&quot;)) {</span>
+<span class="nc" id="L834">            Log.level4Debug(&quot;processing:&quot; + entry);</span>
+<span class="nc" id="L835">            Log.level3Verbose(&quot;found zip at &quot; + entry);</span>
+<span class="nc" id="L836">            this.getScriptByFilename(entry).scriptZipFile = entry;</span>
+        }
+<span class="nc" id="L838">        Log.level4Debug(&quot;getting MD5 for:&quot; + entry);</span>
+<span class="nc" id="L839">        new MD5sum().getLinuxMD5Sum(Caspac.class.getClassLoader().getResourceAsStream(entry), entry);</span>
+<span class="nc" id="L840">    }</span>
+
+    private void setupIDEModeScriptForCASUAL(String defaultPackage) {
+<span class="fc" id="L843">        FileOperations fo = new FileOperations();</span>
+<span class="fc" id="L844">        Script script = this.getScriptByName(defaultPackage);</span>
+
+<span class="fc" id="L846">        String caspacPath = &quot;SCRIPTS/&quot;;</span>
+        try {
+<span class="fc" id="L848">            File f = new File(&quot;.&quot;);</span>
+<span class="fc" id="L849">            caspacPath = f.getCanonicalPath() + &quot;/SCRIPTS/&quot;;</span>
+<span class="nc" id="L850">        } catch (IOException ex) {</span>
+<span class="nc" id="L851">            Log.errorHandler(ex);</span>
+<span class="fc" id="L852">        }</span>
+<span class="fc" id="L853">        String scriptPath = caspacPath + defaultPackage;</span>
+        try {
+<span class="fc" id="L855">            this.setBuild(new BufferedInputStream(new FileInputStream(caspacPath + &quot;-build.properties&quot;)));</span>
+<span class="nc" id="L856">        } catch (FileNotFoundException ex) {</span>
+<span class="nc" id="L857">            Log.errorHandler(ex);</span>
+<span class="nc" id="L858">        } catch (IOException ex) {</span>
+<span class="nc" id="L859">            Log.errorHandler(ex);</span>
+<span class="pc" id="L860">        }</span>
+<span class="fc" id="L861">        this.overview = fo.readFile(caspacPath + &quot;-Overview.txt&quot;);</span>
+<span class="fc" id="L862">        String logof = caspacPath + &quot;-logo.png&quot;;</span>
+
+        try {
+
+<span class="fc" id="L866">            InputStream in = new FileInputStream(logof);</span>
+<span class="fc" id="L867">            logo = ImageIO.read(ImageIO.createImageInputStream(in));</span>
+<span class="nc" id="L868">        } catch (IOException ex) {</span>
+            //no logo for this CASPAC
+<span class="fc" id="L870">        }</span>
+<span class="fc" id="L871">        build.setBannerPic(logof);</span>
+
+<span class="fc" id="L873">        Log.level4Debug(&quot;IDE MODE PATH=&quot; + scriptPath);</span>
+<span class="fc" id="L874">        getScriptByName(defaultPackage).setScriptContents(fo.readFile(scriptPath + &quot;.scr&quot;));</span>
+<span class="fc" id="L875">        getScriptByName(defaultPackage).setDiscription(fo.readFile(scriptPath + &quot;.txt&quot;));</span>
+        try {
+<span class="nc" id="L877">            getScriptByName(defaultPackage).getMetaData().load(new BufferedInputStream(new FileInputStream(new File(scriptPath + &quot;.meta&quot;))));</span>
+<span class="fc" id="L878">        } catch (FileNotFoundException ex) {</span>
+            //no meta, its not requried
+<span class="nc" id="L880">        }</span>
+<span class="fc" id="L881">        getScriptByName(defaultPackage).scriptZipFile = (scriptPath + &quot;.zip&quot;);</span>
+<span class="fc" id="L882">    }</span>
+
+    private void loadCASPACcontrolFilesFromCASPAC() throws IOException {
+<span class="fc" id="L885">        FileOperations fo = new FileOperations();</span>
+        //if the CASPAC exists lets try to grab the non-script files 
+<span class="pc bpc" id="L887" title="2 of 4 branches missed.">        if (fo.verifyExists(CASPAC.getAbsolutePath()) &amp;&amp; CASPAC.canRead()) {</span>
+            try {
+<span class="fc" id="L889">                Unzip unzip = new Unzip(CASPAC);</span>
+<span class="fc" id="L890">                Enumeration&lt;? extends ZipEntry&gt; cpEnumeration = unzip.zipFileEntries;</span>
+<span class="pc bpc" id="L891" title="1 of 2 branches missed.">                if (cpEnumeration.hasMoreElements()) {</span>
+<span class="fc bfc" id="L892" title="All 2 branches covered.">                    while (cpEnumeration.hasMoreElements()) {</span>
+<span class="fc" id="L893">                        Object o = cpEnumeration.nextElement();</span>
+<span class="fc bfc" id="L894" title="All 2 branches covered.">                        if (unzip.getEntryName(o).contains(&quot;-Overview.txt&quot;)) {</span>
+<span class="fc" id="L895">                            this.overview = fo.readTextFromStream(unzip.streamFileFromZip(o));</span>
+                        }
+<span class="fc bfc" id="L897" title="All 2 branches covered.">                        if (unzip.getEntryName(o).contains(&quot;-build.properties&quot;)) {</span>
+<span class="fc" id="L898">                            this.build = new Build(unzip.streamFileFromZip(o), this);</span>
+                        }
+<span class="pc bpc" id="L900" title="1 of 2 branches missed.">                        if (unzip.getEntryName(o).contains(&quot;-logo.png&quot;)) {</span>
+<span class="nc" id="L901">                            extractCASPACBanner(unzip, o, overview);</span>
+                        }
+<span class="fc" id="L903">                    }</span>
+                }
+
+<span class="nc" id="L906">            } catch (ZipException ex) {</span>
+<span class="nc" id="L907">                Log.errorHandler(ex);</span>
+<span class="fc" id="L908">            }</span>
+
+        }
+<span class="fc" id="L911">    }</span>
+
+    private void updateMD5s() {
+        MandatoryThread update;
+<span class="fc" id="L915">        update = new MandatoryThread(CASUALTools.updateMD5s);</span>
+<span class="fc" id="L916">        update.setName(&quot;Updating MD5s&quot;);</span>
+<span class="fc" id="L917">        update.start(); //ugly  move this to somewhere else</span>
+<span class="fc" id="L918">        Log.level3Verbose(&quot;IDE Mode: Using &quot; + CASUAL.CASUALMain.defaultPackage + &quot;.scr ONLY!&quot;);</span>
+<span class="fc" id="L919">    }</span>
+
+    /**
+     * checks for updates.
+     *
+     * @param s Script to be checked
+     * @return true if script can continue. false if halt is recommended.
+     * @throws java.net.MalformedURLException should never happen
+     * @throws java.net.URISyntaxException should never happen.
+     */
+    public Script updateIfRequired(Script s) throws MalformedURLException, URISyntaxException, IOException {
+<span class="fc" id="L930">        return s;</span>
+        //TODO reenable SCRIPT updates. 
+    }
+
+    /**
+     * sets the CASPAC location
+     *
+     * @param f File to use for new CASPAC location
+     * @return this CASPAC
+     */
+    public Caspac setCASPACLocation(File f) {
+<span class="nc" id="L941">        this.CASPAC = f;</span>
+<span class="nc" id="L942">        return this;</span>
+    }
+
+    /**
+     * gets the CASPAC location
+     *
+     * @return path to CASPAC
+     */
+    public File getCASPACLocation() {
+<span class="fc" id="L951">        return CASPAC;</span>
+    }
+
+    /*
+    if (s.metaData.minSVNversion.isEmpty()) {
+    return s;
+    }
+    int mySVNVersion=Integer.parseInt(java.util.ResourceBundle
+    .getBundle(&quot;CASUAL/resources/CASUALApp&quot;)
+    .getString(&quot;Application.revision&quot;));
+    int myScriptVersion=Integer.parseInt(s.metaData.scriptRevision);
+    String myScriptName=s.name;
+    CASUALUpdates ci=new CASUALUpdates();
+    Properties updatedprop=new Properties();
+    Log.level3Verbose(&quot;creating new script instance to compare against online version&quot;);
+    Script updatedScript=new Script(s);
+    new File(s.tempDir).mkdirs();
+    Log.level3Verbose(&quot;getting updated script version info&quot;);
+    //TODO: downloadMetaFromRepoForScript hangs.  Script will not complte unzip because of this.  Updates are down
+    updatedprop.load(ci.downloadMetaFromRepoForScript(s));
+    Log.level3Verbose(&quot;updating meta&quot;);
+    updatedScript.metaData.load(updatedprop);
+    int updatedSVNVersion=Integer.parseInt(updatedScript.metaData.minSVNversion);
+    int updatedScriptVersion=Integer.parseInt(updatedScript.metaData.scriptRevision);
+    Log.level3Verbose(&quot;comparing script information&quot;);
+    if (mySVNVersion&lt;updatedSVNVersion){
+    updatedScript.scriptContents=&quot;&quot;;
+    Log.level2Information(&quot;\n&quot;+updatedScript.metaData.killSwitchMessage);
+    return updatedScript;
+    } else if (myScriptVersion&lt; updatedScriptVersion){
+    Log.level2Information(&quot;@scriptIsOutOfDate&quot;);
+    Log.level2Information(&quot;\n&quot;+updatedScript.metaData.updateMessage);
+    updatedScript=ci.updateScript(updatedScript,this.TempFolder);
+    return updatedScript;
+    } else {
+    Log.level2Information(&quot;@noUpdateRequired&quot;);
+    return s;
+    }
+    } */
+    /**
+     * replaces a script in list array.
+     *
+     * @param s script to replace
+     * @return location of script in scripts array.
+     */
+    public int replaceScriptByName(Script s) {
+<span class="fc" id="L997">        String name = s.getName();</span>
+<span class="pc bpc" id="L998" title="1 of 2 branches missed.">        for (int i = 0; i &lt; this.scripts.size(); i++) {</span>
+<span class="pc bpc" id="L999" title="1 of 2 branches missed.">            if (scripts.get(i).getName().equals(name)) {</span>
+<span class="fc" id="L1000">                scripts.set(i, s);</span>
+<span class="fc" id="L1001">                return i;</span>
+            }
+        }
+<span class="nc" id="L1004">        return -1;</span>
+    }
+
+    /**
+     * gets the type of CASPAC
+     *
+     * @return type of CASPAC
+     */
+    public int getType() {
+
+<span class="fc" id="L1014">        String s = Integer.toString(type);</span>
+
+<span class="fc" id="L1016">        return type;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L1021">        StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L1022">        String n = System.getProperty(&quot;line.separator&quot;);</span>
+<span class="nc" id="L1023">        sb.append(&quot;Scripts:&quot;).append(this.scripts.size()).append(n);</span>
+<span class="nc" id="L1024">        sb.append(&quot;Working Dir: &quot;).append(this.TempFolder).append(n);</span>
+<span class="nc" id="L1025">        sb.append(this.build.getBuildProp().toString());</span>
+
+<span class="nc" id="L1027">        return sb.toString();</span>
+    }
+
+    /**
+     * @param type the type to set
+     */
+    private void setType(int type) {
+<span class="nc" id="L1034">        this.type = type;</span>
+<span class="nc" id="L1035">    }</span>
+
+    /**
+     * @return the logo
+     */
+    public BufferedImage getLogo() {
+<span class="fc" id="L1041">        return logo;</span>
+    }
+
+    /**
+     * @param logo the logo to set
+     * @return this CASPAC
+     */
+    public Caspac setLogo(BufferedImage logo) {
+<span class="nc" id="L1049">        this.logo = logo;</span>
+<span class="nc" id="L1050">        return this;</span>
+    }
+
+    /**
+     * @return the CASPAC
+     */
+    public File getCASPAC() {
+<span class="nc" id="L1057">        return CASPAC;</span>
+    }
+
+    /**
+     * @param CASPAC the CASPAC to set
+     * @return this CASPAC
+     */
+    public Caspac setCASPAC(File CASPAC) {
+<span class="nc" id="L1065">        this.CASPAC = CASPAC;</span>
+<span class="nc" id="L1066">        return this;</span>
+    }
+
+    /**
+     * @return the CASPACsrc
+     */
+    public CodeSource getCASPACsrc() {
+<span class="fc" id="L1073">        return CASPACsrc;</span>
+    }
+
+    /**
+     * @param CASPACsrc the CASPACsrc to set
+     * @return this CASPAC
+     */
+    public Caspac setCASPACsrc(CodeSource CASPACsrc) {
+<span class="nc" id="L1081">        this.CASPACsrc = CASPACsrc;</span>
+<span class="nc" id="L1082">        return this;</span>
+    }
+
+    /**
+     * @return the overview
+     */
+    public String getOverview() {
+<span class="fc" id="L1089">        return overview;</span>
+    }
+
+    /**
+     * @param overview the overview to set
+     * @return this CASPAC
+     */
+    public Caspac setOverview(String overview) {
+<span class="nc" id="L1097">        this.overview = overview;</span>
+<span class="nc" id="L1098">        return this;</span>
+    }
+
+    /**
+     * @return the build
+     */
+    public Build getBuild() {
+<span class="fc" id="L1105">        return build;</span>
+    }
+
+    /**
+     * @param build the build to set
+     * @return this CASPAC
+     */
+    public Caspac setBuild(Build build) {
+<span class="nc" id="L1113">        this.build = build;</span>
+<span class="nc" id="L1114">        return this;</span>
+    }
+
+    /**
+     * @return the scripts
+     */
+    public List&lt;Script&gt; getScripts() {
+<span class="fc" id="L1121">        return scripts;</span>
+    }
+
+    /**
+     * @param scripts the scripts to set
+     * @return this CASPAC
+     */
+    public Caspac setScripts(ArrayList&lt;Script&gt; scripts) {
+<span class="nc" id="L1129">        this.scripts = scripts;</span>
+<span class="nc" id="L1130">        return this;</span>
+    }
+
+    /**
+     * @return the TempFolder
+     */
+    public String getTempFolder() {
+<span class="fc" id="L1137">        return TempFolder;</span>
+    }
+
+    /**
+     * @param TempFolder the TempFolder to set
+     * @return this CASPAC
+     */
+    public Caspac setTempFolder(String TempFolder) {
+<span class="nc" id="L1145">        this.TempFolder = TempFolder;</span>
+<span class="nc" id="L1146">        return this;</span>
+    }
+
+    /**
+     * @return the unzipThreads
+     */
+    public ArrayList&lt;CASUAL.misc.MandatoryThread&gt; getUnzipThreads() {
+<span class="nc" id="L1153">        return unzipThreads;</span>
+    }
+
+    /**
+     * @param unzipThreads the unzipThreads to set
+     * @return this CASPAC
+     */
+    public Caspac setUnzipThreads(ArrayList&lt;CASUAL.misc.MandatoryThread&gt; unzipThreads) {
+<span class="nc" id="L1161">        this.unzipThreads = unzipThreads;</span>
+<span class="nc" id="L1162">        return this;</span>
+    }
+
+    /**
+     * @return the caspacShouldBeDeletedAfterExtraction
+     */
+    public boolean isCaspacShouldBeDeletedAfterExtraction() {
+<span class="nc" id="L1169">        return caspacShouldBeDeletedAfterExtraction;</span>
+    }
+
+    /**
+     * @param caspacShouldBeDeletedAfterExtraction the
+     * caspacShouldBeDeletedAfterExtraction to set
+     * @return this CASPAC
+     */
+    public Caspac setCaspacShouldBeDeletedAfterExtraction(boolean caspacShouldBeDeletedAfterExtraction) {
+<span class="nc" id="L1178">        this.caspacShouldBeDeletedAfterExtraction = caspacShouldBeDeletedAfterExtraction;</span>
+<span class="nc" id="L1179">        return this;</span>
+    }
+
+    /**
+     * @return the tempbannerpic
+     */
+    public String getTempbannerpic() {
+<span class="nc" id="L1186">        return tempbannerpic;</span>
+    }
+
+    /**
+     * @param tempbannerpic the tempbannerpic to set
+     * @return this CASPAC
+     */
+    public Caspac setTempbannerpic(String tempbannerpic) {
+<span class="nc" id="L1194">        this.tempbannerpic = tempbannerpic;</span>
+<span class="nc" id="L1195">        return this;</span>
+    }
+
+    /**
+     * @return the controlFiles
+     */
+    public String[] getControlFiles() {
+<span class="nc" id="L1202">        return controlFiles;</span>
+    }
+
+    /**
+     * @param controlFiles the controlFiles to set
+     * @return this CASPAC
+     */
+    public Caspac setControlFiles(String[] controlFiles) {
+<span class="nc" id="L1210">        this.controlFiles = controlFiles;</span>
+<span class="nc" id="L1211">        return this;</span>
+    }
+
+    /**
+     * @return the sd
+     */
+    public CASUALSessionData getSd() {
+<span class="nc" id="L1218">        return sd;</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

@@ -1,0 +1,704 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Script.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.caspac</a> &gt; <span class="el_source">Script.java</span></div><h1>Script.java</h1><pre class="source lang-java linenums">/*Script provides a way to read and write Script information for a Caspac
+ *Copyright (C) 2015  Adam Outler &amp; Logan Ludington
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.caspac;
+
+import CASUAL.CASUALMessageObject;
+import CASUAL.CASUALSessionData;
+import CASUAL.CASUALStartupTasks;
+import CASUAL.CASUALTools;
+import CASUAL.Log;
+import CASUAL.archiving.Unzip;
+import CASUAL.archiving.Zip;
+import CASUAL.crypto.MD5sum;
+import CASUAL.misc.StringOperations;
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.zip.ZipException;
+
+/**
+ * provides a way to read and write Script information for a Caspac
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ * @author loganludington
+ */
+public class Script {
+<span class="fc" id="L53">    private static final String slash = System.getProperty(&quot;file.separator&quot;);</span>
+
+    /**
+     * @return the slash
+     */
+    public static String getSlash() {
+<span class="nc" id="L59">        return slash;</span>
+    }
+
+    final CASUALSessionData sd;
+
+    /**
+     * extractionMethod = 0 for CASPAC (File, zipFile/zipFile) 1 for CASUAL
+     * (Resource, /SCRIPTS/zipFile 2 for Filesystem (File, zipFile)
+     */
+<span class="pc" id="L68">    final int CASPAC = 0;</span>
+<span class="pc" id="L69">    final int CASUAL = 1;</span>
+<span class="pc" id="L70">    final int FILE = 2;</span>
+<span class="pc" id="L71">    AtomicBoolean isLoaded = new AtomicBoolean(false);</span>
+    /**
+     * Specifies the extraction method for the script. final int CASPAC = 0
+     * final int CASUAL = 1; final int FILE = 2;
+     *
+     */
+    final public int extractionMethod;
+
+    /**
+     * zipFile Entry, Resource or File on disk.
+     */
+    public Object scriptZipFile;
+
+    /**
+     * CASPAC only. used to show zipfile location on disk. Used to determine
+     * parent
+     */
+    private Unzip zipfile; //CASPAC only.
+
+    /**
+     * Name of the Script (script filename without extension).
+     */
+    private String name;
+
+    /**
+     * Contents of the Script which are to be executed by CASUAL. This is
+     * populated by the Script SCR file.
+     */
+<span class="pc" id="L99">    private String scriptContents = &quot;&quot;;</span>
+
+    /**
+     * An array of resources after decompression from the Script's ZIP file.
+     */
+<span class="pc" id="L104">    private List&lt;File&gt; individualFiles = new ArrayList&lt;File&gt;();</span>
+
+    /**
+     * Metadata from the script. This is populated from the Script META file.
+     */
+<span class="pc" id="L109">    private ScriptMeta metaData = new ScriptMeta(this);</span>
+
+    /**
+     * The description of the script. This is populated from the Script TXT
+     * file.
+     */
+<span class="pc" id="L115">    private String discription = &quot;&quot;;</span>
+
+    /**
+     * While scriptContinue is true, the script may continue. If scriptContinue
+     * is false, the script will not execute further lines.
+     */
+<span class="pc" id="L121">    private boolean scriptContinue = false;</span>
+
+    /**
+     * Device Arch. This is used by busybox to determine what dependency to use.
+     */
+<span class="pc" id="L126">    private String deviceArch = &quot;&quot;;</span>
+
+    /**
+     * MD5 array as read from files directly.
+     */
+<span class="pc" id="L131">    private List&lt;String&gt; actualMD5s = new ArrayList&lt;String&gt;();</span>
+
+    /**
+     * Creates a duplicate script from an old one.
+     *
+     * @param sd The CASUALSessionData instace to use for this.
+     * @param s script to use as base.
+     */
+<span class="fc" id="L139">    public Script(CASUALSessionData sd,Script s) {</span>
+<span class="fc" id="L140">        this.sd=sd;</span>
+<span class="fc" id="L141">        Log.level4Debug(&quot;Setting up script &quot; + s.name + &quot; from preexisting script&quot;);</span>
+<span class="fc" id="L142">        this.name = s.name;</span>
+<span class="fc" id="L143">        this.extractionMethod = 2;</span>
+<span class="fc" id="L144">        this.metaData = s.metaData;</span>
+<span class="fc" id="L145">        this.individualFiles = s.individualFiles;</span>
+<span class="fc" id="L146">        this.zipfile = s.zipfile;</span>
+<span class="fc" id="L147">        this.discription = s.discription;</span>
+<span class="fc" id="L148">        this.scriptContinue = s.scriptContinue;</span>
+<span class="fc" id="L149">        this.deviceArch = s.deviceArch;</span>
+<span class="fc" id="L150">    }</span>
+
+    /**
+     * Creates a new script from a name and a temp folder.
+     *
+     * @param sd session data to be used for this script
+     * @param name name of script.
+     * @param tempDir temp folder to use.
+     */
+<span class="nc" id="L159">    public Script(CASUALSessionData sd, String name, String tempDir) {</span>
+<span class="nc" id="L160">        this.sd=sd;</span>
+<span class="nc" id="L161">        Log.level4Debug(&quot;Setting up script &quot; + name + &quot; with name and tempdir&quot;);</span>
+<span class="nc" id="L162">        this.name = name;</span>
+<span class="nc" id="L163">        this.extractionMethod = 0;</span>
+<span class="nc" id="L164">    }</span>
+
+    /**
+     * Creates a new script from a name, tempdir and type.
+     *
+     * @param sd The CASUALSessionData instace to use for this.
+     * @param name name of script
+     * @param tempDir temp folder to use.
+     * @param type this.CASPAC, this.CASUAL, this.FILE. final int CASPAC = 0
+     * final int CASUAL = 1; final int FILE = 2;
+     */
+<span class="fc" id="L175">    public Script(CASUALSessionData sd,String name, String tempDir, int type) {</span>
+<span class="fc" id="L176">        this.sd=sd;</span>
+<span class="fc" id="L177">        Log.level4Debug(&quot;Setting up script &quot; + name + &quot; with name, tempdir and type&quot;);</span>
+<span class="fc" id="L178">        this.name = name;</span>
+<span class="fc" id="L179">        this.extractionMethod = type;</span>
+<span class="fc" id="L180">    }</span>
+
+    /**
+     * creates a new script with several parameters
+     *
+     * @param sd The CASUALSessionData instace to use for this.
+     * @param name name of script
+     * @param script Script contents to use for script (scr file)
+     * @param discription description of script (txt file)
+     * @param includeFiles files to be used in script (zipfile)
+     * @param tempDir temp folder to use.
+     */
+<span class="nc" id="L192">    public Script(CASUALSessionData sd,String name, String script, String discription, List&lt;File&gt; includeFiles, String tempDir) {</span>
+<span class="nc" id="L193">        this.sd=sd;</span>
+<span class="nc" id="L194">        Log.level4Debug(&quot;Setting up script &quot; + name + &quot; with name, script, description, included files and tempdir&quot;);</span>
+<span class="nc" id="L195">        this.discription = discription;</span>
+<span class="nc" id="L196">        this.name = name;</span>
+<span class="nc" id="L197">        this.scriptContents = script;</span>
+<span class="nc" id="L198">        this.individualFiles = includeFiles;</span>
+<span class="nc" id="L199">        extractionMethod = 0;</span>
+<span class="nc" id="L200">    }</span>
+
+    /**
+     * creates a new script with several parameters
+     *
+     * @param sd The CASUALSessionData instace to use for this.
+     * @param name name of script
+     * @param script Script contents to use for script (scr file)
+     * @param discription description of script (txt file)
+     * @param includeFiles files to be used in script (zipfile)
+     * @param prop properties file to be used in script (meta)
+     * @param tempDir temp folder to use.
+     * @param type type of script (this.CASUAL this.CASPAC this.FILE).
+     */
+    public Script(CASUALSessionData sd, String name, String script, String discription,
+<span class="nc" id="L215">            List&lt;File&gt; includeFiles, Properties prop, String tempDir, int type) {</span>
+<span class="nc" id="L216">        this.sd=sd;</span>
+<span class="nc" id="L217">        Log.level4Debug(&quot;Setting up script &quot; + name + &quot; with name, script, description, included files, propeties, type and tempdir&quot;);</span>
+<span class="nc" id="L218">        this.discription = discription;</span>
+<span class="nc" id="L219">        this.name = name;</span>
+<span class="nc" id="L220">        this.scriptContents = script;</span>
+<span class="nc" id="L221">        this.individualFiles = includeFiles;</span>
+<span class="nc" id="L222">        this.metaData = new ScriptMeta(prop, this);</span>
+<span class="nc" id="L223">        this.extractionMethod = type;</span>
+<span class="nc" id="L224">    }</span>
+
+    /**
+     * creates a new script with several parameters
+     *
+     * @param sd The CASUALSessionData instace to use for this.
+     * @param name name of script
+     * @param script Script contents to use for script (scr file)
+     * @param discription description of script (txt file)
+     * @param includeFiles files to be used in script (zipfile)
+     * @param prop properties file to be used in script (meta)
+     * @param tempDir temp folder to use.
+     */
+    public Script(CASUALSessionData sd,String name, String script, String discription,
+<span class="nc" id="L238">            List&lt;File&gt; includeFiles, Properties prop, String tempDir) {</span>
+<span class="nc" id="L239">        this.sd=sd;</span>
+<span class="nc" id="L240">        Log.level4Debug(&quot;Setting up script &quot; + name + &quot; with name, script, description includedFiles, properties, and tempdir&quot;);</span>
+<span class="nc" id="L241">        this.discription = discription;</span>
+<span class="nc" id="L242">        this.name = name;</span>
+<span class="nc" id="L243">        this.scriptContents = script;</span>
+<span class="nc" id="L244">        this.individualFiles = includeFiles;</span>
+<span class="nc" id="L245">        this.metaData = new ScriptMeta(prop, this);</span>
+<span class="nc" id="L246">        extractionMethod = 0;</span>
+<span class="nc" id="L247">    }</span>
+
+    /**
+     * creates a new script with several parameters
+     *
+     * @param sd The CASUALSessionData instace to use for this.
+     * @param name name of script
+     * @param script Script contents to use for script (scr file)
+     * @param discription description of script (txt file)
+     * @param tempDir temp folder to use.
+     */
+<span class="nc" id="L258">    public Script(CASUALSessionData sd,String name, String script, String discription, String tempDir) {</span>
+<span class="nc" id="L259">        this.sd=sd;</span>
+<span class="nc" id="L260">        Log.level4Debug(&quot;Setting up script &quot; + name + &quot; with name, script, description and tempdir&quot;);</span>
+<span class="nc" id="L261">        this.name = name;</span>
+<span class="nc" id="L262">        this.scriptContents = script;</span>
+<span class="nc" id="L263">        this.discription = discription;</span>
+<span class="nc" id="L264">        extractionMethod = 0;</span>
+<span class="nc" id="L265">    }</span>
+
+    /**
+     * Returns a copy of the script with a new name and tempdir.
+     *
+     * @param newScriptName new script name
+     * @param newTempDir new tempdir
+     * @return new script with tempdir and name.
+     */
+    public Script copyOf(String newScriptName, String newTempDir) {
+<span class="nc" id="L275">        Log.level4Debug(&quot;Setting up script &quot; + newScriptName + &quot; from preexisting script&quot;);</span>
+<span class="nc" id="L276">        Script s = new Script(sd,newScriptName, sd.getTempFolder());</span>
+<span class="nc" id="L277">        s.metaData = metaData;</span>
+<span class="nc" id="L278">        s.individualFiles = individualFiles;</span>
+<span class="nc" id="L279">        s.zipfile = zipfile;</span>
+<span class="nc" id="L280">        s.discription = discription;</span>
+<span class="nc" id="L281">        s.scriptContinue = scriptContinue;</span>
+<span class="nc" id="L282">        return s;</span>
+    }
+
+    /**
+     * verifies script contents to ensure script is a valid script and can be
+     * used.
+     *
+     * @return true if valid script.
+     */
+    public boolean verifyScript() {
+<span class="nc bnc" id="L292" title="All 2 branches missed.">        if (getName().isEmpty()) {</span>
+<span class="nc" id="L293">            Log.level0Error(&quot;Missing Script Name! Cannot continue.&quot;);</span>
+<span class="nc" id="L294">            return false;</span>
+        }
+<span class="nc bnc" id="L296" title="All 2 branches missed.">        if (scriptContents.isEmpty()) {</span>
+<span class="nc" id="L297">            Log.level0Error(getName()+ &quot; Script contents are empty! Cannot continue.&quot;);</span>
+<span class="nc" id="L298">            return false;</span>
+        }
+<span class="nc bnc" id="L300" title="All 2 branches missed.">        if (discription.isEmpty()) {</span>
+<span class="nc" id="L301">            Log.level0Error(getName()+ &quot; Script discription is empty! Cannot continue.&quot;);</span>
+<span class="nc" id="L302">            return false;</span>
+        }
+<span class="nc bnc" id="L304" title="All 2 branches missed.">        if (!metaData.verifyMeta()) {</span>
+<span class="nc" id="L305">            Log.level0Error(getName()+ &quot; Script Meta data is incomplete! Cannot continue.&quot;);</span>
+<span class="nc" id="L306">            return false;</span>
+        }
+<span class="nc" id="L308">        return true;</span>
+    }
+
+    /**
+     * gets the script contents (SCR) file.
+     *
+     * @return contents of script.
+     */
+    public DataInputStream getScriptContents() {
+<span class="fc" id="L317">        InputStream is = StringOperations.convertStringToStream(scriptContents);</span>
+<span class="fc" id="L318">        return new DataInputStream(is);</span>
+    }
+
+    public String getScriptContentsString() {
+<span class="fc" id="L322">        return scriptContents;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L327">        StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L328">        sb.append(&quot;Name:&quot;).append(this.name);</span>
+<span class="nc" id="L329">        sb.append(&quot;\nMonitoring: &quot;).append(this.metaData.getMonitorMode());</span>
+<span class="nc" id="L330">        sb.append(&quot;temp dir:&quot;).append(this.getTempDir());</span>
+<span class="nc" id="L331">        return name;</span>
+    }
+
+    private void addMD5ToMeta(String linuxMD5, int md5Position) {
+<span class="nc" id="L335">        Log.level3Verbose(&quot;evaluated MD5 to &quot; + linuxMD5);</span>
+<span class="nc" id="L336">        metaData.getMetaProp().setProperty(&quot;Script.MD5[&quot; + md5Position + &quot;]&quot;, linuxMD5);</span>
+<span class="nc" id="L337">    }</span>
+
+    private void addMD5ToMeta(MD5sum md5sum, String filePath, int md5Position) {
+<span class="nc" id="L340">        String linuxMD5 = md5sum.getLinuxMD5Sum(new File(filePath));</span>
+<span class="nc" id="L341">        Log.level3Verbose(&quot;evaluated MD5 to &quot; + linuxMD5);</span>
+<span class="nc" id="L342">        metaData.getMetaProp().setProperty(&quot;Script.MD5[&quot; + md5Position + &quot;]&quot;, linuxMD5);</span>
+<span class="nc" id="L343">    }</span>
+
+    /*
+     * extracts includedFiles from zip
+     */
+    /**
+     * gets a runnable object representing the entire extraction of the script
+     * from the zip file.
+     *
+     * @return runnable extraction method.
+     */
+    public Runnable getExtractionRunnable() {
+<span class="fc bfc" id="L355" title="All 2 branches covered.">        if (this.extractionMethod == CASPAC) {  //This is a CASPAC</span>
+<span class="fc" id="L356">            final Unzip myCASPAC = this.zipfile;</span>
+<span class="fc" id="L357">            final Object entry = this.scriptZipFile;</span>
+<span class="fc" id="L358">            Runnable r = new Runnable() {</span>
+                @Override
+                public void run() {
+<span class="fc" id="L361">                    ArrayList&lt;File&gt; unzipped = new ArrayList&lt;File&gt;();</span>
+<span class="fc" id="L362">                    Log.level4Debug(&quot;Examining CASPAC mode package contents&quot;);</span>
+<span class="fc" id="L363">                    BufferedInputStream bis = null;</span>
+                    try {
+<span class="fc" id="L365">                        Log.level4Debug(&quot;Unzipping CASPAC member &quot; + getName());</span>
+<span class="fc" id="L366">                        bis = myCASPAC.streamFileFromZip(entry);</span>
+<span class="fc" id="L367">                        getActualMD5s().add(new MD5sum().getLinuxMD5Sum(bis, entry.toString()));</span>
+<span class="fc" id="L368">                        bis = myCASPAC.streamFileFromZip(entry);</span>
+<span class="fc" id="L369">                        unzipped = Unzip.unZipInputStream(sd, bis, getTempDir());</span>
+<span class="fc" id="L370">                        bis.close();</span>
+<span class="fc" id="L371">                        Log.level4Debug(&quot;Extracted entry &quot; + myCASPAC.getEntryName(entry) + &quot;to &quot; + getTempDir());</span>
+
+<span class="nc" id="L373">                    } catch (ZipException ex) {</span>
+<span class="nc" id="L374">                        Log.errorHandler(ex);</span>
+<span class="nc" id="L375">                    } catch (IOException ex) {</span>
+<span class="nc" id="L376">                        Log.errorHandler(ex);</span>
+                    } finally {
+<span class="nc" id="L378">                        try {</span>
+<span class="pc bpc" id="L379" title="7 of 8 branches missed.">                            if (bis != null) {</span>
+<span class="pc" id="L380">                                bis.close();</span>
+                            }
+<span class="nc" id="L382">                        } catch (IOException ex) {</span>
+<span class="nc" id="L383">                            Log.errorHandler(ex);</span>
+<span class="pc" id="L384">                        }</span>
+<span class="nc" id="L385">                    }</span>
+
+<span class="fc" id="L387">                    getIndividualFiles().clear();</span>
+<span class="fc" id="L388">                    getIndividualFiles().addAll(unzipped);</span>
+<span class="pc bpc" id="L389" title="1 of 2 branches missed.">                    if (getIndividualFiles().size() &gt; 0) {</span>
+<span class="nc bnc" id="L390" title="All 2 branches missed.">                        for (String md5 : getMetaData().getMd5s()) {</span>
+<span class="nc bnc" id="L391" title="All 2 branches missed.">                            if (!Arrays.asList(actualMD5s.toArray(new String[]{})).contains(md5)) {</span>
+<span class="nc" id="L392">                                Log.level4Debug(&quot;Could not find &quot; + md5 + &quot; in list &quot; + StringOperations.arrayToString(getActualMD5s().toArray(new String[]{})));</span>
+<span class="nc" id="L393">                                new CASUALMessageObject(&quot;@interactionPackageCorrupt&quot;).showErrorDialog();</span>
+<span class="nc bnc" id="L394" title="All 2 branches missed.">                                if (!Caspac.isDebug()) {</span>
+<span class="nc" id="L395">                                    setScriptContents(&quot;&quot;);</span>
+                                }
+                            }
+<span class="nc" id="L398">                        }</span>
+                    }
+<span class="fc" id="L400">                    isLoaded.set(true);</span>
+<span class="fc" id="L401">                }</span>
+            };
+<span class="fc" id="L403">            CASUALStartupTasks.caspacScriptPrepLock = false;</span>
+<span class="fc" id="L404">            return r;</span>
+        }
+<span class="pc bpc" id="L406" title="1 of 2 branches missed.">        if (this.extractionMethod == CASUAL) {  //This is a CASUAL</span>
+<span class="fc" id="L407">            Runnable r = new Runnable() {</span>
+                @Override
+                public void run() {
+<span class="pc bpc" id="L410" title="2 of 4 branches missed.">                    if (scriptZipFile != null &amp;&amp; !scriptZipFile.toString().isEmpty()) {</span>
+<span class="pc bpc" id="L411" title="1 of 2 branches missed.">                        if (CASUALTools.IDEMode) {</span>
+                            try {
+<span class="fc" id="L413">                                Log.level4Debug(&quot;Examining IDE mode script contents&quot; + scriptZipFile.toString());</span>
+<span class="fc" id="L414">                                getActualMD5s().add(new MD5sum().getLinuxMD5Sum(new File((String) scriptZipFile)));</span>
+<span class="fc" id="L415">                                File folder = new File(getTempDir());</span>
+<span class="pc bpc" id="L416" title="1 of 2 branches missed.">                                if (!folder.isDirectory()) {</span>
+<span class="fc" id="L417">                                    folder.mkdirs();</span>
+                                }
+<span class="fc" id="L419">                                Unzip unzip = new Unzip(new File((String) scriptZipFile));</span>
+<span class="fc" id="L420">                                unzip.unzipFile(getTempDir());</span>
+<span class="nc" id="L421">                            } catch (ZipException ex) {</span>
+<span class="nc" id="L422">                                Log.errorHandler(ex);</span>
+<span class="nc" id="L423">                            } catch (IOException ex) {</span>
+<span class="nc" id="L424">                                Log.errorHandler(ex);</span>
+<span class="pc" id="L425">                            }</span>
+                        } else {
+                            try {
+<span class="nc" id="L428">                                Log.level4Debug(&quot;Examining CASUAL mode script contents:&quot; + scriptZipFile.toString());</span>
+<span class="nc" id="L429">                                getActualMD5s().add(new MD5sum().getLinuxMD5Sum(getClass().getResourceAsStream(&quot;/&quot; + scriptZipFile.toString()), scriptZipFile.toString()));</span>
+<span class="nc" id="L430">                                Log.level4Debug(&quot;unzip of &quot; + scriptZipFile.toString() + &quot; is beginning.&quot;);</span>
+<span class="nc" id="L431">                                Unzip.unZipResource(sd,&quot;/&quot; + scriptZipFile.toString(), getTempDir());</span>
+<span class="nc" id="L432">                            } catch (FileNotFoundException ex) {</span>
+<span class="nc" id="L433">                                Log.errorHandler(ex);</span>
+<span class="nc" id="L434">                            } catch (IOException ex) {</span>
+<span class="nc" id="L435">                                Log.errorHandler(ex);</span>
+<span class="nc" id="L436">                            }</span>
+<span class="nc" id="L437">                            Log.level4Debug(&quot;unzip of &quot; + getName() + &quot; is complete.&quot;);</span>
+                        }
+                    } else {
+<span class="nc" id="L440">                        Log.level3Verbose(&quot;script Zipfile was null&quot;);</span>
+                    }
+                    /*
+                     * CASUAL do not receive MD5s
+                     */
+<span class="fc" id="L445">                    isLoaded.set(true);</span>
+<span class="fc" id="L446">                }</span>
+            };
+<span class="fc" id="L448">            CASUALStartupTasks.caspacScriptPrepLock = false;</span>
+<span class="fc" id="L449">            return r;</span>
+        }
+<span class="nc bnc" id="L451" title="All 2 branches missed.">        if (this.extractionMethod == FILE) { //This is running on the filesystem</span>
+<span class="nc" id="L452">            Runnable r = new Runnable() {</span>
+                @Override
+                public void run() {
+<span class="nc" id="L455">                    Log.level4Debug(&quot;Examining updated script contents on filesystem&quot;);</span>
+<span class="nc" id="L456">                    getActualMD5s().add(new MD5sum().getLinuxMD5Sum(new File(scriptZipFile.toString())));</span>
+<span class="nc" id="L457">                    String ziplocation = scriptZipFile.toString();</span>
+                    try {
+<span class="nc" id="L459">                        Unzip unzip = new Unzip(ziplocation);</span>
+<span class="nc" id="L460">                        Log.level4Debug(&quot;Unzipping from &quot; + ziplocation + &quot; to &quot; + getTempDir());</span>
+<span class="nc" id="L461">                        unzip.unzipFile(getTempDir());</span>
+<span class="nc" id="L462">                    } catch (ZipException ex) {</span>
+<span class="nc" id="L463">                        Log.errorHandler(ex);</span>
+<span class="nc" id="L464">                    } catch (IOException ex) {</span>
+<span class="nc" id="L465">                        Log.errorHandler(ex);</span>
+<span class="nc" id="L466">                    }</span>
+<span class="nc" id="L467">                    Log.level4Debug(&quot;examining MD5s&quot;);</span>
+<span class="nc bnc" id="L468" title="All 2 branches missed.">                    for (String md5 : getMetaData().getMd5s()) {</span>
+<span class="nc bnc" id="L469" title="All 2 branches missed.">                        if (!(Arrays.asList(actualMD5s.toArray()).contains(md5))) {</span>
+<span class="nc" id="L470">                            Log.level4Debug(&quot;Md5 mismatch!!  Expected:&quot; + md5);</span>
+
+<span class="nc bnc" id="L472" title="All 2 branches missed.">                            if (!Caspac.isDebug()) {</span>
+<span class="nc" id="L473">                                setScriptContents(&quot;&quot;);</span>
+                            }
+                        }
+<span class="nc" id="L476">                    }</span>
+<span class="nc bnc" id="L477" title="All 2 branches missed.">                    if (!scriptContents.isEmpty()) {</span>
+<span class="nc" id="L478">                        Log.level4Debug(&quot;Update sucessful.  MD5s matched server.&quot;);</span>
+                    } else {
+<span class="nc" id="L480">                        new CASUALMessageObject(&quot;@interactionPackageCorrupt&quot;).showErrorDialog();</span>
+                    }
+<span class="nc" id="L482">                    isLoaded.set(true);</span>
+<span class="nc" id="L483">                }</span>
+
+            };
+<span class="nc" id="L486">            CASUALStartupTasks.caspacScriptPrepLock = false;</span>
+<span class="nc" id="L487">            return r;</span>
+        }
+
+<span class="nc" id="L490">        Runnable r = new Runnable() {</span>
+            @Override
+            public void run() {
+<span class="nc" id="L493">            }</span>
+        };
+
+<span class="nc" id="L496">        CASUALStartupTasks.caspacScriptPrepLock = false;</span>
+<span class="nc" id="L497">        return r;</span>
+
+    }
+
+    Map&lt;String, InputStream&gt; getScriptAsMapForCASPAC() {
+<span class="nc" id="L502">        CASUAL.Log log = new CASUAL.Log();</span>
+<span class="nc" id="L503">        CASUAL.crypto.MD5sum md5sum = new CASUAL.crypto.MD5sum();</span>
+<span class="nc" id="L504">        Map&lt;String, InputStream&gt; scriptEntries = new HashMap&lt;String, InputStream&gt;();</span>
+<span class="nc" id="L505">        ArrayList&lt;String&gt; tempMD5s = new ArrayList&lt;String&gt;();</span>
+
+        //get md5 and stream for script
+<span class="nc" id="L508">        tempMD5s.add(md5sum.getLinuxMD5Sum(StringOperations.convertStringToStream(scriptContents), name + &quot;.scr&quot;));</span>
+<span class="nc" id="L509">        scriptEntries.put(name + &quot;.scr&quot;, StringOperations.convertStringToStream(scriptContents));</span>
+
+        //get md5 and stream for txt
+<span class="nc" id="L512">        tempMD5s.add(md5sum.getLinuxMD5Sum(StringOperations.convertStringToStream(this.discription), name + &quot;.txt&quot;));</span>
+<span class="nc" id="L513">        scriptEntries.put(name + &quot;.txt&quot;, StringOperations.convertStringToStream(this.discription));</span>
+
+        //get md5 and stream for zip
+        //go to folder above and create stream
+<span class="nc" id="L517">        File masterTempDir = new File(sd.getTempFolder()).getParentFile();</span>
+<span class="nc" id="L518">        File instanceZip = new File(masterTempDir + CASUALSessionData.slash + name + &quot;.zip&quot;);</span>
+        try {
+<span class="nc" id="L520">            instanceZip.delete();</span>
+<span class="nc" id="L521">            instanceZip.createNewFile();</span>
+<span class="nc" id="L522">        } catch (IOException ex) {</span>
+<span class="nc" id="L523">            Logger.getLogger(Script.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L524">        }</span>
+<span class="nc" id="L525">        Log.level3Verbose(&quot;set script $ZIPFILE to &quot; + instanceZip.getAbsolutePath());</span>
+        try {
+            Zip zip;
+
+<span class="nc" id="L529">            zip = new Zip(sd,instanceZip);</span>
+<span class="nc" id="L530">            zip.removeAllEntries();</span>
+<span class="nc" id="L531">            zip.addFilesToExistingZip(individualFiles.toArray(new File[individualFiles.size()]));</span>
+
+<span class="nc" id="L533">            Log.level3Verbose(&quot;Adding zip:&quot; + instanceZip.getAbsolutePath());</span>
+
+<span class="nc" id="L535">            tempMD5s.add(new CASUAL.crypto.MD5sum().getLinuxMD5Sum(instanceZip));</span>
+<span class="nc" id="L536">            scriptEntries.put(name + &quot;.zip&quot;, new FileInputStream(instanceZip.getAbsoluteFile()));</span>
+
+<span class="nc" id="L538">        } catch (IOException ex) {</span>
+<span class="nc" id="L539">            Log.errorHandler(ex);</span>
+<span class="nc" id="L540">        }</span>
+
+        //update MD5s and update meta
+<span class="nc bnc" id="L543" title="All 2 branches missed.">        for (int i = 0; i &lt; tempMD5s.size(); i++) {</span>
+<span class="nc" id="L544">            this.addMD5ToMeta(tempMD5s.get(i), i);</span>
+        }
+<span class="nc" id="L546">        this.actualMD5s = tempMD5s;</span>
+        //get meta
+<span class="nc" id="L548">        scriptEntries.put(name + &quot;.meta&quot;, this.metaData.getMetaInputStream());</span>
+
+<span class="nc" id="L550">        return scriptEntries;</span>
+
+    }
+
+    /**
+     * performs unzip and is to be run after script zipfile update, not during
+     * script init.
+     *
+     * @throws ZipException when zip is corrupt
+     * @throws IOException when permissions problem exists.
+     */
+    public void performUnzipAfterScriptZipfileUpdate() throws ZipException, IOException {
+<span class="nc" id="L562">        this.getExtractionRunnable().run();</span>
+<span class="nc" id="L563">    }</span>
+
+    /**
+     * @return the zipfile
+     */
+    public Unzip getZipfile() {
+<span class="nc" id="L569">        return zipfile;</span>
+    }
+
+    /**
+     * @param zipfile the zipfile to set
+     */
+    public void setZipfile(Unzip zipfile) {
+<span class="fc" id="L576">        this.zipfile = zipfile;</span>
+<span class="fc" id="L577">    }</span>
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+<span class="fc" id="L583">        return name;</span>
+    }
+
+    /**
+     * @param name the name to set
+     * @return this Script
+     */
+    public Script setName(String name) {
+<span class="nc" id="L591">        this.name = name;</span>
+<span class="nc" id="L592">        return this;</span>
+    }
+
+    /**
+     * @return the tempDir
+     */
+    public String getTempDir() {
+<span class="fc" id="L599">        return sd.getTempFolder()+this.name;</span>
+    }
+
+
+
+    /**
+     * @param scriptContents the scriptContents to set
+     * @return this Script
+     */
+    public Script setScriptContents(String scriptContents) {
+<span class="fc" id="L609">        this.scriptContents = scriptContents;</span>
+<span class="fc" id="L610">        return this;</span>
+    }
+
+    /**
+     * @return the individualFiles
+     */
+    public List&lt;File&gt; getIndividualFiles() {
+<span class="fc" id="L617">        return individualFiles;</span>
+    }
+
+    /**
+     * @param individualFiles the individualFiles to set
+     * @return this Script
+     */
+    public Script setIndividualFiles(List&lt;File&gt; individualFiles) {
+<span class="nc" id="L625">        this.individualFiles = individualFiles;</span>
+<span class="nc" id="L626">        return this;</span>
+    }
+
+    /**
+     * @return the metaData
+     */
+    public ScriptMeta getMetaData() {
+<span class="fc" id="L633">        return metaData;</span>
+    }
+
+    /**
+     * @param metaData the metaData to set
+     * @return this Script
+     */
+    public Script setMetaData(ScriptMeta metaData) {
+<span class="nc" id="L641">        this.metaData = metaData;</span>
+<span class="nc" id="L642">        return this;</span>
+    }
+
+    /**
+     * @return the discription
+     */
+    public String getDiscription() {
+<span class="fc" id="L649">        return discription;</span>
+    }
+
+    /**
+     * @param discription the discription to set
+     * @return this Script
+     */
+    public Script setDiscription(String discription) {
+<span class="fc" id="L657">        this.discription = discription;</span>
+<span class="fc" id="L658">        return this;</span>
+    }
+
+    /**
+     * @return the scriptContinue
+     */
+    public boolean isScriptContinue() {
+<span class="fc" id="L665">        return scriptContinue;</span>
+    }
+
+    /**
+     * @param scriptContinue the scriptContinue to set
+     */
+    public void setScriptContinue(boolean scriptContinue) {
+<span class="nc" id="L672">        this.scriptContinue = scriptContinue;</span>
+<span class="nc" id="L673">    }</span>
+
+    /**
+     * @return the deviceArch
+     */
+    public String getDeviceArch() {
+<span class="nc" id="L679">        return deviceArch;</span>
+    }
+
+    /**
+     * @param deviceArch the deviceArch to set
+     */
+    public void setDeviceArch(String deviceArch) {
+<span class="nc" id="L686">        this.deviceArch = deviceArch;</span>
+<span class="nc" id="L687">    }</span>
+
+    /**
+     * @return the actualMD5s
+     */
+    public List&lt;String&gt; getActualMD5s() {
+<span class="fc" id="L693">        return actualMD5s;</span>
+    }
+
+    /**
+     * @param actualMD5s the actualMD5s to set
+     */
+    public void setActualMD5s(List&lt;String&gt; actualMD5s) {
+<span class="nc" id="L700">        this.actualMD5s = actualMD5s;</span>
+<span class="nc" id="L701">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

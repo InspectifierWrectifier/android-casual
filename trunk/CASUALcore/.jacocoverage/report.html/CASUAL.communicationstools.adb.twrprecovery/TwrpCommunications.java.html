@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TwrpCommunications.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.communicationstools.adb.twrprecovery</a> &gt; <span class="el_source">TwrpCommunications.java</span></div><h1>TwrpCommunications.java</h1><pre class="source lang-java linenums">/*TWRPCommunications provides methods of accessing TWRP basic information
+ * Copyright (C) 2014 adamoutler
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.communicationstools.adb.twrprecovery;
+
+import CASUAL.Log;
+import CASUAL.communicationstools.adb.ADBTools;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+/**
+ *
+ * @author adamoutler
+ */
+<span class="fc" id="L30">public class TwrpCommunications {</span>
+
+<span class="fc" id="L32">    ADBTools adb = new ADBTools();</span>
+<span class="fc" id="L33">    int timeout = 4000;</span>
+
+    /**
+     * Puts the device into TWRP recovery mode.
+     *
+     * @return true if TWRP is detected and device is in recovery.
+     */
+    public boolean rebootTWRP() {
+<span class="nc" id="L41">        Log.level2Information(&quot;Checking TWRP installation&quot;);</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        if (isTwrpRunning()) {</span>
+<span class="nc" id="L43">            Log.level4Debug(&quot;TWRP is running.&quot;);</span>
+<span class="nc" id="L44">            waitForDevice();</span>
+<span class="nc" id="L45">            return true;</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        } else if (isTwrpInstalled()) {</span>
+            //we need to reboot recovery
+<span class="nc" id="L48">            Log.level2Information(&quot;Rebooting device into TWRP&quot;);</span>
+<span class="nc" id="L49">            adb.run(new String[]{&quot;reboot&quot;, &quot;recovery&quot;}, timeout, false);</span>
+            //sleep away ADB if it's still running
+<span class="nc" id="L51">            adb.run(new String[]{&quot;shell&quot;, &quot;sleep 99&quot;}, 99, false);</span>
+<span class="nc" id="L52">            waitForDevice();</span>
+            //verify device is in twrp
+<span class="nc" id="L54">            return isTwrpRunning();</span>
+        }
+<span class="nc" id="L56">        Log.level0Error(&quot;TWRP is not installed.&quot;);</span>
+<span class="nc" id="L57">        return false;</span>
+    }
+
+    /**
+     * verifies TWRP is installed by checking for &quot;\nStarting TWRP &quot; in
+     * /cache/recovery/last_log.
+     *
+     * @return true if TWRP logs are detected in cache
+     */
+    public boolean isTwrpInstalled() {
+<span class="fc" id="L67">        Log.level4Debug(&quot;Checking if TWRP is installed.&quot;);</span>
+<span class="fc" id="L68">        String twrpval = adb.run(new String[]{&quot;shell&quot;, &quot;su -c 'cat /cache/recovery/last_log'&quot;}, timeout, false);</span>
+<span class="fc" id="L69">        return twrpval.contains(&quot;\nStarting TWRP &quot;);</span>
+    }
+
+    /**
+     * verifies TWRP is running by checking for for &quot;\nStarting TWRP &quot; in
+     * /tmp/recovery.log.
+     *
+     * @return true if TWRP is detected
+     */
+    public boolean isTwrpRunning() {
+<span class="fc" id="L79">        Log.level4Debug(&quot;Checking if TWRP is running.&quot;);</span>
+<span class="fc" id="L80">        String twrpval = adb.run(new String[]{&quot;shell&quot;, &quot;cat /tmp/recovery.log&quot;}, timeout, false);</span>
+<span class="fc" id="L81">        return twrpval.contains(&quot;\nStarting TWRP &quot;);</span>
+    }
+
+    /**
+     * exits from TWRP.
+     */
+    public void exitRecovery() {
+<span class="nc" id="L88">        adb.run(new String[]{&quot;reboot&quot;}, timeout, false);</span>
+<span class="nc" id="L89">    }</span>
+
+    /**
+     * Waits for the device to be ready. 
+     */
+    public void waitForDevice() {
+<span class="nc" id="L95">        adb.waitForDevice();</span>
+<span class="nc" id="L96">    }</span>
+
+    /**
+     * deposits the script file in /cache/recovery/openrecoveryscript and runs.
+     * Running is performed by killing the recovery binary, running in memory
+     * then letting TWRP perform the actions in the script.
+     *
+     * @param script script to run
+     * @throws java.io.IOException  {@inheritDoc}
+     */
+    public void runTwrpScript(OpenRecoveryScript script) throws IOException {
+<span class="nc" id="L107">        runTwrpScript(script.toString());</span>
+<span class="nc" id="L108">    }</span>
+
+    /**
+     * deposits the script file in /cache/recovery/openrecoveryscript and runs.
+     * Running is performed by killing the recovery binary, running in memory
+     * then letting TWRP perform the actions in the script.
+     *
+     * @param script script to run 
+     * @throws java.io.IOException {@inheritDoc}
+     */
+    public void runTwrpScript(String script) throws IOException {
+<span class="nc" id="L119">        Log.level2Information(&quot;verifying TWRP mode&quot;);</span>
+<span class="nc" id="L120">        rebootTWRP();  //reboot twrp</span>
+<span class="nc" id="L121">        Log.level4Debug(&quot;writing recovery script to temp location&quot;);</span>
+<span class="nc" id="L122">        File f=File.createTempFile(&quot;openrecovery&quot;, &quot;&quot;);</span>
+<span class="nc" id="L123">        f.delete();</span>
+                
+<span class="nc" id="L125">        String diskLocation = f.getAbsolutePath();</span>
+<span class="nc" id="L126">        writeToFile(script, diskLocation); //create a local file</span>
+<span class="nc" id="L127">        pushRecoveryScript(diskLocation); //push it to the device</span>
+<span class="nc" id="L128">        restartTWRP();</span>
+<span class="nc" id="L129">    }</span>
+
+    /**
+     * killall the &quot;recovery&quot; process on the device. This forces TWRP to reboot
+     * and run the openrecoveryscript
+     */
+    public void restartTWRP() {
+<span class="nc" id="L136">        Log.level3Verbose(&quot;killing TWRP recovery (likely to run script)&quot;);</span>
+<span class="nc" id="L137">        adb.run(new String[]{&quot;shell&quot;, &quot;killall recovery&quot;}, timeout, false);</span>
+<span class="nc" id="L138">    }</span>
+
+    private void pushRecoveryScript(String diskLocation) {
+<span class="nc" id="L141">        adb.run(new String[]{&quot;push&quot;, diskLocation, &quot;/cache/recovery/openrecoveryscript&quot;}, 8000, false);</span>
+<span class="nc" id="L142">    }</span>
+
+    private void writeToFile(String Text, String File) throws IOException {
+<span class="nc" id="L145">        Log.level4Debug(&quot;Writing script to file&quot;);</span>
+        BufferedWriter bw;
+<span class="nc" id="L147">        FileWriter fw = new FileWriter(File, true);</span>
+<span class="nc" id="L148">        bw = new BufferedWriter(fw);</span>
+<span class="nc" id="L149">        bw.write(Text);</span>
+<span class="nc" id="L150">        bw.flush();</span>
+<span class="nc" id="L151">        fw.close();</span>
+<span class="nc" id="L152">        Log.level4Debug(&quot;Write Finished&quot;);</span>
+<span class="nc" id="L153">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

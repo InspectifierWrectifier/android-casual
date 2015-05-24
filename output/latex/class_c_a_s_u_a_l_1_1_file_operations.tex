@@ -1,0 +1,505 @@
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations}{\section{C\-A\-S\-U\-A\-L.\-File\-Operations Class Reference}
+\label{class_c_a_s_u_a_l_1_1_file_operations}\index{C\-A\-S\-U\-A\-L.\-File\-Operations@{C\-A\-S\-U\-A\-L.\-File\-Operations}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1_file_operations_aee926f79c6ce0e347940b7a6114ab195}{File\-Operations} ()
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_a8bf6613169e83dee9b70179e1331d99d}{recursive\-Delete} (String path)
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_a5fed83c75685ff9516eab0c37658070d}{recursive\-Delete} (File path)
+\item 
+boolean \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_a222a88ab031762c4cc9197c3b6732baa}{verify\-Write\-Permissions\-Recursive} (String path)
+\item 
+String \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_afe29c51ef53af5e44cc4aa61a9a103d0}{find\-Recursive} (String Path\-To\-Search, String File\-Name)
+\item 
+boolean \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_ab8c755446ba87c4ef056cc2b156ee726}{verify\-Exists} (String file)
+\item 
+boolean \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_a2f6eced2a42e01ee23478f3a0448b139}{make\-Folder} (String Folder)
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_a76f17b62e1bbc87e3d557643c52e6672}{write\-Stream\-To\-File} (Buffered\-Input\-Stream stream, String destination)  throws File\-Not\-Found\-Exception, I\-O\-Exception 
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_a71fbad8531341fe6c2c5212aac13349d}{write\-To\-File} (String Text, String File)  throws I\-O\-Exception 
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_a6f67c5c95ce23d0d4163b56eddb8e28f}{overwrite\-File} (String Text, String File)  throws I\-O\-Exception 
+\item 
+Boolean \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_a5b1172ca44af911f74d127cd05bf1f72}{delete\-File} (String File\-Name)
+\item 
+boolean \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_a8e86ea11b79fef56147aba90dc3f4f0f}{delete\-String\-Array\-Of\-Files} (String\mbox{[}$\,$\mbox{]} clean\-Up)
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_a95b6013a6610a12798b5a245a741196a}{copy\-File} (File source\-File, File dest\-File)  throws I\-O\-Exception 
+\item 
+String \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_a6218a9a8ce1c18711d59b844417adc8a}{current\-Dir} ()
+\item 
+boolean \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_a13967d313b6bd64f4449872f39cd9850}{copy\-File} (String From\-File, String To\-File)
+\item 
+boolean \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_ad065441f27945626464c5ea2a5b1e453}{set\-Executable\-Bit} (String Executable)
+\item 
+boolean \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_a24a24d669cba59590ae6dbb73b9b7bfa}{verify\-Resource} (String res)
+\item 
+String \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_af56078757baad2c1f1ce56bbe88ed583}{read\-Text\-From\-Resource} (String Resource)
+\item 
+String \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_a0f818b3dd5c29e59cd68073279769a99}{read\-Text\-From\-Stream} (Buffered\-Input\-Stream in)
+\item 
+String \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_abb169d1cec0dd7a93538d2664aa30100}{read\-File} (String File\-On\-Disk)
+\item 
+String\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_a61c260f82398c5fb5dae686cb03e8466}{list\-Folder\-Files} (String folder)
+\item 
+String\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_a7e7c47afd356adc222f64c61d735e85b}{list\-Folder\-Files\-Cannonically} (String folder)
+\item 
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a0985307a047d8bfa4167afc3fede2aae}{Array\-List$<$ String $>$ {\bfseries list\-Recursive} (String folder)}\label{class_c_a_s_u_a_l_1_1_file_operations_a0985307a047d8bfa4167afc3fede2aae}
+
+\item 
+boolean \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_aba0a4098903773ba1b9e5b1b926e2796}{move\-File} (File source\-File, File dest\-File)  throws I\-O\-Exception 
+\item 
+boolean \hyperlink{class_c_a_s_u_a_l_1_1_file_operations_a9c21e368697269b0c57b3534cefb6295}{move\-File} (String source\-File, String dest\-File)  throws I\-O\-Exception 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_c_a_s_u_a_l_1_1_file_operations}{File\-Operations} provides a set of acellerators for working with files in Java.
+
+\begin{DoxyAuthor}{Author}
+Adam Outler \href{mailto:adamoutler@gmail.com}{\tt adamoutler@gmail.\-com} 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_aee926f79c6ce0e347940b7a6114ab195}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!File\-Operations@{File\-Operations}}
+\index{File\-Operations@{File\-Operations}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{File\-Operations}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-File\-Operations.\-File\-Operations (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_aee926f79c6ce0e347940b7a6114ab195}
+performs file operations 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a95b6013a6610a12798b5a245a741196a}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!copy\-File@{copy\-File}}
+\index{copy\-File@{copy\-File}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{copy\-File}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-File\-Operations.\-copy\-File (
+\begin{DoxyParamCaption}
+\item[{File}]{source\-File, }
+\item[{File}]{dest\-File}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1_file_operations_a95b6013a6610a12798b5a245a741196a}
+copies a file from a source to a destination
+
+
+\begin{DoxyParams}{Parameters}
+{\em source\-File} & file to copy \\
+\hline
+{\em dest\-File} & destination to copy file (including filename) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a13967d313b6bd64f4449872f39cd9850}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!copy\-File@{copy\-File}}
+\index{copy\-File@{copy\-File}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{copy\-File}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-File\-Operations.\-copy\-File (
+\begin{DoxyParamCaption}
+\item[{String}]{From\-File, }
+\item[{String}]{To\-File}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_a13967d313b6bd64f4449872f39cd9850}
+copies a file from a string path to a string path returns a boolean if completed
+
+
+\begin{DoxyParams}{Parameters}
+{\em From\-File} & file to copy \\
+\hline
+{\em To\-File} & destination to copy to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if completed 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a6218a9a8ce1c18711d59b844417adc8a}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!current\-Dir@{current\-Dir}}
+\index{current\-Dir@{current\-Dir}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{current\-Dir}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-File\-Operations.\-current\-Dir (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_a6218a9a8ce1c18711d59b844417adc8a}
+returns the name of the current folder
+
+\begin{DoxyReturn}{Returns}
+current folder 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a5b1172ca44af911f74d127cd05bf1f72}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!delete\-File@{delete\-File}}
+\index{delete\-File@{delete\-File}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{delete\-File}]{\setlength{\rightskip}{0pt plus 5cm}Boolean C\-A\-S\-U\-A\-L.\-File\-Operations.\-delete\-File (
+\begin{DoxyParamCaption}
+\item[{String}]{File\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_a5b1172ca44af911f74d127cd05bf1f72}
+takes a string filename returns a boolean if the file was deleted
+
+
+\begin{DoxyParams}{Parameters}
+{\em File\-Name} & filename to delete \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if file was deleted 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a8e86ea11b79fef56147aba90dc3f4f0f}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!delete\-String\-Array\-Of\-Files@{delete\-String\-Array\-Of\-Files}}
+\index{delete\-String\-Array\-Of\-Files@{delete\-String\-Array\-Of\-Files}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{delete\-String\-Array\-Of\-Files}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-File\-Operations.\-delete\-String\-Array\-Of\-Files (
+\begin{DoxyParamCaption}
+\item[{String\mbox{[}$\,$\mbox{]}}]{clean\-Up}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_a8e86ea11b79fef56147aba90dc3f4f0f}
+deletes files
+
+
+\begin{DoxyParams}{Parameters}
+{\em clean\-Up} & files to be deleted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if all files were deleted false and halts on error 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_afe29c51ef53af5e44cc4aa61a9a103d0}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!find\-Recursive@{find\-Recursive}}
+\index{find\-Recursive@{find\-Recursive}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{find\-Recursive}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-File\-Operations.\-find\-Recursive (
+\begin{DoxyParamCaption}
+\item[{String}]{Path\-To\-Search, }
+\item[{String}]{File\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_afe29c51ef53af5e44cc4aa61a9a103d0}
+takes a path and a name returns qualified path to file
+
+
+\begin{DoxyParams}{Parameters}
+{\em Path\-To\-Search} & path to search \\
+\hline
+{\em File\-Name} & filename to locate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+absolute path to folder 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a61c260f82398c5fb5dae686cb03e8466}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!list\-Folder\-Files@{list\-Folder\-Files}}
+\index{list\-Folder\-Files@{list\-Folder\-Files}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{list\-Folder\-Files}]{\setlength{\rightskip}{0pt plus 5cm}String \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-File\-Operations.\-list\-Folder\-Files (
+\begin{DoxyParamCaption}
+\item[{String}]{folder}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_a61c260f82398c5fb5dae686cb03e8466}
+lists files in a folder
+
+
+\begin{DoxyParams}{Parameters}
+{\em folder} & folder to list \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+array of filenames 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a7e7c47afd356adc222f64c61d735e85b}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!list\-Folder\-Files\-Cannonically@{list\-Folder\-Files\-Cannonically}}
+\index{list\-Folder\-Files\-Cannonically@{list\-Folder\-Files\-Cannonically}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{list\-Folder\-Files\-Cannonically}]{\setlength{\rightskip}{0pt plus 5cm}String \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-File\-Operations.\-list\-Folder\-Files\-Cannonically (
+\begin{DoxyParamCaption}
+\item[{String}]{folder}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_a7e7c47afd356adc222f64c61d735e85b}
+lists files with full qualifiers
+
+
+\begin{DoxyParams}{Parameters}
+{\em folder} & folder to list \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+array of files 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a2f6eced2a42e01ee23478f3a0448b139}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!make\-Folder@{make\-Folder}}
+\index{make\-Folder@{make\-Folder}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{make\-Folder}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-File\-Operations.\-make\-Folder (
+\begin{DoxyParamCaption}
+\item[{String}]{Folder}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_a2f6eced2a42e01ee23478f3a0448b139}
+makes a folder, works recursively
+
+
+\begin{DoxyParams}{Parameters}
+{\em Folder} & folder to create \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if folder was created 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_aba0a4098903773ba1b9e5b1b926e2796}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!move\-File@{move\-File}}
+\index{move\-File@{move\-File}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{move\-File}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-File\-Operations.\-move\-File (
+\begin{DoxyParamCaption}
+\item[{File}]{source\-File, }
+\item[{File}]{dest\-File}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1_file_operations_aba0a4098903773ba1b9e5b1b926e2796}
+
+\begin{DoxyParams}{Parameters}
+{\em source\-File} & from locaton \\
+\hline
+{\em dest\-File} & to location \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if moved 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a9c21e368697269b0c57b3534cefb6295}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!move\-File@{move\-File}}
+\index{move\-File@{move\-File}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{move\-File}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-File\-Operations.\-move\-File (
+\begin{DoxyParamCaption}
+\item[{String}]{source\-File, }
+\item[{String}]{dest\-File}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1_file_operations_a9c21e368697269b0c57b3534cefb6295}
+moves a file
+
+
+\begin{DoxyParams}{Parameters}
+{\em source\-File} & from location \\
+\hline
+{\em dest\-File} & to location \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if moved 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & when permissions problems exist \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a6f67c5c95ce23d0d4163b56eddb8e28f}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!overwrite\-File@{overwrite\-File}}
+\index{overwrite\-File@{overwrite\-File}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{overwrite\-File}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-File\-Operations.\-overwrite\-File (
+\begin{DoxyParamCaption}
+\item[{String}]{Text, }
+\item[{String}]{File}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1_file_operations_a6f67c5c95ce23d0d4163b56eddb8e28f}
+takes a string and a filename, overwrites to the file
+
+
+\begin{DoxyParams}{Parameters}
+{\em Text} & text to write \\
+\hline
+{\em File} & file to write to \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & when permission problems exist \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_abb169d1cec0dd7a93538d2664aa30100}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!read\-File@{read\-File}}
+\index{read\-File@{read\-File}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{read\-File}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-File\-Operations.\-read\-File (
+\begin{DoxyParamCaption}
+\item[{String}]{File\-On\-Disk}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_abb169d1cec0dd7a93538d2664aa30100}
+reads file contents returns string
+
+
+\begin{DoxyParams}{Parameters}
+{\em File\-On\-Disk} & file to read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string representation of file 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_af56078757baad2c1f1ce56bbe88ed583}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!read\-Text\-From\-Resource@{read\-Text\-From\-Resource}}
+\index{read\-Text\-From\-Resource@{read\-Text\-From\-Resource}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{read\-Text\-From\-Resource}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-File\-Operations.\-read\-Text\-From\-Resource (
+\begin{DoxyParamCaption}
+\item[{String}]{Resource}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_af56078757baad2c1f1ce56bbe88ed583}
+takes a resource name returns a string of file contents
+
+
+\begin{DoxyParams}{Parameters}
+{\em Resource} & path to resource in jar or filesystem \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string contents of resource 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a0f818b3dd5c29e59cd68073279769a99}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!read\-Text\-From\-Stream@{read\-Text\-From\-Stream}}
+\index{read\-Text\-From\-Stream@{read\-Text\-From\-Stream}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{read\-Text\-From\-Stream}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-File\-Operations.\-read\-Text\-From\-Stream (
+\begin{DoxyParamCaption}
+\item[{Buffered\-Input\-Stream}]{in}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_a0f818b3dd5c29e59cd68073279769a99}
+reads text from stream
+
+
+\begin{DoxyParams}{Parameters}
+{\em in} & stream to read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+text output 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a8bf6613169e83dee9b70179e1331d99d}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!recursive\-Delete@{recursive\-Delete}}
+\index{recursive\-Delete@{recursive\-Delete}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{recursive\-Delete}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-File\-Operations.\-recursive\-Delete (
+\begin{DoxyParamCaption}
+\item[{String}]{path}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_a8bf6613169e83dee9b70179e1331d99d}
+recursively deletes a String path
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & path to delete recursively \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a5fed83c75685ff9516eab0c37658070d}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!recursive\-Delete@{recursive\-Delete}}
+\index{recursive\-Delete@{recursive\-Delete}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{recursive\-Delete}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-File\-Operations.\-recursive\-Delete (
+\begin{DoxyParamCaption}
+\item[{File}]{path}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_a5fed83c75685ff9516eab0c37658070d}
+recursively deletes a file path
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & path to delete \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_ad065441f27945626464c5ea2a5b1e453}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!set\-Executable\-Bit@{set\-Executable\-Bit}}
+\index{set\-Executable\-Bit@{set\-Executable\-Bit}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{set\-Executable\-Bit}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-File\-Operations.\-set\-Executable\-Bit (
+\begin{DoxyParamCaption}
+\item[{String}]{Executable}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_ad065441f27945626464c5ea2a5b1e453}
+takes a filename sets executable returns result
+
+
+\begin{DoxyParams}{Parameters}
+{\em Executable} & file to be set executable on linux/mac/unix \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if executable bit was set 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_ab8c755446ba87c4ef056cc2b156ee726}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!verify\-Exists@{verify\-Exists}}
+\index{verify\-Exists@{verify\-Exists}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{verify\-Exists}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-File\-Operations.\-verify\-Exists (
+\begin{DoxyParamCaption}
+\item[{String}]{file}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_ab8c755446ba87c4ef056cc2b156ee726}
+verifies file/folder exists returns a boolean value if the file exists
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & file to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if exists 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a24a24d669cba59590ae6dbb73b9b7bfa}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!verify\-Resource@{verify\-Resource}}
+\index{verify\-Resource@{verify\-Resource}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{verify\-Resource}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-File\-Operations.\-verify\-Resource (
+\begin{DoxyParamCaption}
+\item[{String}]{res}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_a24a24d669cba59590ae6dbb73b9b7bfa}
+takes a string resource name returns result if it exists
+
+
+\begin{DoxyParams}{Parameters}
+{\em res} & resource to verify \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if resource exists 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a222a88ab031762c4cc9197c3b6732baa}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!verify\-Write\-Permissions\-Recursive@{verify\-Write\-Permissions\-Recursive}}
+\index{verify\-Write\-Permissions\-Recursive@{verify\-Write\-Permissions\-Recursive}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{verify\-Write\-Permissions\-Recursive}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-File\-Operations.\-verify\-Write\-Permissions\-Recursive (
+\begin{DoxyParamCaption}
+\item[{String}]{path}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_file_operations_a222a88ab031762c4cc9197c3b6732baa}
+verify ability to write to every file in a path
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & path to verify. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if permission to write 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a76f17b62e1bbc87e3d557643c52e6672}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!write\-Stream\-To\-File@{write\-Stream\-To\-File}}
+\index{write\-Stream\-To\-File@{write\-Stream\-To\-File}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{write\-Stream\-To\-File}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-File\-Operations.\-write\-Stream\-To\-File (
+\begin{DoxyParamCaption}
+\item[{Buffered\-Input\-Stream}]{stream, }
+\item[{String}]{destination}
+\end{DoxyParamCaption}
+) throws File\-Not\-Found\-Exception, I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1_file_operations_a76f17b62e1bbc87e3d557643c52e6672}
+writes a stream to a destination file
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & Stream to be written \\
+\hline
+{\em destination} & output file \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em File\-Not\-Found\-Exception} & when destination cannot be created \\
+\hline
+{\em I\-O\-Exception} & with permission problems \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1_file_operations_a71fbad8531341fe6c2c5212aac13349d}{\index{C\-A\-S\-U\-A\-L\-::\-File\-Operations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}!write\-To\-File@{write\-To\-File}}
+\index{write\-To\-File@{write\-To\-File}!CASUAL::FileOperations@{C\-A\-S\-U\-A\-L\-::\-File\-Operations}}
+\subsubsection[{write\-To\-File}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-File\-Operations.\-write\-To\-File (
+\begin{DoxyParamCaption}
+\item[{String}]{Text, }
+\item[{String}]{File}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1_file_operations_a71fbad8531341fe6c2c5212aac13349d}
+takes a string and a filename, writes to the file
+
+
+\begin{DoxyParams}{Parameters}
+{\em Text} & text to write \\
+\hline
+{\em File} & file to write to \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & when permission problems exist \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/File\-Operations.\-java\end{DoxyCompactItemize}

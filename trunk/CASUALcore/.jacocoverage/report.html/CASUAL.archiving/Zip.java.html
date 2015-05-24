@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Zip.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.archiving</a> &gt; <span class="el_source">Zip.java</span></div><h1>Zip.java</h1><pre class="source lang-java linenums">/*Zip zips files
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ * 
+ * parts of this file are from http://stackoverflow.com/questions/3048669/how-can-i-add-entries-to-an-existing-zip-file-in-java
+ * 
+ */
+package CASUAL.archiving;
+
+import CASUAL.CASUALSessionData;
+import CASUAL.Log;
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URI;
+import java.nio.channels.FileChannel;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
+
+/**
+ *Provides methods of accessing zip tools. 
+ * @author Adam Outler adamoutler@gmail.com
+ */
+public class Zip {
+
+    private static void copy(File in, File out) throws FileNotFoundException, IOException {
+<span class="nc" id="L50">        copy(in, new FileOutputStream(out));</span>
+<span class="nc" id="L51">    }</span>
+
+    private static void copy(InputStream in, OutputStream out) throws IOException {
+<span class="nc" id="L54">        byte[] buffer = new byte[1024];</span>
+        while (true) {
+<span class="nc" id="L56">            int readCount = in.read(buffer);</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">            if (readCount &lt; 0) {</span>
+<span class="nc" id="L58">                break;</span>
+            }
+<span class="nc" id="L60">            out.write(buffer, 0, readCount);</span>
+<span class="nc" id="L61">        }</span>
+<span class="nc" id="L62">    }</span>
+
+    private static void copy(File file, OutputStream out) throws IOException {
+<span class="nc" id="L65">        InputStream in = new FileInputStream(file);</span>
+<span class="nc" id="L66">        copy(in, out);</span>
+<span class="nc" id="L67">    }</span>
+
+    final CASUALSessionData sd;
+    final private File outputZip;
+<span class="nc" id="L71">    private final Log log = new Log();</span>
+    private String TempFolder;
+<span class="nc" id="L73">    byte[] BUFFER = new byte[4096];</span>
+
+    /**
+     * Constructor for the Zip class.
+     * &lt;p&gt;
+     * The File set in this is not the folder where the files to be zipped are,
+     * but instead the actual file that will be created by the zip.
+     * &lt;p&gt;
+     * Example: ./test.zip
+     *
+     * @param sd The CASUALSessionData instace to use for this.
+     * @param zip output file to be worked with
+     * @throws IOException  {@inheritDoc}
+     */
+<span class="nc" id="L87">    public Zip(CASUALSessionData sd,File zip) throws IOException {</span>
+<span class="nc" id="L88">        this.TempFolder = sd.getTempFolder();</span>
+<span class="nc" id="L89">    this.sd=sd;</span>
+<span class="nc" id="L90">    this.outputZip = zip;</span>
+<span class="nc" id="L91">    }</span>
+
+    /**
+     * Getter for the TempFolder where the files are to be transfered into
+     * before they get steamed into a zip file.
+     *
+     * @return the string for the location of the TempFolder
+     */
+    public String getTempFolder() {
+<span class="nc" id="L100">        return TempFolder;</span>
+    }
+
+    /**
+     * Changes the depth of the tempfolder.
+     * &lt;p&gt;
+ This is used to specify a different temp folder then the tempfolder
+ stated in CASUAL.CASUALSessionData.getInstance(). It will add a new folder within that tempfolder
+ to be used too add all the files that must be zipped up into.
+ &lt;p&gt;
+     * If the folder does not exist it will be created.
+     *
+     * @param TempFolder string of name of folder to dive into
+     */
+    public void addToTempFolderLoc(String TempFolder) {
+<span class="nc" id="L115">        this.TempFolder = this.TempFolder + CASUALSessionData.slash + TempFolder;</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        if (!(new File(this.TempFolder).exists())) {</span>
+<span class="nc" id="L117">            new File(this.TempFolder).mkdirs();</span>
+        }
+<span class="nc" id="L119">    }</span>
+
+    /**
+     * Streams a file directly into a zipfile.
+     * &lt;p&gt;
+     * This bypasses the uses of temp folder to stream the selected file into a
+     * zip folder by writing the ZipOutputStream from an existing zip file
+     * directly into the ZipInputStream of another.
+     *
+     * @param fileToAdd file to be added
+     * @throws IOException  {@inheritDoc}
+     */
+    public void addFilesToExistingZip(String fileToAdd) throws IOException {
+<span class="nc" id="L132">        File file = new File(fileToAdd);</span>
+<span class="nc" id="L133">        addFilesToExistingZip(new File[]{file});</span>
+<span class="nc" id="L134">    }</span>
+
+    /**
+     * Streams files directly into a zipfile.
+     * &lt;p&gt;
+     * This bypasses the uses of temp folder to stream the selected files into a
+     * zip folder by writing the ZipOutputStream from an existing zip file
+     * directly into the ZipInputStream of another.
+     *
+     * @param filesToBeZipped file to be added
+     * @throws IOException {@inheritDoc}
+     * @see ZipInputStream 
+     * @see ZipOutputStream
+     */
+    public void addFilesToExistingZip(String[] filesToBeZipped) throws IOException {
+<span class="nc" id="L149">        File[] fileList = new File[filesToBeZipped.length];</span>
+<span class="nc" id="L150">        int i = 0;</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        for (String file : filesToBeZipped) {</span>
+<span class="nc" id="L152">            fileList[i] = new File(file);</span>
+        }
+
+<span class="nc" id="L155">        addFilesToExistingZip(fileList);</span>
+<span class="nc" id="L156">    }</span>
+
+    /**
+     * Streams a file directly into a zipfile.
+     * &lt;p&gt;
+     * This bypasses the uses of temp folder to stream the selected file into a
+     * zip folder by writing the ZipOutputStream from an existing zip file
+     * directly into the ZipInputStream of another.
+     *
+     * @param fileToAdd file to be added
+     * @throws IOException  {@inheritDoc}
+     */
+    public void addFilesToExistingZip(File fileToAdd) throws IOException {
+<span class="nc" id="L169">        addFilesToExistingZip(new File[]{fileToAdd});</span>
+<span class="nc" id="L170">    }</span>
+
+    /**
+     * Streams files directly into a zipfile.
+     * &lt;p&gt;
+     * This bypasses the uses of temp folder to stream the selected files into a
+     * zip folder by writing the ZipOutputStream from an existing zip file
+     * directly into the ZipInputStream of another.
+     * &lt;p&gt;
+     * This method is used once the File[] has been created.
+     *
+     * @param files files to be zipped
+     * @throws IOException {@inheritDoc}
+     */
+    public void addFilesToExistingZip(File[] files) throws IOException {
+<span class="nc bnc" id="L185" title="All 2 branches missed.">        if (!outputZip.exists()){</span>
+<span class="nc" id="L186">            outputZip.createNewFile();</span>
+        }
+        // get a temp file
+<span class="nc" id="L189">        File tempFile = File.createTempFile(outputZip.getName(), null);</span>
+        // delete it, otherwise you cannot rename your existing zip to it.
+<span class="nc" id="L191">        tempFile.delete();</span>
+<span class="nc" id="L192">        getTemporaryOutputZip(tempFile, BUFFER);</span>
+        ZipOutputStream out;
+<span class="nc" id="L194">        ZipInputStream zin = new ZipInputStream(new FileInputStream(tempFile));</span>
+<span class="nc" id="L195">        out = prepareZipFileForMoreEntries(zin, files);</span>
+        // Compress the files into the zip
+<span class="nc bnc" id="L197" title="All 2 branches missed.">        for (File file : files) {</span>
+<span class="nc" id="L198">            InputStream in = new FileInputStream(file);</span>
+<span class="nc" id="L199">            writeEntryToZipFile(out, file.getName(), in);</span>
+        }
+        // Complete the ZIP file
+<span class="nc" id="L202">        out.close();</span>
+<span class="nc" id="L203">        tempFile.delete();</span>
+<span class="nc" id="L204">    }</span>
+
+    /**
+     * Streams an InputStream directly into a zipfile.
+     * &lt;p&gt;
+     * This takes an InputStream and streams it directly into a zipfile.
+     *
+     * @param in the InputStream to be injected into the zipfile
+     * @param name the name of the File that the InputStream will create inside
+     * the zip
+     * @throws IOException {@inheritDoc}
+     * @see InputStream
+     */
+    public void streamEntryToExistingZip(InputStream in, String name) throws IOException {
+<span class="nc" id="L218">        File tempFile = File.createTempFile(outputZip.getName(), null);</span>
+        // delete it, otherwise you cannot rename your existing zip to it.
+<span class="nc" id="L220">        tempFile.delete();</span>
+<span class="nc" id="L221">        getTemporaryOutputZip(tempFile, BUFFER);</span>
+        ZipOutputStream out;
+<span class="nc" id="L223">        ZipInputStream zin = new ZipInputStream(new FileInputStream(tempFile));</span>
+<span class="nc" id="L224">        out = prepareZipFileForMoreEntries(zin, name);</span>
+        // Compress the files into the zip
+<span class="nc" id="L226">        writeEntryToZipFile(out, name, in);</span>
+        // Complete the ZIP file
+<span class="nc" id="L228">        out.close();</span>
+<span class="nc" id="L229">        tempFile.delete();</span>
+
+
+<span class="nc" id="L232">    }</span>
+
+    /**
+     * This merges two separate zipfiles into a single file.
+     * &lt;p&gt;
+     * Injects the zip into the root of the initial zip.
+     *
+     * @param injectionZip string of the zipfile
+     *
+     */
+    public void injectZip(String injectionZip) {
+<span class="nc" id="L243">        injectZip(new File(injectionZip), &quot;&quot;);</span>
+<span class="nc" id="L244">    }</span>
+
+    /**
+     * This merges two separate zipfiles into a single file.
+     * &lt;p&gt;
+     * Injects the zip into the root of the initial zip.
+     *
+     * @param injectionZip the zip that is to be injected
+     *
+     */
+    public void injectZip(File injectionZip) {
+<span class="nc" id="L255">        injectZip(injectionZip, &quot;&quot;);</span>
+<span class="nc" id="L256">    }</span>
+
+    /**
+     * This merges two separate zipfiles into a single file.
+     * &lt;p&gt;
+     * If the injection path is empty, the root of the injected files will be
+     * the root of the initial zip. If it is not the location will injected at
+     * the path relative to the root of the current zip
+     *
+     * @param injectionZip the zip that is to be injected
+     * @param injectionPath the path relative to the root of the
+     */
+    public void injectZip(File injectionZip, String injectionPath) {
+        try {
+<span class="nc bnc" id="L270" title="All 2 branches missed.">            if (!injectionPath.isEmpty()) {</span>
+<span class="nc bnc" id="L271" title="All 2 branches missed.">                if (injectionPath.startsWith(CASUALSessionData.slash)) {</span>
+<span class="nc" id="L272">                    injectionPath = injectionPath.replaceFirst(CASUALSessionData.slash, &quot;&quot;);</span>
+                }
+<span class="nc bnc" id="L274" title="All 2 branches missed.">                if (!injectionPath.endsWith(CASUALSessionData.slash)) {</span>
+<span class="nc" id="L275">                    injectionPath = injectionPath.concat(CASUALSessionData.slash);</span>
+                }
+            }
+<span class="nc" id="L278">            byte[] buf = new byte[1024];</span>
+<span class="nc" id="L279">            ZipInputStream zin = new ZipInputStream(new FileInputStream(injectionZip));</span>
+<span class="nc" id="L280">            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(outputZip));</span>
+<span class="nc" id="L281">            ZipEntry entry = zin.getNextEntry();</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">            while (entry != null) {</span>
+<span class="nc" id="L283">                out.putNextEntry(entry);</span>
+                int len;
+<span class="nc bnc" id="L285" title="All 2 branches missed.">                while ((len = zin.read(buf)) &gt; 0) {</span>
+<span class="nc" id="L286">                    out.write(buf, 0, len);</span>
+                }
+<span class="nc" id="L288">                entry = zin.getNextEntry();</span>
+<span class="nc" id="L289">            }</span>
+<span class="nc" id="L290">            zin.close();</span>
+<span class="nc bnc" id="L291" title="All 2 branches missed.">            if (!injectionZip.exists()) {</span>
+<span class="nc" id="L292">                Log.level0Error(&quot;The file &quot; + injectionZip.getAbsolutePath() + &quot; doesn't exist please make sure it is the right location.&quot;);</span>
+<span class="nc" id="L293">                return;</span>
+            }
+<span class="nc" id="L295">            zin = new ZipInputStream(new FileInputStream(injectionZip));</span>
+<span class="nc" id="L296">            entry = zin.getNextEntry();</span>
+<span class="nc bnc" id="L297" title="All 2 branches missed.">            while (entry != null) {</span>
+<span class="nc" id="L298">                String name = entry.getName();</span>
+<span class="nc bnc" id="L299" title="All 2 branches missed.">                if (injectionPath.isEmpty()) {</span>
+<span class="nc" id="L300">                    out.putNextEntry(entry);</span>
+                } else {
+<span class="nc" id="L302">                    out.putNextEntry(new ZipEntry(injectionPath + name));</span>
+                }
+                int len;
+<span class="nc bnc" id="L305" title="All 2 branches missed.">                while ((len = zin.read(buf)) &gt; 0) {</span>
+<span class="nc" id="L306">                    out.write(buf, 0, len);</span>
+                }
+<span class="nc" id="L308">                entry = zin.getNextEntry();</span>
+<span class="nc" id="L309">            }</span>
+<span class="nc" id="L310">            out.close();</span>
+
+<span class="nc" id="L312">        } catch (FileNotFoundException ex) {</span>
+<span class="nc" id="L313">            Log.errorHandler(ex);</span>
+<span class="nc" id="L314">        } catch (IOException ex) {</span>
+<span class="nc" id="L315">            Log.errorHandler(ex);</span>
+<span class="nc" id="L316">        }</span>
+<span class="nc" id="L317">    }</span>
+
+    /**
+     * Streams multiple InputStream directly into a zipfile.
+     * &lt;p&gt;
+     * This takes an a keyed pair of String names, and InputStreams and streams
+     * them directly into a zipfile.
+     *
+     * @param nameStream map that contains keys that are Strings, and values
+     * that are InputStream
+     * @return zip file
+     * @throws IOException {@inheritDoc}
+     * @see Map
+     * @see InputStream
+     */
+    public File streamEntryToExistingZip(Map&lt;String, InputStream&gt; nameStream) throws IOException {
+<span class="nc" id="L333">        File tempFile = File.createTempFile(outputZip.getName(), null);</span>
+        // delete it, otherwise you cannot rename your existing zip to it.
+<span class="nc" id="L335">        getTemporaryOutputZip(tempFile, BUFFER);</span>
+        ZipOutputStream out;
+<span class="nc" id="L337">        ZipInputStream zin = new ZipInputStream(new FileInputStream(tempFile));</span>
+<span class="nc" id="L338">        out = prepareZipFileForMoreEntries(zin, nameStream);</span>
+
+<span class="nc bnc" id="L340" title="All 2 branches missed.">        for (Map.Entry&lt;String, InputStream&gt; entry : nameStream.entrySet()) {</span>
+            // Compress the files into the zip
+<span class="nc" id="L342">            writeEntryToZipFile(out, entry.getKey(), entry.getValue());</span>
+<span class="nc" id="L343">            entry.getValue().close();</span>
+<span class="nc" id="L344">        }</span>
+        // Complete the ZIP file
+<span class="nc" id="L346">        out.close();</span>
+        
+<span class="nc" id="L348">       return tempFile;</span>
+
+    }
+
+    /**
+     * STATIC Creates a new zip from a folder.
+     * &lt;p&gt;
+     * This method creates a new zip file from the folder that is handed in the
+     * second argument.
+     *
+     * @param newZip output .zip File
+     * @param toBeZipped File or folder to be placed in the Zip File.
+     * @throws Exception {@inheritDoc}
+     */
+    public void addFolderFilesToNewZip(String newZip, String toBeZipped) throws Exception {
+<span class="nc" id="L363">        File directory = new File(toBeZipped);</span>
+<span class="nc" id="L364">        URI base = directory.toURI();</span>
+<span class="nc" id="L365">        Deque&lt;File&gt; queue = new LinkedList&lt;File&gt;();</span>
+<span class="nc" id="L366">        queue.push(directory);</span>
+<span class="nc" id="L367">        OutputStream out = new FileOutputStream(newZip);</span>
+<span class="nc" id="L368">        Closeable res = out;</span>
+        try {
+<span class="nc" id="L370">            ZipOutputStream zout = new ZipOutputStream(out);</span>
+<span class="nc" id="L371">            res = zout;</span>
+<span class="nc bnc" id="L372" title="All 2 branches missed.">            while (!queue.isEmpty()) {</span>
+<span class="nc" id="L373">                directory = queue.pop();</span>
+<span class="nc bnc" id="L374" title="All 2 branches missed.">                for (File kid : directory.listFiles()) {</span>
+<span class="nc" id="L375">                    String name = base.relativize(kid.toURI()).getPath();</span>
+<span class="nc bnc" id="L376" title="All 2 branches missed.">                    if (kid.isDirectory()) {</span>
+<span class="nc" id="L377">                        queue.push(kid);</span>
+<span class="nc bnc" id="L378" title="All 2 branches missed.">                        name = name.endsWith(&quot;/&quot;) ? name : name + &quot;/&quot;;</span>
+<span class="nc" id="L379">                        zout.putNextEntry(new ZipEntry(name));</span>
+                    } else {
+<span class="nc" id="L381">                        zout.putNextEntry(new ZipEntry(name));</span>
+<span class="nc" id="L382">                        copy(kid, zout);</span>
+<span class="nc" id="L383">                        zout.closeEntry();</span>
+                    }
+                }
+            }
+        } finally {
+<span class="nc" id="L388">            res.close();</span>
+<span class="nc" id="L389">        }</span>
+<span class="nc" id="L390">    }</span>
+
+    private void addFileToZipDir(File file) throws IOException {
+
+<span class="nc bnc" id="L394" title="All 2 branches missed.">        if (!file.exists()) {</span>
+<span class="nc" id="L395">            Log.level0Error(&quot;File: &quot; + file.toString() + &quot; not found while adding to zip&quot;);</span>
+<span class="nc" id="L396">            return;</span>
+        }
+
+        //First we need to create the file (empty) in the temp directory if its
+        //not there all ready
+<span class="nc" id="L401">        File fileToAdd = new File(TempFolder + CASUALSessionData.slash + file.getName());</span>
+<span class="nc bnc" id="L402" title="All 2 branches missed.">        if (!fileToAdd.exists()) {</span>
+<span class="nc" id="L403">            fileToAdd.createNewFile();</span>
+        }
+
+        //Create two file channels (effectivly Filestreamers with pointers)
+        //Well take the source and read it into the file.
+<span class="nc" id="L408">        FileChannel source = null;</span>
+<span class="nc" id="L409">        FileChannel dest = null;</span>
+        
+        
+        //Now stream from one channel to the other, and close once files are
+        //filled
+        try {
+<span class="nc" id="L415">            source = new FileInputStream(file).getChannel();</span>
+<span class="nc" id="L416">            dest = new FileOutputStream(fileToAdd).getChannel();</span>
+<span class="nc" id="L417">            dest.transferFrom(source, 0, source.size());</span>
+        } finally {
+<span class="nc bnc" id="L419" title="All 4 branches missed.">            if (source != null) {</span>
+<span class="nc" id="L420">                source.close();</span>
+            }
+<span class="nc bnc" id="L422" title="All 4 branches missed.">            if (dest != null) {</span>
+<span class="nc" id="L423">                dest.close();</span>
+            }
+        }
+
+<span class="nc" id="L427">    }</span>
+
+    //SHOULD ONLY BE CALLED FROM addDirectory
+    private void addFileToZipDir(File file, File destFolder) throws IOException {
+<span class="nc bnc" id="L431" title="All 2 branches missed.">        if (!file.exists()) {</span>
+<span class="nc" id="L432">            Log.level0Error(&quot;File: &quot; + file.toString() + &quot; not found while adding to zip.&quot;);</span>
+<span class="nc" id="L433">            return;</span>
+        }
+
+        //First we need to create the file (empty) in the temp directory if its
+        //not there all ready
+<span class="nc" id="L438">        File fileToAdd = new File(destFolder.toString() + CASUALSessionData.slash + file.getName());</span>
+<span class="nc bnc" id="L439" title="All 2 branches missed.">        if (!fileToAdd.exists()) {</span>
+<span class="nc" id="L440">            fileToAdd.createNewFile();</span>
+        }
+
+<span class="nc" id="L443">        copy(fileToAdd, destFolder);</span>
+
+<span class="nc" id="L445">    }</span>
+
+    /**
+     * adds a file to a zip directory.
+     * @param file file to add
+     * @throws IOException {@inheritDoc}
+     */
+    public void addFileToZipDIr(File file) throws IOException {
+<span class="nc bnc" id="L453" title="All 2 branches missed.">        if (!file.exists()) {</span>
+<span class="nc" id="L454">            Log.level0Error(&quot;File: &quot; + file.toString() + &quot; not found while adding to zip.&quot;);</span>
+<span class="nc" id="L455">            return;</span>
+        }
+<span class="nc bnc" id="L457" title="All 2 branches missed.">        if (file.isFile()) {</span>
+<span class="nc" id="L458">            addFileToZipDir(file);</span>
+        }
+
+<span class="nc bnc" id="L461" title="All 2 branches missed.">        if (file.isDirectory()) {</span>
+<span class="nc" id="L462">            addDirectoryToZipDir(file, null);</span>
+        }
+
+
+<span class="nc" id="L466">    }</span>
+
+    private void addDirectoryToZipDir(File folder, File parent) throws IOException {
+        File dirToAdd;
+<span class="nc bnc" id="L470" title="All 2 branches missed.">        if (parent == null) {</span>
+<span class="nc" id="L471">            dirToAdd = new File(TempFolder + CASUALSessionData.slash + folder.getName());</span>
+        } else {
+<span class="nc" id="L473">            dirToAdd = new File(parent.toString() + CASUALSessionData.slash + folder.getName());</span>
+        }
+<span class="nc bnc" id="L475" title="All 2 branches missed.">        if (!dirToAdd.exists()) {</span>
+<span class="nc" id="L476">            dirToAdd.mkdir();</span>
+        }
+<span class="nc bnc" id="L478" title="All 2 branches missed.">        for (File c : folder.listFiles()) {</span>
+<span class="nc bnc" id="L479" title="All 2 branches missed.">            if (c.isDirectory()) {</span>
+<span class="nc" id="L480">                addDirectoryToZipDir(c, dirToAdd);</span>
+            } else {
+<span class="nc" id="L482">                addFileToZipDir(c, dirToAdd);</span>
+            }
+        }
+
+<span class="nc" id="L486">    }</span>
+
+    /**
+     * STATIC Compresses a folder into a .zip file
+     *
+     * @param file folder to be compressed
+     * @throws FileNotFoundException {@inheritDoc}
+     * @throws IOException {@inheritDoc}
+     */    public void compressZipDir(String file) throws FileNotFoundException, IOException {
+<span class="nc" id="L495">        zipDir(file, &quot;&quot;);</span>
+<span class="nc" id="L496">    }</span>
+
+    /**
+     * Compresses the TempFolder into a .zip file
+     *
+     * @throws FileNotFoundException {@inheritDoc}
+     * @throws IOException {@inheritDoc}
+     */
+     public void compressZipDir() throws FileNotFoundException, IOException {
+<span class="nc" id="L505">        zipDir(TempFolder, &quot;&quot;);</span>
+<span class="nc" id="L506">    }</span>
+
+    /**
+     * Zip up a directory
+     *
+     * @param directory
+     * @param path
+     * @throws IOException {@inheritDoc}
+     */
+     private void zipDir(String directory, String path) throws IOException {
+<span class="nc" id="L516">         ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(outputZip));</span>
+<span class="nc" id="L517">        zipDir(directory, zos, path);</span>
+
+<span class="nc" id="L519">    }</span>
+
+    /**
+     * Zip up a directory path
+     * @param directory directory to zip
+     * @param zos outputstream to output into
+     * @param path path inside zip
+     * @throws IOException {@inheritDoc}
+     */
+     public void zipDir(String directory, ZipOutputStream zos, String path) throws IOException {
+<span class="nc" id="L529">         File zipDir = new File(directory);</span>
+         // get a listing of the directory content
+<span class="nc" id="L531">         String[] dirList = zipDir.list();</span>
+<span class="nc" id="L532">         byte[] readBuffer = new byte[2156];</span>
+         int bytesIn;
+         // loop through dirList, and zip the files
+<span class="nc bnc" id="L535" title="All 2 branches missed.">         for (String dirList1 : dirList) {</span>
+<span class="nc" id="L536">             File f = new File(zipDir, dirList1);</span>
+<span class="nc bnc" id="L537" title="All 2 branches missed.">             if (f.isDirectory()) {</span>
+<span class="nc" id="L538">                 String filePath = f.getPath();</span>
+<span class="nc" id="L539">                 zipDir(filePath, zos, path + f.getName() + &quot;/&quot;);</span>
+<span class="nc" id="L540">                 continue;</span>
+             }
+<span class="nc" id="L542">             FileInputStream fis = new FileInputStream(f);</span>
+<span class="nc" id="L543">             ZipEntry anEntry = new ZipEntry(path + f.getName());</span>
+<span class="nc" id="L544">             zos.putNextEntry(anEntry);</span>
+<span class="nc" id="L545">             bytesIn = fis.read(readBuffer);</span>
+<span class="nc bnc" id="L546" title="All 2 branches missed.">             while (bytesIn != -1) {</span>
+<span class="nc" id="L547">                 zos.write(readBuffer, 0, bytesIn);</span>
+<span class="nc" id="L548">                 bytesIn = fis.read(readBuffer);</span>
+            }
+        }
+<span class="nc" id="L551">    }</span>
+
+     private void getTemporaryOutputZip(File tempFile, byte[] buf) throws IOException, RuntimeException {
+         //try rename
+<span class="nc" id="L555">         boolean renameOk = outputZip.renameTo(tempFile);</span>
+<span class="nc" id="L556">         boolean copyOk = false;</span>
+         //if rename fails, make copy
+         
+<span class="nc bnc" id="L559" title="All 2 branches missed.">         if (!renameOk) {</span>
+<span class="nc bnc" id="L560" title="All 2 branches missed.">             if (tempFile.exists()){</span>
+<span class="nc" id="L561">                 tempFile.delete();</span>
+             }
+<span class="nc" id="L563">             tempFile.createNewFile();</span>
+             FileOutputStream out;
+<span class="nc" id="L565">             FileInputStream in = new FileInputStream(outputZip);</span>
+<span class="nc" id="L566">             out = new FileOutputStream(tempFile);</span>
+             int len;
+<span class="nc bnc" id="L568" title="All 2 branches missed.">             while ((len = in.read(buf)) &gt; 0) {</span>
+<span class="nc" id="L569">                 out.write(buf, 0, len);</span>
+             }
+<span class="nc" id="L571">             in.close();</span>
+             
+<span class="nc" id="L573">             out.close();</span>
+<span class="nc" id="L574">             copyOk = true;</span>
+         }
+<span class="nc bnc" id="L576" title="All 4 branches missed.">         if (!renameOk &amp;&amp; !copyOk) {</span>
+<span class="nc" id="L577">             throw new IOException(&quot;could not rename or copy the file &quot; + outputZip.getAbsolutePath() + &quot; to &quot; + tempFile.getAbsolutePath());</span>
+        }
+<span class="nc" id="L579">    }</span>
+
+     private ZipOutputStream prepareZipFileForMoreEntries(ZipInputStream zin, File[] files) throws FileNotFoundException, IOException {
+         
+         
+<span class="nc" id="L584">         String[] namesToCheck = new String[files.length];</span>
+<span class="nc bnc" id="L585" title="All 2 branches missed.">         for (int i = 0; i &lt; files.length; i++) {</span>
+<span class="nc" id="L586">             namesToCheck[i] = files[i].getName();</span>
+        }
+<span class="nc" id="L588">         return this.prepareZipFileForMoreEntries(zin, namesToCheck);</span>
+     }
+     
+     private ZipOutputStream prepareZipFileForMoreEntries(ZipInputStream zin, String name) throws FileNotFoundException, IOException {
+<span class="nc" id="L592">        String[] namesToCheck = new String[]{name};</span>
+<span class="nc" id="L593">        return this.prepareZipFileForMoreEntries(zin, namesToCheck);</span>
+     }
+     
+     private ZipOutputStream prepareZipFileForMoreEntries(ZipInputStream zin, Map&lt;String, InputStream&gt; nameStream) throws FileNotFoundException, IOException {
+<span class="nc" id="L597">         String[] namesToCheck = nameStream.keySet().toArray(new String[nameStream.size()]);</span>
+<span class="nc" id="L598">         return this.prepareZipFileForMoreEntries(zin, namesToCheck);</span>
+     }
+     
+     private ZipOutputStream prepareZipFileForMoreEntries(ZipInputStream zin, String[] namesToCheck) throws FileNotFoundException, IOException {
+         ZipOutputStream out;
+<span class="nc" id="L603">         out = new ZipOutputStream(new FileOutputStream(outputZip));</span>
+         //ZipEntry entry = zin.getNextEntry();
+         ZipEntry entry;
+<span class="nc bnc" id="L606" title="All 2 branches missed.">         while ((entry = zin.getNextEntry()) != null) {</span>
+<span class="nc" id="L607">             boolean skipEntryInFavorOfNewEntry = false;</span>
+<span class="nc bnc" id="L608" title="All 2 branches missed.">             for (String newEntryName : namesToCheck) {</span>
+<span class="nc bnc" id="L609" title="All 2 branches missed.">                 if (newEntryName.equals(entry.getName())) {</span>
+<span class="nc" id="L610">                     skipEntryInFavorOfNewEntry = true;</span>
+                 }
+             }
+<span class="nc bnc" id="L613" title="All 2 branches missed.">             if (!skipEntryInFavorOfNewEntry) {</span>
+<span class="nc" id="L614">                 String name = entry.getName();</span>
+                 // Add ZIP entry to output stream.
+<span class="nc" id="L616">                 out.putNextEntry(new ZipEntry(name));</span>
+                 // Transfer bytes from the ZIP file to the output file
+                 int len;
+<span class="nc bnc" id="L619" title="All 2 branches missed.">                while ((len = zin.read(BUFFER)) &gt; 0) {</span>
+<span class="nc" id="L620">                    out.write(BUFFER, 0, len);</span>
+                }
+             }
+<span class="nc" id="L623">         }</span>
+<span class="nc" id="L624">         return out;</span>
+     }
+     
+     private void writeEntryToZipFile(ZipOutputStream out, String file, InputStream in) throws IOException {
+<span class="nc" id="L628">         out.putNextEntry(new ZipEntry(file));</span>
+         // Transfer bytes from the file to the ZIP file
+         int len;
+<span class="nc bnc" id="L631" title="All 2 branches missed.">         while ((len = in.read(BUFFER)) &gt; 0) {</span>
+<span class="nc" id="L632">             out.write(BUFFER, 0, len);</span>
+         }
+         // Complete the entry
+<span class="nc" id="L635">         out.closeEntry();</span>
+<span class="nc" id="L636">     }</span>
+     
+     public void removeAllEntries() {
+<span class="nc" id="L639">         this.outputZip.delete();</span>
+         try {
+<span class="nc" id="L641">             new ZipOutputStream(new FileOutputStream(outputZip)).closeEntry();</span>
+<span class="nc" id="L642">         } catch (FileNotFoundException ex) {</span>
+<span class="nc" id="L643">            Logger.getLogger(Zip.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L644">        } catch (IOException ex) {</span>
+<span class="nc" id="L645">            Logger.getLogger(Zip.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L646">        }</span>
+<span class="nc" id="L647">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

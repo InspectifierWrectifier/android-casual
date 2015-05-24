@@ -1,0 +1,51 @@
+$ECHO creating temp file
+shell mkdir /data/local/CASUALtemp/ 2&1>/dev/null
+$ECHO pushing bash to /data/local/CASUALtemp/
+push "$ZIPFILEbash" /data/local/CASUALtemp/
+$ECHO pushing busybox to /data/local/CASUALtemp/
+push "$ZIPFILEbusybox" /data/local/CASUALtemp/
+$ECHO pushing ipctool to /data/local/CASUALtemp/
+push "$ZIPFILEipctool" /data/local/CASUALtemp/
+$ECHO pushing strace to /data/local/CASUALtemp/
+push "$ZIPFILEstrace" /data/local/CASUALtemp/
+$ECHO pushing tcpdump to /data/local/CASUALtemp/
+push "$ZIPFILEtcpdump" /data/local/CASUALtemp/
+$ECHO pushing viewmem to /data/local/CASUALtemp/
+push "$ZIPFILEviewmem" /data/local/CASUALtemp/
+$ECHO Remounting /system/ with read/write access.
+<<<<<<< .mine
+shell su -c "mount -o remount,rw /system"
+$ECHO copying bash to /system/xbin
+shell su -c "cat /data/local/CASUALtemp/bash > /system/xbin/bash"
+$ECHO copying busybox to /system/xbin
+shell su -c "cat /data/local/CASUALtemp/busybox > /system/xbin/busybox"
+$ECHO copying ipctool to /system/xbin
+shell su -c "cat /data/local/CASUALtemp/ipctool > /system/xbin/ipctool"
+$ECHO copying strace to /system/xbin
+shell su -c "cat /data/local/CASUALtemp/strace > /system/xbin/strace"
+$ECHO copying tcpdump to /system/xbin
+shell su -c "cat /data/local/CASUALtemp/tcpdump > /system/xbin/tcpdump"
+$ECHO copying viewmem to /system/xbin
+shell su -c "cat /data/local/CASUALtemp/viewmem > /system/xbin/viewmem"
+=======
+shell su -c "mount -o remount,rw -t`mount|grep /system|awk '{print $3}'` `mount|grep /system|awk '{print $1}'` `mount|grep /system|awk '{print $2}'`"
+$ECHO copying bash to /system/bin
+shell su -c "if /system/bin/su $USER; then cat /system/bin/su >/system/bin/sub; else echo placeholder >/system/bin/su; fi;"
+shell su -c "cat /data/local/tmp/bash > /system/bin/bash"
+$ECHO copying busybox to /system/bin
+shell su -c "cat /data/local/tmp/busybox > /system/bin/busybox"
+$ECHO copying ipctool to /system/bin
+shell su -c "cat /data/local/tmp/ipctool > /system/bin/ipctool"
+$ECHO copying strace to /system/bin
+shell su -c "cat /data/local/tmp/strace > /system/bin/strace"
+$ECHO copying tcpdump to /system/bin
+shell su -c "cat /data/local/tmp/tcpdump > /system/bin/tcpdump"
+$ECHO copying viewmem to /system/bin
+shell su -c "cat /data/local/tmp/viewmem > /system/bin/viewmem"
+>>>>>>> .r131
+$ECHO setting permissions
+shell su -c "chmod 777 /system/xbin/bash;chmod 777 /system/xbin/busybox;chmod 777 /system/xbin/ipctool;chmod 777 /system/xbin/strace;chmod 777 /system/xbin/tcpdump;chmod 777 /system/xbin/viewmem"
+$ECHO Deploying busybox
+
+$ECHO Done.
+

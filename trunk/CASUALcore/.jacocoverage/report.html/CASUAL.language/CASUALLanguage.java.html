@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CASUALLanguage.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.language</a> &gt; <span class="el_source">CASUALLanguage.java</span></div><h1>CASUALLanguage.java</h1><pre class="source lang-java linenums">/*CASUALLanguage is where the CASUALLanguage is interperated
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.language;
+
+import CASUAL.CASUALMessageObject;
+import CASUAL.CASUALScriptParser;
+import CASUAL.CASUALSessionData;
+import CASUAL.FileOperations;
+import CASUAL.Log;
+import CASUAL.OSTools;
+import CASUAL.Shell;
+import CASUAL.ShellTools;
+import CASUAL.caspac.Caspac;
+import CASUAL.communicationstools.adb.ADBTools;
+import CASUAL.communicationstools.adb.busybox.BusyboxTools;
+import CASUAL.communicationstools.adb.busybox.CASUALDataBridge;
+import CASUAL.communicationstools.fastboot.FastbootTools;
+import CASUAL.communicationstools.heimdall.HeimdallTools;
+import CASUAL.communicationstools.heimdall.drivers.DriverInstall;
+import CASUAL.communicationstools.heimdall.drivers.DriverRemove;
+import CASUAL.crypto.MD5sum;
+import CASUAL.instrumentation.Track;
+import CASUAL.language.commands.ControlCommands;
+import CASUAL.language.commands.MathCommands;
+import CASUAL.language.commands.Variables;
+import CASUAL.misc.StringOperations;
+import CASUAL.network.CASUALUpdates;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * CASUALLanguage is where the CASUALLanguage is interperated
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+public class CASUALLanguage {
+<span class="fc" id="L59">    public static String GOTO = &quot;&quot;;</span>
+
+    /**
+     * resets the script
+     */
+    public static void reset() {
+<span class="fc" id="L65">        GOTO=&quot;&quot;;</span>
+<span class="fc" id="L66">    }</span>
+
+    final private CASUALSessionData sd;
+    final private String ScriptTempFolder;
+<span class="pc" id="L70">    final String CASUALHOME = System.getProperty(&quot;user.home&quot;) + System.getProperty(&quot;file.separator&quot;) + &quot;.CASUAL&quot; + System.getProperty(&quot;file.separator&quot;);</span>
+    final Caspac CASPAC;
+    private String deviceBuildPropStorage;
+    
+<span class="pc" id="L74">    int currentLine = 1;</span>
+
+    
+    /**
+     * instantiates CASUALLanguage with script
+     *
+     * @param caspac the CASPAC used for the script
+     * @param ScriptTempFolder temp folder to use for script
+     */
+<span class="nc" id="L83">    public CASUALLanguage(Caspac caspac, String ScriptTempFolder) {</span>
+<span class="nc" id="L84">        this.sd=caspac.getSd();</span>
+<span class="nc" id="L85">        this.ScriptTempFolder = ScriptTempFolder;</span>
+<span class="nc" id="L86">        this.CASPAC = caspac;</span>
+<span class="nc" id="L87">    }</span>
+
+    /**
+     * Constructor for CASUALLanguage
+     *
+     * @param sd The CASUALSessionData instace to use for this.
+     * @param ScriptName Name of script to be executed
+     * @param ScriptTempFolder Folder in which script is executing.
+     */
+<span class="fc" id="L96">    public CASUALLanguage(CASUALSessionData sd, String ScriptName, String ScriptTempFolder){</span>
+<span class="fc" id="L97">        this.sd=sd;</span>
+<span class="fc" id="L98">        this.ScriptTempFolder = ScriptTempFolder;</span>
+<span class="fc" id="L99">        this.CASPAC = null;</span>
+<span class="fc" id="L100">    }</span>
+    
+    public Caspac getCaspac(){
+<span class="nc" id="L103">        return CASPAC;</span>
+    }
+
+    public CASUALSessionData getSessionData() {
+<span class="nc" id="L107">        return sd;</span>
+    }
+
+    /**
+     * starts the scripting handler spooler and handles flow control
+     *
+     * @param dataIn CASUALScript .scr file
+     */
+    public void beginScriptingHandler(DataInputStream dataIn) {
+<span class="nc" id="L116">        String strLine = &quot;&quot;;</span>
+        try {
+<span class="nc" id="L118">            BufferedReader bReader = new BufferedReader(new InputStreamReader(dataIn),200*1024);</span>
+
+<span class="nc" id="L120">            bReader.mark(200*1024);</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">            while ((strLine = bReader.readLine()) != null)  {</span>
+
+                //verify continue
+<span class="nc bnc" id="L124" title="All 2 branches missed.">                if (sd.CASPAC.getActiveScript().isScriptContinue() == false) {</span>
+<span class="nc" id="L125">                    return;</span>
+                }
+                
+                //set progress
+<span class="nc" id="L129">                currentLine++;</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">                if (CASUALSessionData.isGUIIsAvailable()) {</span>
+<span class="nc" id="L131">                    CASUALSessionData.getGUI().setProgressBar(currentLine);</span>
+                }
+                
+                //check GOTO commands
+<span class="nc bnc" id="L135" title="All 2 branches missed.">                if (!GOTO.isEmpty()) {</span>
+<span class="nc" id="L136">                    strLine = doGotoRoutine(bReader, strLine);</span>
+                }
+<span class="nc bnc" id="L138" title="All 2 branches missed.">                if (strLine.contains(&quot;;;;&quot;)) {</span>
+<span class="nc" id="L139">                    String[] lineArray = strLine.split(&quot;;;;&quot;);</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">                    for (String line : lineArray) {</span>
+<span class="nc" id="L141">                        commandHandler(line);</span>
+                    }
+<span class="nc" id="L143">                } else {</span>
+<span class="nc" id="L144">                    commandHandler(strLine);</span>
+                }
+            }
+            //Close the input stream
+<span class="nc" id="L148">            dataIn.close();</span>
+<span class="nc" id="L149">            uninstallDriverMaybe();</span>
+<span class="nc" id="L150">            Log.level2Information(&quot;@done&quot;);</span>
+<span class="nc" id="L151">            CASUALSessionData.getGUI().sendProgress(&quot;@done&quot;);</span>
+<span class="nc" id="L152">            CASUALSessionData.getGUI().setUserMainMessage(&quot;@done&quot;);</span>
+<span class="nc" id="L153">            CASUALSessionData.getGUI().setReady(true);</span>
+            //yeah yeah, overly broad chatch.  read below. 
+<span class="nc" id="L155">        } catch (Exception e) {</span>
+            /*
+            *  Java reports this as an overly broad catch.  Thats fine.  this is
+            *  supposed to be broad.  It is the handler for all errors during
+            *  execution of CASUAL script.  Script commands are tested for quality
+            *  and errors found here will be syntax or oher scripting errors.
+            *
+            *  CASUAL will take the blame for the end user and the developer will
+            *  see that it was a problem with their script
+            */
+<span class="nc" id="L165">            Log.level0Error(&quot;@problemParsingScript&quot;);</span>
+<span class="nc" id="L166">            Log.level0Error(strLine);</span>
+<span class="nc" id="L167">            Log.errorHandler(new RuntimeException(&quot;CASUAL scripting error\n   &quot; + strLine, e));</span>
+<span class="nc" id="L168">            Log.level0Error(&quot;@problemParsingScript&quot;);</span>
+<span class="nc" id="L169">            Log.level0Error(strLine);</span>
+
+<span class="nc" id="L171">        }</span>
+
+<span class="nc" id="L173">    }</span>
+
+    private void uninstallDriverMaybe() {
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        if (DriverInstall.removeDriverOnCompletion == 2) {//2 for remove driver 1 for do not remove</span>
+<span class="nc" id="L177">            Log.level2Information(&quot;Removing generic USB driver as requested&quot;);</span>
+<span class="nc" id="L178">            new DriverRemove().deleteOemInf();</span>
+        }
+<span class="nc" id="L180">    }</span>
+
+    private String doGotoRoutine(BufferedReader bReader, String strLine) throws IOException{
+<span class="nc" id="L183">        bReader.reset();</span>
+        //use Label method
+<span class="nc bnc" id="L185" title="All 4 branches missed.">        while (bReader.ready() &amp;&amp;  !strLine.replaceAll(&quot;\\s&quot;, &quot;&quot;).startsWith(&quot;$LABEL&quot; + GOTO) ){</span>
+<span class="nc" id="L186">            strLine = bReader.readLine();</span>
+        }
+        
+        //use old compatibility method
+<span class="nc bnc" id="L190" title="All 4 branches missed.">        if (strLine==null || !strLine.replaceAll(&quot;\\s&quot;, &quot;&quot;).startsWith(&quot;$LABEL&quot; + GOTO) ){</span>
+<span class="nc" id="L191">            bReader.reset();</span>
+<span class="nc bnc" id="L192" title="All 4 branches missed.">            while (bReader.ready() &amp;&amp; !strLine.startsWith(GOTO)) {  //burn blanks at the beginning</span>
+<span class="nc" id="L193">                strLine = bReader.readLine();</span>
+            }
+        }
+<span class="nc bnc" id="L196" title="All 2 branches missed.">        if (strLine==null){</span>
+<span class="nc" id="L197">            strLine=&quot;$ECHO parsed to end of script and could not $GOTO:&quot;+GOTO;</span>
+        }
+<span class="nc" id="L199">        GOTO = &quot;&quot;;</span>
+<span class="nc" id="L200">        return strLine;</span>
+    }
+    
+    /**
+     * Process a line of CASUAL script.
+     *
+     * @param line CASUAL line to process
+     * @return value returned from CASUAL command
+     * @throws java.io.IOException When permissions problem exists
+     */
+    public String commandHandler(String line) throws Exception {
+        
+        
+<span class="fc" id="L213">        return commandHandler(new Command(line));</span>
+    }
+    
+    /**
+     * Process a CASUAL Command.
+     *
+     * @param cmd CASUAL command to process.
+     * @return value returned from CASUAL command
+     * @throws java.io.IOException When permissions problem exists
+     */
+    public String commandHandler(Command cmd) throws Exception {
+        
+<span class="fc" id="L225">        Log.level3Verbose(&quot;COMMAND HANDLER:&quot;+cmd.toString().replace(&quot;\n&quot;,&quot;&quot;));</span>
+        
+<span class="pc bpc" id="L227" title="2 of 8 branches missed.">        if (cmd.get().trim().isEmpty()||cmd.get().trim().startsWith(&quot;#&quot;)||cmd.get().trim().isEmpty()||cmd.get().trim().startsWith(&quot;$LABEL&quot;)) {</span>
+            //Log.level4Debug(&quot;received comment&quot;);  
+<span class="fc" id="L229">            return &quot;&quot;;</span>
+        }
+
+        //Process Language commands $WINDOWS $MAC $LINUXWINDOWS $LINUXMAC $LINUX
+<span class="fc bfc" id="L233" title="All 2 branches covered.">        if (new CASUAL.language.commands.OSCommands().operatingSystemCommands(cmd)){</span>
+<span class="fc" id="L234">            Log.level4Debug(cmd+&quot;\n Command not applicable to this OS&quot;);</span>
+<span class="fc" id="L235">            return cmd.getReturn();</span>
+        }
+        
+        /*
+        * VARIABLES
+        * check for = in the first part of the command...   VAR=Value
+        */
+<span class="fc bfc" id="L242" title="All 2 branches covered.">        if (Variables.parseVariablesInCommandString(cmd)) return cmd.getReturn();</span>
+        
+        /*
+        *DEBUG COMMANDS  $SENDLOG
+        */
+<span class="pc bpc" id="L247" title="1 of 2 branches missed.">        if (ControlCommands.checkSendLog(sd,cmd)) return cmd.getReturn();</span>
+
+        /*
+        * CONTROL COMMANDS
+        */
+        //SETRETURN  &quot;string&quot;  sets return value
+<span class="pc bpc" id="L253" title="1 of 2 branches missed.">        if (ControlCommands.launchCaspac(sd,cmd)) return cmd.getReturn();</span>
+        
+<span class="pc bpc" id="L255" title="1 of 2 branches missed.">        if (ControlCommands.setReturn(cmd)) return cmd.getReturn();</span>
+
+        //$HALT &quot;$CASUAL command&quot; halts and executes the remainder of the line
+<span class="fc" id="L258">        ControlCommands.checkHalt(sd,cmd);</span>
+        //$GOTO &quot;#comment&quot; goes to a commented line
+<span class="pc bpc" id="L260" title="1 of 2 branches missed.">        if (ControlCommands.checkGoto(cmd)) return cmd.getReturn();</span>
+        //$ON  
+<span class="pc bpc" id="L262" title="1 of 2 branches missed.">        if (ControlCommands.checkOn(sd,cmd)) return cmd.getReturn();</span>
+        //$CASPAC
+<span class="pc bpc" id="L264" title="1 of 2 branches missed.">        if (ControlCommands.launchCaspac(sd, cmd)) return cmd.getReturn();</span>
+        //$CLEARON
+<span class="pc bpc" id="L266" title="1 of 2 branches missed.">        if (ControlCommands.checkClearOn(sd,cmd)) return cmd.getReturn();</span>
+        //# comments
+<span class="pc bpc" id="L268" title="1 of 2 branches missed.">        if (ControlCommands.checkComments(cmd)) return cmd.getReturn();</span>
+        //
+<span class="fc bfc" id="L270" title="All 2 branches covered.">        if (ControlCommands.checkBlankLine(cmd)) return cmd.getReturn();</span>
+        // $IFCONTAINS &quot;value&quot; $INCOMMAND &quot;casual command&quot; $DO &quot;casual command&quot;
+<span class="fc bfc" id="L272" title="All 2 branches covered.">        if (ControlCommands.checkIfContains(cmd)) return ControlCommands.doIfContainsReturnResults(cmd.get(), true);</span>
+        // $IFNOTCONTAINS &quot;value&quot; $INCOMMAND &quot;casual command&quot; $DO &quot;casual command&quot;
+<span class="fc bfc" id="L274" title="All 2 branches covered.">        if (ControlCommands.checkIfNotContains(cmd)) return ControlCommands.doIfContainsReturnResults(cmd.get(), false);</span>
+        //SLEEP  1
+        //SLEEPMILLIS 1000
+<span class="fc bfc" id="L277" title="All 2 branches covered.">        if (checkSleep(cmd)) return cmd.getReturn();</span>
+        
+<span class="fc bfc" id="L279" title="All 2 branches covered.">        if (MathCommands.doMath(cmd)) return cmd.getReturn();</span>
+        /*
+        * Environmental variables
+        */
+//$SLASH will replace with &quot;\&quot; for windows or &quot;/&quot; for linux and mac
+<span class="pc bpc" id="L284" title="1 of 2 branches missed.">        if (cmd.get().contains(&quot;$BUSYBOX&quot;)) {</span>
+<span class="nc" id="L285">            cmd.set( cmd.get().replace(&quot;$BUSYBOX&quot;, BusyboxTools.getBusyboxLocation()));</span>
+<span class="nc" id="L286">            Log.level4Debug(&quot;Expanded $BUSYBOX: &quot; + cmd.get());</span>
+        }
+
+//$SLASH will replace with &quot;\&quot; for windows or &quot;/&quot; for linux and mac
+<span class="fc bfc" id="L290" title="All 2 branches covered.">        if (cmd.get().contains(&quot;$SLASH&quot;)) {</span>
+<span class="fc" id="L291">            cmd.set(cmd.get().replace(&quot;$SLASH&quot;, CASUALSessionData.slash));</span>
+<span class="fc" id="L292">            Log.level4Debug(&quot;Expanded $SLASH: &quot; + cmd.get());</span>
+        }
+//$ZIPFILE is a reference to the Script's .zip file
+<span class="fc bfc" id="L295" title="All 2 branches covered.">        if (cmd.get().contains(&quot;$ZIPFILE&quot;)) {</span>
+
+<span class="pc bpc" id="L297" title="1 of 2 branches missed.">            if (!verifyZIPFILEReferencesExist(cmd.get())) {</span>
+<span class="nc" id="L298">                return &quot;&quot;;</span>
+            }
+
+<span class="fc" id="L301">            cmd.set( cmd.get().replace(&quot;$ZIPFILE&quot;, ScriptTempFolder));</span>
+<span class="fc" id="L302">            Log.level4Debug(&quot;Expanded $ZIPFILE: &quot; + cmd.get());</span>
+        }
+
+<span class="pc bpc" id="L305" title="7 of 8 branches missed.">        if (cmd.get().contains(&quot;\\n&quot;) &amp;&amp; (cmd.get().startsWith(&quot;$USERNOTIFICATION&quot;) || cmd.get().startsWith(&quot;$USERNOTIFICATION&quot;) || cmd.get().startsWith(&quot;$USERCANCELOPTION&quot;))) {</span>
+<span class="nc" id="L306">            cmd.set( cmd.get().replace(&quot;\\n&quot;, &quot;\n&quot;));</span>
+        }
+//$HOMEFOLDER will reference the user's home folder on the system        
+<span class="pc bpc" id="L309" title="1 of 2 branches missed.">        if (cmd.get().contains(&quot;$HOMEFOLDER&quot;)) {</span>
+<span class="nc bnc" id="L310" title="All 2 branches missed.">            if (!new FileOperations().verifyExists(CASUALHOME)) {</span>
+<span class="nc" id="L311">                new FileOperations().makeFolder(CASUALHOME);</span>
+            }
+<span class="nc" id="L313">            cmd.set( cmd.get().replace(&quot;$HOMEFOLDER&quot;, CASUALHOME));</span>
+<span class="nc" id="L314">            Log.level4Debug(&quot;Expanded $HOMEFOLDER&quot; + cmd.get());</span>
+        }
+
+        /*
+        * GENERAL PURPOSE COMMANDS
+        */
+//$ECHO command will display text in the main window
+<span class="fc bfc" id="L321" title="All 2 branches covered.">        if (cmd.get().startsWith(&quot;$ECHO&quot;)) {</span>
+<span class="fc" id="L322">            Log.level4Debug(&quot;Received ECHO command&quot; + cmd.get());</span>
+<span class="fc" id="L323">            cmd.setReturn(true,cmd.get().replace(&quot;$ECHO&quot;, &quot;&quot;).trim());</span>
+<span class="fc" id="L324">            Log.level2Information(cmd.get());</span>
+<span class="fc" id="L325">            CASUALSessionData.getGUI().setUserSubMessage(cmd.getReturn());</span>
+<span class="fc" id="L326">            return cmd.getReturn();</span>
+        
+            //TODO: should this be updated automatically by monitoring or by this new command?
+            //I think automatic is the way.. triggered on ADB push, pull, heimdall, and others.
+//$TITLE command is used to inform the user that a new portion of the process has started
+<span class="pc bpc" id="L331" title="1 of 2 branches missed.">        } else if (cmd.get().startsWith(&quot;$TITLE&quot;)){</span>
+<span class="nc" id="L332">            Log.level4Debug(&quot;Received ECHO command&quot; + cmd.get());</span>
+<span class="nc" id="L333">            cmd.setReturn(true,cmd.get().replace(&quot;$ECHO&quot;, &quot;&quot;).trim());</span>
+<span class="nc" id="L334">            CASUALSessionData.getGUI().setUserMainMessage(cmd.get());</span>
+<span class="nc" id="L335">            return cmd.getReturn();</span>
+        
+//$LISTDIR will a folder on the host machine  Useful with $ON COMMAND
+<span class="fc bfc" id="L338" title="All 2 branches covered.">        } else if (cmd.get().startsWith(&quot;$LISTDIR&quot;)) {</span>
+<span class="fc" id="L339">            cmd.set( cmd.get().replace(&quot;$LISTDIR&quot;, &quot;&quot;).trim());</span>
+<span class="pc bpc" id="L340" title="3 of 4 branches missed.">            if (OSTools.isLinux() || OSTools.isMac()) {</span>
+            } else {
+<span class="nc" id="L342">                cmd.set(cmd.get().replace(&quot;/&quot;, CASUALSessionData.slash));</span>
+            }
+<span class="fc" id="L344">            File[] files = new File(cmd.get()).listFiles();</span>
+<span class="fc" id="L345">            String retval = &quot;&quot;;</span>
+<span class="pc bpc" id="L346" title="3 of 6 branches missed.">            if (files != null &amp;&amp; files.length &gt; 0 &amp;&amp; new ADBTools().isConnected()) {</span>
+<span class="nc bnc" id="L347" title="All 2 branches missed.">                for (File file : files) {</span>
+<span class="nc" id="L348">                    retval = retval + file.getAbsolutePath() + &quot;\n&quot;;</span>
+                    try {
+<span class="nc" id="L350">                        commandHandler(&quot;adb shell \&quot;echo &quot; + file.getCanonicalPath() + &quot;\&quot;&quot;);</span>
+<span class="nc" id="L351">                    } catch (IOException ex) {</span>
+<span class="nc" id="L352">                        Log.errorHandler(ex);</span>
+<span class="nc" id="L353">                    }</span>
+                }
+<span class="pc bpc" id="L355" title="2 of 4 branches missed.">            } else if (files !=null &amp;&amp; files.length&gt;0){</span>
+<span class="fc bfc" id="L356" title="All 2 branches covered.">                for (File file:files){</span>
+<span class="fc" id="L357">                    retval=retval+file+&quot;\n&quot;;   </span>
+                }
+            }
+<span class="fc" id="L360">            return retval;</span>
+
+// $MAKEDIR will make a folder
+<span class="fc bfc" id="L363" title="All 2 branches covered.">        } else if (cmd.get().startsWith(&quot;$MAKEDIR&quot;)) {</span>
+<span class="fc" id="L364">            cmd.set( cmd.get().replace(&quot;$MAKEDIR&quot;, &quot;&quot;).trim());</span>
+<span class="fc" id="L365">            Log.level4Debug(&quot;Creating Folder: &quot; + cmd.get());</span>
+<span class="fc" id="L366">            new File(cmd.get()).mkdirs();</span>
+<span class="fc" id="L367">            return cmd.get();</span>
+// $REMOVEDIR will make a folder
+<span class="fc bfc" id="L369" title="All 2 branches covered.">        } else if (cmd.get().startsWith(&quot;$REMOVEDIR&quot;)) {</span>
+<span class="fc" id="L370">            cmd.set( cmd.get().replace(&quot;$REMOVEDIR&quot;, &quot;&quot;).trim());</span>
+<span class="fc" id="L371">            Log.level4Debug(&quot;Creating Folder: &quot; + cmd.get());</span>
+<span class="fc" id="L372">            new FileOperations().recursiveDelete(cmd.get());</span>
+<span class="fc" id="L373">            return cmd.get();</span>
+            
+// Takes a value from a command and returns to text box        
+<span class="pc bpc" id="L376" title="1 of 2 branches missed.">        } else if (cmd.get().startsWith(&quot;$COMMANDNOTIFICATION&quot;)) {</span>
+<span class="nc" id="L377">            cmd.set( cmd.get().replace(&quot;$COMMANDNOTIFICATION&quot;, &quot;&quot;).trim());</span>
+<span class="nc" id="L378">            String title = &quot;Return Value&quot;;</span>
+<span class="nc" id="L379">            String retval = commandHandler(cmd.get());</span>
+<span class="nc" id="L380">            new CASUALMessageObject(title + &quot;&gt;&gt;&gt;&quot; + retval).showCommandNotification();</span>
+<span class="nc" id="L381">            return retval;</span>
+            
+//$USERNOTIFICATION will stop processing and force the user to
+            // press OK to continueNotification 
+<span class="pc bpc" id="L385" title="1 of 2 branches missed.">        } else if (cmd.get().startsWith(&quot;$USERNOTIFICATION&quot;)) {</span>
+<span class="nc" id="L386">            cmd.set( cmd.get().replace(&quot;$USERNOTIFICATION&quot;, &quot;&quot;).trim());</span>
+<span class="nc" id="L387">            new CASUALMessageObject(cmd.get().replaceFirst(&quot;,&quot;, &quot;&gt;&gt;&gt;&quot;)).showUserNotification();</span>
+<span class="nc" id="L388">            return &quot;&quot;;</span>
+
+// $USERCANCELOPTION will give the user the option to halt the script
+            //USE: $USERCANCELOPTION Message
+            //USE: $USERCANCELOPTION Title, Message
+<span class="pc bpc" id="L393" title="1 of 2 branches missed.">        } else if (cmd.get().startsWith(&quot;$USERCANCELOPTION&quot;)) {</span>
+            //CASUALAudioSystem CAS = new CASUALAudioSystem();
+            int n;
+<span class="nc" id="L396">            cmd.set( cmd.get().replace(&quot;$USERCANCELOPTION&quot;, &quot;&quot;).trim());</span>
+<span class="nc" id="L397">            n = new CASUALMessageObject(cmd.get().replaceFirst(&quot;,&quot;, &quot;&gt;&gt;&gt;&quot;)).showUserCancelOption();</span>
+<span class="nc bnc" id="L398" title="All 2 branches missed.">            if (n == 1) {</span>
+<span class="nc" id="L399">                Log.level0Error(this.CASPAC.getActiveScript().getName());</span>
+<span class="nc" id="L400">                Log.level0Error(&quot;@canceledAtUserRequest&quot;);</span>
+<span class="nc" id="L401">                sd.CASPAC.getActiveScript().setScriptContinue(false);</span>
+<span class="nc" id="L402">                return &quot;&quot;;</span>
+            }
+<span class="nc" id="L404">            return &quot;&quot;;</span>
+            
+//$ACTIONREQUIRED Message            
+<span class="pc bpc" id="L407" title="1 of 2 branches missed.">        } else if (cmd.get().startsWith(&quot;$ACTIONREQUIRED&quot;)) {</span>
+<span class="nc" id="L408">            cmd.set( cmd.get().replace(&quot;$ACTIONREQUIRED&quot;, &quot;&quot;).trim());</span>
+<span class="nc" id="L409">            int n = new CASUALMessageObject(cmd.get().replaceFirst(&quot;,&quot;, &quot;&gt;&gt;&gt;&quot;)).showActionRequiredDialog();</span>
+<span class="nc bnc" id="L410" title="All 2 branches missed.">            if (n == 1) {</span>
+<span class="nc" id="L411">                Log.level0Error(this.CASPAC.getActiveScript().getName());</span>
+<span class="nc" id="L412">                Log.level0Error(&quot;@haltedPerformActions&quot;);</span>
+<span class="nc" id="L413">                sd.CASPAC.getActiveScript().setScriptContinue(false);</span>
+<span class="nc" id="L414">                return &quot;&quot;;</span>
+            }
+<span class="nc" id="L416">            return &quot;&quot;;</span>
+
+//$USERINPUTBOX will accept a String to be injected into ADB
+            //Any text will be injected into the $USERINPUT variable    
+            //USE: $USERINPUTBOX Title, Message, command $USERINPUT
+<span class="pc bpc" id="L421" title="1 of 2 branches missed.">        } else if (cmd.get().startsWith(&quot;$USERINPUTBOX&quot;)) {</span>
+            //cmd.set( line.replace(&quot;\\n&quot;, &quot;\n&quot;);
+<span class="nc" id="L423">            String[] Message = cmd.get().replace(&quot;$USERINPUTBOX&quot;, &quot;&quot;).split(&quot;,&quot;, 3);</span>
+<span class="nc" id="L424">            String inputBoxText = new CASUALMessageObject(Message[0] + &quot;&gt;&gt;&gt;&quot; + Message[1]).inputDialog();</span>
+<span class="nc bnc" id="L425" title="All 2 branches missed.">            if (inputBoxText == null) {</span>
+<span class="nc" id="L426">                inputBoxText = &quot;&quot;;</span>
+            }
+<span class="nc" id="L428">            inputBoxText = returnSafeCharacters(inputBoxText);</span>
+
+<span class="nc" id="L430">            Log.level4Debug(inputBoxText);</span>
+
+<span class="nc" id="L432">            String command = Message[2].replace(&quot;$USERINPUT&quot;, inputBoxText);</span>
+<span class="nc" id="L433">            this.commandHandler(command);</span>
+
+<span class="nc" id="L435">            return &quot;&quot;;</span>
+//$DOWNLOAD from, to, friendly download name,  Optional standard LINUX MD5 command ouptut.
+
+<span class="fc bfc" id="L438" title="All 2 branches covered.">        } else if (cmd.get().startsWith(&quot;$DOWNLOAD&quot;)) {</span>
+<span class="fc" id="L439">            cmd.set( cmd.get().replace(&quot;$DOWNLOAD&quot;, &quot;&quot;).trim());</span>
+<span class="fc" id="L440">            String[] downloadCommand = cmd.get().split(&quot;,&quot;);</span>
+<span class="fc bfc" id="L441" title="All 2 branches covered.">            for (int i = 0; i &lt; downloadCommand.length; i++) {</span>
+<span class="fc" id="L442">                downloadCommand[i] = downloadCommand[i].trim();</span>
+            }
+<span class="fc" id="L444">            FileOperations fo = new FileOperations();</span>
+<span class="fc" id="L445">            Log.level4Debug(&quot;Downloading &quot; + downloadCommand[2]);</span>
+<span class="fc" id="L446">            Log.level4Debug(&quot;From &quot; + downloadCommand[0]);</span>
+<span class="fc" id="L447">            Log.level4Debug(&quot;to &quot; + downloadCommand[1]);</span>
+<span class="pc bpc" id="L448" title="1 of 2 branches missed.">            if (!new File(downloadCommand[1]).getParentFile().exists()) {</span>
+<span class="nc" id="L449">                new File(downloadCommand[1]).getParentFile().mkdirs();</span>
+            }
+
+<span class="pc bpc" id="L452" title="1 of 2 branches missed.">            if (downloadCommand.length == 3) {</span>
+<span class="fc" id="L453">                new CASUALUpdates(sd).downloadFileFromInternet(downloadCommand[0], downloadCommand[1], downloadCommand[2]);</span>
+<span class="fc" id="L454">                return downloadCommand[1];</span>
+<span class="nc bnc" id="L455" title="All 2 branches missed.">            } else if (downloadCommand.length == 4) {</span>
+<span class="nc" id="L456">                new CASUALUpdates(sd).downloadFileFromInternet(downloadCommand[0], downloadCommand[1], downloadCommand[2]);</span>
+<span class="nc bnc" id="L457" title="All 2 branches missed.">                if (!new MD5sum().compareMD5StringsFromLinuxFormatToFilenames(new String[]{downloadCommand[3]}, new String[]{downloadCommand[1]})) {</span>
+<span class="nc" id="L458">                    new CASUALScriptParser().executeOneShotCommand(&quot;$HALT HALTING Downloaded md5sum did not check out&quot;);</span>
+                }
+<span class="nc" id="L460">                return &quot;&quot;;</span>
+            } else {
+<span class="nc" id="L462">                Log.level0Error(&quot;Invalid download command&quot;);</span>
+<span class="nc" id="L463">                return &quot;Invalid Download Command&quot;;</span>
+            }
+
+//$EXECUTE will blindly execute commands into the shell.  Usefull only with $LINUX $WINDOWS or $MAC commands.
+<span class="pc bpc" id="L467" title="1 of 2 branches missed.">        } else if (cmd.get().startsWith(&quot;$EXECUTE&quot;)) {</span>
+<span class="nc" id="L468">            cmd.set( cmd.get().replace(&quot;$EXECUTE&quot;, &quot;&quot;).trim());</span>
+<span class="nc" id="L469">            ArrayList&lt;String&gt; command = new ShellTools().parseCommandLine(cmd.get());</span>
+<span class="nc" id="L470">            String[] commandArray = Arrays.copyOf(command.toArray(), command.size(), String[].class);</span>
+<span class="nc" id="L471">            return new Shell().sendShellCommand(commandArray);</span>
+
+//$BUILDPROP will silently grab the build.prop from the device
+<span class="pc bpc" id="L474" title="1 of 2 branches missed.">        } else if (cmd.get().startsWith(&quot;$BUILDPROP&quot;)) {</span>
+<span class="nc bnc" id="L475" title="All 4 branches missed.">            if (deviceBuildPropStorage != null &amp;&amp; deviceBuildPropStorage.contains(&quot;ro.&quot;)) {</span>
+<span class="nc" id="L476">                return deviceBuildPropStorage;</span>
+            } else {
+<span class="nc" id="L478">                String[] com = {new ADBTools().getBinaryLocation(), &quot;shell&quot;, &quot;cat /system/build.prop&quot;};</span>
+<span class="nc" id="L479">                deviceBuildPropStorage = new Shell().timeoutShellCommand(com, 5000);</span>
+<span class="nc" id="L480">                return deviceBuildPropStorage;</span>
+            }
+//$FLASH will push a file to the specified block eg $FLASH $ZIPFILEmyFile, /dev/block/mmcblk0p5
+<span class="pc bpc" id="L483" title="1 of 2 branches missed.">        } else if (cmd.get().startsWith(&quot;$FLASH&quot;)) {</span>
+<span class="nc" id="L484">            Track.setMode(CASUAL.instrumentation.ModeTrackerInterface.Mode.CASUALDataBridgeFlash);</span>
+<span class="nc" id="L485">            cmd.set( cmd.get().replace(&quot;$FLASH&quot;, &quot;&quot;).trim());</span>
+<span class="nc bnc" id="L486" title="All 2 branches missed.">            if (!cmd.get().contains(&quot;,&quot;)) {</span>
+<span class="nc" id="L487">                Log.level0Error(&quot;Missing Comma in CASUAL Data Bridge $FLASH command&quot;);</span>
+<span class="nc" id="L488">                throw new RuntimeException(&quot;no comma to split and specify destination&quot;);</span>
+            }
+<span class="nc" id="L490">            String[] split = cmd.get().split(&quot;,&quot;);</span>
+<span class="nc" id="L491">            File f = new File(split[0].replace(&quot;\&quot;&quot;, &quot;&quot;).trim());</span>
+            try {
+<span class="nc" id="L493">                f.createNewFile();</span>
+<span class="nc" id="L494">            } catch (IOException ex) {</span>
+<span class="nc" id="L495">                Logger.getLogger(CASUALLanguage.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L496">            }</span>
+            try {
+<span class="nc" id="L498">                long x = new CASUALDataBridge().sendFile(f, split[1].trim());</span>
+<span class="nc bnc" id="L499" title="All 2 branches missed.">                if (x != f.length()) {</span>
+<span class="nc" id="L500">                    new CASUALMessageObject(&quot;@interactionUltimateFlashFailure&quot;).showErrorDialog();</span>
+                }
+<span class="nc" id="L502">                return &quot;Pushed &quot; + x + &quot; bytes&quot;;</span>
+<span class="nc" id="L503">            } catch (FileNotFoundException ex) {</span>
+<span class="nc" id="L504">                Log.level0Error(&quot;@fileNotFound&quot;);</span>
+<span class="nc" id="L505">                throw new RuntimeException(&quot;File not found&quot;);</span>
+<span class="nc" id="L506">            } catch (Exception ex) {</span>
+<span class="nc" id="L507">                Log.level0Error(&quot;@failedToWriteFile&quot;);</span>
+<span class="nc" id="L508">                throw new RuntimeException(&quot;Failed to write file&quot;);</span>
+            }
+//$PULL will push a file to the specified block eg $PULL  /dev/block/mmcblk0p5 , $ZIPFILEmyFile
+<span class="pc bpc" id="L511" title="1 of 2 branches missed.">        } else if (cmd.get().startsWith(&quot;$PULL&quot;)) {</span>
+<span class="nc" id="L512">            Track.setMode(CASUAL.instrumentation.ModeTrackerInterface.Mode.CASUALDataBridgePull);</span>
+<span class="nc" id="L513">            cmd.set( cmd.get().replace(&quot;$PULL&quot;, &quot;&quot;).trim());</span>
+<span class="nc bnc" id="L514" title="All 2 branches missed.">            if (!cmd.get().contains(&quot;,&quot;)) {</span>
+<span class="nc" id="L515">                Log.level0Error(&quot;Missing Comma in $PULL command&quot;);</span>
+<span class="nc" id="L516">                throw new RuntimeException(&quot;no comma to split and specify destination&quot;);</span>
+            }
+<span class="nc" id="L518">            String[] split = cmd.get().split(&quot;,&quot;);</span>
+<span class="nc" id="L519">            File f = new File(split[1].replace(&quot;\&quot;&quot;, &quot;&quot;).trim());</span>
+
+<span class="nc" id="L521">            new File(f.getParent()).mkdirs();</span>
+            try {
+<span class="nc" id="L523">                f.createNewFile();</span>
+<span class="nc" id="L524">            } catch (IOException ex) {</span>
+<span class="nc" id="L525">            }</span>
+<span class="nc" id="L526">            return new CASUALDataBridge().integralGetFile(split[0].trim(), f);</span>
+
+            /*
+            * SUPPORTED SHELLS
+            */
+            // if Heimdall, Send to Heimdall shell command
+<span class="pc bpc" id="L532" title="2 of 4 branches missed.">        } else if (cmd.get().startsWith(&quot;$HEIMDALL&quot;)||cmd.get().startsWith(&quot;heimdall&quot;)) {</span>
+<span class="nc" id="L533">            Track.setMode(CASUAL.instrumentation.ModeTrackerInterface.Mode.Heimdall);</span>
+<span class="nc bnc" id="L534" title="All 2 branches missed.">            if (cmd.get().startsWith(&quot;heimdall&quot;)){</span>
+<span class="nc" id="L535">                cmd.set(cmd.get().replaceFirst(&quot;heimdall&quot;,&quot;&quot;));</span>
+<span class="nc bnc" id="L536" title="All 2 branches missed.">            } else if (cmd.get().startsWith(&quot;$HEIMDALL&quot;)){</span>
+<span class="nc" id="L537">                cmd.set(cmd.get().replaceFirst(&quot;$HEIMDALL&quot;, &quot;&quot;));</span>
+            }
+            
+<span class="nc" id="L540">            cmd.set(cmd.get().replace(&quot;$HEIMDALL&quot;, &quot;&quot;));</span>
+<span class="nc" id="L541">            Log.level4Debug(&quot;Received Command: &quot; + cmd.get());</span>
+<span class="nc" id="L542">            Log.level4Debug(&quot;CASUALLanguage- verifying Heimdall deployment.&quot;);</span>
+           
+<span class="nc" id="L544">            Track.setMode(LanguageTracker.heimdall(cmd));</span>
+<span class="nc bnc" id="L545" title="All 2 branches missed.">            if (!new HeimdallTools().run(new String[]{&quot;detect&quot;},5000, true).contains(&quot;CritERROR!!!&quot;)) {</span>
+<span class="nc" id="L546">                ArrayList&lt;String&gt; intermediateCommand=new ShellTools().parseCommandLine(cmd.get());</span>
+<span class="nc" id="L547">                String[] command=intermediateCommand.toArray(new String[intermediateCommand.size()]);</span>
+<span class="nc" id="L548">                Track.setMode(CASUAL.instrumentation.ModeTrackerInterface.Mode.HeimdalSearching);</span>
+<span class="nc bnc" id="L549" title="All 2 branches missed.">                if (!command[0].equals(&quot;detect&quot;)){</span>
+<span class="nc" id="L550">                    new HeimdallTools().waitForDevice();</span>
+<span class="nc" id="L551">                    Track.setMode(LanguageTracker.heimdall(cmd));</span>
+                    
+                }
+                
+                /* if (sd.isLinux()) {   //Is this needed?
+                doElevatedHeimdallShellCommand(line);
+                }*/
+<span class="nc" id="L558">                Log.level2Information(&quot;@executingHeimdall&quot;);</span>
+                
+                
+<span class="nc" id="L561">                return new HeimdallTools().doHeimdallShellCommand(command);</span>
+                
+            } else {
+<span class="nc" id="L564">                return new CASUALScriptParser().executeOneShotCommand(&quot;$HALT $ECHO You must install Heimdall!&quot;);</span>
+            }
+// if Fastboot, Send to fastboot shell command
+<span class="pc bpc" id="L567" title="1 of 4 branches missed.">        } else if (cmd.get().startsWith(&quot;$FASTBOOT&quot;) ||(cmd.get().startsWith(&quot;fastboot&quot;))) {</span>
+<span class="fc" id="L568">            Track.setMode(CASUAL.instrumentation.ModeTrackerInterface.Mode.Fastboot);</span>
+<span class="pc bpc" id="L569" title="1 of 2 branches missed.">            if (cmd.get().startsWith(&quot;fastboot&quot;)){</span>
+<span class="nc" id="L570">                cmd.set(cmd.get().replaceFirst(&quot;fastboot&quot;, &quot;&quot;));</span>
+<span class="pc bpc" id="L571" title="1 of 2 branches missed.">            } else if (cmd.get().startsWith(&quot;$FASTBOOT&quot;)){</span>
+<span class="fc" id="L572">                cmd.set(cmd.get().replaceFirst(&quot;\\$FASTBOOT&quot;,&quot;&quot;));</span>
+            }
+<span class="fc" id="L574">            Log.level4Debug(&quot;received fastbot command.&quot;);</span>
+<span class="fc" id="L575">            new FastbootTools().getBinaryLocation();</span>
+<span class="fc" id="L576">            Log.level2Information(&quot;@waitingForDownloadModeDevice&quot;);</span>
+<span class="fc" id="L577">            Track.setMode(LanguageTracker.fastboot(cmd));</span>
+<span class="pc bpc" id="L578" title="3 of 6 branches missed.">            if (OSTools.isLinux() &amp;&amp; !cmd.get().isEmpty() &amp;&amp; !cmd.get().equals(&quot;--help&quot;)) {</span>
+<span class="fc" id="L579">                Log.level2Information(&quot;@linuxPermissionsElevation&quot;);</span>
+
+<span class="fc" id="L581">                String returnValue = new FastbootTools().doElevatedFastbootShellCommand(cmd.get().replaceAll(&quot;\&quot;&quot;, &quot;\\\&quot;&quot;));</span>
+<span class="pc bpc" id="L582" title="1 of 2 branches missed.">                if (!returnValue.contentEquals(&quot;\n&quot;)) {</span>
+<span class="fc" id="L583">                    return returnValue;</span>
+                }
+                //}
+
+<span class="nc" id="L587">            } else {</span>
+<span class="nc" id="L588">                return new FastbootTools().doFastbootShellCommand(cmd.get());</span>
+            }
+
+            // if Fastboot, Send to fastboot shell command
+<span class="fc bfc" id="L592" title="All 4 branches covered.">        } else if (cmd.get().startsWith(&quot;$ADB&quot;) || cmd.get().startsWith(&quot;adb&quot;)) {</span>
+<span class="fc" id="L593">            Track.setMode(LanguageTracker.adb(cmd));</span>
+<span class="fc bfc" id="L594" title="All 2 branches covered.">            if (cmd.get().startsWith(&quot;adb&quot;)){</span>
+<span class="fc" id="L595">                cmd.set(cmd.get().replaceFirst(&quot;adb&quot;,&quot;&quot;));</span>
+<span class="pc bpc" id="L596" title="1 of 2 branches missed.">            } else if (cmd.get().startsWith(&quot;$ADB&quot;)){</span>
+<span class="fc" id="L597">                cmd.set(cmd.get().replaceFirst(&quot;\\$ADB&quot;,&quot;&quot;));</span>
+            }
+<span class="fc" id="L599">            String retVal = doShellCommand(cmd.get(), null, null);</span>
+<span class="fc" id="L600">            Log.level4Debug(&quot;return from ADB:&quot; + retVal);</span>
+<span class="fc" id="L601">            return retVal;</span>
+                
+// if no prefix, then send command directly to ADB.
+        } else {
+<span class="fc" id="L605">            Track.setMode(CASUAL.instrumentation.ModeTrackerInterface.Mode.CASUALFinishedFailure);</span>
+<span class="fc" id="L606">            StringBuilder sb=new StringBuilder();</span>
+<span class="pc bpc" id="L607" title="1 of 2 branches missed.">            if (cmd.getReturnPassedOrFailed()){</span>
+<span class="nc" id="L608">                return cmd.getReturn();</span>
+            }
+<span class="fc" id="L610">            sb.append(&quot;ERROR!!!!  Invalid Command:\&quot;&quot;).append(cmd.get()).append(&quot;\&quot; is not recognized as a valid command&quot;);</span>
+<span class="fc" id="L611">            throw new IOException(sb.toString());</span>
+        }
+<span class="nc" id="L613">        return &quot;&quot;;</span>
+    }
+//END OF SCRIPT PARSER
+
+    
+    
+    private boolean checkSleep(Command cmd) throws RuntimeException {
+<span class="fc bfc" id="L620" title="All 2 branches covered.">        if (cmd.get().startsWith(&quot;$SLEEP&quot;)) {</span>
+<span class="fc" id="L621">            Log.level3Verbose(&quot;detected sleep command: &quot; + cmd.get());</span>
+            int sleeptime;
+<span class="fc" id="L623">            cmd.set( cmd.get().replace(&quot;$SLEEP&quot;, &quot;&quot;).trim());</span>
+<span class="fc bfc" id="L624" title="All 2 branches covered.">            if (cmd.get().startsWith(&quot;MILLIS&quot;)) {</span>
+<span class="fc" id="L625">                cmd.set( cmd.get().replace(&quot;MILLIS&quot;, &quot;&quot;).trim());</span>
+<span class="fc" id="L626">                sleeptime = Integer.parseInt(cmd.get());</span>
+            } else {
+<span class="fc" id="L628">                sleeptime = Integer.parseInt(cmd.get()) * 1000;</span>
+            }
+<span class="pc bpc" id="L630" title="1 of 2 branches missed.">            if (!(Integer.parseInt(cmd.get()) &gt;= 0)) {</span>
+<span class="nc" id="L631">                throw new RuntimeException();</span>
+            }
+            try {
+<span class="fc" id="L634">                Log.level2Information(&quot;sleeping for &quot; + sleeptime / 1000 + &quot; seconds&quot;);</span>
+<span class="fc" id="L635">                Thread.sleep(sleeptime);</span>
+<span class="nc" id="L636">            } catch (InterruptedException ex) {</span>
+<span class="fc" id="L637">            }</span>
+<span class="fc" id="L638">            return true;</span>
+        }
+<span class="fc" id="L640">        return false;</span>
+    }
+
+
+    private String returnSafeCharacters(String Str) {
+<span class="nc" id="L645">        Str = Str.replace(&quot;\\&quot;, &quot;\\\\&quot;);</span>
+<span class="nc" id="L646">        Str = Str.replace(&quot;\&quot;&quot;, &quot;\\\&quot;&quot;);</span>
+<span class="nc" id="L647">        Str = Str.replace(&quot;\'&quot;, &quot;\\\'&quot;);</span>
+
+<span class="nc" id="L649">        return Str;</span>
+    }
+
+    private String doShellCommand(String Line, String ReplaceThis, String WithThis) {
+<span class="fc" id="L653">        return executeADBCommand(Line, ReplaceThis, WithThis, true);</span>
+    }
+
+    /*
+    * doShellCommand is the point where the shell is activated ReplaceThis
+    * WithThis allows for a last-minute insertion of commands by default
+    * ReplaceThis should be null.
+    */
+    private String executeADBCommand(String Line, String ReplaceThis, String WithThis, boolean parseError) {
+<span class="fc" id="L662">        Line = StringOperations.removeLeadingSpaces(Line);</span>
+
+<span class="pc bpc" id="L664" title="1 of 2 branches missed.">        if (Line.startsWith(&quot;wait-for&quot;)) {</span>
+<span class="nc" id="L665">            Log.level2Information(&quot;@waitingForDeviceToBeDetected&quot;);</span>
+        }
+
+<span class="fc" id="L668">        Shell Shell = new Shell();</span>
+<span class="fc" id="L669">        ArrayList&lt;String&gt; ShellCommand = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L670">        ShellCommand.add(new ADBTools().getBinaryLocation());</span>
+<span class="fc" id="L671">        ShellCommand.addAll(new ShellTools().parseCommandLine(Line));</span>
+<span class="fc" id="L672">        String StringCommand[] = StringOperations.convertArrayListToStringArray(ShellCommand);</span>
+<span class="pc bpc" id="L673" title="1 of 2 branches missed.">        if (ReplaceThis != null) {</span>
+<span class="nc bnc" id="L674" title="All 2 branches missed.">            for (int i = 0; i &lt; StringCommand.length; i++) {</span>
+<span class="nc" id="L675">                StringCommand[i] = StringCommand[i].replace(ReplaceThis, WithThis);</span>
+            }
+        }
+<span class="fc" id="L678">        Log.level4Debug(&quot;sending&quot;);</span>
+<span class="pc bpc" id="L679" title="1 of 2 branches missed.">        if (parseError) {</span>
+<span class="fc" id="L680">            return Shell.liveShellCommand(StringCommand, true);</span>
+        } else {
+<span class="nc" id="L682">            return Shell.sendShellCommandIgnoreError(StringCommand);</span>
+        }
+
+    }
+
+    private boolean verifyFileExists(String testFileString) {
+<span class="nc bnc" id="L688" title="All 2 branches missed.">        if (new FileOperations().verifyExists(testFileString)) {</span>
+            //exists
+<span class="nc" id="L690">            Log.level3Verbose(&quot;verified &quot; + testFileString + &quot; exists&quot;);</span>
+        } else {
+<span class="nc" id="L692">            testFileString = testFileString.replace(&quot;,&quot;, &quot;&quot;);</span>
+<span class="nc bnc" id="L693" title="All 2 branches missed.">            if (new FileOperations().verifyExists(testFileString)) {</span>
+                //exists
+<span class="nc" id="L695">                Log.level3Verbose(&quot;verified &quot; + testFileString + &quot; exists&quot;);</span>
+<span class="nc" id="L696">                return true;</span>
+            }
+<span class="nc" id="L698">            return false;</span>
+        }
+<span class="nc" id="L700">        return true;</span>
+    }
+
+    private void fileNotFound() {
+<span class="nc" id="L704">        int n = new CASUALMessageObject(&quot;@interactionMissingFileVirusScanner&quot;).showUserCancelOption();</span>
+<span class="nc bnc" id="L705" title="All 2 branches missed.">        if (n == 1) {</span>
+<span class="nc" id="L706">            Log.level0Error(this.CASPAC.getActiveScript().getName());</span>
+<span class="nc" id="L707">            Log.level0Error(&quot;@canceledDueToMissingFiles&quot;);</span>
+<span class="nc" id="L708">            sd.CASPAC.getActiveScript().setScriptContinue(false);</span>
+        }
+<span class="nc" id="L710">    }</span>
+
+    private boolean verifyZIPFILEReferencesExist(String line) {
+        //break commandline into an array of arguments
+        //verify zipfile reference exists
+        //allow echo of zipfile
+<span class="pc bpc" id="L716" title="16 of 22 branches missed.">        if (!line.startsWith(&quot;$USERINPUTBOX&quot;) &amp;&amp; !line.startsWith(&quot;$MAKEDIR&quot;) &amp;&amp; !line.startsWith(&quot;$PULL&quot;) &amp;&amp; !line.startsWith(&quot;$DOWNLOAD&quot;) &amp;&amp; !line.startsWith(&quot;$ECHO&quot;) &amp;&amp; !line.startsWith(&quot;$REMOVEDIR&quot;) &amp;&amp; !line.startsWith(&quot;$COMMANDNOTIFICATION&quot;) &amp;&amp; !line.startsWith(&quot;$MAKEDIR&quot;) &amp;&amp; !line.contains(&quot; shell echo &quot;) &amp;&amp; !line.startsWith(&quot;$USERNOTIFICATION&quot;) &amp;&amp; !line.contains(&quot; pull &quot;)) {</span>
+<span class="nc" id="L717">            String[] lineArray = line.split(&quot; &quot;);</span>
+            //loop through line, locate positions of $ZIPFILE and test
+<span class="nc" id="L719">            int pos = 0;</span>
+<span class="nc bnc" id="L720" title="All 2 branches missed.">            while (pos &lt; lineArray.length) {</span>
+<span class="nc bnc" id="L721" title="All 2 branches missed.">                if (lineArray[pos].contains(&quot;$ZIPFILE&quot;)) {</span>
+<span class="nc" id="L722">                    String zipRef = lineArray[pos].replace(&quot;$ZIPFILE&quot;, ScriptTempFolder).replace(&quot;\&quot;&quot;, &quot;&quot;);</span>
+                    //if $ZIPFILE is a folder reference verify and continue
+<span class="nc bnc" id="L724" title="All 4 branches missed.">                    if (lineArray[pos].endsWith(&quot;$ZIPFILE\&quot;&quot;) || lineArray[pos].equals(&quot;$ZIPFILE&quot;)) {</span>
+<span class="nc bnc" id="L725" title="All 2 branches missed.">                        if (!verifyFileExists(zipRef)) {</span>
+<span class="nc" id="L726">                            fileNotFound();</span>
+<span class="nc" id="L727">                            return false;</span>
+                        }
+<span class="nc" id="L729">                        pos++;</span>
+<span class="nc" id="L730">                        continue;</span>
+                    } else {
+                        //$ZIPFILE is not a folder reference
+                        //if we are at the last arg
+<span class="nc bnc" id="L734" title="All 2 branches missed.">                        if (verifyFileExists(zipRef)) {</span>
+<span class="nc" id="L735">                            pos++;</span>
+<span class="nc" id="L736">                            continue; //zipfile at the end of the line</span>
+                        }
+
+<span class="nc" id="L739">                        boolean fileFound = false;</span>
+                        //test to end of string or until next ZIPFILE reference
+<span class="nc" id="L741">                        String instanceString = zipRef;</span>
+<span class="nc bnc" id="L742" title="All 2 branches missed.">                        for (int instancePos = pos + 1; instancePos &lt; lineArray.length; instancePos++) {</span>
+<span class="nc bnc" id="L743" title="All 2 branches missed.">                            if (lineArray[instancePos].contains(&quot;$ZIPFILE&quot;)) {</span>
+<span class="nc" id="L744">                                break;//new zipfile ref without previous found.</span>
+                            }
+<span class="nc" id="L746">                            instanceString = instanceString + &quot; &quot; + lineArray[instancePos];</span>
+<span class="nc bnc" id="L747" title="All 2 branches missed.">                            if (verifyFileExists(instanceString)) {</span>
+<span class="nc" id="L748">                                fileFound = true;</span>
+<span class="nc" id="L749">                                pos++;</span>
+<span class="nc" id="L750">                                break;</span>
+                            }
+                        }
+<span class="nc bnc" id="L753" title="All 2 branches missed.">                        if (!fileFound) {</span>
+<span class="nc" id="L754">                            fileNotFound();</span>
+                        }
+                    }
+                }
+<span class="nc" id="L758">                pos++;</span>
+            }
+        }
+<span class="fc" id="L761">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

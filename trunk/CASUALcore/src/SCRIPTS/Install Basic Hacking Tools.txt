@@ -1,0 +1,2 @@
+*Requires Root Access
+This will install AdamOutler's "Basic Hacking Tools".  This package consists of BASH, Busybox, IPCTool, STrace, TCPDump, and ViewMem.  

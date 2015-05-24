@@ -1,0 +1,18 @@
+---------------------------------------------------------------
+                       Made possible by                        
+                            Saurik                             
+           Who ported the explot to Android and RAZR           
+                           Thanks to                           
+                            Max Lee                            
+                            DooMLoRD                           
+ I used your zergRush packages and modified them for mempodroid
+---------------------------------------------------------------
+ [*] This script will:                                         
+     (1) root your device using mempodroid                            
+     (2) install su binary: 3.0.3.2                              
+ [*] Before you begin:     
+     (1) install adb drivers for for your device                                  
+     (2) enable "USB DEBUGGING"                             
+           from (Menu\Settings\Developer options)              
+     (3) connect USB cable to PHONE                            
+---------------------------------------------------------------

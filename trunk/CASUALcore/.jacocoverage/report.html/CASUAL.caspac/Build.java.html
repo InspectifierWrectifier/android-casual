@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Build.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.caspac</a> &gt; <span class="el_source">Build.java</span></div><h1>Build.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2015 adamoutler
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.caspac;
+
+import CASUAL.AudioHandler;
+import CASUAL.FileOperations;
+import CASUAL.Log;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+/**
+ * build class is a reference to handle -build.properties information
+ */
+public final class Build {
+    /**
+     * Name of Script Developer.
+     */
+<span class="pc" id="L38">    private String developerName = &quot;&quot;;</span>
+    /**
+     * Name to display on donation button.
+     */
+<span class="pc" id="L42">    private String developerDonateButtonText = &quot;&quot;;</span>
+    /**
+     * Link to direct users to when donate button is clicked.
+     */
+<span class="pc" id="L46">    private String donateLink = &quot;&quot;;</span>
+    /**
+     * Title of UI window.
+     */
+<span class="pc" id="L50">    private String windowTitle = &quot;&quot;;</span>
+    /**
+     * True if use picture for banner. False if use text.
+     */
+<span class="pc" id="L54">    private boolean usePictureForBanner = false;</span>
+    /**
+     * Image to use for banner pic. Generally CASPAC folder/CodeSource
+     * -Logo.png
+     */
+<span class="pc" id="L59">    private String bannerPic = &quot;&quot;;</span>
+    /**
+     * Text to use for banner.
+     */
+<span class="pc" id="L63">    private String bannerText = &quot;&quot;;</span>
+    /**
+     * Text to be displayed on execute button.
+     */
+<span class="pc" id="L67">    private String executeButtonText = &quot;Do It&quot;;</span>
+    /**
+     * True if Audio is to be used by application for user enhanced
+     * experience.
+     */
+<span class="pc" id="L72">    private boolean audioEnabled = AudioHandler.useSound;</span>
+    /**
+     * True if controls should never be disabled.
+     */
+<span class="pc" id="L76">    private boolean alwaysEnableControls = false;</span>
+    /**
+     * Properties file containing all properties of the -Build.properties
+     * file
+     */
+<span class="pc" id="L81">    private Properties buildProp = new Properties();</span>
+    private Caspac caspac;
+
+    /**
+     * Creates a blank build.prop file
+     * @param caspac reference to caspac
+     */
+<span class="nc" id="L88">    public Build(Caspac caspac){</span>
+        
+<span class="nc" id="L90">    }</span>
+    
+    
+    /**
+     * Accepts a -Build.properties file via InputStream.
+     *
+     * @param prop Properties file.
+     * @param caspac to be associated with the build
+     * @throws IOException when permissions problem exists.
+     */
+<span class="fc" id="L100">    public Build(InputStream prop, final Caspac caspac) throws IOException {</span>
+<span class="fc" id="L101">        this.caspac = caspac;</span>
+<span class="fc" id="L102">        Log.level4Debug(&quot;Loading build information from inputstream&quot;);</span>
+<span class="fc" id="L103">        buildProp.load(prop);</span>
+<span class="fc" id="L104">        loadPropsToVariables();</span>
+<span class="fc" id="L105">        Log.level4Debug(windowTitle + &quot; - &quot; + bannerText + &quot; - &quot; + developerName);</span>
+<span class="fc" id="L106">    }</span>
+
+    /**
+     * loads and sets properties file
+     *
+     * @param prop build.properties file
+     * @param caspac to be assocaiated with the build
+     */
+<span class="fc" id="L114">    public Build(Properties prop, final Caspac caspac) {</span>
+<span class="fc" id="L115">        this.caspac = caspac;</span>
+<span class="fc" id="L116">        Log.level4Debug(&quot;Loading build information from prop information&quot;);</span>
+<span class="fc" id="L117">        this.buildProp = prop;</span>
+<span class="fc" id="L118">        loadPropsToVariables();</span>
+<span class="fc" id="L119">    }</span>
+
+    /**
+     * writes build properties to a file
+     *
+     * @param output file to write
+     * @return true if file was written
+     * @throws FileNotFoundException when file cannot be created
+     * @throws IOException when permissions problem exists.
+     */
+    public boolean write(String output) throws FileNotFoundException, IOException {
+<span class="nc" id="L130">        File f = new File(output);</span>
+<span class="nc" id="L131">        return write(f);</span>
+    }
+
+    /**
+     * writes build properties to a file
+     *
+     * @param output file to write
+     * @return true if file was written
+     * @throws FileNotFoundException when file cannot be created
+     * @throws IOException when permissions problem exists.
+     */
+    public boolean write(File output) throws FileNotFoundException, IOException {
+<span class="nc" id="L143">        FileOperations fo = new FileOperations();</span>
+<span class="nc" id="L144">        setPropsFromVariables();</span>
+<span class="nc" id="L145">        FileOutputStream fos = new FileOutputStream(output);</span>
+<span class="nc" id="L146">        buildProp.store(fos, &quot;This properties file was generated by CASUAL&quot;);</span>
+<span class="nc" id="L147">        return fo.verifyExists(output.toString());</span>
+    }
+
+    /**
+     * gets the -Build.properties as an InputStream
+     *
+     * @return InputStream properties file for write-out.
+     * @throws IOException when permissions problem exists.
+     */
+    public InputStream getBuildPropInputStream() throws IOException {
+<span class="fc" id="L157">        setPropsFromVariables();</span>
+<span class="fc" id="L158">        ByteArrayOutputStream output = new ByteArrayOutputStream();</span>
+<span class="fc" id="L159">        buildProp.store(output, &quot;This properties file was generated by CASUAL&quot;);</span>
+<span class="fc" id="L160">        return new ByteArrayInputStream(output.toByteArray());</span>
+    }
+
+    /**
+     * loads build properties from a map
+     *
+     * @param buildMap key,value pairs
+     */
+    private Build setPropsFromVariables() {
+<span class="pc bpc" id="L169" title="1 of 2 branches missed.">        buildProp.setProperty(&quot;Window.UsePictureForBanner&quot;, usePictureForBanner ? &quot;True&quot; : &quot;False&quot;);</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">        buildProp.setProperty(&quot;Audio.Enabled&quot;, audioEnabled ? &quot;True&quot; : &quot;False&quot;);</span>
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">        buildProp.setProperty(&quot;Application.AlwaysEnableControls&quot;, alwaysEnableControls ? &quot;True&quot; : &quot;False&quot;);</span>
+<span class="fc" id="L172">        buildProp.setProperty(&quot;Developer.DonateLink&quot;, donateLink);</span>
+<span class="fc" id="L173">        buildProp.setProperty(&quot;Developer.DonateToButtonText&quot;, developerDonateButtonText);</span>
+<span class="fc" id="L174">        buildProp.setProperty(&quot;Developer.Name&quot;, developerName);</span>
+<span class="fc" id="L175">        buildProp.setProperty(&quot;Window.ExecuteButtonText&quot;, executeButtonText);</span>
+<span class="fc" id="L176">        buildProp.setProperty(&quot;Window.BannerText&quot;, bannerText);</span>
+<span class="fc" id="L177">        buildProp.setProperty(&quot;Window.BannerPic&quot;, bannerPic);</span>
+<span class="fc" id="L178">        buildProp.setProperty(&quot;Window.Title&quot;, windowTitle);</span>
+<span class="fc" id="L179">        return this;</span>
+    }
+
+    /**
+     * sets properties to values stored in build.properties file.
+     */
+    void loadPropsToVariables() {
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">        if (buildProp.containsKey(&quot;Audio.Enabled&quot;)) {</span>
+<span class="fc" id="L187">            audioEnabled = buildProp.getProperty(&quot;Audio.Enabled&quot;, &quot;&quot;).contains(&quot;rue&quot;);</span>
+<span class="fc" id="L188">            AudioHandler.useSound = audioEnabled;</span>
+        }
+<span class="fc" id="L190">        usePictureForBanner = buildProp.getProperty(&quot;Window.UsePictureForBanner&quot;, &quot;&quot;).contains(&quot;rue&quot;);</span>
+<span class="fc" id="L191">        developerDonateButtonText = buildProp.getProperty(&quot;Developer.DonateToButtonText&quot;, &quot;&quot;);</span>
+<span class="fc" id="L192">        developerName = buildProp.getProperty(&quot;Developer.Name&quot;, &quot;&quot;);</span>
+<span class="fc" id="L193">        donateLink = buildProp.getProperty(&quot;Developer.DonateLink&quot;, &quot;&quot;);</span>
+<span class="fc" id="L194">        donateLink = buildProp.getProperty(&quot;Developer.DonateLink&quot;, &quot;&quot;);</span>
+<span class="fc" id="L195">        executeButtonText = buildProp.getProperty(&quot;Window.ExecuteButtonText&quot;, &quot;&quot;);</span>
+<span class="fc" id="L196">        bannerText = buildProp.getProperty(&quot;Window.BannerText&quot;, &quot;&quot;);</span>
+<span class="fc" id="L197">        alwaysEnableControls = buildProp.getProperty(&quot;Application.AlwaysEnableControls&quot;, &quot;&quot;).contains(&quot;rue&quot;);</span>
+<span class="fc" id="L198">        windowTitle = buildProp.getProperty(&quot;Window.Title&quot;, &quot;&quot;);</span>
+<span class="fc" id="L199">    }</span>
+
+    /**
+     * @return the developerName
+     */
+    public String getDeveloperName() {
+<span class="fc" id="L205">        return developerName;</span>
+    }
+
+    /**
+     * @param developerName the developerName to set
+     * @return this instance of Build
+     */
+    public Build setDeveloperName(String developerName) {
+<span class="nc" id="L213">        this.developerName = developerName;</span>
+<span class="nc" id="L214">        return this;</span>
+    }
+
+    /**
+     * @return the developerDonateButtonText
+     */
+    public String getDeveloperDonateButtonText() {
+<span class="fc" id="L221">        return developerDonateButtonText;</span>
+    }
+
+    /**
+     * @param developerDonateButtonText the developerDonateButtonText to set
+     * @return this Build
+     */
+    public Build setDeveloperDonateButtonText(String developerDonateButtonText) {
+<span class="nc" id="L229">        this.developerDonateButtonText = developerDonateButtonText;</span>
+<span class="nc" id="L230">        return this;</span>
+    }
+
+    /**
+     * @return the donateLink
+     */
+    public String getDonateLink() {
+<span class="fc" id="L237">        return donateLink;</span>
+    }
+
+    /**
+     * @param donateLink the donateLink to set
+     * @return  this Build
+     */
+    public Build setDonateLink(String donateLink) {
+<span class="nc" id="L245">        this.donateLink = donateLink;</span>
+<span class="nc" id="L246">        return this;</span>
+    }
+
+    /**
+     * @return the windowTitle
+     */
+    public String getWindowTitle() {
+<span class="fc" id="L253">        return windowTitle;</span>
+    }
+
+    /**
+     * @param windowTitle the windowTitle to set
+     * @return  this Build
+     */
+    public Build setWindowTitle(String windowTitle) {
+<span class="nc" id="L261">        this.windowTitle = windowTitle;</span>
+<span class="nc" id="L262">        return this;</span>
+    }
+
+    /**
+     * @return the usePictureForBanner
+     */
+    public boolean isUsePictureForBanner() {
+<span class="fc" id="L269">        return usePictureForBanner;</span>
+    }
+
+    /**
+     * @param usePictureForBanner the usePictureForBanner to set
+     * @return  this Build
+     */
+    public Build setUsePictureForBanner(boolean usePictureForBanner) {
+<span class="nc" id="L277">        this.usePictureForBanner = usePictureForBanner;</span>
+<span class="nc" id="L278">        return this;</span>
+    }
+
+    /**
+     * @return the bannerPic
+     */
+    public String getBannerPic() {
+<span class="fc" id="L285">        return bannerPic;</span>
+    }
+
+    /**
+     * @param bannerPic the bannerPic to set
+     * @return  this Build
+     */
+    public Build setBannerPic(String bannerPic) {
+<span class="fc" id="L293">        this.bannerPic = bannerPic;</span>
+<span class="fc" id="L294">        return this;</span>
+    }
+
+    /**
+     * @return the bannerText
+     */
+    public String getBannerText() {
+<span class="fc" id="L301">        return bannerText;</span>
+    }
+
+    /**
+     * @param bannerText the bannerText to set
+     * @return 
+     */
+    public Build setBannerText(String bannerText) {
+<span class="nc" id="L309">        this.bannerText = bannerText;</span>
+<span class="nc" id="L310">        return this;</span>
+    }
+
+    /**
+     * @return the executeButtonText
+     */
+    public String getExecuteButtonText() {
+<span class="fc" id="L317">        return executeButtonText;</span>
+    }
+
+    /**
+     * @param executeButtonText the executeButtonText to set
+     * @return 
+     */
+    public Build setExecuteButtonText(String executeButtonText) {
+<span class="nc" id="L325">        this.executeButtonText = executeButtonText;</span>
+<span class="nc" id="L326">        return this;</span>
+    }
+
+    /**
+     * @return the audioEnabled
+     */
+    public boolean isAudioEnabled() {
+<span class="fc" id="L333">        return audioEnabled;</span>
+    }
+
+    /**
+     * @param audioEnabled the audioEnabled to set
+     * @return  this Build
+     */
+    public Build setAudioEnabled(boolean audioEnabled) {
+<span class="nc" id="L341">        this.audioEnabled = audioEnabled;</span>
+<span class="nc" id="L342">        return this;</span>
+    }
+
+    /**
+     * @return the alwaysEnableControls
+     */
+    public boolean isAlwaysEnableControls() {
+<span class="fc" id="L349">        return alwaysEnableControls;</span>
+    }
+
+    /**
+     * @param alwaysEnableControls the alwaysEnableControls to set
+     * @return  this Build
+     */
+    public Build setAlwaysEnableControls(boolean alwaysEnableControls) {
+<span class="nc" id="L357">        this.alwaysEnableControls = alwaysEnableControls;</span>
+<span class="nc" id="L358">        return this;</span>
+    }
+
+    /**
+     * @return the buildProp
+     */
+    public Properties getBuildProp() {
+<span class="fc" id="L365">        return buildProp;</span>
+    }
+
+    /**
+     * @param buildProp the buildProp to set
+     * @return  this Build
+     */
+    public Build setBuildProp(Properties buildProp) {
+<span class="nc" id="L373">        this.buildProp = buildProp;</span>
+<span class="nc" id="L374">        return this;</span>
+    }
+
+    /**
+     * @return the build
+     */
+    public Caspac getBuild() {
+<span class="nc" id="L381">        return caspac;</span>
+    }
+
+    /**
+     * @param build the build to set
+     * @return  this Build
+     */
+    public Build setBuild(Caspac build) {
+<span class="nc" id="L389">        this.caspac = build;</span>
+<span class="nc" id="L390">        return this;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TimeOutOptionPane.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">GUI.development</a> &gt; <span class="el_source">TimeOutOptionPane.java</span></div><h1>TimeOutOptionPane.java</h1><pre class="source lang-java linenums">/*TimeOutOptionPane provides an option pane with timeout
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package GUI.development;
+
+import CASUAL.Log;
+import java.awt.Component;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
+/**
+ * TimeOutOptionPane provides an option pane with timeout
+ *
+ * @author modified heavily by Adam Outler adamoutler@gmail.com based on
+ * uncopyrighted work http://www.jguru.com/faq/view.jsp?EID=266182
+ */
+public class TimeOutOptionPane extends JOptionPane {
+
+    static final long serialVersionUID = 9876543234567L;
+
+<span class="fc" id="L34">    static int PRESET_TIME = 335;</span>
+    /*
+     * int showTimeoutDialog = timeOutOptionPane.showTimeoutDialog( 5, //timeout
+     * null, //parentComponent &quot;My Message&quot;, //Display Message &quot;My Title&quot;,
+     * //DisplayTitle TimeOutOptionPane.YES_OPTION, // Options buttons
+     * TimeOutOptionPane.INFORMATION_MESSAGE, //Icon new String[]{&quot;blah&quot;, &quot;hey&quot;,
+     * &quot;yo&quot;}, // option buttons &quot;yo&quot;); //seconds before auto &quot;yo&quot;
+     *     
+     *
+     */
+<span class="fc" id="L44">    private boolean isSelected = false;</span>
+
+    /**
+     * instantiates a timeout option pane
+     */
+    public TimeOutOptionPane() {
+<span class="fc" id="L50">        super();</span>
+<span class="fc" id="L51">    }</span>
+
+    /**
+     * timeout option pane
+     *
+     * @param time time limit to wait
+     * @param parentComponent display over
+     * @param message message to be displayed
+     * @param title title of message
+     * @param optionType JOptionPane.OPTION
+     * @param messageType JOptionPane.TYPE
+     * @param options button values
+     * @param initialValue default value to select if time runs out
+     * @return integer representing user selection
+     */
+    public int timeoutDialog(final int time, Component parentComponent, Object message, final String title, int optionType, int messageType, Object[] options, final Object initialValue) {
+<span class="fc" id="L67">        PRESET_TIME = time;</span>
+<span class="fc" id="L68">        JOptionPane pane = new JOptionPane(message, messageType, optionType, null, options, initialValue);</span>
+<span class="fc" id="L69">        pane.setInitialValue(initialValue);</span>
+<span class="fc" id="L70">        final JDialog dialog = pane.createDialog(parentComponent, title);</span>
+<span class="fc" id="L71">        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);</span>
+<span class="fc" id="L72">        pane.selectInitialValue();</span>
+<span class="fc" id="L73">        Thread t = new Thread() {</span>
+            @Override
+            public void run() {
+
+<span class="fc bfc" id="L77" title="All 2 branches covered.">                for (int i = time; i &gt;= 0; i--) {</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">                    if (isSelected) {</span>
+<span class="nc" id="L79">                        break;</span>
+                    }
+<span class="fc" id="L81">                    doSleep();</span>
+<span class="pc bpc" id="L82" title="2 of 4 branches missed.">                    if (dialog.isVisible() &amp;&amp; i &lt; 300) {</span>
+<span class="fc" id="L83">                        dialog.setTitle(title + &quot;  (&quot; + i + &quot; seconds before auto \&quot;&quot; + initialValue + &quot;\&quot;)&quot;);</span>
+                    }
+                }
+<span class="fc" id="L86">                dialog.setVisible(false);</span>
+<span class="fc" id="L87">                dialog.dispose();</span>
+
+<span class="fc" id="L89">            }</span>
+
+            void doSleep() {
+                try {
+<span class="fc" id="L93">                    Thread.sleep(1000);</span>
+<span class="nc" id="L94">                } catch (InterruptedException ex) {</span>
+<span class="nc" id="L95">                    Log.errorHandler(ex);</span>
+
+<span class="fc" id="L97">                }</span>
+<span class="fc" id="L98">            }</span>
+        };
+<span class="fc" id="L100">        t.setName(&quot;Time Out Dialog&quot;);</span>
+<span class="fc" id="L101">        t.setDaemon(true);</span>
+<span class="fc" id="L102">        t.start();</span>
+<span class="fc" id="L103">        dialog.setVisible(true);</span>
+<span class="fc" id="L104">        Object selectedValue = pane.getValue();</span>
+<span class="fc" id="L105">        isSelected = true;</span>
+
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">        if (options == null) {</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            if (selectedValue instanceof Integer) {</span>
+<span class="nc" id="L109">                return ((Number) selectedValue).intValue();</span>
+            }
+<span class="nc" id="L111">            return CLOSED_OPTION;</span>
+        }
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">        if (selectedValue.equals(&quot;uninitializedValue&quot;)) {</span>
+<span class="fc" id="L114">            selectedValue = initialValue;</span>
+        }
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">        if (selectedValue.equals(&quot;cancel&quot;)) {</span>
+<span class="fc" id="L117">            return CLOSED_OPTION;</span>
+        }
+
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        for (int counter = 0, maxCounter = options.length; counter &lt; maxCounter; counter++) {</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">            if (options[counter].equals(selectedValue)) {</span>
+<span class="nc" id="L122">                return counter;</span>
+            }
+        }
+<span class="nc" id="L125">        return CLOSED_OPTION;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

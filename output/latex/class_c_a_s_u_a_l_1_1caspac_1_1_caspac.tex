@@ -1,0 +1,902 @@
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac}{\section{C\-A\-S\-U\-A\-L.\-caspac.\-Caspac Class Reference}
+\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac}\index{C\-A\-S\-U\-A\-L.\-caspac.\-Caspac@{C\-A\-S\-U\-A\-L.\-caspac.\-Caspac}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_1_1_build}{Build}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ab38e5cbb99b6d16f213340e9e61e74be}{Caspac} (File caspac, String temp\-Dir, int \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a1fa7fccdf284c0b71c45004978d8c7d4}{type})  throws I\-O\-Exception 
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a5e48084a2dab585c35cbbfaa4fa9d930}{Caspac} (File caspac, String temp\-Dir, int \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a1fa7fccdf284c0b71c45004978d8c7d4}{type}, char\mbox{[}$\,$\mbox{]} security\-Key)  throws I\-O\-Exception, Exception 
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_add729e52bae97e76abb6274c966d0cef}{Caspac} (Code\-Source src, String temp\-Dir, int \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a1fa7fccdf284c0b71c45004978d8c7d4}{type})  throws I\-O\-Exception 
+\item 
+synchronized void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ad9977d679506d5819d18281b4e2c6c19}{set\-Active\-Script} (\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} s)
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_acb6c1d1e3d6d4e69930a0eeba2be3326}{get\-Active\-Script} ()
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a6368289098354e4d854ed665eb956dbe}{remove\-Script} (\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} script)
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a872aa569a507a588786ad590b1a66d3b}{write} ()  throws I\-O\-Exception 
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a9bbcc820fc5af56dd7e2a45908db30e6}{set\-Build} (Properties prop)
+\item 
+synchronized void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a22fd32e7eb1a0a589eb0ed54c64f1a4b}{load\-First\-Script\-From\-C\-A\-S\-P\-A\-C} ()  throws Zip\-Exception, I\-O\-Exception 
+\item 
+synchronized void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a5aab5060f3557b221f898fbc775690aa}{load\-Active\-Script} ()  throws I\-O\-Exception 
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a8dde0efbfc89cc5eba2a76bc29b2cd93}{load} ()  throws Zip\-Exception, I\-O\-Exception 
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a25eab75bfce4a2bae8fdba570cfd6058}{wait\-For\-Unzip\-And\-Run} (Runnable action)
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ab4b478740128dbaa88b98c90355e5281}{wait\-For\-Unzip\-And\-Run} (Runnable action, boolean on\-A\-Separate\-Thread, String Thread\-Name)
+\item 
+synchronized void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a22043ae423610f6606aaacc96fff6e17}{start\-And\-Wait\-For\-Unzip} ()
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aa65ea1d52f47d7c8677d61be754e4d58}{wait\-For\-Unzip} ()
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aaba95454fe20cc7b6c600f3a631866a6}{get\-Script\-By\-Filename} (String file\-Name)
+\item 
+String\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a7faa66edaa415d62849653e520dce639}{get\-Script\-Names} ()
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ace15ecf5d9e7e261161df7ea440d5cc5}{get\-Script\-By\-Name} (String name)
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aef18425c5e00d5e2b3c4df0203a65e13}{update\-If\-Required} (\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} s)  throws Malformed\-U\-R\-L\-Exception, U\-R\-I\-Syntax\-Exception, I\-O\-Exception 
+\item 
+int \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a8d0624f21da3574c9c7b56d8be8528f9}{replace\-Script\-By\-Name} (\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} s)
+\item 
+int \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a77677db3452946270ba592fad11ed1d1}{get\-Type} ()
+\item 
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a2f5a390c0f4f4e777fa5e2103bb8effa}{String {\bfseries to\-String} ()}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a2f5a390c0f4f4e777fa5e2103bb8effa}
+
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ab38e5cbb99b6d16f213340e9e61e74be}{Caspac} (File caspac, String temp\-Dir, int \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a1fa7fccdf284c0b71c45004978d8c7d4}{type})  throws I\-O\-Exception 
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a5e48084a2dab585c35cbbfaa4fa9d930}{Caspac} (File caspac, String temp\-Dir, int \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a1fa7fccdf284c0b71c45004978d8c7d4}{type}, char\mbox{[}$\,$\mbox{]} security\-Key)  throws I\-O\-Exception, Exception 
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_add729e52bae97e76abb6274c966d0cef}{Caspac} (Code\-Source src, String temp\-Dir, int \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a1fa7fccdf284c0b71c45004978d8c7d4}{type})  throws I\-O\-Exception 
+\item 
+synchronized void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ad9977d679506d5819d18281b4e2c6c19}{set\-Active\-Script} (\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} s)
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_acb6c1d1e3d6d4e69930a0eeba2be3326}{get\-Active\-Script} ()
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a6368289098354e4d854ed665eb956dbe}{remove\-Script} (\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} script)
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a872aa569a507a588786ad590b1a66d3b}{write} ()  throws I\-O\-Exception 
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a9bbcc820fc5af56dd7e2a45908db30e6}{set\-Build} (Properties prop)
+\item 
+synchronized void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a22fd32e7eb1a0a589eb0ed54c64f1a4b}{load\-First\-Script\-From\-C\-A\-S\-P\-A\-C} ()  throws Zip\-Exception, I\-O\-Exception 
+\item 
+synchronized void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a5aab5060f3557b221f898fbc775690aa}{load\-Active\-Script} ()  throws I\-O\-Exception 
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a8dde0efbfc89cc5eba2a76bc29b2cd93}{load} ()  throws Zip\-Exception, I\-O\-Exception 
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a25eab75bfce4a2bae8fdba570cfd6058}{wait\-For\-Unzip\-And\-Run} (Runnable action)
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ab4b478740128dbaa88b98c90355e5281}{wait\-For\-Unzip\-And\-Run} (Runnable action, boolean on\-A\-Separate\-Thread, String Thread\-Name)
+\item 
+synchronized void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a22043ae423610f6606aaacc96fff6e17}{start\-And\-Wait\-For\-Unzip} ()
+\item 
+void \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aa65ea1d52f47d7c8677d61be754e4d58}{wait\-For\-Unzip} ()
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aaba95454fe20cc7b6c600f3a631866a6}{get\-Script\-By\-Filename} (String file\-Name)
+\item 
+String\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a7faa66edaa415d62849653e520dce639}{get\-Script\-Names} ()
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ace15ecf5d9e7e261161df7ea440d5cc5}{get\-Script\-By\-Name} (String name)
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aef18425c5e00d5e2b3c4df0203a65e13}{update\-If\-Required} (\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} s)  throws Malformed\-U\-R\-L\-Exception, U\-R\-I\-Syntax\-Exception, I\-O\-Exception 
+\item 
+int \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a8d0624f21da3574c9c7b56d8be8528f9}{replace\-Script\-By\-Name} (\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} s)
+\item 
+int \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a77677db3452946270ba592fad11ed1d1}{get\-Type} ()
+\item 
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a2f5a390c0f4f4e777fa5e2103bb8effa}{String {\bfseries to\-String} ()}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a2f5a390c0f4f4e777fa5e2103bb8effa}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+final static \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac}{Caspac} \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a3ed0cafff73995413d8ced1b79083d5c}{make\-Generic\-Caspac} ()  throws I\-O\-Exception 
+\item 
+final static \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac}{Caspac} \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a3ed0cafff73995413d8ced1b79083d5c}{make\-Generic\-Caspac} ()  throws I\-O\-Exception 
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+final int \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a1fa7fccdf284c0b71c45004978d8c7d4}{type}
+\item 
+Buffered\-Image \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_abf626c8f6318968578e79d5afb7f8e6c}{logo}
+\item 
+final File \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a6e5addab168b4b657c6b56c85b303775}{C\-A\-S\-P\-A\-C}
+\item 
+final Code\-Source \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a708e3c668e09d5901e8e2fdb94aa642a}{C\-A\-S\-P\-A\-Csrc}
+\item 
+String \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a351355d1da748e296d36bdf891c1b43f}{overview} = \char`\"{}\char`\"{}
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_1_1_build}{Build} \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ace7ae4866f3cd239e653518559bd0eb1}{build}
+\item 
+Array\-List$<$ \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} $>$ \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a6e7495da998addcff9ffca07f369ccae}{scripts} = new Array\-List$<$\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script}$>$()
+\item 
+final String \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_afb6992f335be11e10621da46afb23459}{Temp\-Folder}
+\item 
+boolean \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a2c6cceeb53d5c07779badc9260b8233d}{caspac\-Should\-Be\-Deleted\-After\-Extraction} = false
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static boolean \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aa68f7e8ae529dc2f581b4752f7d11830}{debug} = false
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+handles gathering, reading and writing of C\-A\-S\-P\-A\-Cs in a unified manner
+
+\begin{DoxyAuthor}{Author}
+Adam Outler \href{mailto:adamoutler@gmail.com}{\tt adamoutler@gmail.\-com} 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ab38e5cbb99b6d16f213340e9e61e74be}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!Caspac@{Caspac}}
+\index{Caspac@{Caspac}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{Caspac}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-Caspac (
+\begin{DoxyParamCaption}
+\item[{File}]{caspac, }
+\item[{String}]{temp\-Dir, }
+\item[{int}]{type}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ab38e5cbb99b6d16f213340e9e61e74be}
+Constructor for \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac}{Caspac}
+
+
+\begin{DoxyParams}{Parameters}
+{\em caspac} & file containing C\-A\-S\-P\-A\-C information. \\
+\hline
+{\em temp\-Dir} & temp folder to use \\
+\hline
+{\em type} & Type of C\-A\-S\-P\-A\-C C\-A\-S\-P\-A\-C, Type 1 \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L}, Type 2 Filesystem \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a5e48084a2dab585c35cbbfaa4fa9d930}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!Caspac@{Caspac}}
+\index{Caspac@{Caspac}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{Caspac}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-Caspac (
+\begin{DoxyParamCaption}
+\item[{File}]{caspac, }
+\item[{String}]{temp\-Dir, }
+\item[{int}]{type, }
+\item[{char\mbox{[}$\,$\mbox{]}}]{security\-Key}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception, Exception}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a5e48084a2dab585c35cbbfaa4fa9d930}
+secure constructor for \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac}{Caspac} always call start\-And\-Wait\-For\-Unzip in order to delete file and maintain security
+
+
+\begin{DoxyParams}{Parameters}
+{\em caspac} & file containing C\-A\-S\-P\-A\-C information. \\
+\hline
+{\em temp\-Dir} & temp folder to use \\
+\hline
+{\em type} & Type of C\-A\-S\-P\-A\-C C\-A\-S\-P\-A\-C, Type 1 \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L}, Type 2 Filesystem \\
+\hline
+{\em security\-Key} & key to decrypt C\-A\-S\-P\-A\-C. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+{\em Exception} & when crypto problem exists \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_add729e52bae97e76abb6274c966d0cef}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!Caspac@{Caspac}}
+\index{Caspac@{Caspac}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{Caspac}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-Caspac (
+\begin{DoxyParamCaption}
+\item[{Code\-Source}]{src, }
+\item[{String}]{temp\-Dir, }
+\item[{int}]{type}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_add729e52bae97e76abb6274c966d0cef}
+Constructor for \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L}
+
+
+\begin{DoxyParams}{Parameters}
+{\em src} & Code\-Source reference, used to reference S\-C\-R\-I\-P\-T\-S folder. \\
+\hline
+{\em temp\-Dir} & Temporary folder to use \\
+\hline
+{\em type} & Type of C\-A\-S\-P\-A\-C C\-A\-S\-P\-A\-C, Type 1 \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L}, Type 2 Filesystem (should be 1 generally) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ab38e5cbb99b6d16f213340e9e61e74be}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!Caspac@{Caspac}}
+\index{Caspac@{Caspac}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{Caspac}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-Caspac (
+\begin{DoxyParamCaption}
+\item[{File}]{caspac, }
+\item[{String}]{temp\-Dir, }
+\item[{int}]{type}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ab38e5cbb99b6d16f213340e9e61e74be}
+Constructor for \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac}{Caspac}
+
+
+\begin{DoxyParams}{Parameters}
+{\em caspac} & file containing C\-A\-S\-P\-A\-C information. \\
+\hline
+{\em temp\-Dir} & temp folder to use \\
+\hline
+{\em type} & Type of C\-A\-S\-P\-A\-C C\-A\-S\-P\-A\-C, Type 1 \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L}, Type 2 Filesystem \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a5e48084a2dab585c35cbbfaa4fa9d930}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!Caspac@{Caspac}}
+\index{Caspac@{Caspac}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{Caspac}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-Caspac (
+\begin{DoxyParamCaption}
+\item[{File}]{caspac, }
+\item[{String}]{temp\-Dir, }
+\item[{int}]{type, }
+\item[{char\mbox{[}$\,$\mbox{]}}]{security\-Key}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception, Exception}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a5e48084a2dab585c35cbbfaa4fa9d930}
+secure constructor for \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_caspac}{Caspac} always call start\-And\-Wait\-For\-Unzip in order to delete file and maintain security
+
+
+\begin{DoxyParams}{Parameters}
+{\em caspac} & file containing C\-A\-S\-P\-A\-C information. \\
+\hline
+{\em temp\-Dir} & temp folder to use \\
+\hline
+{\em type} & Type of C\-A\-S\-P\-A\-C C\-A\-S\-P\-A\-C, Type 1 \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L}, Type 2 Filesystem \\
+\hline
+{\em security\-Key} & key to decrypt C\-A\-S\-P\-A\-C. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+{\em Exception} & when crypto problem exists \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_add729e52bae97e76abb6274c966d0cef}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!Caspac@{Caspac}}
+\index{Caspac@{Caspac}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{Caspac}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-Caspac (
+\begin{DoxyParamCaption}
+\item[{Code\-Source}]{src, }
+\item[{String}]{temp\-Dir, }
+\item[{int}]{type}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_add729e52bae97e76abb6274c966d0cef}
+Constructor for \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L}
+
+
+\begin{DoxyParams}{Parameters}
+{\em src} & Code\-Source reference, used to reference S\-C\-R\-I\-P\-T\-S folder. \\
+\hline
+{\em temp\-Dir} & Temporary folder to use \\
+\hline
+{\em type} & Type of C\-A\-S\-P\-A\-C C\-A\-S\-P\-A\-C, Type 1 \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L}, Type 2 Filesystem (should be 1 generally) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+\end{DoxyExceptions}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_acb6c1d1e3d6d4e69930a0eeba2be3326}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!get\-Active\-Script@{get\-Active\-Script}}
+\index{get\-Active\-Script@{get\-Active\-Script}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{get\-Active\-Script}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Script} C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-get\-Active\-Script (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_acb6c1d1e3d6d4e69930a0eeba2be3326}
+gets the active script.
+
+\begin{DoxyReturn}{Returns}
+reference to active script. 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_acb6c1d1e3d6d4e69930a0eeba2be3326}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!get\-Active\-Script@{get\-Active\-Script}}
+\index{get\-Active\-Script@{get\-Active\-Script}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{get\-Active\-Script}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Script} C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-get\-Active\-Script (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_acb6c1d1e3d6d4e69930a0eeba2be3326}
+gets the active script.
+
+\begin{DoxyReturn}{Returns}
+reference to active script. 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aaba95454fe20cc7b6c600f3a631866a6}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!get\-Script\-By\-Filename@{get\-Script\-By\-Filename}}
+\index{get\-Script\-By\-Filename@{get\-Script\-By\-Filename}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{get\-Script\-By\-Filename}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Script} C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-get\-Script\-By\-Filename (
+\begin{DoxyParamCaption}
+\item[{String}]{file\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aaba95454fe20cc7b6c600f3a631866a6}
+script instance which is being referenced
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\-Name} & filename of script \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+script instance of script to be processed null if not found 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aaba95454fe20cc7b6c600f3a631866a6}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!get\-Script\-By\-Filename@{get\-Script\-By\-Filename}}
+\index{get\-Script\-By\-Filename@{get\-Script\-By\-Filename}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{get\-Script\-By\-Filename}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Script} C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-get\-Script\-By\-Filename (
+\begin{DoxyParamCaption}
+\item[{String}]{file\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aaba95454fe20cc7b6c600f3a631866a6}
+script instance which is being referenced
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\-Name} & filename of script \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+script instance of script to be processed null if not found 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ace15ecf5d9e7e261161df7ea440d5cc5}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!get\-Script\-By\-Name@{get\-Script\-By\-Name}}
+\index{get\-Script\-By\-Name@{get\-Script\-By\-Name}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{get\-Script\-By\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Script} C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-get\-Script\-By\-Name (
+\begin{DoxyParamCaption}
+\item[{String}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ace15ecf5d9e7e261161df7ea440d5cc5}
+gets script by name
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & name of script to be pulled \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} object or null 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ace15ecf5d9e7e261161df7ea440d5cc5}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!get\-Script\-By\-Name@{get\-Script\-By\-Name}}
+\index{get\-Script\-By\-Name@{get\-Script\-By\-Name}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{get\-Script\-By\-Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Script} C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-get\-Script\-By\-Name (
+\begin{DoxyParamCaption}
+\item[{String}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ace15ecf5d9e7e261161df7ea440d5cc5}
+gets script by name
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & name of script to be pulled \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} object or null 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a7faa66edaa415d62849653e520dce639}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!get\-Script\-Names@{get\-Script\-Names}}
+\index{get\-Script\-Names@{get\-Script\-Names}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{get\-Script\-Names}]{\setlength{\rightskip}{0pt plus 5cm}String \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-get\-Script\-Names (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a7faa66edaa415d62849653e520dce639}
+returns all script names
+
+\begin{DoxyReturn}{Returns}
+list of script names 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a7faa66edaa415d62849653e520dce639}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!get\-Script\-Names@{get\-Script\-Names}}
+\index{get\-Script\-Names@{get\-Script\-Names}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{get\-Script\-Names}]{\setlength{\rightskip}{0pt plus 5cm}String \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-get\-Script\-Names (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a7faa66edaa415d62849653e520dce639}
+returns all script names
+
+\begin{DoxyReturn}{Returns}
+list of script names 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a77677db3452946270ba592fad11ed1d1}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!get\-Type@{get\-Type}}
+\index{get\-Type@{get\-Type}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{get\-Type}]{\setlength{\rightskip}{0pt plus 5cm}int C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-get\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a77677db3452946270ba592fad11ed1d1}
+gets the type of C\-A\-S\-P\-A\-C
+
+\begin{DoxyReturn}{Returns}
+type of C\-A\-S\-P\-A\-C 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a77677db3452946270ba592fad11ed1d1}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!get\-Type@{get\-Type}}
+\index{get\-Type@{get\-Type}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{get\-Type}]{\setlength{\rightskip}{0pt plus 5cm}int C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-get\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a77677db3452946270ba592fad11ed1d1}
+gets the type of C\-A\-S\-P\-A\-C
+
+\begin{DoxyReturn}{Returns}
+type of C\-A\-S\-P\-A\-C 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a8dde0efbfc89cc5eba2a76bc29b2cd93}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!load@{load}}
+\index{load@{load}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{load}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-load (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws Zip\-Exception, I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a8dde0efbfc89cc5eba2a76bc29b2cd93}
+loads a C\-A\-S\-P\-A\-C.\-zip file
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Zip\-Exception} & when zip file is corrupt \\
+\hline
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a8dde0efbfc89cc5eba2a76bc29b2cd93}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!load@{load}}
+\index{load@{load}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{load}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-load (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws Zip\-Exception, I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a8dde0efbfc89cc5eba2a76bc29b2cd93}
+loads a C\-A\-S\-P\-A\-C.\-zip file
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Zip\-Exception} & when zip file is corrupt \\
+\hline
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a5aab5060f3557b221f898fbc775690aa}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!load\-Active\-Script@{load\-Active\-Script}}
+\index{load\-Active\-Script@{load\-Active\-Script}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{load\-Active\-Script}]{\setlength{\rightskip}{0pt plus 5cm}synchronized void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-load\-Active\-Script (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a5aab5060f3557b221f898fbc775690aa}
+Loads the active script after its been set.
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a5aab5060f3557b221f898fbc775690aa}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!load\-Active\-Script@{load\-Active\-Script}}
+\index{load\-Active\-Script@{load\-Active\-Script}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{load\-Active\-Script}]{\setlength{\rightskip}{0pt plus 5cm}synchronized void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-load\-Active\-Script (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a5aab5060f3557b221f898fbc775690aa}
+Loads the active script after its been set.
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a22fd32e7eb1a0a589eb0ed54c64f1a4b}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!load\-First\-Script\-From\-C\-A\-S\-P\-A\-C@{load\-First\-Script\-From\-C\-A\-S\-P\-A\-C}}
+\index{load\-First\-Script\-From\-C\-A\-S\-P\-A\-C@{load\-First\-Script\-From\-C\-A\-S\-P\-A\-C}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{load\-First\-Script\-From\-C\-A\-S\-P\-A\-C}]{\setlength{\rightskip}{0pt plus 5cm}synchronized void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-load\-First\-Script\-From\-C\-A\-S\-P\-A\-C (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws Zip\-Exception, I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a22fd32e7eb1a0a589eb0ed54c64f1a4b}
+parses C\-A\-S\-P\-A\-C and loads the first script seen identified by non-\/caspac controller files.
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Zip\-Exception} & when zip file is corrupt \\
+\hline
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a22fd32e7eb1a0a589eb0ed54c64f1a4b}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!load\-First\-Script\-From\-C\-A\-S\-P\-A\-C@{load\-First\-Script\-From\-C\-A\-S\-P\-A\-C}}
+\index{load\-First\-Script\-From\-C\-A\-S\-P\-A\-C@{load\-First\-Script\-From\-C\-A\-S\-P\-A\-C}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{load\-First\-Script\-From\-C\-A\-S\-P\-A\-C}]{\setlength{\rightskip}{0pt plus 5cm}synchronized void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-load\-First\-Script\-From\-C\-A\-S\-P\-A\-C (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws Zip\-Exception, I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a22fd32e7eb1a0a589eb0ed54c64f1a4b}
+parses C\-A\-S\-P\-A\-C and loads the first script seen identified by non-\/caspac controller files.
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Zip\-Exception} & when zip file is corrupt \\
+\hline
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a3ed0cafff73995413d8ced1b79083d5c}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!make\-Generic\-Caspac@{make\-Generic\-Caspac}}
+\index{make\-Generic\-Caspac@{make\-Generic\-Caspac}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{make\-Generic\-Caspac}]{\setlength{\rightskip}{0pt plus 5cm}final static {\bf Caspac} C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-make\-Generic\-Caspac (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a3ed0cafff73995413d8ced1b79083d5c}
+returns an empty C\-A\-S\-P\-A\-C.
+
+\begin{DoxyReturn}{Returns}
+empty C\-A\-S\-P\-A\-C $>$ 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a3ed0cafff73995413d8ced1b79083d5c}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!make\-Generic\-Caspac@{make\-Generic\-Caspac}}
+\index{make\-Generic\-Caspac@{make\-Generic\-Caspac}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{make\-Generic\-Caspac}]{\setlength{\rightskip}{0pt plus 5cm}final static {\bf Caspac} C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-make\-Generic\-Caspac (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a3ed0cafff73995413d8ced1b79083d5c}
+returns an empty C\-A\-S\-P\-A\-C.
+
+\begin{DoxyReturn}{Returns}
+empty C\-A\-S\-P\-A\-C $>$ 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a6368289098354e4d854ed665eb956dbe}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!remove\-Script@{remove\-Script}}
+\index{remove\-Script@{remove\-Script}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{remove\-Script}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-remove\-Script (
+\begin{DoxyParamCaption}
+\item[{{\bf Script}}]{script}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a6368289098354e4d854ed665eb956dbe}
+removes a script
+
+
+\begin{DoxyParams}{Parameters}
+{\em script} & \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} reference \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a6368289098354e4d854ed665eb956dbe}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!remove\-Script@{remove\-Script}}
+\index{remove\-Script@{remove\-Script}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{remove\-Script}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-remove\-Script (
+\begin{DoxyParamCaption}
+\item[{{\bf Script}}]{script}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a6368289098354e4d854ed665eb956dbe}
+removes a script
+
+
+\begin{DoxyParams}{Parameters}
+{\em script} & \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} reference \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a8d0624f21da3574c9c7b56d8be8528f9}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!replace\-Script\-By\-Name@{replace\-Script\-By\-Name}}
+\index{replace\-Script\-By\-Name@{replace\-Script\-By\-Name}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{replace\-Script\-By\-Name}]{\setlength{\rightskip}{0pt plus 5cm}int C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-replace\-Script\-By\-Name (
+\begin{DoxyParamCaption}
+\item[{{\bf Script}}]{s}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a8d0624f21da3574c9c7b56d8be8528f9}
+replaces a script in list array.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & script to replace \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+location of script in scripts array. 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a8d0624f21da3574c9c7b56d8be8528f9}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!replace\-Script\-By\-Name@{replace\-Script\-By\-Name}}
+\index{replace\-Script\-By\-Name@{replace\-Script\-By\-Name}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{replace\-Script\-By\-Name}]{\setlength{\rightskip}{0pt plus 5cm}int C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-replace\-Script\-By\-Name (
+\begin{DoxyParamCaption}
+\item[{{\bf Script}}]{s}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a8d0624f21da3574c9c7b56d8be8528f9}
+replaces a script in list array.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & script to replace \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+location of script in scripts array. 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ad9977d679506d5819d18281b4e2c6c19}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!set\-Active\-Script@{set\-Active\-Script}}
+\index{set\-Active\-Script@{set\-Active\-Script}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{set\-Active\-Script}]{\setlength{\rightskip}{0pt plus 5cm}synchronized void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-set\-Active\-Script (
+\begin{DoxyParamCaption}
+\item[{{\bf Script}}]{s}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ad9977d679506d5819d18281b4e2c6c19}
+Sets the active script to an instace of a script.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & script to make active. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ad9977d679506d5819d18281b4e2c6c19}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!set\-Active\-Script@{set\-Active\-Script}}
+\index{set\-Active\-Script@{set\-Active\-Script}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{set\-Active\-Script}]{\setlength{\rightskip}{0pt plus 5cm}synchronized void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-set\-Active\-Script (
+\begin{DoxyParamCaption}
+\item[{{\bf Script}}]{s}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ad9977d679506d5819d18281b4e2c6c19}
+Sets the active script to an instace of a script.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & script to make active. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a9bbcc820fc5af56dd7e2a45908db30e6}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!set\-Build@{set\-Build}}
+\index{set\-Build@{set\-Build}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{set\-Build}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-set\-Build (
+\begin{DoxyParamCaption}
+\item[{Properties}]{prop}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a9bbcc820fc5af56dd7e2a45908db30e6}
+sets build properties
+
+
+\begin{DoxyParams}{Parameters}
+{\em prop} & properties file \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a9bbcc820fc5af56dd7e2a45908db30e6}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!set\-Build@{set\-Build}}
+\index{set\-Build@{set\-Build}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{set\-Build}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-set\-Build (
+\begin{DoxyParamCaption}
+\item[{Properties}]{prop}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a9bbcc820fc5af56dd7e2a45908db30e6}
+sets build properties
+
+
+\begin{DoxyParams}{Parameters}
+{\em prop} & properties file \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a22043ae423610f6606aaacc96fff6e17}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!start\-And\-Wait\-For\-Unzip@{start\-And\-Wait\-For\-Unzip}}
+\index{start\-And\-Wait\-For\-Unzip@{start\-And\-Wait\-For\-Unzip}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{start\-And\-Wait\-For\-Unzip}]{\setlength{\rightskip}{0pt plus 5cm}synchronized void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-start\-And\-Wait\-For\-Unzip (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a22043ae423610f6606aaacc96fff6e17}
+causes the current thread to wait until all unzip\-Threads have completed. this is the longest part and the last part of completion of the C\-A\-S\-P\-A\-C prep. \hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a22043ae423610f6606aaacc96fff6e17}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!start\-And\-Wait\-For\-Unzip@{start\-And\-Wait\-For\-Unzip}}
+\index{start\-And\-Wait\-For\-Unzip@{start\-And\-Wait\-For\-Unzip}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{start\-And\-Wait\-For\-Unzip}]{\setlength{\rightskip}{0pt plus 5cm}synchronized void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-start\-And\-Wait\-For\-Unzip (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a22043ae423610f6606aaacc96fff6e17}
+causes the current thread to wait until all unzip\-Threads have completed. this is the longest part and the last part of completion of the C\-A\-S\-P\-A\-C prep. \hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aef18425c5e00d5e2b3c4df0203a65e13}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!update\-If\-Required@{update\-If\-Required}}
+\index{update\-If\-Required@{update\-If\-Required}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{update\-If\-Required}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Script} C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-update\-If\-Required (
+\begin{DoxyParamCaption}
+\item[{{\bf Script}}]{s}
+\end{DoxyParamCaption}
+) throws Malformed\-U\-R\-L\-Exception, U\-R\-I\-Syntax\-Exception, I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aef18425c5e00d5e2b3c4df0203a65e13}
+checks for updates.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} to be checked \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if script can continue. false if halt is recommended. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em java.\-net.\-Malformed\-U\-R\-L\-Exception} & should never happen \\
+\hline
+{\em java.\-net.\-U\-R\-I\-Syntax\-Exception} & should never happen. \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aef18425c5e00d5e2b3c4df0203a65e13}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!update\-If\-Required@{update\-If\-Required}}
+\index{update\-If\-Required@{update\-If\-Required}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{update\-If\-Required}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Script} C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-update\-If\-Required (
+\begin{DoxyParamCaption}
+\item[{{\bf Script}}]{s}
+\end{DoxyParamCaption}
+) throws Malformed\-U\-R\-L\-Exception, U\-R\-I\-Syntax\-Exception, I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aef18425c5e00d5e2b3c4df0203a65e13}
+checks for updates.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & \hyperlink{class_c_a_s_u_a_l_1_1caspac_1_1_script}{Script} to be checked \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if script can continue. false if halt is recommended. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em java.\-net.\-Malformed\-U\-R\-L\-Exception} & should never happen \\
+\hline
+{\em java.\-net.\-U\-R\-I\-Syntax\-Exception} & should never happen. \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aa65ea1d52f47d7c8677d61be754e4d58}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!wait\-For\-Unzip@{wait\-For\-Unzip}}
+\index{wait\-For\-Unzip@{wait\-For\-Unzip}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{wait\-For\-Unzip}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-wait\-For\-Unzip (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aa65ea1d52f47d7c8677d61be754e4d58}
+loops through active unzip threads and waits for all unzip to complete. \hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aa65ea1d52f47d7c8677d61be754e4d58}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!wait\-For\-Unzip@{wait\-For\-Unzip}}
+\index{wait\-For\-Unzip@{wait\-For\-Unzip}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{wait\-For\-Unzip}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-wait\-For\-Unzip (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aa65ea1d52f47d7c8677d61be754e4d58}
+loops through active unzip threads and waits for all unzip to complete. \hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a25eab75bfce4a2bae8fdba570cfd6058}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!wait\-For\-Unzip\-And\-Run@{wait\-For\-Unzip\-And\-Run}}
+\index{wait\-For\-Unzip\-And\-Run@{wait\-For\-Unzip\-And\-Run}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{wait\-For\-Unzip\-And\-Run}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-wait\-For\-Unzip\-And\-Run (
+\begin{DoxyParamCaption}
+\item[{Runnable}]{action}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a25eab75bfce4a2bae8fdba570cfd6058}
+waits for unzip to complete and executes a runnable.
+
+
+\begin{DoxyParams}{Parameters}
+{\em action} & runnable to execute. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a25eab75bfce4a2bae8fdba570cfd6058}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!wait\-For\-Unzip\-And\-Run@{wait\-For\-Unzip\-And\-Run}}
+\index{wait\-For\-Unzip\-And\-Run@{wait\-For\-Unzip\-And\-Run}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{wait\-For\-Unzip\-And\-Run}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-wait\-For\-Unzip\-And\-Run (
+\begin{DoxyParamCaption}
+\item[{Runnable}]{action}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a25eab75bfce4a2bae8fdba570cfd6058}
+waits for unzip to complete and executes a runnable.
+
+
+\begin{DoxyParams}{Parameters}
+{\em action} & runnable to execute. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ab4b478740128dbaa88b98c90355e5281}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!wait\-For\-Unzip\-And\-Run@{wait\-For\-Unzip\-And\-Run}}
+\index{wait\-For\-Unzip\-And\-Run@{wait\-For\-Unzip\-And\-Run}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{wait\-For\-Unzip\-And\-Run}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-wait\-For\-Unzip\-And\-Run (
+\begin{DoxyParamCaption}
+\item[{Runnable}]{action, }
+\item[{boolean}]{on\-A\-Separate\-Thread, }
+\item[{String}]{Thread\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ab4b478740128dbaa88b98c90355e5281}
+waits for unzip to complete and executes a runnable.
+
+
+\begin{DoxyParams}{Parameters}
+{\em action} & runnable to execute. \\
+\hline
+{\em on\-A\-Separate\-Thread} & true if multi-\/threadded \\
+\hline
+{\em Thread\-Name} & name for the alternate thread. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ab4b478740128dbaa88b98c90355e5281}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!wait\-For\-Unzip\-And\-Run@{wait\-For\-Unzip\-And\-Run}}
+\index{wait\-For\-Unzip\-And\-Run@{wait\-For\-Unzip\-And\-Run}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{wait\-For\-Unzip\-And\-Run}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-wait\-For\-Unzip\-And\-Run (
+\begin{DoxyParamCaption}
+\item[{Runnable}]{action, }
+\item[{boolean}]{on\-A\-Separate\-Thread, }
+\item[{String}]{Thread\-Name}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ab4b478740128dbaa88b98c90355e5281}
+waits for unzip to complete and executes a runnable.
+
+
+\begin{DoxyParams}{Parameters}
+{\em action} & runnable to execute. \\
+\hline
+{\em on\-A\-Separate\-Thread} & true if multi-\/threadded \\
+\hline
+{\em Thread\-Name} & name for the alternate thread. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a872aa569a507a588786ad590b1a66d3b}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!write@{write}}
+\index{write@{write}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{write}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-write (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a872aa569a507a588786ad590b1a66d3b}
+writes a C\-A\-S\-P\-A\-C
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a872aa569a507a588786ad590b1a66d3b}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!write@{write}}
+\index{write@{write}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{write}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-write (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a872aa569a507a588786ad590b1a66d3b}
+writes a C\-A\-S\-P\-A\-C
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & when permission problem exists \\
+\hline
+\end{DoxyExceptions}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ace7ae4866f3cd239e653518559bd0eb1}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!build@{build}}
+\index{build@{build}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{build}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Build} C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-build}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_ace7ae4866f3cd239e653518559bd0eb1}
+C\-A\-S\-P\-A\-C -\/\-Build.\-properties file. \hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a6e5addab168b4b657c6b56c85b303775}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!C\-A\-S\-P\-A\-C@{C\-A\-S\-P\-A\-C}}
+\index{C\-A\-S\-P\-A\-C@{C\-A\-S\-P\-A\-C}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{C\-A\-S\-P\-A\-C}]{\setlength{\rightskip}{0pt plus 5cm}final File C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-C\-A\-S\-P\-A\-C}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a6e5addab168b4b657c6b56c85b303775}
+C\-A\-S\-P\-A\-C which is being used. \hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a2c6cceeb53d5c07779badc9260b8233d}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!caspac\-Should\-Be\-Deleted\-After\-Extraction@{caspac\-Should\-Be\-Deleted\-After\-Extraction}}
+\index{caspac\-Should\-Be\-Deleted\-After\-Extraction@{caspac\-Should\-Be\-Deleted\-After\-Extraction}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{caspac\-Should\-Be\-Deleted\-After\-Extraction}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-caspac\-Should\-Be\-Deleted\-After\-Extraction = false}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a2c6cceeb53d5c07779badc9260b8233d}
+deletes an unencrypted C\-A\-S\-P\-A\-C from disk after extraction occurs. \hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a708e3c668e09d5901e8e2fdb94aa642a}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!C\-A\-S\-P\-A\-Csrc@{C\-A\-S\-P\-A\-Csrc}}
+\index{C\-A\-S\-P\-A\-Csrc@{C\-A\-S\-P\-A\-Csrc}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{C\-A\-S\-P\-A\-Csrc}]{\setlength{\rightskip}{0pt plus 5cm}final Code\-Source C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-C\-A\-S\-P\-A\-Csrc}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a708e3c668e09d5901e8e2fdb94aa642a}
+Code\-Source if available to C\-A\-S\-P\-A\-C. Generally used in place of C\-A\-S\-P\-A\-C file. \hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aa68f7e8ae529dc2f581b4752f7d11830}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!debug@{debug}}
+\index{debug@{debug}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{debug}]{\setlength{\rightskip}{0pt plus 5cm}static boolean C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-debug = false\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_aa68f7e8ae529dc2f581b4752f7d11830}
+If we are debugging a script, we dont want to delete the script contents to prevent further execution on error. This is used for debugging purposes. \hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_abf626c8f6318968578e79d5afb7f8e6c}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!logo@{logo}}
+\index{logo@{logo}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{logo}]{\setlength{\rightskip}{0pt plus 5cm}Buffered\-Image C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-logo}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_abf626c8f6318968578e79d5afb7f8e6c}
+Buffered\-Image for logo.\-png in C\-A\-S\-P\-A\-C. \hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a351355d1da748e296d36bdf891c1b43f}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!overview@{overview}}
+\index{overview@{overview}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{overview}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-overview = \char`\"{}\char`\"{}}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a351355d1da748e296d36bdf891c1b43f}
+C\-A\-S\-P\-A\-C -\/\-Overview.\-txt file contents. \hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a6e7495da998addcff9ffca07f369ccae}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!scripts@{scripts}}
+\index{scripts@{scripts}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{scripts}]{\setlength{\rightskip}{0pt plus 5cm}Array\-List$<$ {\bf Script} $>$ C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-scripts = new Array\-List$<${\bf Script}$>$()}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a6e7495da998addcff9ffca07f369ccae}
+Array\-List of scripts contained in C\-A\-S\-P\-A\-C. \hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_afb6992f335be11e10621da46afb23459}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!Temp\-Folder@{Temp\-Folder}}
+\index{Temp\-Folder@{Temp\-Folder}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{Temp\-Folder}]{\setlength{\rightskip}{0pt plus 5cm}final String C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-Temp\-Folder}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_afb6992f335be11e10621da46afb23459}
+Temp\-Dir used for C\-A\-S\-P\-A\-C. \hypertarget{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a1fa7fccdf284c0b71c45004978d8c7d4}{\index{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}!type@{type}}
+\index{type@{type}!CASUAL::caspac::Caspac@{C\-A\-S\-U\-A\-L\-::caspac\-::\-Caspac}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}final int C\-A\-S\-U\-A\-L.\-caspac.\-Caspac.\-type}}\label{class_c_a_s_u_a_l_1_1caspac_1_1_caspac_a1fa7fccdf284c0b71c45004978d8c7d4}
+Loads a C\-A\-S\-P\-A\-C Type 0 C\-A\-S\-P\-A\-C, Type 1 \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L}, Type 2 Filesystem. 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/build/classes/\-C\-A\-S\-U\-A\-L/caspac/Caspac.\-java\end{DoxyCompactItemize}

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FastbootTools.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.communicationstools.fastboot</a> &gt; <span class="el_source">FastbootTools.java</span></div><h1>FastbootTools.java</h1><pre class="source lang-java linenums">/*FastbootTools is a set of tools for use with fastboot
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.communicationstools.fastboot;
+
+import CASUAL.CASUALMain;
+import CASUAL.CASUALMessageObject;
+import CASUAL.Log;
+import CASUAL.OSTools;
+import CASUAL.ResourceDeployer;
+import CASUAL.Shell;
+import CASUAL.ShellTools;
+import CASUAL.communicationstools.AbstractDeviceCommunicationsProtocol;
+import CASUAL.misc.StringOperations;
+import java.io.File;
+import java.util.ArrayList;
+
+/**
+ * Provides tools required to use Fastboot.
+ * @author Adam Outler adamoutler@gmail.com
+ */
+<span class="fc" id="L35">public class FastbootTools extends AbstractDeviceCommunicationsProtocol {</span>
+
+    //last known deployed location for fastboot
+<span class="fc" id="L38">    private static String binaryLocation = &quot;&quot;; //deployed fastboot</span>
+
+    //binary locations for Fastboot in resources
+    private static final String fastbootLinux32 = &quot;/CASUAL/communicationstools/fastboot/resources/fastboot-linux32&quot;;
+    private static final String fastbootMac = &quot;/CASUAL/communicationstools/fastboot/resources/fastboot-mac&quot;;
+    private static final String fastbootWindows = &quot;/CASUAL/communicationstools/fastboot/resources/fastboot.exe&quot;;
+    private static final String fastbootLinuxARMv6 = &quot;/CASUAL/communicationstools/fastboot/resources/fastboot-linuxARMv6&quot;;
+    private static final String fastbootLinux64 = &quot;/CASUAL/communicationstools/fastboot/resources/fastboot-linux64&quot;;
+
+    /**
+     * gets the resource for Fastboot
+     *
+     * @return path to resource
+     */
+    private static String getFastbootLinuxResource() {
+<span class="fc" id="L53">        String arch = OSTools.checkLinuxArch();</span>
+
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">        if (arch.equals(&quot;x86_64&quot;)) {</span>
+<span class="fc" id="L56">            Log.level3Verbose(&quot;found x86-64 bit arch&quot;);</span>
+<span class="fc" id="L57">            return fastbootLinux64;</span>
+        }
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (arch.equals(&quot;ARMv6&quot;)) {</span>
+<span class="nc" id="L60">            Log.level3Verbose(&quot;found ARMv6 arch&quot;);</span>
+<span class="nc" id="L61">            return fastbootLinuxARMv6;</span>
+        }
+<span class="nc" id="L63">        Log.level3Verbose(&quot;found x86-32 bit arch&quot;);</span>
+<span class="nc" id="L64">        return fastbootLinux32;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    public synchronized String getBinaryLocation() {
+        
+<span class="fc" id="L75">        File loc = new File(binaryLocation);</span>
+<span class="pc bpc" id="L76" title="1 of 4 branches missed.">        if (!loc.isFile() || !loc.exists()) {</span>
+<span class="fc" id="L77">            return deployBinary(CASUALMain.getSession().getTempFolder());</span>
+        } else {
+<span class="fc" id="L79">            return binaryLocation;</span>
+        }
+
+    }
+
+    /**
+     * executes fastboot
+     *
+     * @param line params for fastboot
+     * @return value from fastboot command
+     */
+    public String doFastbootShellCommand(String line) {
+<span class="nc" id="L91">        line = StringOperations.removeLeadingSpaces(line);</span>
+<span class="nc" id="L92">        Shell Shell = new Shell();</span>
+<span class="nc" id="L93">        ArrayList&lt;String&gt; ShellCommand = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L94">        ShellCommand.add(binaryLocation);</span>
+<span class="nc" id="L95">        ShellCommand.addAll(new ShellTools().parseCommandLine(line));</span>
+<span class="nc" id="L96">        String StringCommand[] = StringOperations.convertArrayListToStringArray(ShellCommand);</span>
+<span class="nc" id="L97">        Log.level3Verbose(&quot;Performing standard fastboot command&quot; + line);</span>
+<span class="nc" id="L98">        return Shell.liveShellCommand(StringCommand, true);</span>
+    }
+
+    /**
+     * performs elevated fastboot command
+     *
+     * @param line params for fastboot
+     * @return value from fastboot command
+     */
+    public String doElevatedFastbootShellCommand(String line) {
+<span class="fc" id="L108">        line = StringOperations.removeLeadingSpaces(line);</span>
+<span class="fc" id="L109">        Shell Shell = new Shell();</span>
+<span class="fc" id="L110">        ArrayList&lt;String&gt; ShellCommand = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L111">        ShellCommand.add(binaryLocation);</span>
+<span class="fc" id="L112">        ShellCommand.addAll(new ShellTools().parseCommandLine(line));</span>
+<span class="fc" id="L113">        String StringCommand[] = StringOperations.convertArrayListToStringArray(ShellCommand);</span>
+<span class="fc" id="L114">        Log.level3Verbose(&quot;Performing elevated Fastboot command&quot; + line);</span>
+<span class="fc" id="L115">        String returnval = Shell.elevateSimpleCommandWithMessage(StringCommand, &quot;CASUAL uses root to work around fastboot permissions.  Hit cancel if you have setup your UDEV rules.&quot;);</span>
+<span class="fc" id="L116">        return returnval;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void shutdown() {
+        //nothing required for Fastboot. fastboot has no daemon. 
+<span class="fc" id="L125">    }</span>
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    public int numberOfDevicesConnected() {
+<span class="fc" id="L134">        String[] devices = run(new String[]{&quot;devices&quot;}, 4000, true).trim().split(&quot;\n&quot;);</span>
+<span class="fc" id="L135">        int devcount = 0;</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        for (String device : devices) { //enumerate devices</span>
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">            if (device.trim().endsWith(&quot;fastboot&quot;)) { //validate devices</span>
+<span class="nc" id="L138">                devcount++; //increment counter</span>
+            }
+        }
+<span class="fc" id="L141">        return devcount; //return results</span>
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    public boolean checkErrorMessage(String[] commandRun, String returnValue) {
+        //TODO Fastboot error message checking.  Error messages should be checked, actions taken and drivers installed if needed. 
+<span class="fc" id="L153">        return true;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    public boolean installDriver() {
+        //TODO Fastboot Drivers.  This should be called if error messages dictate need for driver installation. 
+<span class="fc" id="L164">        return true;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    public String deployBinary(String tempFolder) {
+
+<span class="fc bfc" id="L175" title="All 2 branches covered.">        if (binaryLocation.isEmpty()) {</span>
+            String fastbootResource;
+<span class="fc" id="L177">            binaryLocation = CASUALMain.getSession().getTempFolder() + &quot;fastboot&quot;;</span>
+<span class="pc bpc" id="L178" title="1 of 2 branches missed.">            if (OSTools.isWindows()) {</span>
+<span class="nc" id="L179">                binaryLocation += &quot;.exe&quot;;</span>
+<span class="nc" id="L180">                new CASUALMessageObject(&quot;@interactionInstallFastbootDrivers&quot;).showInformationMessage();</span>
+<span class="nc" id="L181">                fastbootResource = fastbootWindows;</span>
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">            } else if (OSTools.isMac()) {</span>
+<span class="nc" id="L183">                fastbootResource = fastbootMac;</span>
+            } else {
+<span class="fc" id="L185">                fastbootResource = getFastbootLinuxResource();</span>
+            }
+<span class="fc" id="L187">            Log.level2Information(&quot;@deployingFastboot&quot;);</span>
+<span class="fc" id="L188">            Log.level3Verbose(&quot;Deploying Fastboot from &quot; + fastbootResource + &quot; to &quot; + binaryLocation);</span>
+<span class="fc" id="L189">            binaryLocation=new ResourceDeployer().deployResourceTo(fastbootResource, tempFolder);</span>
+<span class="pc bpc" id="L190" title="3 of 4 branches missed.">            if (OSTools.isLinux() || OSTools.isMac()) {</span>
+                
+<span class="fc" id="L192">                new File(binaryLocation).setExecutable(true);</span>
+
+            }
+<span class="fc" id="L195">            Log.level2Information(&quot;@fastbootDeployed&quot;);</span>
+        }
+<span class="fc" id="L197">        File loc = new File(binaryLocation);</span>
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">        if (loc.exists()) {  //if the file exists after deployment procedure</span>
+<span class="fc" id="L199">            return binaryLocation;</span>
+        }
+<span class="nc" id="L201">        return &quot;&quot;;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void restartConnection() {
+<span class="fc" id="L209">        this.reset();</span>
+<span class="fc" id="L210">        this.getBinaryLocation();</span>
+<span class="fc" id="L211">    }</span>
+
+    @Override
+    public void reset() {
+<span class="fc bfc" id="L215" title="All 2 branches covered.">        if (!binaryLocation.isEmpty()) {</span>
+<span class="fc" id="L216">            this.shutdown();</span>
+        }
+<span class="fc" id="L218">        binaryLocation = &quot;&quot;;</span>
+<span class="fc" id="L219">    }</span>
+
+    @Override
+    public String getConnectionMethodName() {
+<span class="nc" id="L223">        return &quot;fastboot&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

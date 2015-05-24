@@ -1,0 +1,3 @@
+Welcome To CASUAL
+
+This CASUAL Framework application is designed to contain a bunch of test scripts for CASUAL debugging.

@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CASUALDataBridge.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.communicationstools.adb.busybox</a> &gt; <span class="el_source">CASUALDataBridge.java</span></div><h1>CASUALDataBridge.java</h1><pre class="source lang-java linenums">/*CASUALDataBridge provides a method of direct transfer to/from block/character/file objects on the device. 
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.communicationstools.adb.busybox;
+
+import CASUAL.CASUALMain;
+import CASUAL.CASUALMessageObject;
+import CASUAL.Log;
+import CASUAL.Shell;
+import CASUAL.communicationstools.adb.ADBTools;
+import CASUAL.instrumentation.ModeTrackerInterface;
+import CASUAL.instrumentation.Track;
+import CASUAL.misc.MandatoryThread;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.ConnectException;
+import java.net.Socket;
+import java.net.SocketException;
+import java.util.concurrent.TimeoutException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Timer;
+
+/**
+ * CASUALDataBridge is a unique way to flash information to a device. as opposed
+ * to other methods, which require writing a string or a file, CASUALDataBridge
+ * also handles Block and Character devices. This allows &quot;flashing&quot; and
+ * &quot;pulling&quot; of entire partitions on a device without first transferring a file
+ * to the SDCard. The technique used is to deploy a server, and monitor its
+ * operations. A second thread is started which sends or receives information to
+ * or from the device via TCP over USB. The end result is a verifiable and
+ * error-checked method of data transfer from a computer to the Android device
+ * from any file/block/char device available.
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+public class CASUALDataBridge {
+
+    final static String port = &quot;27825&quot;;
+    final static String ip = &quot;127.0.0.1&quot;;
+<span class="fc" id="L64">    final static Integer WATCHDOGINTERVAL = 2000;</span>
+<span class="fc" id="L65">    static boolean deviceReadyForReceive = false;</span>
+<span class="fc" id="L66">    static String deviceSideMessage = &quot;&quot;;</span>
+<span class="fc" id="L67">    static boolean shutdownBecauseOfError = false;</span>
+<span class="fc" id="L68">    static long bytes = 0;</span>
+<span class="fc" id="L69">    static long lastbytes = -1;</span>
+<span class="fc" id="L70">    static String status = &quot;&quot;;</span>
+
+<span class="fc" id="L72">    final static Object deviceSideReady = new Object();</span>
+    static Object casualSideReady;
+    static Object transmissionInProgress;
+
+
+   
+   static CASUALDataBridge instance;
+    /**
+     * timeoutWatchdog checks every WATCHDOGINTERVAL millis to verify bytes have
+     * increased. If bytes have not increased, it throws an error and shuts
+     * things down. This is used to detect a broken connection.
+     */
+<span class="fc" id="L84">    public static Timer timeoutWatchdog = new Timer(WATCHDOGINTERVAL, new ActionListener() {</span>
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+<span class="nc bnc" id="L87" title="All 2 branches missed.">            if (lastbytes == bytes) {</span>
+                try {
+<span class="nc" id="L89">                    Log.level0Error(&quot;Failed to send file.  Timeout. Bytes:&quot; + bytes + &quot; Message:&quot; + deviceSideMessage);</span>
+<span class="nc" id="L90">                    deviceReadyForReceive = false;</span>
+<span class="nc" id="L91">                    shutdownBecauseOfError = true;</span>
+<span class="nc" id="L92">                    timeoutWatchdog.stop();</span>
+<span class="nc" id="L93">                    throw new TimeoutException();</span>
+<span class="nc" id="L94">                } catch (TimeoutException ex) {</span>
+<span class="nc" id="L95">                    Logger.getLogger(CASUALDataBridge.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L96">                }</span>
+                
+            } else {
+<span class="nc" id="L99">                lastbytes = bytes;</span>
+<span class="nc" id="L100">                CASUALMain.getSession().setStatus(status + &quot; &quot; + bytes);</span>
+            }
+            
+<span class="nc" id="L103">        }</span>
+    });
+
+    public static CASUALDataBridge getInstance() {
+<span class="fc" id="L107">        return instance;</span>
+    }
+    
+    public static void shutdown(){
+<span class="pc bpc" id="L111" title="3 of 4 branches missed.">        if (getInstance()==null|| getInstance().socket==null){</span>
+<span class="fc" id="L112">            return;</span>
+        }
+        try {
+<span class="nc" id="L115">            instance.shutdownCommunications(getInstance().socket,getInstance().worker);</span>
+<span class="nc" id="L116">        } catch (InterruptedException ex) {</span>
+<span class="nc" id="L117">            Logger.getLogger(CASUALDataBridge.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L118">        } catch (IOException ex) {</span>
+<span class="nc" id="L119">            Logger.getLogger(CASUALDataBridge.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L120">        }</span>
+
+<span class="nc" id="L122">    }</span>
+<span class="nc" id="L123">    Shell shell = new Shell();</span>
+<span class="nc" id="L124">    ADBTools adb = new ADBTools();</span>
+<span class="nc" id="L125">    MandatoryThread worker = new MandatoryThread();</span>
+<span class="nc" id="L126">    Socket socket = new Socket();</span>
+    /**
+     * used externally to command shutdown. If shutdown is commanded, all
+     * operations must halt as soon as possible and return.
+     */
+<span class="nc" id="L131">    boolean commandedShutdown = false;</span>
+    
+    /**
+     * default constructor
+     */
+<span class="nc" id="L136">    public CASUALDataBridge(){</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        if (instance!=null){</span>
+<span class="nc" id="L138">            instance.commandedShutdown=true;</span>
+<span class="nc" id="L139">            instance.worker.interrupt();</span>
+        }
+<span class="nc" id="L141">        instance=this;</span>
+<span class="nc" id="L142">    }</span>
+    
+    /**
+     * gets a file from the device.
+     *
+     * @param remoteFileName path to remote file
+     * @param f local file to write
+     * @return string path to local file
+     * @throws IOException when permission problem exists
+     * @throws InterruptedException when interrupted
+     */
+    public synchronized String getFile(String remoteFileName, File f) throws IOException, InterruptedException {
+<span class="nc" id="L154">        status = &quot;received &quot;;</span>
+<span class="nc" id="L155">        Log.level4Debug(&quot;CDB Starting getFile DataBridge&quot;);</span>
+<span class="nc" id="L156">        FileOutputStream fos = new FileOutputStream(f);</span>
+        //begin write
+
+<span class="nc" id="L159">        getStream(fos, remoteFileName);</span>
+
+<span class="nc bnc" id="L161" title="All 2 branches missed.">        if (shutdownBecauseOfError) {</span>
+<span class="nc" id="L162">            return deviceSideMessage;</span>
+        }
+<span class="nc" id="L164">        return f.getCanonicalPath();</span>
+
+    }
+
+    /**
+     * Sends a string to a block/char/file on device
+     *
+     * @param send string to send
+     * @param remoteFileName remote block/char/file on deviec
+     * @return number of bytes sent
+     * @throws InterruptedException when interrupted
+     * @throws SocketException when socket cannot be created
+     * @throws IOException when permission problem exists
+     */
+    public synchronized long sendString(String send, String remoteFileName) throws InterruptedException, SocketException, IOException {
+        //make a duplicate of the array, with the \n and 0x3 key to end the file transfer
+<span class="nc" id="L180">        Log.level3Verbose(&quot;Starting sendString DataBridge&quot;);</span>
+<span class="nc" id="L181">        send = send;</span>
+<span class="nc" id="L182">        ByteArrayInputStream bis = new ByteArrayInputStream(send.getBytes());</span>
+<span class="nc" id="L183">        long retval = sendStream(bis, remoteFileName);</span>
+<span class="nc" id="L184">        return retval;</span>
+    }
+
+    /**
+     * Sends a file to the device.
+     *
+     * @param f local file to send
+     * @param remoteFileName path to remote file on device
+     * @return number of bytes sent
+     * @throws FileNotFoundException  when file is not present
+     * @throws Exception when file cannot be sent
+     */
+    public synchronized long sendFile(File f, String remoteFileName) throws FileNotFoundException, Exception {
+<span class="nc" id="L197">        Log.level2Information(&quot;sending &quot; + f.getName() + &quot; to device. size=&quot; + f.length());</span>
+<span class="nc" id="L198">        FileInputStream fis = new FileInputStream(f);</span>
+<span class="nc" id="L199">        long retval = sendStream(fis, remoteFileName);</span>
+        try {
+<span class="nc" id="L201">            fis.close();</span>
+<span class="nc" id="L202">        } catch (IOException ex) {</span>
+<span class="nc" id="L203">            Logger.getLogger(CASUALDataBridge.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L204">        }</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">        if (!checkErrors()) {</span>
+<span class="nc" id="L206">            retval = 0;</span>
+        }
+<span class="nc bnc" id="L208" title="All 2 branches missed.">        if (f.length() != retval) {</span>
+<span class="nc" id="L209">            retval = 0;</span>
+        }
+<span class="nc" id="L211">        return retval;</span>
+
+    }
+
+    /**
+     * Sends an inputstream to the device.
+     *
+     * @param input stream to be written to remote file
+     * @param remoteFileName name of remote file to be written
+     * @return number of bytes sent.
+     * @throws InterruptedException when interrupted
+     * @throws SocketException when socket cannot be created
+     * @throws IOException when permissions problem exists
+     */
+    public synchronized long sendStream(final InputStream input, final String remoteFileName) throws InterruptedException, SocketException, IOException {
+<span class="nc" id="L226">        resetCASUALConnection();</span>
+<span class="nc" id="L227">        Log.level4Debug(&quot;CDB Starting sendStream DataBridge&quot;);</span>
+        //start device-side receiver thread
+<span class="nc" id="L229">        worker= new DeviceSideDataBridge(adb).startDeviceSideServer(remoteFileName, true);</span>
+
+               
+        //Open the socket
+<span class="nc" id="L233">        final Socket socket = setupPort();</span>
+        //grab the stream
+<span class="nc" id="L235">        OutputStream os = socket.getOutputStream();</span>
+        //do the work
+
+<span class="nc" id="L238">        copyStreamToDevice(input, os, true);</span>
+        //begin write
+<span class="nc" id="L240">        shutdownCommunications(socket, worker);</span>
+<span class="nc bnc" id="L241" title="All 2 branches missed.">        if (shutdownBecauseOfError) {</span>
+<span class="nc" id="L242">            return 0;</span>
+        }
+<span class="nc" id="L244">        return bytes;</span>
+    }
+
+    private long getStream(OutputStream output, String remoteFileName) throws IOException, InterruptedException {
+<span class="nc" id="L248">        resetCASUALConnection();</span>
+<span class="nc" id="L249">        Log.level3Verbose(&quot;Starting getStream DataBridge&quot;);</span>
+        //start device-side sender
+<span class="nc" id="L251">        MandatoryThread t = new DeviceSideDataBridge(adb).startDeviceSideServer(remoteFileName, false);</span>
+
+        //open the socket
+<span class="nc" id="L254">        final Socket socket = setupPort();</span>
+
+        //begin write;
+<span class="nc" id="L257">        copyStreamFromDevice(socket, output);</span>
+
+<span class="nc" id="L259">        shutdownCommunications(socket, t);</span>
+<span class="nc" id="L260">        return bytes;</span>
+    }
+
+    private long copyStreamToDevice(InputStream input, OutputStream output, boolean toDevice) {
+
+        try {
+            //make a buffer to work with and setup start time
+<span class="nc" id="L267">            long startTime = System.currentTimeMillis();</span>
+<span class="nc" id="L268">            byte[] buf = new byte[4096];</span>
+<span class="nc" id="L269">            Log.level4Debug(&quot;CDB Starting copyStreamToDevice DataBridge&quot;);</span>
+<span class="nc" id="L270">            BufferedOutputStream bos = new BufferedOutputStream(output);</span>
+<span class="nc" id="L271">            BufferedInputStream bis = new BufferedInputStream(input);</span>
+<span class="nc" id="L272">            int buflen = buf.length - 1;</span>
+            //pump in 4096 byte chunks at a time. from input to output
+<span class="nc" id="L274">            Track.setMode(ModeTrackerInterface.Mode.CASUALDataBridgeFlash);</span>
+<span class="nc bnc" id="L275" title="All 4 branches missed.">            while (bis.available() &gt;= buflen &amp;&amp; !commandedShutdown) {</span>
+<span class="nc" id="L276">                timeoutWatchdog.start();</span>
+<span class="nc" id="L277">                bis.read(buf);</span>
+<span class="nc" id="L278">                bos.write(buf);</span>
+<span class="nc" id="L279">                bytes += buf.length;</span>
+<span class="nc" id="L280">                timeoutWatchdog.stop();</span>
+            }
+
+            //send final bits less than 4096
+<span class="nc bnc" id="L284" title="All 2 branches missed.">            if (bis.available() &gt; 0) {</span>
+<span class="nc" id="L285">                buf = new byte[input.available()];</span>
+<span class="nc" id="L286">                bis.read(buf);</span>
+<span class="nc" id="L287">                bytes += buf.length;</span>
+<span class="nc" id="L288">                bos.write(buf);</span>
+            }
+<span class="nc" id="L290">            bos.flush();</span>
+
+<span class="nc" id="L292">            CASUALMain.getSession().setStatus(&quot;Sent:&quot; + bytes + &quot;bytes&quot;);</span>
+
+<span class="nc" id="L294">            long endTime = System.currentTimeMillis();</span>
+<span class="nc" id="L295">            double duration = (endTime - startTime) / 1000.000;</span>
+<span class="nc" id="L296">            double kb = bytes / duration / 1000;</span>
+<span class="nc" id="L297">            Log.level2Information(&quot;Sent:&quot; + bytes / 1000 + &quot;kb in &quot; + duration + &quot;s at &quot; + kb + &quot; KB/s&quot;);</span>
+
+<span class="nc" id="L299">        } catch (IOException ex) {</span>
+<span class="nc" id="L300">            timeoutWatchdog.stop();</span>
+<span class="nc" id="L301">            Logger.getLogger(CASUALDataBridge.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L302">        }</span>
+
+<span class="nc" id="L304">        return bytes;</span>
+    }
+
+    private long copyStreamFromDevice(final Socket socket, OutputStream output) {
+        try {
+<span class="nc" id="L309">            CASUALMain.getSession().setStatus(&quot;Data transfer initiated, please wait&quot;);</span>
+<span class="nc" id="L310">            BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());</span>
+<span class="nc" id="L311">            long startTime = System.currentTimeMillis();</span>
+            byte[] buf;
+<span class="nc" id="L313">            timeoutWatchdog.start();</span>
+<span class="nc" id="L314">            Track.setMode(ModeTrackerInterface.Mode.CASUALDataBridgePull);</span>
+<span class="nc bnc" id="L315" title="All 4 branches missed.">            while (deviceReadyForReceive &amp;&amp; !commandedShutdown) {</span>
+
+<span class="nc bnc" id="L317" title="All 2 branches missed.">                while ((buf = new byte[bis.available()]).length &gt; 0) {</span>
+<span class="nc" id="L318">                    bytes += buf.length;</span>
+<span class="nc" id="L319">                    bis.read(buf);</span>
+<span class="nc" id="L320">                    output.write(buf);</span>
+
+                }
+            }
+<span class="nc" id="L324">            timeoutWatchdog.stop();</span>
+<span class="nc" id="L325">            output.flush();</span>
+<span class="nc" id="L326">            CASUALMain.getSession().setStatus(&quot;Sent:&quot; + bytes + &quot;bytes&quot;);</span>
+<span class="nc" id="L327">            long endTime = System.currentTimeMillis();</span>
+<span class="nc" id="L328">            double duration = (endTime - startTime) / 1000.000;</span>
+<span class="nc" id="L329">            double kb = bytes / duration / 1000;</span>
+            String message;
+<span class="nc" id="L331">            Log.level4Debug(&quot;CDB copyStreamFromDevice() complete&quot;);</span>
+<span class="nc" id="L332">            Log.level2Information(&quot;Sent:&quot; + bytes / 1000 + &quot;kb in &quot; + duration + &quot;s at &quot; + kb + &quot; KB/s&quot;);</span>
+<span class="nc" id="L333">        } catch (IOException ex) {</span>
+<span class="nc" id="L334">            Log.level4Debug(&quot;CDB copyStreamFromDevice() exception!!&quot;);</span>
+<span class="nc" id="L335">            timeoutWatchdog.stop();</span>
+<span class="nc" id="L336">            Logger.getLogger(CASUALDataBridge.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L337">        }</span>
+
+<span class="nc" id="L339">        return bytes;</span>
+    }
+
+    private void resetCASUALConnection() {
+<span class="nc" id="L343">        deviceReadyForReceive = false;</span>
+<span class="nc" id="L344">        shutdownBecauseOfError = false;</span>
+<span class="nc" id="L345">        deviceSideMessage = &quot;&quot;;</span>
+<span class="nc" id="L346">        bytes = 0;</span>
+<span class="nc" id="L347">        lastbytes = -1;</span>
+<span class="nc" id="L348">        Log.level4Debug(&quot;CDB RESET!!!!!! resetCASUALConnection() commanded&quot;);</span>
+<span class="nc" id="L349">        new ADBTools().restartConnection();</span>
+<span class="nc" id="L350">        shell.silentShellCommand(new String[]{adb.getBinaryLocation(), &quot;forward&quot;, &quot;--remove-all&quot;});</span>
+        try {
+<span class="nc" id="L352">            Socket socket = new Socket(ip, Integer.parseInt(port));</span>
+<span class="nc" id="L353">            socket.shutdownInput();</span>
+<span class="nc" id="L354">            socket.shutdownOutput();</span>
+<span class="nc" id="L355">            socket.close();</span>
+<span class="nc" id="L356">        } catch (ConnectException ex) {</span>
+<span class="nc" id="L357">        } catch (IOException ex) {</span>
+<span class="nc" id="L358">        }</span>
+<span class="nc" id="L359">        Log.level4Debug(&quot;CDB resetCASUALConnection() establishing ports&quot;);</span>
+<span class="nc" id="L360">        shell.silentShellCommand(new String[]{adb.getBinaryLocation(), &quot;shell&quot;, &quot;killall busybox&quot;});</span>
+<span class="nc" id="L361">        shell.silentShellCommand(new String[]{adb.getBinaryLocation(), &quot;forward&quot;, &quot;tcp:&quot; + port, &quot;tcp:&quot; + port});</span>
+<span class="nc" id="L362">        Log.level3Verbose(&quot;CDB resetCASUALConnection() complete&quot;);</span>
+<span class="nc" id="L363">    }</span>
+
+    private void waitForReadySignal() {
+<span class="nc" id="L366">        Log.level4Debug(&quot;CDB waitForReadySignal() Waiting for device side to be ready&quot;);</span>
+<span class="nc bnc" id="L367" title="All 2 branches missed.">        if (deviceReadyForReceive) {</span>
+<span class="nc" id="L368">            Log.level4Debug(&quot;CDB waitForReadySignal() deviceReadyForReceive true&quot;);</span>
+<span class="nc" id="L369">            return;</span>
+        }
+<span class="nc" id="L371">        Log.level4Debug(&quot;CDB waitForReadySignal() deviceReadyForReceive false&quot;);</span>
+        try {
+<span class="nc" id="L373">            synchronized (deviceSideReady) {</span>
+<span class="nc" id="L374">                Log.level4Debug(&quot;CDB waitForReadySignal() Waiting for device side to be ready&quot;);</span>
+<span class="nc" id="L375">                deviceSideReady.wait();</span>
+<span class="nc" id="L376">            }</span>
+<span class="nc" id="L377">        } catch (InterruptedException ex) {</span>
+<span class="nc" id="L378">            Log.errorHandler(ex);</span>
+<span class="nc" id="L379">        }</span>
+<span class="nc" id="L380">        Log.level4Debug(&quot;CDB waitForReadySignal() Complete&quot;);</span>
+
+<span class="nc" id="L382">    }</span>
+
+    private Socket setupPort() throws SocketException, IOException, NumberFormatException {
+<span class="nc" id="L385">        Log.level4Debug(&quot;CDB setupPort()&quot;);</span>
+<span class="nc" id="L386">        waitForReadySignal();</span>
+<span class="nc" id="L387">        int p = Integer.parseInt(port);</span>
+<span class="nc" id="L388">        final Socket socket = new Socket(ip, p);</span>
+<span class="nc" id="L389">        socket.setTrafficClass(0x04);</span>
+
+<span class="nc" id="L391">        return socket;</span>
+    }
+
+    private void shutdownCommunications(Socket socket, MandatoryThread deviceSideServer) throws InterruptedException, IOException {
+<span class="nc bnc" id="L395" title="All 2 branches missed.">        if (!socket.isConnected()){</span>
+<span class="nc" id="L396">            return;</span>
+        }
+        
+<span class="nc" id="L399">        Log.level4Debug(&quot;CDB shutdownCommunications&quot;);</span>
+<span class="nc" id="L400">        deviceReadyForReceive = false;</span>
+<span class="nc" id="L401">        socket.getOutputStream().flush();</span>
+<span class="nc" id="L402">        Log.level4Debug(&quot;CDB shutdownCommunications() closing DataBridge ports&quot;);</span>
+
+<span class="nc" id="L404">        socket.close();</span>
+
+        //todo evaluate potential corruption issues, open socket, write closing character, close socket.
+<span class="nc" id="L407">        Socket s = new Socket(ip, Integer.parseInt(port));</span>
+<span class="nc" id="L408">        s.getOutputStream().write(0x13);</span>
+<span class="nc" id="L409">        s.close();</span>
+
+<span class="nc" id="L411">        Log.level4Debug(&quot;CDB shutdownCommunications() waiting for device-side server to shutdown&quot;);</span>
+<span class="nc bnc" id="L412" title="All 2 branches missed.">        if (!deviceSideServer.isComplete()) {</span>
+<span class="nc" id="L413">            deviceSideServer.join();</span>
+        }
+<span class="nc" id="L415">    }</span>
+
+
+    private boolean checkErrors() {
+<span class="nc" id="L419">        Log.level3Verbose(&quot;checking DataBridge errors.&quot;);</span>
+<span class="nc bnc" id="L420" title="All 6 branches missed.">        return !deviceSideMessage.equals(DeviceSideDataBridge.USBDISCONNECTED) &amp;&amp; !deviceSideMessage.equals(DeviceSideDataBridge.DEVICEDISCONNECTED) &amp;&amp; !deviceSideMessage.startsWith(DeviceSideDataBridge.PERMISSIONERROR);</span>
+    }
+
+    /**
+     * Gets a file from the device.
+     *
+     * @param remoteFile remote file name
+     * @param f local file name
+     * @return path to local file.
+     */
+    public String integralGetFile(String remoteFile, File f) {
+
+<span class="nc" id="L432">        String retval = &quot;&quot;;</span>
+        try {
+<span class="nc" id="L434">            Log.level3Verbose(&quot;Starting integralGetFile DataBridge&quot;);</span>
+<span class="nc" id="L435">            retval = getFile(remoteFile, f);</span>
+<span class="nc" id="L436">        } catch (IOException ex) {</span>
+<span class="nc" id="L437">            Log.errorHandler(ex);</span>
+<span class="nc" id="L438">        } catch (InterruptedException ex) {</span>
+<span class="nc" id="L439">            Log.errorHandler(ex);</span>
+<span class="nc" id="L440">        }</span>
+<span class="nc bnc" id="L441" title="All 4 branches missed.">        while (shutdownBecauseOfError &amp;&amp; !commandedShutdown) {</span>
+<span class="nc" id="L442">            deviceReadyForReceive = false;</span>
+<span class="nc" id="L443">            deviceSideMessage = &quot;&quot;;</span>
+<span class="nc" id="L444">            shutdownBecauseOfError = false;</span>
+<span class="nc" id="L445">            bytes = 0;</span>
+<span class="nc" id="L446">            lastbytes = -1;</span>
+<span class="nc" id="L447">            status = &quot;&quot;;</span>
+<span class="nc" id="L448">            new CASUALMessageObject(&quot;@interactionFailedToReceive&quot;).showInformationMessage();</span>
+            try {
+<span class="nc" id="L450">                return getFile(remoteFile, f);</span>
+<span class="nc" id="L451">            } catch (IOException ex) {</span>
+<span class="nc" id="L452">                Log.errorHandler(ex);</span>
+<span class="nc" id="L453">            } catch (InterruptedException ex) {</span>
+<span class="nc" id="L454">                Log.errorHandler(ex);</span>
+<span class="nc" id="L455">            }</span>
+
+        }
+<span class="nc" id="L458">        return retval;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

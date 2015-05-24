@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Unzip.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.archiving</a> &gt; <span class="el_source">Unzip.java</span></div><h1>Unzip.java</h1><pre class="source lang-java linenums">/*UnZip unzips files
+ *Copyright (C) 2015  Adam Outler &lt;adamoutler@gmail.com&gt;
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.archiving;
+
+import CASUAL.CASUALMain;
+import CASUAL.CASUALSessionData;
+import CASUAL.Log;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
+
+/**
+ * Provides methods of accessing Unzip tools.
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+public class Unzip {
+
+<span class="fc" id="L44">    static int BUFFER = 4096;</span>
+
+    /**
+     * Unzips a resource.
+     * &lt;p&gt;
+     * Within a java package there is a folder called resources, used to store
+     * things such as internalized strings, sounds, and other important static
+     * files. This function takes in the name of the resource and then outputs
+     * it into the output folder.
+     *
+     * @param sd SessionData for this run
+     * @param zipResource name of the java resource to be unzipped
+     * @param outputFolder folder to unzip to
+     * @throws FileNotFoundException output folder missing or permissions
+     * @throws IOException permissions
+     * @see java.lang.Class#getResource(String)
+     *
+     */
+    public static void unZipResource(CASUALSessionData sd, String zipResource, String outputFolder) throws FileNotFoundException, IOException {
+        InputStream zStream;
+<span class="nc" id="L64">        zStream = new CASUALMain().getClass().getResourceAsStream(zipResource);</span>
+<span class="nc" id="L65">        unZipInputStream(sd,zStream, outputFolder);</span>
+<span class="nc" id="L66">        zStream.close();</span>
+<span class="nc" id="L67">    }</span>
+
+    /**
+     * Unzips an InputStream.
+     * &lt;p&gt;
+     * Takes in an InputStream, converts it to a ZipInputStream, and then
+     * iterates through all of the ZipEntries, writing each one of them to a
+     * file with the name provided by the ZipEntry.
+     *
+     * @param sd SessionData for this run
+     * @param zStream input stream to unzip
+     * @param outputFolder output folder to unzip to
+     * @return array list of files extract
+     * @throws FileNotFoundException output missing or permissions
+     * @throws IOException permissions
+     * @see InputStream
+     * @see ZipEntry
+     * @see ZipInputStream
+     * @see ZipFile
+     */
+    public static ArrayList&lt;File&gt; unZipInputStream(CASUALSessionData sd, InputStream zStream, String outputFolder) throws FileNotFoundException, IOException {
+<span class="fc" id="L88">        zStream.mark(0);</span>
+        ZipInputStream zipInputStream;
+<span class="fc" id="L90">        ArrayList&lt;File&gt; unzipped=new ArrayList&lt;File&gt;();</span>
+        ZipEntry zipEntry;
+<span class="fc" id="L92">        zipInputStream = new ZipInputStream(zStream);</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        while ((zipEntry = zipInputStream.getNextEntry()) != null) {</span>
+<span class="fc" id="L94">            Log.level3Verbose(&quot;Unzipping &quot; + zipEntry.getName());</span>
+<span class="fc" id="L95">            File EntryFile = new File(outputFolder + System.getProperty(&quot;file.separator&quot;) + zipEntry.getName());</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">            if (zipEntry.isDirectory()) {</span>
+<span class="nc" id="L97">                EntryFile.mkdirs();</span>
+<span class="nc" id="L98">                continue;</span>
+            }
+<span class="fc" id="L100">            File EntryFolder = new File(EntryFile.getParent());</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">            if (!EntryFolder.exists()) {</span>
+<span class="fc" id="L102">                EntryFolder.mkdirs();</span>
+            }
+            int currentByte;
+            // establish buffer for writing file
+<span class="fc" id="L106">            byte data[] = new byte[BUFFER];</span>
+<span class="fc" id="L107">            String currentEntry = zipEntry.getName();</span>
+<span class="fc" id="L108">            File destFile = new File(outputFolder + System.getProperty(&quot;file.separator&quot;), currentEntry);</span>
+<span class="fc" id="L109">            FileOutputStream FileOut = new FileOutputStream(destFile);</span>
+<span class="fc" id="L110">            BufferedInputStream BufferedInputStream = new BufferedInputStream(zipInputStream);</span>
+            BufferedOutputStream Destination;
+<span class="fc" id="L112">            Destination = new BufferedOutputStream(FileOut);</span>
+<span class="fc" id="L113">            int numberOfCycles = (int) (zipEntry.getSize() / BUFFER);</span>
+<span class="fc" id="L114">            boolean updatePercent = false;</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">            if (numberOfCycles &gt; 0) {</span>
+<span class="nc" id="L116">                updatePercent = true;</span>
+            }
+<span class="fc" id="L118">            CASUALSessionData.getGUI().setProgressBar(-1);</span>
+<span class="fc" id="L119">            BigInteger currentCycle = BigInteger.valueOf(0);</span>
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">            while ((currentByte = BufferedInputStream.read(data, 0, BUFFER)) != -1) {</span>
+<span class="fc" id="L121">                Destination.write(data, 0, currentByte);</span>
+                
+<span class="fc" id="L123">                CASUALSessionData.getGUI().setBlocksUnzipped(currentCycle.add(BigInteger.valueOf(1)).toString());</span>
+            }
+<span class="nc" id="L125">            Destination.flush();</span>
+<span class="nc" id="L126">            Destination.close();</span>
+<span class="nc" id="L127">            unzipped.add(destFile);</span>
+<span class="nc" id="L128">        }</span>
+<span class="fc" id="L129">        sd.setStatus(&quot;Important Information&quot;);</span>
+<span class="fc" id="L130">        CASUALSessionData.getGUI().setProgressBar(0);</span>
+        
+<span class="fc" id="L132">        Log.level3Verbose(&quot;Unzip Complete&quot;);</span>
+<span class="fc" id="L133">        return unzipped;</span>
+    }
+
+    /**
+     * Gets a stream of a specified file from a zip.
+     * &lt;p&gt;
+     * Static method used to stream a file form a zip that is not an Unzip
+     * object.
+     *
+     * @param zipFile file to stream from
+     * @param entry entry to stream
+     * @return stream of file
+     * @throws ZipException {@inheritDoc}
+     * @throws IOException {@inheritDoc}
+     */
+    public static BufferedInputStream streamFileFromZip(File zipFile, Object entry) throws ZipException, IOException {
+<span class="nc" id="L149">        ZipFile zip = new ZipFile(zipFile);</span>
+<span class="nc" id="L150">        return new BufferedInputStream(zip.getInputStream((ZipEntry) entry));</span>
+    }
+    final ZipFile zip;
+    /**
+     * Unzip provides a set of methods which work to unzip files.
+     */
+    public Enumeration&lt;? extends ZipEntry&gt; zipFileEntries;
+
+    /**
+     * Unzip class is used to create a wrapper for unziping .zip files.
+     * &lt;p&gt;
+     * The File f will be converted to a ZipFile, and all other operations will
+     * be preformed on this ZipFile.
+     *
+     * @param f java file object to be unziped.
+     * @throws ZipException corrupted
+     * @throws IOException permissions
+     * @see ZipFile
+     */
+<span class="fc" id="L169">    public Unzip(File f) throws ZipException, IOException {</span>
+<span class="fc" id="L170">        this.zip = new ZipFile(f);</span>
+        try {
+<span class="fc" id="L172">            this.zipFileEntries = zip.entries();</span>
+<span class="nc" id="L173">        } catch (Exception e) {</span>
+<span class="nc" id="L174">            Log.level0Error(&quot;could not process file &quot;+f);</span>
+<span class="nc" id="L175">            Log.errorHandler(e);</span>
+<span class="fc" id="L176">        }</span>
+<span class="fc" id="L177">    }</span>
+
+    /**
+     * Unzip class is used to create a wrapper for unziping .zip files.
+     * &lt;p&gt;
+     * The String f will be converted into a file, then that file will be
+     * converted into a ZipFile.
+     *
+     * @param f String location of file to be unziped.
+     * @throws ZipException corrupted
+     * @throws IOException permissions
+     * @see ZipFile
+     */
+<span class="nc" id="L190">    public Unzip(String f) throws ZipException, IOException {</span>
+<span class="nc" id="L191">        this.zip = new ZipFile(new File(f));</span>
+        try {
+<span class="nc" id="L193">            this.zipFileEntries = zip.entries();</span>
+<span class="nc" id="L194">        } catch (Exception e) {</span>
+<span class="nc" id="L195">            Log.errorHandler(e);</span>
+<span class="nc" id="L196">        }</span>
+<span class="nc" id="L197">    }</span>
+
+    /**
+     * Unzips the ZipFile that was specified in the constructor of the class.
+     * Creates folder if necessary
+     *
+     * @param outputFolder folder to be unzipped to
+     * @return array of files unzipped
+     * @throws ZipException corrupted
+     * @throws IOException permissions
+     * @see CASUAL.archiving.Unzip#Unzip(File)
+     */
+    public File[] unzipFile(String outputFolder) throws ZipException, IOException {
+<span class="fc" id="L210">        return unzipFileToFolder(outputFolder);</span>
+    }
+
+    private File[] unzipFileToFolder(String outputFolder) throws ZipException, IOException {
+<span class="fc" id="L214">        Log.level4Debug(&quot;Unzipping &quot; + zip.toString());</span>
+<span class="fc" id="L215">        ArrayList&lt;File&gt; files = new ArrayList&lt;File&gt;();</span>
+<span class="fc" id="L216">        String newPath = outputFolder + System.getProperty(&quot;file.separator&quot;);</span>
+<span class="fc" id="L217">        new File(newPath).mkdir();</span>
+<span class="fc" id="L218">        zipFileEntries = zip.entries();</span>
+        // Process each entry
+<span class="fc bfc" id="L220" title="All 2 branches covered.">        while (zipFileEntries.hasMoreElements()) {</span>
+            // grab a zip file entry
+<span class="fc" id="L222">            ZipEntry entry = zipFileEntries.nextElement();</span>
+<span class="fc" id="L223">            String currentEntry = entry.getName();</span>
+<span class="fc" id="L224">            File destFile = new File(newPath, currentEntry);</span>
+            //destFile = new File(newPath, destFile.getName());
+<span class="fc" id="L226">            File destinationParent = destFile.getParentFile();</span>
+            // create the parent directory structure if needed
+<span class="fc" id="L228">            destinationParent.mkdirs();</span>
+<span class="pc bpc" id="L229" title="1 of 2 branches missed.">            if (!entry.isDirectory()) {</span>
+<span class="fc" id="L230">                Log.level3Verbose(&quot;unzipping &quot; + entry.toString());</span>
+<span class="fc" id="L231">                writeFromZipToFile(zip, entry, newPath);</span>
+<span class="fc" id="L232">                files.add(destFile);</span>
+<span class="nc bnc" id="L233" title="All 2 branches missed.">            } else if (entry.isDirectory()) {</span>
+<span class="nc" id="L234">                Log.level4Debug(newPath + entry.getName());</span>
+<span class="nc" id="L235">                new File(newPath + entry.getName()).mkdirs();</span>
+            }
+<span class="fc" id="L237">        }</span>
+<span class="fc" id="L238">        return files.toArray(new File[files.size()]);</span>
+    }
+
+    /**
+     * Closes the zip file
+     * &lt;p&gt;
+     * Should be called after all file operations have been completed in Unzip
+     */
+    public void close() {
+        try {
+<span class="nc" id="L248">            zip.close();</span>
+<span class="nc" id="L249">        } catch (IOException ex) {</span>
+<span class="nc" id="L250">            Log.errorHandler(ex);</span>
+<span class="nc" id="L251">        }</span>
+<span class="nc" id="L252">    }</span>
+
+    /**
+     * Deploys a single file from a zip.
+     * &lt;p&gt;
+     * Takes in an ZipEntry, and writes that single zip entry out to a folder
+     *
+     * @param entry entry file to deploy
+     * @param outputFolder folder to be deployed to
+     * @return location of entry deployed
+     * @throws ZipException {@inheritDoc}
+     * @throws IOException {@inheritDoc}
+     */
+    public String deployFileFromZip(Object entry, String outputFolder) throws ZipException, IOException {
+
+<span class="nc" id="L267">        ZipEntry zipEntry = new ZipEntry((ZipEntry) entry);</span>
+<span class="nc" id="L268">        writeFromZipToFile(zip, zipEntry, outputFolder);</span>
+<span class="nc" id="L269">        zip.close();</span>
+<span class="nc" id="L270">        return outputFolder + entry.toString();</span>
+    }
+
+    private void writeFromZipToFile(ZipFile zip, ZipEntry entry, String filePathToWrite) throws IOException, FileNotFoundException {
+        //if (Static)
+        BufferedInputStream is;
+<span class="fc" id="L276">        is = new BufferedInputStream(zip.getInputStream(entry));</span>
+        int currentByte;
+        // establish buffer for writing file
+<span class="fc" id="L279">        byte data[] = new byte[BUFFER];</span>
+        // write the current file to disk
+<span class="fc" id="L281">        FileOutputStream fos = new FileOutputStream(new File(filePathToWrite + entry));</span>
+        BufferedOutputStream dest;
+<span class="fc" id="L283">        dest = new BufferedOutputStream(fos, BUFFER);</span>
+        // read and write until last byte is encountered
+<span class="fc bfc" id="L285" title="All 2 branches covered.">        while ((currentByte = is.read(data, 0, BUFFER)) != -1) {</span>
+<span class="fc" id="L286">            dest.write(data, 0, currentByte);</span>
+        }
+<span class="fc" id="L288">        dest.flush();</span>
+<span class="fc" id="L289">        dest.close();</span>
+<span class="fc" id="L290">        is.close();</span>
+<span class="fc" id="L291">    }</span>
+
+    /**
+     * Retrieves a BufferedInputStream for a specific zip entry in a file.
+     *
+     * @param entry ZipEntry that is to be pulled from ZipFile to Stream.
+     * @return BufferedInputStream of the s pecified ZipEntry.
+     * @throws ZipException {@inheritDoc}
+     * @throws IOException {@inheritDoc}
+     * @see ZipEntry
+     * @see ZipFile
+     * @see BufferedInputStream
+     */
+    public BufferedInputStream streamFileFromZip(Object entry) throws ZipException, IOException {
+<span class="fc" id="L305">        return new BufferedInputStream(zip.getInputStream((ZipEntry) entry));</span>
+    }
+
+    /**
+     * Takes in a ZipEntry as an object and returns the string of the
+     * corresponding file name for the entry.
+     *
+     * @param entry the ZipEntry Object
+     * @return name of the file contained in the
+     * @see ZipEntry#getName()
+     */
+    public String getEntryName(Object entry) {
+<span class="fc" id="L317">        ZipEntry zipEntry = (ZipEntry) entry;</span>
+<span class="fc" id="L318">        String name = zipEntry.getName();</span>
+<span class="fc" id="L319">        return name;</span>
+
+    }
+
+    /**
+     * Takes in an ZipEntry as an object and returns the ZipEntry for the
+     * Object.
+     *
+     * @param entry the ZipEntry Object
+     * @return the ZipEntry
+     * @see ZipEntry
+     */
+    public ZipEntry getEntry(Object entry) {
+<span class="nc" id="L332">        return (ZipEntry) entry;</span>
+    }
+    
+    @Override
+    public String toString() {
+<span class="nc" id="L337">        return zip.getName();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

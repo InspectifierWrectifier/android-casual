@@ -1,0 +1,126 @@
+\hypertarget{classCASUAL_1_1ADBTools}{\section{C\-A\-S\-U\-A\-L.\-A\-D\-B\-Tools Class Reference}
+\label{classCASUAL_1_1ADBTools}\index{C\-A\-S\-U\-A\-L.\-A\-D\-B\-Tools@{C\-A\-S\-U\-A\-L.\-A\-D\-B\-Tools}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+boolean \hyperlink{classCASUAL_1_1ADBTools_a3f80c15c792e2774ddfce012abd15b29}{check\-A\-D\-Berror\-Messages} (String Device\-List)  throws Headless\-Exception 
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static String \hyperlink{classCASUAL_1_1ADBTools_a84c10a21eade2f9a64b124866fc2eec8}{get\-A\-D\-B\-Command} ()
+\item 
+static String \hyperlink{classCASUAL_1_1ADBTools_ad6c98b109f9abef9677646e4b9ce4eea}{wait\-For\-Device} ()
+\item 
+static String \hyperlink{classCASUAL_1_1ADBTools_ab84bdc01285090cbe0f3bf8686d4ccf3}{get\-Devices} ()
+\item 
+static String \hyperlink{classCASUAL_1_1ADBTools_aa88831dea8d8524da74ab7c2dc56bed1}{start\-Server} ()
+\item 
+static void \hyperlink{classCASUAL_1_1ADBTools_a0336b79dde74ae62f631e50e7de9b8b7}{restart\-A\-D\-Bserver} ()
+\item 
+static void \hyperlink{classCASUAL_1_1ADBTools_a5156d7e548d08ca6e32ae028b8e38947}{elevate\-A\-D\-Bserver} ()
+\item 
+\hypertarget{classCASUAL_1_1ADBTools_a61c1a5fc7dabb7bf2ac6d00029efea7f}{static void {\bfseries kill\-A\-D\-Bserver} ()}\label{classCASUAL_1_1ADBTools_a61c1a5fc7dabb7bf2ac6d00029efea7f}
+
+\item 
+\hypertarget{classCASUAL_1_1ADBTools_a52dcd818831f3a486f93968f85e3f5ed}{static boolean {\bfseries is\-Connected} ()}\label{classCASUAL_1_1ADBTools_a52dcd818831f3a486f93968f85e3f5ed}
+
+\item 
+\hypertarget{classCASUAL_1_1ADBTools_a20d229b6e26aa8a0ae07ed75b49abcc8}{static void {\bfseries adb\-Monitor} (boolean start)}\label{classCASUAL_1_1ADBTools_a20d229b6e26aa8a0ae07ed75b49abcc8}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+adam 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCASUAL_1_1ADBTools_a3f80c15c792e2774ddfce012abd15b29}{\index{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools@{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools}!check\-A\-D\-Berror\-Messages@{check\-A\-D\-Berror\-Messages}}
+\index{check\-A\-D\-Berror\-Messages@{check\-A\-D\-Berror\-Messages}!CASUAL::ADBTools@{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools}}
+\subsubsection[{check\-A\-D\-Berror\-Messages}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-A\-D\-B\-Tools.\-check\-A\-D\-Berror\-Messages (
+\begin{DoxyParamCaption}
+\item[{String}]{Device\-List}
+\end{DoxyParamCaption}
+) throws Headless\-Exception}}\label{classCASUAL_1_1ADBTools_a3f80c15c792e2774ddfce012abd15b29}
+
+\begin{DoxyParams}{Parameters}
+{\em Device\-List} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Headless\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyReturn}{Returns}
+false if error 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1ADBTools_a5156d7e548d08ca6e32ae028b8e38947}{\index{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools@{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools}!elevate\-A\-D\-Bserver@{elevate\-A\-D\-Bserver}}
+\index{elevate\-A\-D\-Bserver@{elevate\-A\-D\-Bserver}!CASUAL::ADBTools@{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools}}
+\subsubsection[{elevate\-A\-D\-Bserver}]{\setlength{\rightskip}{0pt plus 5cm}static void C\-A\-S\-U\-A\-L.\-A\-D\-B\-Tools.\-elevate\-A\-D\-Bserver (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1ADBTools_a5156d7e548d08ca6e32ae028b8e38947}
+starts an elevated A\-D\-B server \hypertarget{classCASUAL_1_1ADBTools_a84c10a21eade2f9a64b124866fc2eec8}{\index{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools@{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools}!get\-A\-D\-B\-Command@{get\-A\-D\-B\-Command}}
+\index{get\-A\-D\-B\-Command@{get\-A\-D\-B\-Command}!CASUAL::ADBTools@{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools}}
+\subsubsection[{get\-A\-D\-B\-Command}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-A\-D\-B\-Tools.\-get\-A\-D\-B\-Command (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1ADBTools_a84c10a21eade2f9a64b124866fc2eec8}
+returns the location of A\-D\-B deploys if needed \begin{DoxyReturn}{Returns}
+location of A\-D\-Ba 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1ADBTools_ab84bdc01285090cbe0f3bf8686d4ccf3}{\index{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools@{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools}!get\-Devices@{get\-Devices}}
+\index{get\-Devices@{get\-Devices}!CASUAL::ADBTools@{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools}}
+\subsubsection[{get\-Devices}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-A\-D\-B\-Tools.\-get\-Devices (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1ADBTools_ab84bdc01285090cbe0f3bf8686d4ccf3}
+executes the get\-Devices command
+
+\begin{DoxyReturn}{Returns}
+value from adb get\-Devices 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1ADBTools_a0336b79dde74ae62f631e50e7de9b8b7}{\index{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools@{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools}!restart\-A\-D\-Bserver@{restart\-A\-D\-Bserver}}
+\index{restart\-A\-D\-Bserver@{restart\-A\-D\-Bserver}!CASUAL::ADBTools@{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools}}
+\subsubsection[{restart\-A\-D\-Bserver}]{\setlength{\rightskip}{0pt plus 5cm}static void C\-A\-S\-U\-A\-L.\-A\-D\-B\-Tools.\-restart\-A\-D\-Bserver (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1ADBTools_a0336b79dde74ae62f631e50e7de9b8b7}
+kills and restarts the adb server max duration of 7 seconds. Thread will be abandoned if time is exceeded \hypertarget{classCASUAL_1_1ADBTools_aa88831dea8d8524da74ab7c2dc56bed1}{\index{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools@{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools}!start\-Server@{start\-Server}}
+\index{start\-Server@{start\-Server}!CASUAL::ADBTools@{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools}}
+\subsubsection[{start\-Server}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-A\-D\-B\-Tools.\-start\-Server (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1ADBTools_aa88831dea8d8524da74ab7c2dc56bed1}
+executes the start server command
+
+\begin{DoxyReturn}{Returns}
+value from adb start server 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1ADBTools_ad6c98b109f9abef9677646e4b9ce4eea}{\index{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools@{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools}!wait\-For\-Device@{wait\-For\-Device}}
+\index{wait\-For\-Device@{wait\-For\-Device}!CASUAL::ADBTools@{C\-A\-S\-U\-A\-L\-::\-A\-D\-B\-Tools}}
+\subsubsection[{wait\-For\-Device}]{\setlength{\rightskip}{0pt plus 5cm}static String C\-A\-S\-U\-A\-L.\-A\-D\-B\-Tools.\-wait\-For\-Device (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1ADBTools_ad6c98b109f9abef9677646e4b9ce4eea}
+executes the adb wait-\/for-\/device commmand. will not do anything until device is detected.
+
+\begin{DoxyReturn}{Returns}
+value from adb wait-\/for-\/device 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/A\-D\-B\-Tools.\-java\end{DoxyCompactItemize}

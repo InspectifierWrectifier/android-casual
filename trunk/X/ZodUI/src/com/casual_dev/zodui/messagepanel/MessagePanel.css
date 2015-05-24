@@ -1,0 +1,37 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+    
+    .vbox{
+    -fx-padding: 15 15 15 15;
+    -fx-margin:15 15 15 15;
+    }
+ #title {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+        -fx-font-size:25;
+
+}
+ #message {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+        -fx-font-size:15;
+
+}
+
+
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+.mainFxmlClass {
+}

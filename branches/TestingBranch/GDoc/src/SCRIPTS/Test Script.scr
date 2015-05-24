@@ -1,0 +1,9 @@
+push /home/adam/testfile /sdcard
+$ECHO Echo echos commands to the window only
+#This is a commented line
+shell "echo this sends commands to the device shell; cat /sdcard/myfile;"
+$USERINPUTBOX This is an inputbox title, this is an inputbox message, shell "echo $USERINPUT>/sdcard/myfile"
+$USERNOTIFICATION Notification Title testing, This is a Notification with a filename \n $ZIPFILE \n\n\n ...and several new lines.
+$USERCANCELOPTION This is the option to cancel, do you wish to \n cancel?
+$ECHO here is a line of slashes and the ZIPFILE folder $SLASH$SLASH$SLASH$SLASH$SLASH$SLASH $ZIPFILE
+shell ls /data;whoami;pwd;echo "woot"

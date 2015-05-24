@@ -1,0 +1,110 @@
+\hypertarget{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader}{\section{com.\-casual\-\_\-dev.\-zodui.\-Downloader.\-Zod\-Downloader Class Reference}
+\label{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader}\index{com.\-casual\-\_\-dev.\-zodui.\-Downloader.\-Zod\-Downloader@{com.\-casual\-\_\-dev.\-zodui.\-Downloader.\-Zod\-Downloader}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_a65d7dc35de638ea05b854ffa122a676a}{Zod\-Downloader} (U\-R\-L url, String title)
+\item 
+void \hyperlink{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_a0aaf6cb62cee004e9c64ce3f2363b1c4}{download\-Caspac} (\hyperlink{classcom_1_1casual__dev_1_1zodui_1_1_c_a_s_u_a_l_zod_main_u_i}{C\-A\-S\-U\-A\-L\-Zod\-Main\-U\-I} ui)
+\item 
+void \hyperlink{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_a3b8bfeff8b7059d743400f54bf1d01d0}{process\-Remote\-C\-A\-S\-P\-A\-C} ()
+\item 
+String \hyperlink{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_a2f0fbc94fe3cb54647d6d4a8504dbefb}{wait\-For\-Download} ()  throws Interrupted\-Exception 
+\item 
+int \hyperlink{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_a5e7f2e01f74131d0c4808d68f733bf40}{get\-Expected\-Bytes} ()
+\item 
+String \hyperlink{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_acc780a01ac94c81d74aa4275c549cf72}{get\-Title} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_a5773ecb1bd2fab470f4b0c86e9ba5329}{static boolean {\bfseries is\-Downloading} ()}\label{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_a5773ecb1bd2fab470f4b0c86e9ba5329}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Handles initial downloading of \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L} Components \begin{DoxyAuthor}{Author}
+adamoutler 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_a65d7dc35de638ea05b854ffa122a676a}{\index{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader@{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader}!Zod\-Downloader@{Zod\-Downloader}}
+\index{Zod\-Downloader@{Zod\-Downloader}!com::casual_dev::zodui::Downloader::ZodDownloader@{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader}}
+\subsubsection[{Zod\-Downloader}]{\setlength{\rightskip}{0pt plus 5cm}com.\-casual\-\_\-dev.\-zodui.\-Downloader.\-Zod\-Downloader.\-Zod\-Downloader (
+\begin{DoxyParamCaption}
+\item[{U\-R\-L}]{url, }
+\item[{String}]{title}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_a65d7dc35de638ea05b854ffa122a676a}
+instantiates a download session for \hyperlink{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader}{Zod\-Downloader} 
+\begin{DoxyParams}{Parameters}
+{\em url} & U\-R\-L to download from \\
+\hline
+{\em title} & title of download for user to see \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_a0aaf6cb62cee004e9c64ce3f2363b1c4}{\index{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader@{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader}!download\-Caspac@{download\-Caspac}}
+\index{download\-Caspac@{download\-Caspac}!com::casual_dev::zodui::Downloader::ZodDownloader@{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader}}
+\subsubsection[{download\-Caspac}]{\setlength{\rightskip}{0pt plus 5cm}void com.\-casual\-\_\-dev.\-zodui.\-Downloader.\-Zod\-Downloader.\-download\-Caspac (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-A\-S\-U\-A\-L\-Zod\-Main\-U\-I}}]{ui}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_a0aaf6cb62cee004e9c64ce3f2363b1c4}
+downloads a C\-A\-S\-P\-A\-C and updates U\-I 
+\begin{DoxyParams}{Parameters}
+{\em ui} & User Interface to be updated. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_a5e7f2e01f74131d0c4808d68f733bf40}{\index{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader@{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader}!get\-Expected\-Bytes@{get\-Expected\-Bytes}}
+\index{get\-Expected\-Bytes@{get\-Expected\-Bytes}!com::casual_dev::zodui::Downloader::ZodDownloader@{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader}}
+\subsubsection[{get\-Expected\-Bytes}]{\setlength{\rightskip}{0pt plus 5cm}int com.\-casual\-\_\-dev.\-zodui.\-Downloader.\-Zod\-Downloader.\-get\-Expected\-Bytes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_a5e7f2e01f74131d0c4808d68f733bf40}
+returns the expected K\-B that will be downloaded for this \hyperlink{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader}{Zod\-Downloader} \begin{DoxyReturn}{Returns}
+expected kb 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_acc780a01ac94c81d74aa4275c549cf72}{\index{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader@{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader}!get\-Title@{get\-Title}}
+\index{get\-Title@{get\-Title}!com::casual_dev::zodui::Downloader::ZodDownloader@{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader}}
+\subsubsection[{get\-Title}]{\setlength{\rightskip}{0pt plus 5cm}String com.\-casual\-\_\-dev.\-zodui.\-Downloader.\-Zod\-Downloader.\-get\-Title (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_acc780a01ac94c81d74aa4275c549cf72}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\hypertarget{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_a3b8bfeff8b7059d743400f54bf1d01d0}{\index{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader@{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader}!process\-Remote\-C\-A\-S\-P\-A\-C@{process\-Remote\-C\-A\-S\-P\-A\-C}}
+\index{process\-Remote\-C\-A\-S\-P\-A\-C@{process\-Remote\-C\-A\-S\-P\-A\-C}!com::casual_dev::zodui::Downloader::ZodDownloader@{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader}}
+\subsubsection[{process\-Remote\-C\-A\-S\-P\-A\-C}]{\setlength{\rightskip}{0pt plus 5cm}void com.\-casual\-\_\-dev.\-zodui.\-Downloader.\-Zod\-Downloader.\-process\-Remote\-C\-A\-S\-P\-A\-C (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_a3b8bfeff8b7059d743400f54bf1d01d0}
+processes the caspac \hypertarget{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_a2f0fbc94fe3cb54647d6d4a8504dbefb}{\index{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader@{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader}!wait\-For\-Download@{wait\-For\-Download}}
+\index{wait\-For\-Download@{wait\-For\-Download}!com::casual_dev::zodui::Downloader::ZodDownloader@{com\-::casual\-\_\-dev\-::zodui\-::\-Downloader\-::\-Zod\-Downloader}}
+\subsubsection[{wait\-For\-Download}]{\setlength{\rightskip}{0pt plus 5cm}String com.\-casual\-\_\-dev.\-zodui.\-Downloader.\-Zod\-Downloader.\-wait\-For\-Download (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws Interrupted\-Exception}}\label{classcom_1_1casual__dev_1_1zodui_1_1_downloader_1_1_zod_downloader_a2f0fbc94fe3cb54647d6d4a8504dbefb}
+waits for download. will lock if download is not called first. Will never lock if download was called. \begin{DoxyReturn}{Returns}
+string path to file 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Interrupted\-Exception} & if interrupted \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-X/\-Zod\-U\-I/src/com/casual\-\_\-dev/zodui/\-Downloader/Zod\-Downloader.\-java\end{DoxyCompactItemize}

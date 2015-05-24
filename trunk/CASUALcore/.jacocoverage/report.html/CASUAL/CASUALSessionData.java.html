@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CASUALSessionData.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL</a> &gt; <span class="el_source">CASUALSessionData.java</span></div><h1>CASUALSessionData.java</h1><pre class="source lang-java linenums">/*CASUALSessionData is where the static variables from CASUAL reside
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL;
+
+//import java.awt.Color;
+import CASUAL.caspac.Caspac;
+import CASUAL.communicationstools.adb.ADBTools;
+import CASUAL.communicationstools.adb.busybox.CASUALDataBridge;
+import CASUAL.communicationstools.fastboot.FastbootTools;
+import CASUAL.communicationstools.heimdall.HeimdallTools;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+/**
+ * CASUALSessionData is used for any type of static variable It is the Static
+ * Class for information to be used everywhere in the program.
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+public class CASUALSessionData {
+
+    /**
+     * CASUAL does not look to GUI to execute. Execution will start
+     * autonomously. Terminal is used for input and output. GUI is a display.
+     */
+<span class="fc" id="L44">    private static String currentStatus = &quot;working&quot;;</span>
+
+<span class="fc" id="L46">    private static CASUALSessionData statics = new CASUALSessionData();</span>
+    /**
+     * reference for class implementing interface for CASUAL's GUI.
+     */
+    private static iCASUALUI GUI; // reference to GUI input/output device
+    /**
+     * slash provides a universal reference to the / on linux/mac and a \ on
+     * Windows.
+     */
+<span class="fc" id="L55">    public static final String slash = System.getProperty(&quot;file.separator&quot;); //file separator for system \ or /</span>
+    /**
+     * Default home folder for CASUAL. Use for permanent storage of data only.
+     * Located in the users home folder, in a folder called &quot;.CASUAL&quot;.
+     */
+<span class="fc" id="L60">    public static String CASUALHome = System.getProperty(&quot;user.home&quot;) + System.getProperty(&quot;file.separator&quot;) + &quot;.CASUAL&quot; + System.getProperty(&quot;file.separator&quot;);</span>
+    /**
+     * Windows Visual C++ redistributable downloadable file. This is not used as
+     * we include the proper dependencies in CASUAL. Windows Visual C++ redist
+     * not always required.
+     *
+     */
+    public static final String WinVCRedis32tInRepo = &quot;https://android-casual.googlecode.com/svn/trunk/repo/vcredist_x86.exe&quot;; //Win vcredist in repo
+
+    /**
+     * @return the GUI
+     */
+    public static iCASUALUI getGUI() {
+<span class="fc" id="L73">        return GUI;</span>
+    }
+
+    /**
+     * @param aGUI the GUI to set
+     */
+    public static void setGUI(iCASUALUI aGUI) {
+<span class="fc" id="L80">        GUI = aGUI;</span>
+<span class="fc" id="L81">    }</span>
+
+    /**
+     * gets the instance of this class
+     *
+     * @return instance of this casual-session data
+     */
+    private static CASUALSessionData getInstance() {
+<span class="nc" id="L89">        return statics;</span>
+    }
+
+    public static CASUALSessionData newInstance() {
+<span class="fc" id="L93">        return new CASUALSessionData();</span>
+    }
+
+    /**
+     * @return the GUIIsAvailable
+     */
+    public static boolean isGUIIsAvailable() {
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">        if (GUI != null) {</span>
+<span class="pc bpc" id="L101" title="1 of 4 branches missed.">            return GUI.isReady() &amp;&amp; !java.awt.GraphicsEnvironment.isHeadless();</span>
+        }
+<span class="nc" id="L103">        return false;</span>
+    }
+
+    /**
+     * sets the prefix, by default it is &quot;CASUAL-USERNAME-&quot;.
+     * @param aTempFolderPrefix the tempFolderPrefix to set
+     */
+    public static void setTempFolderPrefix(String aTempFolderPrefix) {
+<span class="nc" id="L111">        tempFolderPrefix = aTempFolderPrefix;</span>
+<span class="nc" id="L112">    }</span>
+    /**
+     * true if debugMode. Do not send logs in debug mode. We create too many
+     * errors, thanks.
+     */
+<span class="fc" id="L117">    public boolean debugMode = false;</span>
+
+    /**
+     * reference to CASPAC used by this CASUAL
+     */
+    public Caspac CASPAC;
+
+
+    /**
+     * Input Device for CASUAL. Generally System.in (STDIN) but may be
+     * reassigned to any inputstream.
+     */
+<span class="fc" id="L129">    public BufferedReader in = new BufferedReader(new InputStreamReader(System.in));</span>
+
+    /**
+     * ProgressDoc provides a reference to the program output.
+     */
+<span class="fc" id="L134">    public String PreProgress = &quot;&quot;;  //place to log data before GUI comes up</span>
+    private File TempFolder;
+
+
+    //TODO: determine feasability of moving this to CASPAC.Script. 
+    /**
+     * ActionEvents for the $ON command are set up by script. Trigger Reaction
+     * events.
+     */
+<span class="fc" id="L143">    public ArrayList&lt;String&gt; ActionEvents = new ArrayList&lt;String&gt;(); //Action events for $ON command. set by script</span>
+
+    /**
+     * ReactionEvents are triggered by ActionEvents and created by $ON command.
+     */
+<span class="fc" id="L148">    public ArrayList&lt;String&gt; ReactionEvents = new ArrayList&lt;String&gt;(); //Reactions for $ON command. . set by script</span>
+
+<span class="fc" id="L150">    private CASUALSessionData() {</span>
+<span class="fc" id="L151">        statics = this;</span>
+<span class="fc" id="L152">    }</span>
+
+<span class="fc" id="L154">    private static String tempFolderPrefix=&quot;CASUAL-&quot;+System.getProperty(&quot;user.name&quot;);</span>
+    /**
+     * Creates and returns the temp folder if required.
+     *
+     * @return temp folder string location.
+     */
+    public String getTempFolder() {
+<span class="fc" id="L161">        FileOperations fo = new FileOperations();</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        if (TempFolder == null) {</span>
+            String tf;
+<span class="pc bpc" id="L164" title="5 of 6 branches missed.">            if (System.getenv().containsKey(&quot;TMPDIR&quot;) &amp;&amp; !System.getenv(&quot;TMPDIR&quot;).isEmpty() &amp;&amp; new File(System.getenv(&quot;TMPDIR&quot;)).isDirectory()) {</span>
+<span class="nc" id="L165">                tf = System.getenv(&quot;TMPDIR&quot;); // user temp folder</span>
+            } else {
+<span class="fc" id="L167">                tf = System.getProperty(&quot;java.io.tmpdir&quot;); //tempfolder</span>
+            }
+<span class="pc bpc" id="L169" title="1 of 2 branches missed.">            tf = tf.endsWith(slash) ? tf : tf + slash;  //make sure temp folder has a slash</span>
+<span class="fc" id="L170">            SimpleDateFormat sdf = new SimpleDateFormat(&quot;-yyyy-MM-dd-HH.mm.ss&quot;);</span>
+<span class="fc" id="L171">            TempFolder = new File(tf  + tempFolderPrefix+ sdf.format(new Date()) + slash); //set /temp/usernameRandom/</span>
+<span class="fc" id="L172">            setTempFolder(TempFolder.toString());</span>
+<span class="fc" id="L173">            fo.makeFolder(TempFolder.toString());</span>
+        }
+
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">        if (!TempFolder.exists()) {</span>
+<span class="nc" id="L177">            TempFolder.mkdirs();</span>
+        }
+<span class="fc" id="L179">        return TempFolder.toString() + slash;</span>
+    }
+
+    /**
+     * gets the temp folder for CASUAL;
+     *
+     * @return the temp folder.
+     */
+    public String getTempFolderInstance() {
+<span class="nc" id="L188">        return TempFolder.toString() + slash;</span>
+    }
+    //Cross-Platform data storage
+
+    /**
+     * Resets all variables in CASUAL to provide, basically, a warm reboot.
+     */
+    public void initializeStatics() {
+<span class="fc" id="L196">        CASUALDataBridge.shutdown();</span>
+<span class="fc" id="L197">        setStatus(&quot;working&quot;);</span>
+<span class="fc" id="L198">        PreProgress = &quot;&quot;;</span>
+<span class="fc" id="L199">        CASUALStartupTasks.scriptRunLock = new CASUAL.misc.MandatoryThread();</span>
+<span class="fc" id="L200">        CASUALStartupTasks.lockGUIunzip = false;</span>
+<span class="fc" id="L201">        ActionEvents = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L202">        ReactionEvents = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L203">        new ADBTools().reset();</span>
+<span class="fc" id="L204">        new HeimdallTools().reset();</span>
+<span class="fc" id="L205">        new FastbootTools().reset();</span>
+<span class="fc" id="L206">        CASUAL.language.CASUALLanguage.reset();</span>
+        try {
+<span class="nc" id="L208">            CASPAC.getActiveScript().setScriptContinue(false);</span>
+<span class="fc" id="L209">        } catch (NullPointerException ex) {</span>
+            //do nothing at all 
+<span class="nc" id="L211">        }</span>
+<span class="fc" id="L212">    }</span>
+
+    /**
+     * sets the current operation status.
+     *
+     * @param status status to be displayed to user.
+     */
+    public void setStatus(final String status) {
+<span class="fc" id="L220">        Log.level4Debug(status);</span>
+<span class="fc" id="L221">        currentStatus = status;</span>
+
+<span class="fc" id="L223">        Thread t = new Thread(new Runnable() {</span>
+            @Override
+            public void run() {
+<span class="fc bfc" id="L226" title="All 2 branches covered.">                if (getGUI() != null) {</span>
+<span class="fc" id="L227">                    getGUI().setInformationScrollBorderText(status);</span>
+                }
+
+<span class="fc" id="L230">                CASUAL.instrumentation.Instrumentation.updateStatus(status);</span>
+
+<span class="fc" id="L232">            }</span>
+        });
+<span class="fc" id="L234">        t.setName(&quot;Updating GUI&quot;);</span>
+<span class="fc" id="L235">        t.start();</span>
+<span class="fc" id="L236">    }</span>
+
+    /**
+     * Gets the current status for display.
+     *
+     * @return current status.
+     */
+    public String getStatus() {
+<span class="nc" id="L244">        return currentStatus;</span>
+    }
+
+    /**
+     * Sets the temp folder. Generally this is auto-assigned by getTempFolder,
+     * but it can be manually assigned.
+     *
+     * @param folder dir to make temp folder.
+     * @return path to new temp folder.
+     */
+    public String setTempFolder(String folder) {
+<span class="fc" id="L255">        TempFolder = new File(folder);</span>
+<span class="fc" id="L256">        new FastbootTools().reset();</span>
+<span class="fc" id="L257">        new ADBTools().reset();</span>
+<span class="fc" id="L258">        return TempFolder.toString() + slash;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

@@ -1,0 +1,23 @@
+$ECHO Checking device
+
+#  $IFCONTAINS "string string" $INCOMMAND "$ADB command to execute" $DO "CASUAL COMMAND"
+$IFNOTCONTAINS d2att $INCOMMAND shell "cat /system/build.prop" $DO $GOTO #baddevice
+
+$ECHO Rebooting into download mode
+#This will work the same as though you had typed $ADB reboot download
+reboot download
+$ECHO adb completed
+
+#$HEIMDALL will loop on heimdall detect before executing a command... note to self, use heimdall detect for installing drivers and VC redist
+$ECHO Waiting for heimdall detect to pass and then excuting close-pc-screen
+$HEIMDALL flash --CACHE "$ZIPFILEcache.img.ext4" --RECOVERY "$ZIPFILErecovery.img"
+$GOTO #Finished
+
+#baddevice
+
+$ECHO please use only a supported device
+$USERNOTIFICATION Unsupported, This is an unsupported device
+$HALT
+#Finished
+$ADB wait-for-device
+$ECHO heimdall completed

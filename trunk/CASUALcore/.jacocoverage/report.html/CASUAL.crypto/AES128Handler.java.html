@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AES128Handler.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.crypto</a> &gt; <span class="el_source">AES128Handler.java</span></div><h1>AES128Handler.java</h1><pre class="source lang-java linenums">/*AES128Handler provides a way to encrypt and decrypt given a password
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.crypto;
+
+import CASUAL.FileOperations;
+import CASUAL.Log;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.SequenceInputStream;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+/**
+ * provides a way to encrypt and decrypt given a password
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ * http://stackoverflow.com/questions/8674018/pbkdf2-with-bouncycastle-in-java
+ * inspired by
+ * https://www.cigital.com/justice-league-blog/2009/08/14/proper-use-of-javas-securerandom/
+ * inspired by
+ * http://stackoverflow.com/questions/1220751/how-to-choose-an-aes-encryption-mode-cbc-ecb-ctr-ocb-cfb
+ * severely beaten several times by Pulser
+ */
+public class AES128Handler {
+
+
+
+    /*these variables are used for generating a header 
+     *&quot;EncryptedCASPAC-CASUAL-Revision3999&quot; where
+     * 3 represents then number of digits in the revision
+     */
+    /**
+     * Magic String for CASPAC.
+     */
+    final static private String casualID = &quot;EncryptedCASPAC-CASUAL-Revision&quot;;
+    /**
+     * version for the CASPAC
+     */
+<span class="fc" id="L68">    final static private String revision = java.util.ResourceBundle.getBundle(&quot;CASUAL/resources/CASUALApp&quot;).getString(&quot;Application.revision&quot;);</span>
+    /**
+     * Header for the CASPAC
+     */
+<span class="fc" id="L72">    final static public String header = casualID + revision.length() + revision;</span>
+
+    /**
+     * will return the length of the CASPAC Header
+     *
+     * @param f file to check
+     * @return 0 if failed, will be between &amp;gt;18 if valid.
+     * @throws FileNotFoundException if file is not present or deleted
+     * @throws IOException if permission problem.
+     */
+    public static int getCASPACHeaderLength(File f) throws FileNotFoundException, IOException {
+<span class="fc" id="L83">        AES128Handler c = new AES128Handler(f);</span>
+<span class="fc" id="L84">        FileInputStream fis = new FileInputStream(f);</span>
+<span class="fc" id="L85">        byte[] chartest = new byte[casualID.length()];</span>
+<span class="fc" id="L86">        byte[] headert = casualID.getBytes();</span>
+<span class="fc" id="L87">        fis.read(chartest);</span>
+        //read length of revision
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        if (Arrays.equals(chartest, headert)) {</span>
+<span class="fc" id="L90">            char charRevisionLength = (char) fis.read();</span>
+<span class="fc" id="L91">            int revisionLength = Integer.parseInt(String.valueOf(charRevisionLength));</span>
+<span class="fc" id="L92">            return chartest.length + 1 + revisionLength;</span>
+        }
+<span class="nc" id="L94">        return 0;</span>
+    }
+    final File targetFile;
+
+    /**
+     * loads a file for use in AES128Handler.
+     *
+     * @param targetFile File to be encrypted
+     */
+<span class="fc" id="L103">    public AES128Handler(File targetFile) {</span>
+<span class="fc" id="L104">        this.targetFile = targetFile;</span>
+<span class="fc" id="L105">    }</span>
+
+    /**
+     * encrypts a file to the output file. Appends CASPAC Header
+     *
+     * @param output string location of file output
+     * @param key password
+     * @return true if encryption was sucessful
+     */
+    public boolean encrypt(String output, char[] key) {
+<span class="fc" id="L115">        Log.level2Information(&quot;Encrypting &quot; + targetFile.getName());</span>
+
+        try {
+            //key is infalated by 16 random characters A-Z,a-z,0-9
+            //16 digits are used for ivSpec
+<span class="fc" id="L120">            byte[] randomness = secureRandomCharGen(key, 16);</span>
+<span class="fc" id="L121">            Log.level2Information(&quot;Key parsed.  Encrypting...&quot;);</span>
+<span class="fc" id="L122">            InputStream fis = new FileInputStream(targetFile);</span>
+<span class="fc" id="L123">            List&lt;InputStream&gt; streams = Arrays.asList(</span>
+                    new ByteArrayInputStream(randomness),
+                    fis);
+<span class="fc" id="L126">            Log.level2Information(&quot;obtaining key...&quot;);</span>
+<span class="fc" id="L127">            InputStream is = new SequenceInputStream(Collections.enumeration(streams));</span>
+<span class="fc" id="L128">            writeCipherFile(is, randomness, output, key, Cipher.ENCRYPT_MODE);</span>
+<span class="nc" id="L129">        } catch (NoSuchAlgorithmException ex) {</span>
+<span class="nc" id="L130">            return false;</span>
+<span class="nc" id="L131">        } catch (FileNotFoundException ex) {</span>
+<span class="nc" id="L132">            Log.errorHandler(ex);</span>
+<span class="nc" id="L133">        } catch (NoSuchPaddingException ex) {</span>
+<span class="nc" id="L134">            Log.errorHandler(ex);</span>
+<span class="nc" id="L135">        } catch (InvalidKeyException ex) {</span>
+<span class="nc" id="L136">            Log.errorHandler(ex);</span>
+<span class="nc" id="L137">        } catch (InvalidAlgorithmParameterException ex) {</span>
+<span class="nc" id="L138">            Log.errorHandler(ex);</span>
+<span class="nc" id="L139">        } catch (IOException ex) {</span>
+<span class="nc" id="L140">            Log.errorHandler(ex);</span>
+<span class="pc" id="L141">        }</span>
+        //key is returned.
+<span class="fc" id="L143">        return true;</span>
+    }
+
+    /**
+     * decrypts a file
+     *
+     * @param output string name of file to output
+     * @param key password issued by encrytper
+     * @return name of file written, null if error
+     * @throws java.io.FileNotFoundException if file isn't able to be found
+     * @throws java.lang.Exception if crypto error
+     */
+    public String decrypt(String output, char[] key) throws Exception {
+        try {
+<span class="fc" id="L157">            FileInputStream fis = new FileInputStream(targetFile);</span>
+<span class="fc" id="L158">            int headersize = getCASPACHeaderLength(targetFile);</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">            if (headersize &lt; 10) {</span>
+<span class="nc" id="L160">                throw new Exception(&quot;Invalid CASPAC Format&quot;);</span>
+            }
+
+<span class="fc" id="L163">            fis.read(new byte[headersize]);</span>
+<span class="fc" id="L164">            byte[] IV = new byte[16];</span>
+<span class="fc" id="L165">            fis.read(IV);</span>
+<span class="fc" id="L166">            return writeCipherFile(fis, IV, output, key, Cipher.DECRYPT_MODE);</span>
+<span class="nc" id="L167">        } catch (NoSuchAlgorithmException ex) {</span>
+<span class="nc" id="L168">            return null;</span>
+        }
+    }
+
+    private InputStream appendStream(InputStream appendToFront, InputStream is) {
+<span class="fc" id="L173">        List&lt;InputStream&gt; streams = Arrays.asList(</span>
+                appendToFront, is);
+<span class="fc" id="L175">        InputStream newis = new SequenceInputStream(Collections.enumeration(streams));</span>
+<span class="fc" id="L176">        return newis;</span>
+    }
+
+    private String writeCipherFile(InputStream fis, byte[] iv, String output, char[] key, int mode) throws NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, FileNotFoundException, IOException {
+<span class="fc" id="L180">        byte[] bkey = new PBKDF2_128().oneWayHash(key,null);</span>
+<span class="fc" id="L181">        Cipher c = getCipher(bkey, iv, mode);</span>
+<span class="fc" id="L182">        CipherInputStream cis = new CipherInputStream(fis, c);</span>
+
+<span class="fc bfc" id="L184" title="All 2 branches covered.">        if (mode == Cipher.ENCRYPT_MODE) {</span>
+<span class="fc" id="L185">            InputStream headerbytes = new ByteArrayInputStream(header.getBytes());</span>
+<span class="fc" id="L186">            InputStream doOutput = appendStream(headerbytes, (InputStream) cis);</span>
+<span class="fc" id="L187">            new FileOperations().writeStreamToFile(new BufferedInputStream(doOutput), output);</span>
+<span class="fc" id="L188">        } else {</span>
+<span class="fc" id="L189">            new FileOperations().writeStreamToFile(new BufferedInputStream(cis), output);</span>
+        }
+<span class="fc" id="L191">        return output;</span>
+    }
+
+    private byte[] secureRandomCharGen(char[] key, int numberOfChars) throws NoSuchAlgorithmException {
+
+<span class="fc" id="L196">        Log.level4Debug(&quot;Generating randomness&quot;);</span>
+<span class="fc" id="L197">        SecureRandom random = new SecureRandom(SecureRandom.getSeed(key.length));</span>
+<span class="fc" id="L198">        byte bytes[] = new byte[numberOfChars];</span>
+<span class="fc" id="L199">        random.nextBytes(bytes);  //burn some bits</span>
+<span class="fc" id="L200">        byte[] temp = new byte[1];</span>
+<span class="fc bfc" id="L201" title="All 2 branches covered.">        for (int i = 0; i &lt; numberOfChars - 1; i++) {</span>
+<span class="fc" id="L202">            random.nextBytes(temp);</span>
+<span class="fc" id="L203">            bytes[i] = temp[0];</span>
+            //generate a new random generator
+<span class="fc" id="L205">            random = new SecureRandom();</span>
+<span class="fc" id="L206">            random.nextBytes(new byte[key.length]);//burn bits</span>
+        }
+<span class="fc" id="L208">        return bytes;</span>
+    }
+
+    /**
+     * gets a cypher for encryption
+     *
+     * @param key secret key
+     * @param iv initialization vector which is pulled from or appended to the
+     * file
+     * @param mode encryption or decryption key
+     * @return cypher to be used for encryption or decryption.
+     * @throws NoSuchPaddingException If Java implementation is incomplete
+     * @throws NoSuchAlgorithmException If Java implementation is incomplete
+     * @throws InvalidKeyException If Java implementation is incomplete
+     * @throws InvalidAlgorithmParameterException If Java implementation is
+     * incomplete
+     */
+    public Cipher getCipher(byte[] key, byte[] iv, int mode) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, InvalidAlgorithmParameterException {
+<span class="fc" id="L226">        SecretKeySpec skey = new SecretKeySpec(key, &quot;AES&quot;);</span>
+<span class="fc" id="L227">        IvParameterSpec ivspec = new IvParameterSpec(iv);</span>
+<span class="fc" id="L228">        Cipher c = Cipher.getInstance(&quot;AES/CBC/PKCS5Padding&quot;);</span>
+<span class="fc" id="L229">        c.init(mode, skey, ivspec);</span>
+<span class="fc" id="L230">        return c;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

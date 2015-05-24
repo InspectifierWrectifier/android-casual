@@ -1,0 +1,65 @@
+#Reboot to clear logs
+shell "mkdir /data/local/tmp"
+$ECHO Pushing dependencies
+$ECHO Pushing su binary...
+push "$ZIPFILEsu" /data/local/tmp/
+$ECHO Pushing SuperSU app...
+push "$ZIPFILESuperuser.apk" /data/local/tmp/
+$ECHO Pushing Exynos-Abuse exploit
+push "$ZIPFILEexynos-abuse" /data/local/tmp/
+$ECHO Pushing root script
+push "$ZIPFILErootGN.sh" /data/local/tmp/
+$ECHO Pushing Busybox
+push "$ZIPFILEbusybox" /data/local/tmp/
+$ECHO Pushing viewmem
+push "$ZIPFILEviewmem" /data/local/tmp/
+$ECHO Pushing raw exploit code
+push "$ZIPFILEexploit.code" /data/local/tmp/
+
+$ECHO Setting Permissions....
+shell "chmod 777 /data/local/tmp/su"
+shell "chmod 777 /data/local/tmp/Superuser.apk"
+shell "chmod 777 /data/local/tmp/exynos-abuse"
+shell "chmod 777 /data/local/tmp/rootGN.sh"
+
+
+$USERCANCELOPTION Are you sure?, This is your only warning.\n You will be Unlocked and Rooted. Your device will\n reboot once and then again into Odin mode.  You\n will then flash the Suck It Verizon Odin Bootloader\n package.
+
+$ECHO Executing Root Exploit.
+shell "/data/local/tmp/exynos-abuse </data/local/tmp/rootGN.sh"
+shell "sleep 1"
+reboot
+$ECHO Your device should be rooted.  If you have upgraded past VRALJB firmware the exploit may not function properly.  
+$ECHO CASUAL requires a reboot because we look at the memory logs after the device boots to verify proper bootloader version.
+$ECHO rebooting...
+wait-for-device
+shell "sleep 1"
+wait-for-device
+
+
+shell "chmod 777 /data/local/tmp/viewmem; chmod 777 /data/local/tmp/busybox"
+$ECHO [x]Ready for exploit
+
+
+#Verify Device is proper
+$ON HellNo, $HALT $ECHO IMPROPER BOOTLOADER VERSION DETECTED. FOLLOW DIRECTIONS NOOB! GUYS LIKE YOU ARE THE REASON DEVELOPERS HAVE SO MUCH PROBLEMS!!!!!!  DO YOU REALIZE WHAT IT TAKES TO MAKE SOMETHING LIKE THIS COME TOGETHER??  AND HERE YOU ARE JUST TRYING TO SCREW THINGS UP.... DAMNIT! GET OFF THE INTERNET! 
+$ON noroot, $HALT $ECHO DEVICE IS NOT ROOTED! ROOT YOUR DEVICE! Install any VRALJB ROM --Adam Outler
+shell 'su -c "ls 2>&1 >/dev/null && echo [x]Found rooted device || echo noroot"'
+
+shell "chmod 777 /data/local/tmp/viewmem; chmod 777 /data/local/tmp/busybox"
+
+shell 'su -c "/data/local/tmp/viewmem 0x40000200 0x200>/data/local/tmp/BLR"'
+shell "/data/local/tmp/busybox grep I605VRALJB /data/local/tmp/BLR && echo [x]Bootloader Is Proper || echo HellNo"
+$CLEARON 
+$ECHO [x]Device Verification Checks Complete
+$ECHO [x]Ready for exploit
+$ECHO Injecting Code
+shell 'su -c "dd if=/data/local/tmp/exploit.code of=/dev/block/mmcblk0p9"'
+$ECHO [x]Exploit Injection Done.
+reboot recovery
+$ECHO your device is now rebooting into a totally insecure download mode.  Press the Volume Up buton when requested by Download Mode.  You will then flash the Suck It Verizon bootloader located here: http://d-h.st/DQG.   Upon completion of this step, you will be rebooted into TWRP Recovery.  CASUAL will wait for you to complete the insecure flash of the Suck It Verizon Bootloader. Press the Up Key before you flash the bootloader in Odin Mode.
+
+#Give Notification that we are done.
+wait-for-device
+$USERNOTIFICATION Congratulations, You're unlocked!
+$ECHO Done

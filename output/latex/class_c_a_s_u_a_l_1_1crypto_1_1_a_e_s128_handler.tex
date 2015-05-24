@@ -1,0 +1,335 @@
+\hypertarget{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler}{\section{C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler Class Reference}
+\label{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler}\index{C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_a4233be364193baf998724234ca4c7ab1}{A\-E\-S128\-Handler} (File target\-File)
+\item 
+boolean \hyperlink{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_ae444a266163b8c7983391cfeca91fd9f}{encrypt} (String output, char\mbox{[}$\,$\mbox{]} key)
+\item 
+String \hyperlink{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_a27231903f5c8ee3bea634e915c0e1499}{decrypt} (String output, char\mbox{[}$\,$\mbox{]} key)  throws Exception 
+\item 
+byte\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_af8b956ca34bcdbb8a22551fe66ae2c65}{one\-Way\-Hash} (char\mbox{[}$\,$\mbox{]} input)
+\item 
+Cipher \hyperlink{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_aa057ae7e639b9622dbed9b17443aa263}{get\-Cipher} (byte\mbox{[}$\,$\mbox{]} key, byte\mbox{[}$\,$\mbox{]} iv, int mode)  throws No\-Such\-Padding\-Exception, No\-Such\-Algorithm\-Exception, Invalid\-Key\-Exception, Invalid\-Algorithm\-Parameter\-Exception 
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_a4233be364193baf998724234ca4c7ab1}{A\-E\-S128\-Handler} (File target\-File)
+\item 
+boolean \hyperlink{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_ae444a266163b8c7983391cfeca91fd9f}{encrypt} (String output, char\mbox{[}$\,$\mbox{]} key)
+\item 
+String \hyperlink{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_a27231903f5c8ee3bea634e915c0e1499}{decrypt} (String output, char\mbox{[}$\,$\mbox{]} key)  throws Exception 
+\item 
+byte\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_af8b956ca34bcdbb8a22551fe66ae2c65}{one\-Way\-Hash} (char\mbox{[}$\,$\mbox{]} input)
+\item 
+Cipher \hyperlink{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_aa057ae7e639b9622dbed9b17443aa263}{get\-Cipher} (byte\mbox{[}$\,$\mbox{]} key, byte\mbox{[}$\,$\mbox{]} iv, int mode)  throws No\-Such\-Padding\-Exception, No\-Such\-Algorithm\-Exception, Invalid\-Key\-Exception, Invalid\-Algorithm\-Parameter\-Exception 
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_af7d875ad9b71ba6177d93b3f8d2e9b7f}{get\-C\-A\-S\-P\-A\-C\-Header\-Length} (File f)  throws File\-Not\-Found\-Exception, I\-O\-Exception 
+\item 
+static int \hyperlink{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_af7d875ad9b71ba6177d93b3f8d2e9b7f}{get\-C\-A\-S\-P\-A\-C\-Header\-Length} (File f)  throws File\-Not\-Found\-Exception, I\-O\-Exception 
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static final String \hyperlink{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_a3ae1cd854002227282c4e2fe7381dfbc}{header} = casual\-I\-D + revision.\-length() + revision
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+provides a way to encrypt and decrypt given a password
+
+\begin{DoxyAuthor}{Author}
+Adam Outler \href{mailto:adamoutler@gmail.com}{\tt adamoutler@gmail.\-com} \href{http://stackoverflow.com/questions/8674018/pbkdf2-with-bouncycastle-in-java}{\tt http\-://stackoverflow.\-com/questions/8674018/pbkdf2-\/with-\/bouncycastle-\/in-\/java} inspired by \href{https://www.cigital.com/justice-league-blog/2009/08/14/proper-use-of-javas-securerandom/}{\tt https\-://www.\-cigital.\-com/justice-\/league-\/blog/2009/08/14/proper-\/use-\/of-\/javas-\/securerandom/} inspired by \href{http://stackoverflow.com/questions/1220751/how-to-choose-an-aes-encryption-mode-cbc-ecb-ctr-ocb-cfb}{\tt http\-://stackoverflow.\-com/questions/1220751/how-\/to-\/choose-\/an-\/aes-\/encryption-\/mode-\/cbc-\/ecb-\/ctr-\/ocb-\/cfb} severely beaten several times by Pulser 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_a4233be364193baf998724234ca4c7ab1}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}!A\-E\-S128\-Handler@{A\-E\-S128\-Handler}}
+\index{A\-E\-S128\-Handler@{A\-E\-S128\-Handler}!CASUAL::crypto::AES128Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}}
+\subsubsection[{A\-E\-S128\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler.\-A\-E\-S128\-Handler (
+\begin{DoxyParamCaption}
+\item[{File}]{target\-File}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_a4233be364193baf998724234ca4c7ab1}
+loads a file for use in \hyperlink{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler}{A\-E\-S128\-Handler}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em target\-File} & File to be encrypted \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_a4233be364193baf998724234ca4c7ab1}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}!A\-E\-S128\-Handler@{A\-E\-S128\-Handler}}
+\index{A\-E\-S128\-Handler@{A\-E\-S128\-Handler}!CASUAL::crypto::AES128Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}}
+\subsubsection[{A\-E\-S128\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler.\-A\-E\-S128\-Handler (
+\begin{DoxyParamCaption}
+\item[{File}]{target\-File}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_a4233be364193baf998724234ca4c7ab1}
+loads a file for use in \hyperlink{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler}{A\-E\-S128\-Handler}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em target\-File} & File to be encrypted \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_a27231903f5c8ee3bea634e915c0e1499}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}!decrypt@{decrypt}}
+\index{decrypt@{decrypt}!CASUAL::crypto::AES128Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}}
+\subsubsection[{decrypt}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler.\-decrypt (
+\begin{DoxyParamCaption}
+\item[{String}]{output, }
+\item[{char\mbox{[}$\,$\mbox{]}}]{key}
+\end{DoxyParamCaption}
+) throws Exception}}\label{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_a27231903f5c8ee3bea634e915c0e1499}
+decrypts a file
+
+
+\begin{DoxyParams}{Parameters}
+{\em output} & string name of file to output \\
+\hline
+{\em key} & password issued by encrytper \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+name of file written, null if error 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em java.\-io.\-File\-Not\-Found\-Exception} & if file isn't able to be found \\
+\hline
+{\em java.\-lang.\-Exception} & if crypto error \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_a27231903f5c8ee3bea634e915c0e1499}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}!decrypt@{decrypt}}
+\index{decrypt@{decrypt}!CASUAL::crypto::AES128Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}}
+\subsubsection[{decrypt}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler.\-decrypt (
+\begin{DoxyParamCaption}
+\item[{String}]{output, }
+\item[{char\mbox{[}$\,$\mbox{]}}]{key}
+\end{DoxyParamCaption}
+) throws Exception}}\label{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_a27231903f5c8ee3bea634e915c0e1499}
+decrypts a file
+
+
+\begin{DoxyParams}{Parameters}
+{\em output} & string name of file to output \\
+\hline
+{\em key} & password issued by encrytper \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+name of file written, null if error 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em java.\-io.\-File\-Not\-Found\-Exception} & if file isn't able to be found \\
+\hline
+{\em java.\-lang.\-Exception} & if crypto error \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_ae444a266163b8c7983391cfeca91fd9f}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}!encrypt@{encrypt}}
+\index{encrypt@{encrypt}!CASUAL::crypto::AES128Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}}
+\subsubsection[{encrypt}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler.\-encrypt (
+\begin{DoxyParamCaption}
+\item[{String}]{output, }
+\item[{char\mbox{[}$\,$\mbox{]}}]{key}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_ae444a266163b8c7983391cfeca91fd9f}
+encrypts a file to the output file. Appends C\-A\-S\-P\-A\-C Header
+
+
+\begin{DoxyParams}{Parameters}
+{\em output} & string location of file output \\
+\hline
+{\em key} & password \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if encryption was sucessful 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_ae444a266163b8c7983391cfeca91fd9f}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}!encrypt@{encrypt}}
+\index{encrypt@{encrypt}!CASUAL::crypto::AES128Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}}
+\subsubsection[{encrypt}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler.\-encrypt (
+\begin{DoxyParamCaption}
+\item[{String}]{output, }
+\item[{char\mbox{[}$\,$\mbox{]}}]{key}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_ae444a266163b8c7983391cfeca91fd9f}
+encrypts a file to the output file. Appends C\-A\-S\-P\-A\-C Header
+
+
+\begin{DoxyParams}{Parameters}
+{\em output} & string location of file output \\
+\hline
+{\em key} & password \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if encryption was sucessful 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_af7d875ad9b71ba6177d93b3f8d2e9b7f}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}!get\-C\-A\-S\-P\-A\-C\-Header\-Length@{get\-C\-A\-S\-P\-A\-C\-Header\-Length}}
+\index{get\-C\-A\-S\-P\-A\-C\-Header\-Length@{get\-C\-A\-S\-P\-A\-C\-Header\-Length}!CASUAL::crypto::AES128Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}}
+\subsubsection[{get\-C\-A\-S\-P\-A\-C\-Header\-Length}]{\setlength{\rightskip}{0pt plus 5cm}static int C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler.\-get\-C\-A\-S\-P\-A\-C\-Header\-Length (
+\begin{DoxyParamCaption}
+\item[{File}]{f}
+\end{DoxyParamCaption}
+) throws File\-Not\-Found\-Exception, I\-O\-Exception\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_af7d875ad9b71ba6177d93b3f8d2e9b7f}
+will return the length of the C\-A\-S\-P\-A\-C Header
+
+
+\begin{DoxyParams}{Parameters}
+{\em f} & file to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if failed, will be between $>$18 if valid. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em File\-Not\-Found\-Exception} & if file is not present or deleted \\
+\hline
+{\em I\-O\-Exception} & if permission problem. \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_af7d875ad9b71ba6177d93b3f8d2e9b7f}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}!get\-C\-A\-S\-P\-A\-C\-Header\-Length@{get\-C\-A\-S\-P\-A\-C\-Header\-Length}}
+\index{get\-C\-A\-S\-P\-A\-C\-Header\-Length@{get\-C\-A\-S\-P\-A\-C\-Header\-Length}!CASUAL::crypto::AES128Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}}
+\subsubsection[{get\-C\-A\-S\-P\-A\-C\-Header\-Length}]{\setlength{\rightskip}{0pt plus 5cm}static int C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler.\-get\-C\-A\-S\-P\-A\-C\-Header\-Length (
+\begin{DoxyParamCaption}
+\item[{File}]{f}
+\end{DoxyParamCaption}
+) throws File\-Not\-Found\-Exception, I\-O\-Exception\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_af7d875ad9b71ba6177d93b3f8d2e9b7f}
+will return the length of the C\-A\-S\-P\-A\-C Header
+
+
+\begin{DoxyParams}{Parameters}
+{\em f} & file to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if failed, will be between $>$18 if valid. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em File\-Not\-Found\-Exception} & if file is not present or deleted \\
+\hline
+{\em I\-O\-Exception} & if permission problem. \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_aa057ae7e639b9622dbed9b17443aa263}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}!get\-Cipher@{get\-Cipher}}
+\index{get\-Cipher@{get\-Cipher}!CASUAL::crypto::AES128Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}}
+\subsubsection[{get\-Cipher}]{\setlength{\rightskip}{0pt plus 5cm}Cipher C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler.\-get\-Cipher (
+\begin{DoxyParamCaption}
+\item[{byte\mbox{[}$\,$\mbox{]}}]{key, }
+\item[{byte\mbox{[}$\,$\mbox{]}}]{iv, }
+\item[{int}]{mode}
+\end{DoxyParamCaption}
+) throws No\-Such\-Padding\-Exception, No\-Such\-Algorithm\-Exception, Invalid\-Key\-Exception, Invalid\-Algorithm\-Parameter\-Exception}}\label{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_aa057ae7e639b9622dbed9b17443aa263}
+gets a cypher for encryption
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & secret key \\
+\hline
+{\em iv} & initialization vector which is pulled from or appended to the file \\
+\hline
+{\em mode} & encryption or decryption key \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+cypher to be used for encryption or decryption. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em No\-Such\-Padding\-Exception} & If Java implementation is incomplete \\
+\hline
+{\em No\-Such\-Algorithm\-Exception} & If Java implementation is incomplete \\
+\hline
+{\em Invalid\-Key\-Exception} & If Java implementation is incomplete \\
+\hline
+{\em Invalid\-Algorithm\-Parameter\-Exception} & If Java implementation is incomplete \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_aa057ae7e639b9622dbed9b17443aa263}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}!get\-Cipher@{get\-Cipher}}
+\index{get\-Cipher@{get\-Cipher}!CASUAL::crypto::AES128Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}}
+\subsubsection[{get\-Cipher}]{\setlength{\rightskip}{0pt plus 5cm}Cipher C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler.\-get\-Cipher (
+\begin{DoxyParamCaption}
+\item[{byte\mbox{[}$\,$\mbox{]}}]{key, }
+\item[{byte\mbox{[}$\,$\mbox{]}}]{iv, }
+\item[{int}]{mode}
+\end{DoxyParamCaption}
+) throws No\-Such\-Padding\-Exception, No\-Such\-Algorithm\-Exception, Invalid\-Key\-Exception, Invalid\-Algorithm\-Parameter\-Exception}}\label{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_aa057ae7e639b9622dbed9b17443aa263}
+gets a cypher for encryption
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & secret key \\
+\hline
+{\em iv} & initialization vector which is pulled from or appended to the file \\
+\hline
+{\em mode} & encryption or decryption key \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+cypher to be used for encryption or decryption. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em No\-Such\-Padding\-Exception} & If Java implementation is incomplete \\
+\hline
+{\em No\-Such\-Algorithm\-Exception} & If Java implementation is incomplete \\
+\hline
+{\em Invalid\-Key\-Exception} & If Java implementation is incomplete \\
+\hline
+{\em Invalid\-Algorithm\-Parameter\-Exception} & If Java implementation is incomplete \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_af8b956ca34bcdbb8a22551fe66ae2c65}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}!one\-Way\-Hash@{one\-Way\-Hash}}
+\index{one\-Way\-Hash@{one\-Way\-Hash}!CASUAL::crypto::AES128Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}}
+\subsubsection[{one\-Way\-Hash}]{\setlength{\rightskip}{0pt plus 5cm}byte \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler.\-one\-Way\-Hash (
+\begin{DoxyParamCaption}
+\item[{char\mbox{[}$\,$\mbox{]}}]{input}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_af8b956ca34bcdbb8a22551fe66ae2c65}
+provides a one-\/way hash on a password
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & your password \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+P\-B\-K\-D\-F2 with H\-M\-A\-C S\-H\-A1 password 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_af8b956ca34bcdbb8a22551fe66ae2c65}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}!one\-Way\-Hash@{one\-Way\-Hash}}
+\index{one\-Way\-Hash@{one\-Way\-Hash}!CASUAL::crypto::AES128Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}}
+\subsubsection[{one\-Way\-Hash}]{\setlength{\rightskip}{0pt plus 5cm}byte \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler.\-one\-Way\-Hash (
+\begin{DoxyParamCaption}
+\item[{char\mbox{[}$\,$\mbox{]}}]{input}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_af8b956ca34bcdbb8a22551fe66ae2c65}
+provides a one-\/way hash on a password
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & your password \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+P\-B\-K\-D\-F2 with H\-M\-A\-C S\-H\-A1 password 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_a3ae1cd854002227282c4e2fe7381dfbc}{\index{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}!header@{header}}
+\index{header@{header}!CASUAL::crypto::AES128Handler@{C\-A\-S\-U\-A\-L\-::crypto\-::\-A\-E\-S128\-Handler}}
+\subsubsection[{header}]{\setlength{\rightskip}{0pt plus 5cm}static final String C\-A\-S\-U\-A\-L.\-crypto.\-A\-E\-S128\-Handler.\-header = casual\-I\-D + revision.\-length() + revision\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_u_a_l_1_1crypto_1_1_a_e_s128_handler_a3ae1cd854002227282c4e2fe7381dfbc}
+Header for the C\-A\-S\-P\-A\-C 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/build/classes/\-C\-A\-S\-U\-A\-L/crypto/A\-E\-S128\-Handler.\-java\end{DoxyCompactItemize}

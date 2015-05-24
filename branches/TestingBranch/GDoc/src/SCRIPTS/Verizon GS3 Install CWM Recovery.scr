@@ -1,0 +1,6 @@
+$ECHO Pushing recovery to device
+push "$ZIPFILEd2vzw_recovery.img" /sdcard/
+$ECHO Flashing recovery
+shell su -c "dd if=/sdcard/d2vzw_recovery.img of=/dev/block/mmcblk0p18 bs=256k;sync"
+$USERCANCELOPTION Reboot into CWM Recovery, Your device will now reboot into recovery.
+reboot recovery

@@ -1,0 +1,39 @@
+\hypertarget{class_c_a_s_u_a_l_1_1_shell_tools}{\section{C\-A\-S\-U\-A\-L.\-Shell\-Tools Class Reference}
+\label{class_c_a_s_u_a_l_1_1_shell_tools}\index{C\-A\-S\-U\-A\-L.\-Shell\-Tools@{C\-A\-S\-U\-A\-L.\-Shell\-Tools}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Array\-List$<$ String $>$ \hyperlink{class_c_a_s_u_a_l_1_1_shell_tools_a5e9a915e6325d2d35f0afb4c7ff75723}{parse\-Command\-Line} (String Line)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides a set of shell tools designed to assist with Java to shell on all systems. \begin{DoxyAuthor}{Author}
+Adam Outler \href{mailto:adamoutler@gmail.com}{\tt adamoutler@gmail.\-com} 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1_shell_tools_a5e9a915e6325d2d35f0afb4c7ff75723}{\index{C\-A\-S\-U\-A\-L\-::\-Shell\-Tools@{C\-A\-S\-U\-A\-L\-::\-Shell\-Tools}!parse\-Command\-Line@{parse\-Command\-Line}}
+\index{parse\-Command\-Line@{parse\-Command\-Line}!CASUAL::ShellTools@{C\-A\-S\-U\-A\-L\-::\-Shell\-Tools}}
+\subsubsection[{parse\-Command\-Line}]{\setlength{\rightskip}{0pt plus 5cm}Array\-List$<$String$>$ C\-A\-S\-U\-A\-L.\-Shell\-Tools.\-parse\-Command\-Line (
+\begin{DoxyParamCaption}
+\item[{String}]{Line}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_u_a_l_1_1_shell_tools_a5e9a915e6325d2d35f0afb4c7ff75723}
+\hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L}'s command line parser. Will return an arraylist of each part of the command line. Checks for literal \char`\"{}\textbackslash{}\char`\"{}, double and single quotes to determine if the command should be quoted or not. This will process only the outermost layer of any single or double quote.
+
+
+\begin{DoxyParams}{Parameters}
+{\em Line} & Commandline to be processsed. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Array\-List representing individual portions of commandline. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/Shell\-Tools.\-java\end{DoxyCompactItemize}

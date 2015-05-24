@@ -1,0 +1,33 @@
+$ECHO Pushing ZergRush exploit
+push "$ZIPFILEzergRush" /data/local/zergy
+$ECHO Pushing busybox onto system
+push "$ZIPFILEbusybox" /data/local/busybox
+$ECHO Pushing su binary onto system
+push "$ZIPFILEsu" /data/local/su
+$ECHO Pushing sqlite3 binary onto system
+push "$ZIPFILEsqlite3" /data/local/sqlite3
+
+
+$ECHO Setting ZergRush Permissions to Executable
+shell 'chmod 755 /data/local/zergy'
+$ECHO Attempting to exploit system
+shell '/data/local/zergy'
+$USERNOTIFICATION Waiting for reboot, The device may or may not reboot at this time. Wait for it before pressing OK.
+$USERNOTIFICATION Enable Debug Mode, After reboot the device requires reenabling of adb 
+wait-for-device
+$ECHO Mounting system rewritable for installation of binaries
+remount
+shell 'mount -o remount,rw /dev/block/platform/mmci-omap-hs.1/by-name/system /system'
+
+$ECHO Installing su binary
+shell '  if ((su -v)); then echo "su binary already installed"; else echo "installing su binary"; cat /data/local/su >> /system/bin/su; chmod 4755 /system/bin/su; fi'
+$ECHO Installing busybox binary
+shell '  if ((busybox which)); then echo "busybox binary already installed"; else echo "installing busybox binary"; cat /data/local/busybox>>/system/bin/busybox; chmod 4755 /system/bin/busybox; fi'
+$ECHO Installing sqlite3 binary
+shell '  if ((sqlite3 --version)); then echo "sqlite3 binary already installed"; else echo "installing sqlite3 binary"; cat /data/local/sqlite3>>/system/bin/sqlite3; chmod 4755 /system/bin/sqlite3; fi'
+shell 'chmod 4755 /system/bin/su' 
+
+install "$ZIPFILESuperuser.apk"
+
+shell 'if ((su -v)); then echo "Your device is now rooted"; else echo "failure. could not root device"; fi'
+

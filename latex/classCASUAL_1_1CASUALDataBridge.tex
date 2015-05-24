@@ -1,0 +1,73 @@
+\hypertarget{classCASUAL_1_1CASUALDataBridge}{\section{C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Data\-Bridge Class Reference}
+\label{classCASUAL_1_1CASUALDataBridge}\index{C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Data\-Bridge@{C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Data\-Bridge}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries Device\-Side}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classCASUAL_1_1CASUALDataBridge_a5e0d967936b2a364514ec36e3a9862e2}{synchronized String {\bfseries get\-File} (String remote\-File\-Name, File f)  throws I\-O\-Exception, Interrupted\-Exception }\label{classCASUAL_1_1CASUALDataBridge_a5e0d967936b2a364514ec36e3a9862e2}
+
+\item 
+\hypertarget{classCASUAL_1_1CASUALDataBridge_ae83af46e7e309f4f800266408cd84f63}{synchronized long {\bfseries send\-String} (String send, String remote\-File\-Name)  throws Interrupted\-Exception, Socket\-Exception, I\-O\-Exception }\label{classCASUAL_1_1CASUALDataBridge_ae83af46e7e309f4f800266408cd84f63}
+
+\item 
+\hypertarget{classCASUAL_1_1CASUALDataBridge_a11dbfc8a7894becee079c99dcbb36627}{synchronized long {\bfseries send\-File} (File f, String remote\-File\-Name)  throws File\-Not\-Found\-Exception, Exception }\label{classCASUAL_1_1CASUALDataBridge_a11dbfc8a7894becee079c99dcbb36627}
+
+\item 
+\hypertarget{classCASUAL_1_1CASUALDataBridge_a5e9f37467297dedeecf7f3f2a0ac1abf}{synchronized long {\bfseries send\-Stream} (final Input\-Stream input, final String remote\-File\-Name)  throws Interrupted\-Exception, Socket\-Exception, I\-O\-Exception }\label{classCASUAL_1_1CASUALDataBridge_a5e9f37467297dedeecf7f3f2a0ac1abf}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classCASUAL_1_1CASUALDataBridge_a3f1cf8cee5785332eac767cbd20041f2}{static boolean {\bfseries commanded\-Shutdown} =false}\label{classCASUAL_1_1CASUALDataBridge_a3f1cf8cee5785332eac767cbd20041f2}
+
+\item 
+static Timer \hyperlink{classCASUAL_1_1CASUALDataBridge_a2f95d8ec4d06f75bf5e089658604e46d}{timeout\-Watchdog}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+adam 
+\end{DoxyAuthor}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classCASUAL_1_1CASUALDataBridge_a2f95d8ec4d06f75bf5e089658604e46d}{\index{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Data\-Bridge@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Data\-Bridge}!timeout\-Watchdog@{timeout\-Watchdog}}
+\index{timeout\-Watchdog@{timeout\-Watchdog}!CASUAL::CASUALDataBridge@{C\-A\-S\-U\-A\-L\-::\-C\-A\-S\-U\-A\-L\-Data\-Bridge}}
+\subsubsection[{timeout\-Watchdog}]{\setlength{\rightskip}{0pt plus 5cm}Timer C\-A\-S\-U\-A\-L.\-C\-A\-S\-U\-A\-L\-Data\-Bridge.\-timeout\-Watchdog\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1CASUALDataBridge_a2f95d8ec4d06f75bf5e089658604e46d}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \textcolor{keyword}{new} Timer(WATCHDOGINTERVAL, \textcolor{keyword}{new} ActionListener() \{
+        @Override
+        \textcolor{keyword}{public} \textcolor{keywordtype}{void} actionPerformed(ActionEvent evt) \{
+            \textcolor{keywordflow}{if} (lastbytes == bytes) \{
+                \textcolor{keywordflow}{try} \{
+                    \textcolor{keyword}{new} Log().level0Error(\textcolor{stringliteral}{"Failed to send file.  Timeout. Bytes:"} + bytes + \textcolor{stringliteral}{" Message:"} + 
+      deviceSideMessage);
+                    deviceReadyForReceive = \textcolor{keyword}{false};
+                    shutdownBecauseOfError = \textcolor{keyword}{true};
+                    \hyperlink{classCASUAL_1_1CASUALDataBridge_a2f95d8ec4d06f75bf5e089658604e46d}{timeoutWatchdog}.stop();
+                    \textcolor{keywordflow}{throw} \textcolor{keyword}{new} TimeoutException();
+                \} \textcolor{keywordflow}{catch} (TimeoutException ex) \{
+                    Logger.getLogger(CASUALDataBridge.class.getName()).log(Level.SEVERE, null, ex);
+                \}
+
+            \} \textcolor{keywordflow}{else} \{
+                lastbytes = bytes;
+                Statics.setStatus(status + \textcolor{stringliteral}{" "} + bytes);
+            \}
+
+        \}
+    \})
+\end{DoxyCode}
+timeout\-Watchdog checks every W\-A\-T\-C\-H\-D\-O\-G\-I\-N\-T\-E\-R\-V\-A\-L millis to verify bytes have increased. If bytes have not increased, it throws an error and shuts things down. This is used to detect a broken connection. 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/C\-A\-S\-U\-A\-L\-Data\-Bridge.\-java\end{DoxyCompactItemize}

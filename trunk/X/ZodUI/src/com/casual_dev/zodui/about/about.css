@@ -1,0 +1,103 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jul 12, 2014, 1:49:25 PM
+    Author     : adamoutler
+*/
+
+
+.accordion {
+    -fx-background-color: black;
+    -fx-background-radius:10.0;
+
+    -fx-padding: 10;
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+    -fx-opacity:1;
+
+    -fx-background-color: black;
+}
+
+
+.text-area{
+    -fx-background-color: black; 
+}
+.titled-pane 
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.TitledPaneSkin";    
+    -fx-text-fill: lime;
+    
+}
+.titled-pane:focused 
+{
+    -fx-text-fill: Chartreuse;
+}
+.titled-pane > .title 
+{
+    -fx-background-color: Chartreuse , black, black;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+    -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
+}
+
+.titled-pane:focused > .title 
+{
+    -fx-color: Chartreuse ;
+}
+
+.titled-pane > .title > .arrow-button 
+{
+    -fx-background-color: black;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0.0em 0.25em 0.0em 0.0em; /* 0 3 0 0 */
+}
+
+.titled-pane > .title > .arrow-button .arrow 
+{
+    -fx-background-color: lime, Chartreuse ;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.25em 0.3125em 0.25em 0.3125em; /* 3 3.75 3 3.75 */
+    -fx-shape: "M 0 0 h 7 l -3.5 4 z";
+}
+
+.titled-pane:collapsed > .title > .arrow-button .arrow 
+{
+    -fx-rotate: -90;
+}
+
+.titled-pane > *.content 
+{
+    -fx-background-color:black,
+        linear-gradient(to bottom, derive(-fx-color,-02%), derive(-fx-color,65%) 12%,      derive(-fx-color,23%) 88%, derive(-fx-color,50%) 99%, -fx-box-border);
+    -fx-background-insets: 0, 0 1 1 1;
+    -fx-padding: 0.167em;
+}
+
+.titled-pane:focused > .title > .arrow-button .arrow 
+{
+    -fx-background-color: Chartreuse ;
+}
+.accordion .titled-pane > *.content {
+   -fx-background-color: null;
+}
+
+.text-area {
+    -fx-text-fill: Chartreuse 
+}
+
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}

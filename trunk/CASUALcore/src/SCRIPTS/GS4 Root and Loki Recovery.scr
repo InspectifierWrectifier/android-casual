@@ -1,0 +1,49 @@
+$ECHO [*]
+$ECHO [*] Motochopper: Android root exploit (Linux/OS X version)
+$ECHO [*] v1.1
+$ECHO [*] by Dan Rosenberg (@djrbliss)
+$ECHO [*]
+$ECHO [*] Tested on the Motorola Razr HD, Razr M, Razr Maxx HD, and Atrix HD.
+$ECHO [*] Supports lots of other devices as well. ;-)
+$ECHO [*]"
+$ECHO [*] Before continuing, ensure that USB debugging is enabled and that
+$ECHO [*] your phone is connected via USB.
+$ECHO [*]"
+$ECHO [*] WARNING: This will likely void the warranty on your device. I am
+$ECHO [*] not responsible for any damage to your phone as a result using this
+$ECHO [*] tool.
+$ECHO [*]
+$USERCANCELOPTION hold on, Are you sure you want to root and install recovery?
+
+$ECHO [*]
+
+$ECHO [*] Waiting for device...
+$ADB wait-for-device
+
+$ECHO [*] Device found.
+
+$ECHO [*] Pushing exploit...
+$ADB push "$ZIPFILEpwn" /data/local/tmp/
+$ADB shell "chmod 755 /data/local/tmp/pwn"
+
+$ECHO [*] Pushing root tools...
+$ADB push "$ZIPFILEsu" /data/local/tmp/
+$ADB push "$ZIPFILESuperuser.apk" /data/local/tmp
+$ECHO [*] Pushing recovery to device...
+$ADB push "$ZIPFILErecovery.img" /data/local/tmp/
+$ECHO [*] Rooting phone...
+$ADB shell /data/local/tmp/pwn
+$ECHO installing superuser to system partition
+$ON su: not found, $HALT $ECHO Could not obtain root.  Shutting down. 
+$ADB shell "su -c 'mount -o remount,rw /system; cat /data/local/tmp/Superuser.apk >/system/app/Superuser.apk'"
+
+
+$IFNOTCONTAINS SAMSUNG-SGH-I337 $INCOMMAND $ADB shell "cat /system/build.prop" $DO $HALT $ECHO This is not for your device, halting. 
+
+$ECHO [*] Installing Recovery
+$ADB shell "su -c 'dd if=/data/local/tmp/recovery.img of=/dev/block/platform/msm_sdcc.1/by-name/recovery'"
+$USERNOTIFICATION Exploit complete, Press ok to reboot.
+$ECHO [*] rebooting into recovery. Ensure that you "Install Superuser" in after you reboot into Android for security reasons!
+$ADB reboot recovery
+
+

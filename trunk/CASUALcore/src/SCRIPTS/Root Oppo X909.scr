@@ -1,0 +1,24 @@
+#$IFNOTCONTAINS ro.product.model=X909 $INCOMMAND shell "cat /system/build.prop" $DO $HALT $ECHO your system is not an X909. This won't work. halting.
+$ECHO rebooting device... please wait
+reboot bootloader
+$FASTBOOT boot "$ZIPFILEinsecureboot.img"
+$ECHO Booting insecure bootloader.. please wait
+wait-for-device
+$ECHO pushing files
+push "$ZIPFILEsu" /data/local/tmp/su
+$ECHO rooting device
+shell "mount -o remount,rw /system"
+shell "cat /data/local/tmp/su> /system/xbin/su"
+$ECHO Setting permissions
+shell "chmod 6755 /system/xbin/su"
+$ECHO Waiting for GUI...
+shell "sleep 15"
+$ECHO installing SuperSU Authentication Controller 
+install "$ZIPFILESuperuser.apk"
+
+$IFNOTCONTAINS init.target.rc $INCOMMAND shell 'su -c "ls"' $DO $GOTO #Fail
+$GOTO #Pass
+#Fail
+$HALT $ECHO Root was unsucessful
+#Pass
+$ECHO Root was sucessful!  Please reboot your device to get out of insecure mode.  You are now rooted!

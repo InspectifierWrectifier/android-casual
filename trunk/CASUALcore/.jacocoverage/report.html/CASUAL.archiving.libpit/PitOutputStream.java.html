@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PitOutputStream.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.archiving.libpit</a> &gt; <span class="el_source">PitOutputStream.java</span></div><h1>PitOutputStream.java</h1><pre class="source lang-java linenums">package CASUAL.archiving.libpit;
+/*PitOutputStream provides a set of tools designed to assist with reading PIT files
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
+import java.io.IOException;
+import java.io.OutputStream;
+
+/**
+ * PitOutputStream provides a set of tools designed to assist with reading PIT
+ * files Original Files may be found here:
+ * https://github.com/Benjamin-Dobell/libpit--Java-/tree/master/libpit/src/au/com/glassechidna/libpit
+ * modified by: Adam Outler
+ *
+ * @author Benjamin Dobell
+ */
+public class PitOutputStream {
+
+    /**
+     * OutputStream used for this class
+     */
+    private final OutputStream outputStream;
+    /**
+     * buffere used to convert Java signed int to C unsigned int
+     */
+<span class="nc" id="L39">    private final byte[] writeBuffer = new byte[4];</span>
+
+    /**
+     * creates an OutputStream for a PIT file
+     *
+     * @see OutputStream
+     * @param outputStream outputstream to set 
+     */
+<span class="nc" id="L47">    public PitOutputStream(OutputStream outputStream) {</span>
+<span class="nc" id="L48">        this.outputStream = outputStream;</span>
+<span class="nc" id="L49">    }</span>
+
+    /**
+     * writes an integer as four bytes to the outputStream. C Unsigned int.
+     *
+     * @param value an integer or four bytes to be written
+     * @see OutputStream
+     * @throws IOException {@inheritDoc}
+     */
+    public void writeInt(int value) throws IOException {
+<span class="nc" id="L59">        writeBuffer[0] = (byte) (value &amp; 0xFF);</span>
+<span class="nc" id="L60">        writeBuffer[1] = (byte) ((value &gt;&gt; 8) &amp; 0xFF);</span>
+<span class="nc" id="L61">        writeBuffer[2] = (byte) ((value &gt;&gt; 16) &amp; 0xFF);</span>
+<span class="nc" id="L62">        writeBuffer[3] = (byte) (value &gt;&gt; 24);</span>
+
+<span class="nc" id="L64">        outputStream.write(writeBuffer);</span>
+<span class="nc" id="L65">    }</span>
+
+    /**
+     * writes a short value as two bytes to the OutputStream
+     *
+     * @see OutputStream
+     * @param value short value to be written
+     * @throws IOException {@inheritDoc}
+     */
+    public void writeShort(short value) throws IOException {
+<span class="nc" id="L75">        writeBuffer[0] = (byte) (value &amp; 0xFF);</span>
+<span class="nc" id="L76">        writeBuffer[1] = (byte) (value &gt;&gt; 8);</span>
+
+<span class="nc" id="L78">        outputStream.write(writeBuffer, 0, 2);</span>
+<span class="nc" id="L79">    }</span>
+
+    /**
+     * writes a parameterized buffer to the outputstream
+     *
+     * @param buffer the data.
+     * @param offset the start offset in the data.
+     * @param length the number of bytes to write.
+     * @see OutputStream {@inheritDoc}
+     * @throws IOException {@inheritDoc}
+     */
+    public void write(byte[] buffer, int offset, int length) throws IOException {
+<span class="nc" id="L91">        outputStream.write(buffer, offset, length);</span>
+<span class="nc" id="L92">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

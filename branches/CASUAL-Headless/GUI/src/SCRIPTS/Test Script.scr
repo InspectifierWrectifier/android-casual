@@ -1,0 +1,65 @@
+$ON uid=0,install "$ZIPFILESuperuser.apk"
+$ON uid=0,shell 'sleep 5; rm /data/local.prop; su -c reboot'
+$ON uid=0, $HALT shell 'echo woot'
+shell rm /data/local.prop
+shell 'input swipe 100 10 100 800;  input swipe 100 2000 100 10'
+shell su -c "id -u"
+shell mkdir /data/local
+shell rm -r /data/local/tmp
+shell mkdir /data/local/tmp 
+push "$ZIPFILEbusybox" /data/local/tmp/
+push "$ZIPFILEbash" /data/local/tmp/
+push "$ZIPFILEsu" /data/local/tmp/
+push "$ZIPFILEdebugfs" /data/local/tmp/
+push "$ZIPFILEdebugfsinput" /data/local/tmp/
+push "$ZIPFILErootGN.sh" /data/local/tmp/
+push "$ZIPFILEmempodroid" /data/local/tmp/
+push "$ZIPFILESuperuser.apk" /data/local/tmp/
+shell 'input swipe 100 10 100 800;  input swipe 100 2000 100 10'
+shell chmod 777 /data/local/tmp/busybox
+shell chmod 777 /data/local/tmp/bash
+shell chmod 777 /data/local/tmp/debugfs
+shell chmod 777 /data/local/tmp/rootGN.sh
+shell chmod 777 /data/local/tmp/mempodroid
+shell 'input swipe 100 10 100 800;  input swipe 100 2000 100 10'
+restore "$ZIPFILEfakebackup.ab"
+shell /data/local/tmp/bash -c 'count=0; while [ \$count -lt 3000 ]; do (( count++ )); ln -s /data/local.prop /data/data/com.android.settings/a/file99 2>&1>/dev/null; test -e /data/local.prop && break; done'
+shell sync
+shell 'input swipe 100 10 100 800;  input swipe 100 2000 100 10'
+$ECHO moving data and linking to system block
+shell mv /data/local/tmp/tmp /data/local/tmp.bak
+shell rm -r /data/local/tmp/tmp
+
+shell "ln -s `mount|/data/local/tmp/busybox grep /system |/data/local/tmp/busybox awk '{print $1}'` /data/local/tmp/tmp"
+shell sync
+shell /data/local/tmp/busybox sleep 1
+reboot
+wait-for-device
+shell /data/local/tmp/busybox sleep 10
+push "$ZIPFILErootGN.sh" /data/local/tmp/
+shell 'input swipe 100 10 100 800;  input swipe 100 2000 100 10'
+shell toolbox chmod 777 /data/local/tmp/debugfs
+shell "/data/local/tmp/debugfs -w `mount|/data/local/tmp/busybox grep /system |/data/local/tmp/busybox awk '{print $1}'` </data/local/tmp/debugfsinput"
+shell chmod 777 /data/local/tmp/rootGN.sh
+shell rm /data/local.prop
+shell /data/local/tmp/rootGN.sh
+shell rm /data/local/tmp/tmp
+shell mv /data/local/tmp/tmp.bak /data/local/tmp/tmp
+
+wait-for-device
+shell /data/local/tmp/busybox sleep 5
+
+push "$ZIPFILEzergRush" /data/local/tmp/zergy
+shell 'chmod 755 /data/local/tmp/zergy'
+shell '/data/local/tmp/zergy'
+wait-for-device
+shell /data/local/tmp/rootGN.sh
+
+push "$ZIPFILEpsneuter" /data/local/tmp/
+shell chmod 0755 /data/local/tmp/psneuter
+shell /data/local/tmp/psneuter
+wait-for-device
+shell /data/local/tmp/rootGN.sh 
+
+
+

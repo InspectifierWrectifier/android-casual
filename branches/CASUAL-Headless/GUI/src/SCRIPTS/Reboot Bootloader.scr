@@ -1,0 +1,3 @@
+reboot bootloader
+shell reboot bootloader 
+shell su -c reboot bootloader

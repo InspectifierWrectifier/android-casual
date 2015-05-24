@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ResourceDeployer.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL</a> &gt; <span class="el_source">ResourceDeployer.java</span></div><h1>ResourceDeployer.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2013 adamoutler
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+<span class="fc" id="L30">public class ResourceDeployer {</span>
+
+    /**
+     * Deploys a resource from the pacakge to the disk.
+     * @param resourceLocation location of internal resource. 
+     * @param tempFolder disk location.
+     * @return fully qualified path to deployed file.
+     */
+    public String deployResourceTo(String resourceLocation, String tempFolder) {
+<span class="fc" id="L39">        return deployResourceTo(new String[]{resourceLocation}, tempFolder)[0];</span>
+    }
+
+    /**
+     * deploys multiple resources to disk.
+     * @param resourceLocation array of files in jar.
+     * @param tempFolder deployment location.
+     * @return fully qualified paths to new files. 
+     */
+    public String[] deployResourceTo(String[] resourceLocation, String tempFolder) {
+<span class="fc" id="L49">        ArrayList&lt;String&gt; deployed = new ArrayList&lt;String&gt;();</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        for (String res : resourceLocation) {</span>
+<span class="fc" id="L51">            String name = tempFolder + new File(res).getName();</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">            if (!copyFromResourceToFile(res, name)) {</span>
+<span class="nc" id="L53">                return new String[]{};</span>
+            }
+<span class="fc" id="L55">            deployed.add(name);</span>
+        }
+<span class="fc" id="L57">        return deployed.toArray(new String[deployed.size()]);</span>
+    }
+
+    /**
+     * copies a resource to a file
+     *
+     * @param Resource resource to be deployed
+     * @param toFile file to deploy resource to
+     * @return true if complete
+     */
+    public boolean copyFromResourceToFile(String Resource, String toFile) {
+        
+<span class="fc" id="L69">        boolean retval = false;</span>
+
+        try {
+<span class="fc" id="L72">            File destination = new File(toFile);</span>
+<span class="fc" id="L73">            makeParentFolder(destination);</span>
+<span class="fc" id="L74">            InputStream resourceAsStream = getClass().getResourceAsStream(Resource);</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">            if (resourceAsStream.available() &gt;= 1) {</span>
+<span class="fc" id="L76">                writeInputStreamToFile(resourceAsStream, destination);</span>
+            } else {
+<span class="nc" id="L78">                resourceAsStream.close();</span>
+<span class="nc" id="L79">                Log.level0Error(&quot;@criticalErrorWhileCopying &quot; + Resource);</span>
+<span class="nc" id="L80">                return false;</span>
+            }
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">            if (destination.length() &lt; 1) {</span>
+<span class="nc" id="L83">                resourceAsStream.close();</span>
+<span class="nc" id="L84">                Log.level0Error(&quot;@failedToWriteFile&quot;);</span>
+<span class="nc" id="L85">                retval = false;</span>
+            } else {
+<span class="fc" id="L87">                resourceAsStream.close();</span>
+<span class="fc" id="L88">                retval = true;</span>
+            }
+<span class="nc" id="L90">        } catch (NullPointerException e) {</span>
+<span class="nc" id="L91">            return false;</span>
+
+<span class="nc" id="L93">        } catch (IOException ex) {</span>
+<span class="nc" id="L94">            Log.errorHandler(ex);</span>
+<span class="nc" id="L95">            Log.level0Error(&quot;@criticalErrorWhileCopying &quot; + Resource);</span>
+<span class="nc" id="L96">            return false;</span>
+<span class="fc" id="L97">        }</span>
+<span class="fc" id="L98">        return retval;</span>
+
+    }
+
+    private void makeParentFolder(File destination) {
+        //check if destination directory exists and make it if needed.
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">        if (!destination.getParentFile().exists()) {</span>
+<span class="nc" id="L105">            destination.getParentFile().mkdirs();</span>
+        }
+<span class="fc" id="L107">    }</span>
+
+    private boolean writeInputStreamToFile(InputStream is, File file) {
+        try {
+<span class="fc" id="L111">            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));</span>
+<span class="fc" id="L112">            byte data[] = new byte[4096];</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">            if (is.available() &gt; 0) {</span>
+                // while stream does not return -1, fill data buffer and write.
+<span class="fc bfc" id="L115" title="All 2 branches covered.">                while ((is.read(data, 0, data.length)) != -1) {</span>
+<span class="fc" id="L116">                    out.write(data, 0, data.length);</span>
+                }
+            } else {
+<span class="nc" id="L119">                return false;</span>
+            }
+<span class="fc" id="L121">            is.close();</span>
+<span class="fc" id="L122">            out.close();</span>
+<span class="nc" id="L123">        } catch (IOException e) {</span>
+<span class="nc" id="L124">            return false;</span>
+<span class="fc" id="L125">        }</span>
+<span class="fc" id="L126">        return true;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

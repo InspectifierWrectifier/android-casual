@@ -1,0 +1,7 @@
+$ECHO Setting up storage folder in $HOMEFOLDERapps$SLASH
+$MAKEDIR $HOMEFOLDERapps$SLASH
+$ECHO Setting pull parameters
+$ON .apk, pull $LINE $HOMEFOLDERapps$SLASH
+$ECHO Pulling selected applications
+shell su -c 'ls /data/app/*.apk'
+$ECHO done

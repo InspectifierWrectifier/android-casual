@@ -1,0 +1,272 @@
+\hypertarget{classCASUAL_1_1WindowsDrivers}{\section{C\-A\-S\-U\-A\-L.\-Windows\-Drivers Class Reference}
+\label{classCASUAL_1_1WindowsDrivers}\index{C\-A\-S\-U\-A\-L.\-Windows\-Drivers@{C\-A\-S\-U\-A\-L.\-Windows\-Drivers}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCASUAL_1_1WindowsDrivers_abc8fd34531bd322330042a15ee12cb45}{Windows\-Drivers} (int prompt\-Init)
+\item 
+boolean \hyperlink{classCASUAL_1_1WindowsDrivers_a524af552802bf1b540be25ed43951ed4}{install\-Driver\-Blanket} (String\mbox{[}$\,$\mbox{]} additional\-V\-I\-Ds)
+\item 
+boolean \hyperlink{classCASUAL_1_1WindowsDrivers_aacf674e2d68c77a3233472ed2b0fad61}{driver\-Extract} (String path\-To\-Extract)  throws File\-Not\-Found\-Exception, I\-O\-Exception 
+\item 
+boolean \hyperlink{classCASUAL_1_1WindowsDrivers_a8f1ace24411629c85bbf7a2b83e1e41d}{install\-Driver} (String V\-I\-D)
+\item 
+boolean \hyperlink{classCASUAL_1_1WindowsDrivers_ac7b16da6f902b8f94c8c1032adca94ef}{uninstall\-C\-A\-D\-I} ()
+\item 
+String\mbox{[}$\,$\mbox{]} \hyperlink{classCASUAL_1_1WindowsDrivers_a36fca4c48d995214a392de34215f3ac3}{get\-Device\-List} (String V\-I\-D)
+\item 
+String\mbox{[}$\,$\mbox{]} \hyperlink{classCASUAL_1_1WindowsDrivers_aa8d6cd3a7b77cd0ce5a93f505b63d12b}{get\-Device\-List} (boolean only\-Connected, boolean only\-U\-S\-B)
+\item 
+int \hyperlink{classCASUAL_1_1WindowsDrivers_af79ee2916e52982954c1a23ee528ba57}{get\-C\-A\-S\-U\-A\-L\-Driver\-Count} ()
+\item 
+boolean \hyperlink{classCASUAL_1_1WindowsDrivers_ab4018b18c1644814531e0099fc744840}{remove\-Orphaned\-Devices} (String V\-I\-D)
+\item 
+boolean \hyperlink{classCASUAL_1_1WindowsDrivers_a53481235c859dddc8970b96489f3b0a9}{delete\-Oem\-Inf} ()
+\item 
+String \hyperlink{classCASUAL_1_1WindowsDrivers_ae1d0f834147099460ce8d727baa788e7}{devcon\-Command} (String args)
+\item 
+Pattern \hyperlink{classCASUAL_1_1WindowsDrivers_aaf953b0c0d0b25e925e57e15f5db1bb0}{get\-Reg\-Ex\-Pattern} (String what\-Pattern)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classCASUAL_1_1WindowsDrivers_a89fa44b9e144ad395ac16ba1702cf7cf}{\hyperlink{classCASUAL_1_1Log}{Log} {\bfseries log} = new \hyperlink{classCASUAL_1_1Log}{Log}()}\label{classCASUAL_1_1WindowsDrivers_a89fa44b9e144ad395ac16ba1702cf7cf}
+
+\item 
+\hypertarget{classCASUAL_1_1WindowsDrivers_a359ca3d9318915e19dbf6551c1bb3459}{final String {\bfseries path\-To\-C\-A\-D\-I}}\label{classCASUAL_1_1WindowsDrivers_a359ca3d9318915e19dbf6551c1bb3459}
+
+\item 
+\hypertarget{classCASUAL_1_1WindowsDrivers_a42c7c1e515d46591edacc8bb8bc259d6}{final String\mbox{[}$\,$\mbox{]} {\bfseries windows\-Driver\-Blanket}}\label{classCASUAL_1_1WindowsDrivers_a42c7c1e515d46591edacc8bb8bc259d6}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static volatile boolean \hyperlink{classCASUAL_1_1WindowsDrivers_aeffffe5b6287581f84fab6058eb72bfc}{driver\-Extracted} = false
+\item 
+static volatile int \hyperlink{classCASUAL_1_1WindowsDrivers_a59919a5f38e8d9ff9eda58fb443e039e}{remove\-Driver\-On\-Completion}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+ \begin{DoxyAuthor}{Author}
+Jeremy Loper \href{mailto:jrloper@gmail.com}{\tt jrloper@gmail.\-com} 
+
+Adam Outler \href{mailto:adamoutler@gmail.com}{\tt adamoutler@gmail.\-com} 
+
+ 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classCASUAL_1_1WindowsDrivers_abc8fd34531bd322330042a15ee12cb45}{\index{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}!Windows\-Drivers@{Windows\-Drivers}}
+\index{Windows\-Drivers@{Windows\-Drivers}!CASUAL::WindowsDrivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}}
+\subsubsection[{Windows\-Drivers}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-Windows\-Drivers.\-Windows\-Drivers (
+\begin{DoxyParamCaption}
+\item[{int}]{prompt\-Init}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1WindowsDrivers_abc8fd34531bd322330042a15ee12cb45}
+\hyperlink{classCASUAL_1_1WindowsDrivers}{Windows\-Drivers} instantiates the windows driver class.
+
+
+\begin{DoxyParams}{Parameters}
+{\em prompt\-Init} & initializes remove\-Driver\-On\-Completion member and subsequent prompting action. 0 -\/ Unset (will prompt user) (default) 1 -\/ Do not remove driver on completion 2 -\/ Remove driver on script completion \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCASUAL_1_1WindowsDrivers_a53481235c859dddc8970b96489f3b0a9}{\index{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}!delete\-Oem\-Inf@{delete\-Oem\-Inf}}
+\index{delete\-Oem\-Inf@{delete\-Oem\-Inf}!CASUAL::WindowsDrivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}}
+\subsubsection[{delete\-Oem\-Inf}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-Windows\-Drivers.\-delete\-Oem\-Inf (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1WindowsDrivers_a53481235c859dddc8970b96489f3b0a9}
+delete\-Oem\-Inf parses output from devcon\-Command via regex to extract the name of the $\ast$.inf file from Windows driver store. Extraction of the file name is determined by setup classes \& provider names.
+
+\begin{DoxyReturn}{Returns}
+a String Array of $\ast$.inf files matching the search criteria. 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1WindowsDrivers_ae1d0f834147099460ce8d727baa788e7}{\index{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}!devcon\-Command@{devcon\-Command}}
+\index{devcon\-Command@{devcon\-Command}!CASUAL::WindowsDrivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}}
+\subsubsection[{devcon\-Command}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-Windows\-Drivers.\-devcon\-Command (
+\begin{DoxyParamCaption}
+\item[{String}]{args}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1WindowsDrivers_ae1d0f834147099460ce8d727baa788e7}
+devcon\-Command executes Devcon (x86 or x64 depending upon detected Windows architecture) using the callers arguments.
+
+
+\begin{DoxyParams}{Parameters}
+{\em args} & a String of arguments (space delimited) to be passed to Devcon \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the console output of the executed command. Error messages and null may also be returned should the command fail to execute or the method was called improperly. 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1WindowsDrivers_aacf674e2d68c77a3233472ed2b0fad61}{\index{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}!driver\-Extract@{driver\-Extract}}
+\index{driver\-Extract@{driver\-Extract}!CASUAL::WindowsDrivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}}
+\subsubsection[{driver\-Extract}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-Windows\-Drivers.\-driver\-Extract (
+\begin{DoxyParamCaption}
+\item[{String}]{path\-To\-Extract}
+\end{DoxyParamCaption}
+) throws File\-Not\-Found\-Exception, I\-O\-Exception}}\label{classCASUAL_1_1WindowsDrivers_aacf674e2d68c77a3233472ed2b0fad61}
+driver\-Extract extracts the contents of C\-A\-D\-I.\-zip from \hyperlink{namespaceCASUAL}{C\-A\-S\-U\-A\-L}'s resources
+
+
+\begin{DoxyParams}{Parameters}
+{\em path\-To\-Extract} & the desired destination folders full path.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em File\-Not\-Found\-Exception} & \\
+\hline
+{\em I\-O\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyReturn}{Returns}
+true if successful, false otherwise 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1WindowsDrivers_af79ee2916e52982954c1a23ee528ba57}{\index{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}!get\-C\-A\-S\-U\-A\-L\-Driver\-Count@{get\-C\-A\-S\-U\-A\-L\-Driver\-Count}}
+\index{get\-C\-A\-S\-U\-A\-L\-Driver\-Count@{get\-C\-A\-S\-U\-A\-L\-Driver\-Count}!CASUAL::WindowsDrivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}}
+\subsubsection[{get\-C\-A\-S\-U\-A\-L\-Driver\-Count}]{\setlength{\rightskip}{0pt plus 5cm}int C\-A\-S\-U\-A\-L.\-Windows\-Drivers.\-get\-C\-A\-S\-U\-A\-L\-Driver\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1WindowsDrivers_af79ee2916e52982954c1a23ee528ba57}
+get\-C\-A\-S\-U\-A\-L\-Driver\-Count parses devcon output for all \hyperlink{namespaceCASUAL}{C\-A\-S\-U\-A\-L} driver installations and returns an integer count
+
+\begin{DoxyReturn}{Returns}
+integer count of \hyperlink{namespaceCASUAL}{C\-A\-S\-U\-A\-L} driver installs 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1WindowsDrivers_a36fca4c48d995214a392de34215f3ac3}{\index{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}!get\-Device\-List@{get\-Device\-List}}
+\index{get\-Device\-List@{get\-Device\-List}!CASUAL::WindowsDrivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}}
+\subsubsection[{get\-Device\-List}]{\setlength{\rightskip}{0pt plus 5cm}String \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-Windows\-Drivers.\-get\-Device\-List (
+\begin{DoxyParamCaption}
+\item[{String}]{V\-I\-D}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1WindowsDrivers_a36fca4c48d995214a392de34215f3ac3}
+get\-Device\-List parses devcon output for connected U\-S\-B devices of the specified V\-I\-D; Any matching devices are stored for return in a String Array.
+
+
+\begin{DoxyParams}{Parameters}
+{\em V\-I\-D} & a String containing a four character U\-S\-B vendor I\-D code in hexadecimal \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+is a String Array of matching connected devices, null otherwise 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1WindowsDrivers_aa8d6cd3a7b77cd0ce5a93f505b63d12b}{\index{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}!get\-Device\-List@{get\-Device\-List}}
+\index{get\-Device\-List@{get\-Device\-List}!CASUAL::WindowsDrivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}}
+\subsubsection[{get\-Device\-List}]{\setlength{\rightskip}{0pt plus 5cm}String \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-Windows\-Drivers.\-get\-Device\-List (
+\begin{DoxyParamCaption}
+\item[{boolean}]{only\-Connected, }
+\item[{boolean}]{only\-U\-S\-B}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1WindowsDrivers_aa8d6cd3a7b77cd0ce5a93f505b63d12b}
+get\-Device\-List parses devcon output for devices specified Any matching devices are stored for return in a String Array.
+
+
+\begin{DoxyParams}{Parameters}
+{\em only\-Connected} & boolean for presently connected devices only \\
+\hline
+{\em only\-U\-S\-B} & boolean for U\-S\-B devices only \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+is a String Array of matching devices, null otherwise 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1WindowsDrivers_aaf953b0c0d0b25e925e57e15f5db1bb0}{\index{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}!get\-Reg\-Ex\-Pattern@{get\-Reg\-Ex\-Pattern}}
+\index{get\-Reg\-Ex\-Pattern@{get\-Reg\-Ex\-Pattern}!CASUAL::WindowsDrivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}}
+\subsubsection[{get\-Reg\-Ex\-Pattern}]{\setlength{\rightskip}{0pt plus 5cm}Pattern C\-A\-S\-U\-A\-L.\-Windows\-Drivers.\-get\-Reg\-Ex\-Pattern (
+\begin{DoxyParamCaption}
+\item[{String}]{what\-Pattern}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1WindowsDrivers_aaf953b0c0d0b25e925e57e15f5db1bb0}
+get\-Reg\-Ex\-Pattern returns a Pattern Object of the requested R\-E\-G\-E\-X pattern.
+
+
+\begin{DoxyParams}{Parameters}
+{\em what\-Pattern} & a predefined String name for a R\-E\-G\-E\-X pattern. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a compiled R\-E\-G\-E\-X Pattern if requested pattern exists, otherwise null. 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1WindowsDrivers_a8f1ace24411629c85bbf7a2b83e1e41d}{\index{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}!install\-Driver@{install\-Driver}}
+\index{install\-Driver@{install\-Driver}!CASUAL::WindowsDrivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}}
+\subsubsection[{install\-Driver}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-Windows\-Drivers.\-install\-Driver (
+\begin{DoxyParamCaption}
+\item[{String}]{V\-I\-D}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1WindowsDrivers_a8f1ace24411629c85bbf7a2b83e1e41d}
+install\-Driver parses devcon output for connected devices matching the V\-I\-D parameter, and attempts to install Libusb\-K device driver (cadi.\-inf) via devcon on devcon failure (only for Samsung) libwdi will attempt to install the driver.
+
+
+\begin{DoxyParams}{Parameters}
+{\em V\-I\-D} & target V\-I\-D to scan \& install drivers for. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if driver is installed 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1WindowsDrivers_a524af552802bf1b540be25ed43951ed4}{\index{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}!install\-Driver\-Blanket@{install\-Driver\-Blanket}}
+\index{install\-Driver\-Blanket@{install\-Driver\-Blanket}!CASUAL::WindowsDrivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}}
+\subsubsection[{install\-Driver\-Blanket}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-Windows\-Drivers.\-install\-Driver\-Blanket (
+\begin{DoxyParamCaption}
+\item[{String\mbox{[}$\,$\mbox{]}}]{additional\-V\-I\-Ds}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1WindowsDrivers_a524af552802bf1b540be25ed43951ed4}
+install\-Driver\-Blanket parses V\-I\-D String Array windows\-Driver\-Blanket and calls \hyperlink{classCASUAL_1_1WindowsDrivers_a8f1ace24411629c85bbf7a2b83e1e41d}{install\-Driver()} method for each.
+
+
+\begin{DoxyParams}{Parameters}
+{\em additional\-V\-I\-Ds} & optional String Array of additional V\-I\-Ds to be scanned for should normally always be null.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a boolean sum of result. Value greater than 0 == success 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1WindowsDrivers_ab4018b18c1644814531e0099fc744840}{\index{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}!remove\-Orphaned\-Devices@{remove\-Orphaned\-Devices}}
+\index{remove\-Orphaned\-Devices@{remove\-Orphaned\-Devices}!CASUAL::WindowsDrivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}}
+\subsubsection[{remove\-Orphaned\-Devices}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-Windows\-Drivers.\-remove\-Orphaned\-Devices (
+\begin{DoxyParamCaption}
+\item[{String}]{V\-I\-D}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1WindowsDrivers_ab4018b18c1644814531e0099fc744840}
+remove\-Orphaned\-Devices parses devcon output of any current or previously installed U\-S\-B device drivers for the specified V\-I\-D. Any matching device drivers are uninstalled
+
+
+\begin{DoxyParams}{Parameters}
+{\em V\-I\-D} & a String containing a four character U\-S\-B vendor I\-D code in hexadecimal \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a String Array of devcon output from attempted uninstalls of drivers 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1WindowsDrivers_ac7b16da6f902b8f94c8c1032adca94ef}{\index{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}!uninstall\-C\-A\-D\-I@{uninstall\-C\-A\-D\-I}}
+\index{uninstall\-C\-A\-D\-I@{uninstall\-C\-A\-D\-I}!CASUAL::WindowsDrivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}}
+\subsubsection[{uninstall\-C\-A\-D\-I}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-Windows\-Drivers.\-uninstall\-C\-A\-D\-I (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1WindowsDrivers_ac7b16da6f902b8f94c8c1032adca94ef}
+uninstall\-C\-A\-D\-I attempts to remove any existing or previous remnants of C\-A\-D\-Iv1 or C\-A\-D\-Iv2 
+
+\subsection{Member Data Documentation}
+\hypertarget{classCASUAL_1_1WindowsDrivers_aeffffe5b6287581f84fab6058eb72bfc}{\index{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}!driver\-Extracted@{driver\-Extracted}}
+\index{driver\-Extracted@{driver\-Extracted}!CASUAL::WindowsDrivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}}
+\subsubsection[{driver\-Extracted}]{\setlength{\rightskip}{0pt plus 5cm}volatile boolean C\-A\-S\-U\-A\-L.\-Windows\-Drivers.\-driver\-Extracted = false\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1WindowsDrivers_aeffffe5b6287581f84fab6058eb72bfc}
+true if driver has been prepared. \hypertarget{classCASUAL_1_1WindowsDrivers_a59919a5f38e8d9ff9eda58fb443e039e}{\index{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}!remove\-Driver\-On\-Completion@{remove\-Driver\-On\-Completion}}
+\index{remove\-Driver\-On\-Completion@{remove\-Driver\-On\-Completion}!CASUAL::WindowsDrivers@{C\-A\-S\-U\-A\-L\-::\-Windows\-Drivers}}
+\subsubsection[{remove\-Driver\-On\-Completion}]{\setlength{\rightskip}{0pt plus 5cm}volatile int C\-A\-S\-U\-A\-L.\-Windows\-Drivers.\-remove\-Driver\-On\-Completion\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1WindowsDrivers_a59919a5f38e8d9ff9eda58fb443e039e}
+Should driver be removed on script completion? 0 -\/ Unset (will prompt user) 1 -\/ Do not remove driver on completion 2 -\/ Remove driver on script completion 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/Windows\-Drivers.\-java\end{DoxyCompactItemize}

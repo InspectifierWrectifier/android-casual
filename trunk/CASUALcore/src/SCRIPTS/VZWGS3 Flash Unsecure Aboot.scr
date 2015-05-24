@@ -1,0 +1,7 @@
+$ECHO preparing to flash
+$USERCANCELOPTION Are You Sure?, This may cause irreparable damage to your device/nYou are doing this at your own risk.\nDo you wish to continue?
+push "$ZIPFILEaboot.img" /sdcard/aboot.img
+$ECHO Flashing
+$USERCANCELOPTION WARNING, This is a final chance to back out. 
+shell su -c "dd if=/sdcard/aboot.img of=/dev/block/mmcblk0p5"
+$ECHO Done.

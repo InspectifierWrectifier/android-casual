@@ -1,0 +1,12 @@
+This will install root and recovery for you Qualcomm based Samsung Galaxy S4
+
+##############################
+# Motochopper Copyright (C) 2013 Dan Rosenberg (@djrbliss)
+# Loki Copyright (C) 2013 Dan Rosenberg (@djrbliss)
+# TWRP recovery - Team Win
+##############################
+# Instructions:
+#  1. Put your device in debugging mode
+#  2. Attach it via USB
+#  3. Click the Do It button
+##############################

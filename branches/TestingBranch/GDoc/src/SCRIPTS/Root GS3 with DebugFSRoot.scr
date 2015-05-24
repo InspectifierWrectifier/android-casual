@@ -1,0 +1,49 @@
+------------------------------------------------------------------------------------------
+$ECHO                             debugfs-based Root for Galaxy S III
+$ECHO                                       by Noxious Ninja
+$ECHO                   http://forum.xda-developers.com/showthread.php?t=1790104
+$ECHO                     adapted from the Transformer Prime script by sparkym3
+$ECHO                   http://forum.xda-developers.com/showthread.php?t=1706588
+$ECHO                                 and the root method by miloj
+$ECHO                   http://forum.xda-developers.com/showthread.php?t=1704209
+$ECHO  ------------------------------------------------------------------------------------------
+$ECHO  Step 1 - Setup...
+$ECHO  Copying files:
+$ECHO  Copying su:
+push "$ZIPFILEsu" /data/local/
+$ECHO  Copying debugfs:
+push "$ZIPFILEdebugfs" /data/local/
+$ECHO  Copying debugfsinput:
+push "$ZIPFILEdebugfsinput" /data/local/
+$ECHO  ...done copying files.
+$ECHO  Linking /system to tmp...
+shell mv /data/local/tmp /data/local/tmp.bak
+shell ln -s /dev/block/mmcblk0p14 /data/local/tmp
+$ECHO  ...done linking /system
+$ECHO  Rebooting...
+reboot
+
+$USERNOTIFICATION Rebooting, Press OK when device has fully rebooted and is displaying lock screen
+
+wait-for-device
+$ECHO  Step 2 - Rooting...
+kill-server
+wait-for-device
+
+shell toolbox chmod 777 /data/local/debugfs
+# We don't have to actually access /system through the /data/local/tmp link
+# We just have to make sure the link exists
+shell "/data/local/debugfs -w /dev/block/mmcblk0p14 < /data/local/debugfsinput"
+$ECHO  Cleaning up...
+$ECHO  Restoring tmp...
+shell rm /data/local/tmp
+shell mv /data/local/tmp.bak /data/local/tmp
+$ECHO  ...done restoring tmp
+$ECHO  Removing files...
+shell rm /data/local/su
+shell rm /data/local/debugfs
+shell rm /data/local/debugfsinput
+install "$ZIPFILESuperuser.apk"
+shell "/system/xbin/su -c id"
+$ECHO done. 
+

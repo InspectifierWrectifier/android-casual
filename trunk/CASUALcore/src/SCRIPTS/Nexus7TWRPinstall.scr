@@ -1,0 +1,3 @@
+$ADB reboot bootloader
+$FASTBOOT flash recovery "$ZIPFILEopenrecovery-twrp-2.6.2.0-grouper.img"
+$FASTBOOT reboot recovery

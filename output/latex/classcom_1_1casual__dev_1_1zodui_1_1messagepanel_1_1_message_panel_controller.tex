@@ -1,0 +1,120 @@
+\hypertarget{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller}{\section{com.\-casual\-\_\-dev.\-zodui.\-messagepanel.\-Message\-Panel\-Controller Class Reference}
+\label{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller}\index{com.\-casual\-\_\-dev.\-zodui.\-messagepanel.\-Message\-Panel\-Controller@{com.\-casual\-\_\-dev.\-zodui.\-messagepanel.\-Message\-Panel\-Controller}}
+}
+Inheritance diagram for com.\-casual\-\_\-dev.\-zodui.\-messagepanel.\-Message\-Panel\-Controller\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_a84320515d06d846696151f81b435f752}{void {\bfseries initialize} (U\-R\-L url, Resource\-Bundle rb)}\label{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_a84320515d06d846696151f81b435f752}
+
+\item 
+void \hyperlink{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_aa3fb920dbac484fb5d12107dca632c2e}{create\-Message} (\hyperlink{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_content}{Message\-Panel\-Content} mpc)
+\item 
+void \hyperlink{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_abad581a8a796537432c404722de2b575}{create\-Message} (String\mbox{[}$\,$\mbox{]} message, String\mbox{[}$\,$\mbox{]} button\-Text, boolean use\-Text\-Box)
+\item 
+String \hyperlink{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_aafb379e277a61865014c7652ec58a2d3}{get\-Return} ()  throws Interrupted\-Exception 
+\item 
+void \hyperlink{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_a7913055daa457d9aa2a64b037b0d5e7c}{set\-Parent} (\hyperlink{classcom_1_1casual__dev_1_1zodui_1_1_c_a_s_u_a_l_zod_main_u_i}{C\-A\-S\-U\-A\-L\-Zod\-Main\-U\-I} main\-U\-I)
+\item 
+void \hyperlink{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_aa339de4f44c4610b9d4e9e71044d6520}{dispose\-Message\-Panel} (Grid\-Pane parent\-Pane)
+\item 
+String \hyperlink{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_a7e429b387deb2ad38481498543933a70}{get\-Completion\-Time} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Handles Modal Messages in \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L} \hyperlink{classcom_1_1casual__dev_1_1zodui_1_1_zod_u_i}{Zod\-U\-I}. \begin{DoxyAuthor}{Author}
+adamoutler 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_aa3fb920dbac484fb5d12107dca632c2e}{\index{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller@{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller}!create\-Message@{create\-Message}}
+\index{create\-Message@{create\-Message}!com::casual_dev::zodui::messagepanel::MessagePanelController@{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller}}
+\subsubsection[{create\-Message}]{\setlength{\rightskip}{0pt plus 5cm}void com.\-casual\-\_\-dev.\-zodui.\-messagepanel.\-Message\-Panel\-Controller.\-create\-Message (
+\begin{DoxyParamCaption}
+\item[{{\bf Message\-Panel\-Content}}]{mpc}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_aa3fb920dbac484fb5d12107dca632c2e}
+Creates a message from a Pessage\-Panel\-Content 
+\begin{DoxyParams}{Parameters}
+{\em mpc} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_abad581a8a796537432c404722de2b575}{\index{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller@{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller}!create\-Message@{create\-Message}}
+\index{create\-Message@{create\-Message}!com::casual_dev::zodui::messagepanel::MessagePanelController@{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller}}
+\subsubsection[{create\-Message}]{\setlength{\rightskip}{0pt plus 5cm}void com.\-casual\-\_\-dev.\-zodui.\-messagepanel.\-Message\-Panel\-Controller.\-create\-Message (
+\begin{DoxyParamCaption}
+\item[{String\mbox{[}$\,$\mbox{]}}]{message, }
+\item[{String\mbox{[}$\,$\mbox{]}}]{button\-Text, }
+\item[{boolean}]{use\-Text\-Box}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_abad581a8a796537432c404722de2b575}
+Creates a message from bare essentials 
+\begin{DoxyParams}{Parameters}
+{\em message} & \mbox{[}0\mbox{]}=title \mbox{[}1\mbox{]}=message \\
+\hline
+{\em button\-Text} & an array of text to be displayed on buttons \\
+\hline
+{\em use\-Text\-Box} & true if message requires return of text and not just 0,1,2 of strings \\
+\hline
+\end{DoxyParams}
+\hypertarget{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_aa339de4f44c4610b9d4e9e71044d6520}{\index{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller@{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller}!dispose\-Message\-Panel@{dispose\-Message\-Panel}}
+\index{dispose\-Message\-Panel@{dispose\-Message\-Panel}!com::casual_dev::zodui::messagepanel::MessagePanelController@{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller}}
+\subsubsection[{dispose\-Message\-Panel}]{\setlength{\rightskip}{0pt plus 5cm}void com.\-casual\-\_\-dev.\-zodui.\-messagepanel.\-Message\-Panel\-Controller.\-dispose\-Message\-Panel (
+\begin{DoxyParamCaption}
+\item[{Grid\-Pane}]{parent\-Pane}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_aa339de4f44c4610b9d4e9e71044d6520}
+This should be called at the end of the Z\-O\-D panel life 
+\begin{DoxyParams}{Parameters}
+{\em parent\-Pane} & the Main\-U\-I is a grid pane. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_a7e429b387deb2ad38481498543933a70}{\index{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller@{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller}!get\-Completion\-Time@{get\-Completion\-Time}}
+\index{get\-Completion\-Time@{get\-Completion\-Time}!com::casual_dev::zodui::messagepanel::MessagePanelController@{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller}}
+\subsubsection[{get\-Completion\-Time}]{\setlength{\rightskip}{0pt plus 5cm}String com.\-casual\-\_\-dev.\-zodui.\-messagepanel.\-Message\-Panel\-Controller.\-get\-Completion\-Time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_a7e429b387deb2ad38481498543933a70}
+Time taken to press a button after Message was presented \begin{DoxyReturn}{Returns}
+time in millis to press a button 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_aafb379e277a61865014c7652ec58a2d3}{\index{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller@{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller}!get\-Return@{get\-Return}}
+\index{get\-Return@{get\-Return}!com::casual_dev::zodui::messagepanel::MessagePanelController@{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller}}
+\subsubsection[{get\-Return}]{\setlength{\rightskip}{0pt plus 5cm}String com.\-casual\-\_\-dev.\-zodui.\-messagepanel.\-Message\-Panel\-Controller.\-get\-Return (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws Interrupted\-Exception}}\label{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_aafb379e277a61865014c7652ec58a2d3}
+Waits for the user to click a button and then receives the selected value \begin{DoxyReturn}{Returns}
+0-\/button 1 was clicked, 1-\/button 2, 2-\/button 3 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Interrupted\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_a7913055daa457d9aa2a64b037b0d5e7c}{\index{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller@{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller}!set\-Parent@{set\-Parent}}
+\index{set\-Parent@{set\-Parent}!com::casual_dev::zodui::messagepanel::MessagePanelController@{com\-::casual\-\_\-dev\-::zodui\-::messagepanel\-::\-Message\-Panel\-Controller}}
+\subsubsection[{set\-Parent}]{\setlength{\rightskip}{0pt plus 5cm}void com.\-casual\-\_\-dev.\-zodui.\-messagepanel.\-Message\-Panel\-Controller.\-set\-Parent (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-A\-S\-U\-A\-L\-Zod\-Main\-U\-I}}]{main\-U\-I}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1zodui_1_1messagepanel_1_1_message_panel_controller_a7913055daa457d9aa2a64b037b0d5e7c}
+when the controller needs to talk to its parent 
+\begin{DoxyParams}{Parameters}
+{\em main\-U\-I} & parent \hyperlink{classcom_1_1casual__dev_1_1zodui_1_1_c_a_s_u_a_l_zod_main_u_i}{C\-A\-S\-U\-A\-L\-Zod\-Main\-U\-I} \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-X/\-Zod\-U\-I/src/com/casual\-\_\-dev/zodui/messagepanel/Message\-Panel\-Controller.\-java\end{DoxyCompactItemize}

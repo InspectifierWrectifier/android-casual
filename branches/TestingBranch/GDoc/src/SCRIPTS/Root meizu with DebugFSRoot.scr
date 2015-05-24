@@ -1,0 +1,38 @@
+$ECHO ------------------------------------------------------------------------------------------
+$ECHO                                          MX-Root
+$ECHO                                       by AdamOutler
+$ECHO                     adapted from the Transformer Prime script by sparkym3
+$ECHO                   http://forum.xda-developers.com/showthread.php?t=1706588
+$ECHO                                 and the root method by miloj
+$ECHO                   http://forum.xda-developers.com/showthread.php?t=1704209
+$ECHO  ------------------------------------------------------------------------------------------
+$ECHO  --Copying files--
+$ECHO  Copying su:
+push "$ZIPFILEsu" /data/local/
+$ECHO  Copying debugfs:
+push "$ZIPFILEdebugfs" /data/local/
+$ECHO  Copying debugfsinput:
+push "$ZIPFILEdebugfsinput" /data/local/
+$ECHO  ...done copying files.
+$ECHO Backing up tmp and Linking /system to tmp...
+shell mv /data/local/tmp /data/local/tmp.bak
+shell ln -s /dev/block/mmcblk0p2 /data/local/tmp
+$ECHO  ...done linking /system
+$ECHO  Rebooting...
+reboot
+
+$USERNOTIFICATION Rebooting, Press OK when device displays black screen
+
+$ECHO  Step 2 - Rooting...
+wait-for-device
+shell toolbox chmod 777 /data/local/debugfs
+shell "/data/local/debugfs -w /dev/block/mmcblk0p2 < /data/local/debugfsinput"
+$ECHO  Cleaning up...
+$ECHO  Restoring tmp...
+shell rm /data/local/tmp
+shell mv /data/local/tmp.bak /data/local/tmp
+$ECHO  ...done restoring tmp
+
+install "$ZIPFILESuperuser.apk"
+$ECHO done. 
+

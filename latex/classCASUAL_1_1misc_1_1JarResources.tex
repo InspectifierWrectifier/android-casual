@@ -1,0 +1,82 @@
+\hypertarget{classCASUAL_1_1misc_1_1JarResources}{\section{C\-A\-S\-U\-A\-L.\-misc.\-Jar\-Resources Class Reference}
+\label{classCASUAL_1_1misc_1_1JarResources}\index{C\-A\-S\-U\-A\-L.\-misc.\-Jar\-Resources@{C\-A\-S\-U\-A\-L.\-misc.\-Jar\-Resources}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCASUAL_1_1misc_1_1JarResources_ac8ba46fea06a1252e082af6ea9a839e0}{Jar\-Resources} (String jar\-File\-Name)
+\item 
+byte\mbox{[}$\,$\mbox{]} \hyperlink{classCASUAL_1_1misc_1_1JarResources_a85bd36fff3d70021db81964e513872e3}{get\-Resource} (String name)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classCASUAL_1_1misc_1_1JarResources_a63053fd99282d4d90035563a5e2a5aa1}{main} (String\mbox{[}$\,$\mbox{]} args)  throws I\-O\-Exception 
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classCASUAL_1_1misc_1_1JarResources_a4b866bc0269cf9342e439ebbb5babf43}{boolean {\bfseries debug\-On} = false}\label{classCASUAL_1_1misc_1_1JarResources_a4b866bc0269cf9342e439ebbb5babf43}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classCASUAL_1_1misc_1_1JarResources}{Jar\-Resources}\-: \hyperlink{classCASUAL_1_1misc_1_1JarResources}{Jar\-Resources} maps all resources included in a Zip or Jar file. Additionaly, it provides a method to extract one as a blob. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classCASUAL_1_1misc_1_1JarResources_ac8ba46fea06a1252e082af6ea9a839e0}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-Jar\-Resources@{C\-A\-S\-U\-A\-L\-::misc\-::\-Jar\-Resources}!Jar\-Resources@{Jar\-Resources}}
+\index{Jar\-Resources@{Jar\-Resources}!CASUAL::misc::JarResources@{C\-A\-S\-U\-A\-L\-::misc\-::\-Jar\-Resources}}
+\subsubsection[{Jar\-Resources}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-misc.\-Jar\-Resources.\-Jar\-Resources (
+\begin{DoxyParamCaption}
+\item[{String}]{jar\-File\-Name}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1misc_1_1JarResources_ac8ba46fea06a1252e082af6ea9a839e0}
+creates a \hyperlink{classCASUAL_1_1misc_1_1JarResources}{Jar\-Resources}. It extracts all resources from a Jar into an internal hashtable, keyed by resource names.
+
+
+\begin{DoxyParams}{Parameters}
+{\em jar\-File\-Name} & a jar or zip file \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCASUAL_1_1misc_1_1JarResources_a85bd36fff3d70021db81964e513872e3}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-Jar\-Resources@{C\-A\-S\-U\-A\-L\-::misc\-::\-Jar\-Resources}!get\-Resource@{get\-Resource}}
+\index{get\-Resource@{get\-Resource}!CASUAL::misc::JarResources@{C\-A\-S\-U\-A\-L\-::misc\-::\-Jar\-Resources}}
+\subsubsection[{get\-Resource}]{\setlength{\rightskip}{0pt plus 5cm}byte \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-misc.\-Jar\-Resources.\-get\-Resource (
+\begin{DoxyParamCaption}
+\item[{String}]{name}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1misc_1_1JarResources_a85bd36fff3d70021db81964e513872e3}
+Extracts a jar resource as a blob.
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & a resource name. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classCASUAL_1_1misc_1_1JarResources_a63053fd99282d4d90035563a5e2a5aa1}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-Jar\-Resources@{C\-A\-S\-U\-A\-L\-::misc\-::\-Jar\-Resources}!main@{main}}
+\index{main@{main}!CASUAL::misc::JarResources@{C\-A\-S\-U\-A\-L\-::misc\-::\-Jar\-Resources}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}static void C\-A\-S\-U\-A\-L.\-misc.\-Jar\-Resources.\-main (
+\begin{DoxyParamCaption}
+\item[{String\mbox{[}$\,$\mbox{]}}]{args}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception\hspace{0.3cm}{\ttfamily [static]}}}\label{classCASUAL_1_1misc_1_1JarResources_a63053fd99282d4d90035563a5e2a5aa1}
+Is a test driver. Given a jar file and a resource name, it trys to extract the resource and then tells us whether it could or not.
+
+{\bfseries Example} Let's say you have a J\-A\-R file which jarred up a bunch of gif image files. Now, by using \hyperlink{classCASUAL_1_1misc_1_1JarResources}{Jar\-Resources}, you could extract, create, and display those images on-\/the-\/fly. 
+\begin{DoxyPre}
+    ...
+    \hyperlink{classCASUAL_1_1misc_1_1JarResources}{JarResources} JR=new \hyperlink{classCASUAL_1_1misc_1_1JarResources}{JarResources}("GifBundle.jar");
+    Image image=Toolkit.createImage(JR.getResource("logo.gif");
+    Image logo=Toolkit.getDefaultToolkit().createImage(
+                  JR.getResources("logo.gif")
+                  );
+    ...
+\end{DoxyPre}
+ 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/test/\-C\-A\-S\-U\-A\-L/misc/Jar\-Resources.\-java\end{DoxyCompactItemize}

@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CommandLineUI.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">GUI.CommandLine</a> &gt; <span class="el_source">CommandLineUI.java</span></div><h1>CommandLineUI.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (C) 2013 adamoutler
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
+package GUI.CommandLine;
+
+import CASUAL.CASUALMain;
+import CASUAL.CASUALMessageObject;
+import CASUAL.CASUALSessionData;
+import CASUAL.Log;
+import CASUAL.caspac.Caspac;
+import CASUAL.caspac.Script;
+import CASUAL.iCASUALUI;
+import static CASUAL.iCASUALUI.INTERACTION_ACTION_REUIRED;
+import static CASUAL.iCASUALUI.INTERACTION_COMMAND_NOTIFICATION;
+import static CASUAL.iCASUALUI.INTERACTION_INPUT_DIALOG;
+import static CASUAL.iCASUALUI.INTERACTION_SHOW_ERROR;
+import static CASUAL.iCASUALUI.INTERACTION_SHOW_INFORMATION;
+import static CASUAL.iCASUALUI.INTERACTION_SHOW_YES_NO;
+import static CASUAL.iCASUALUI.INTERACTION_TIME_OUT;
+import static CASUAL.iCASUALUI.INTERACTION_USER_CANCEL_OPTION;
+import static CASUAL.iCASUALUI.INTERACTION_USER_NOTIFICATION;
+import java.awt.HeadlessException;
+import java.io.IOException;
+
+
+/**
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+<span class="fc" id="L44">public class CommandLineUI implements iCASUALUI {</span>
+
+<span class="fc" id="L46">    private int progressMax=0;</span>
+    private void msg(String msg){
+<span class="fc" id="L48">        Log.level3Verbose(&quot;[UI]&quot;+msg);</span>
+<span class="fc" id="L49">    }</span>
+    @Override
+    public boolean isReady() {
+<span class="nc" id="L52">        return true;</span>
+    }
+
+    @Override
+    public void setReady(boolean ready) {
+<span class="nc" id="L57">        msg(&quot;ready requested&quot;);</span>
+<span class="nc" id="L58">    }</span>
+
+    @Override
+    public boolean isDummyGUI() {
+        
+<span class="nc" id="L63">        msg(&quot;is dummy gui requested&quot;);</span>
+<span class="nc" id="L64">        return false;</span>
+    }
+
+
+   @Override
+    public String displayMessage(CASUALMessageObject messageObject) {
+<span class="nc" id="L70">        int messageType = messageObject.getMessageType();</span>
+<span class="nc" id="L71">        String title = messageObject.title;</span>
+<span class="nc" id="L72">        String messageText = messageObject.messageText;</span>
+<span class="nc" id="L73">        String retval = &quot;&quot;;</span>
+<span class="nc" id="L74">        Log.Level1Interaction(messageObject.toString());</span>
+<span class="nc bnc" id="L75" title="All 10 branches missed.">        switch (messageType) {</span>
+            case INTERACTION_TIME_OUT:
+<span class="nc" id="L77">                return showTimeOutInteraction(messageObject, messageText, title);</span>
+            case INTERACTION_ACTION_REUIRED:
+<span class="nc" id="L79">                return showActionRequiredInteraction(messageText, title);</span>
+            //break;// unreachable
+
+            case INTERACTION_USER_CANCEL_OPTION:
+<span class="nc" id="L83">                return showUserCancelOptionInteraction(title, messageText);               //break; unreachable</span>
+
+            case INTERACTION_USER_NOTIFICATION:
+<span class="nc" id="L86">                showUserNotificationInteraction(title, messageText);</span>
+<span class="nc" id="L87">                break;</span>
+
+            case INTERACTION_SHOW_INFORMATION:
+<span class="nc" id="L90">                showInformationInteraction(messageText, title);</span>
+<span class="nc" id="L91">                break;</span>
+
+            case INTERACTION_SHOW_ERROR:
+<span class="nc" id="L94">                showErrorInteraction(messageText, title);</span>
+<span class="nc" id="L95">                break;</span>
+
+            case INTERACTION_SHOW_YES_NO:
+<span class="nc" id="L98">                return showYesNoInteraction(title, messageText);</span>
+            //break; unreachable
+
+            case INTERACTION_INPUT_DIALOG:
+<span class="nc" id="L102">                return showInputDialog(title, messageText);</span>
+            //break; unreachable
+
+            case INTERACTION_COMMAND_NOTIFICATION:
+<span class="nc" id="L106">                showUserNotificationInteraction(title, messageText);</span>
+<span class="nc" id="L107">                return messageText;</span>
+        }
+<span class="nc" id="L109">        return retval;</span>
+    }
+
+    /**
+     * grabs input from CASUALSessionData.getInstance().in (usually stdin).
+     * @return string value containing user input truncated by enter key.
+     */
+    public String getCommandLineInput() {
+        try {
+<span class="nc" id="L118">            Log.out.flush();</span>
+<span class="nc" id="L119">            String s =CASUALMain.getSession().in.readLine();</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">            if (s == null) {</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">                while (s == null) {</span>
+<span class="nc" id="L122">                    s = CASUALMain.getSession().in.readLine();</span>
+                }
+            }
+<span class="nc" id="L125">            return s;</span>
+<span class="nc" id="L126">        } catch (IOException ex) {</span>
+<span class="nc" id="L127">            Log.errorHandler(ex);</span>
+<span class="nc" id="L128">            return &quot;&quot;;</span>
+        }
+    }
+
+    private void waitForStandardInputBeforeContinuing() {
+<span class="nc" id="L133">        getCommandLineInput();</span>
+<span class="nc" id="L134">    }</span>
+
+    private String showTimeOutInteraction(CASUALMessageObject messageObject, String messageText, String title) {
+<span class="nc" id="L137">            String s = getCommandLineInput();</span>
+<span class="nc bnc" id="L138" title="All 4 branches missed.">            if (s == null || s.isEmpty()) {</span>
+<span class="nc" id="L139">                return &quot;0&quot;;</span>
+            }
+<span class="nc" id="L141">            return &quot;1&quot;;</span>
+    }
+
+    private String showActionRequiredInteraction(String messageText, String title) throws HeadlessException {
+        String retval;
+<span class="nc" id="L146">        int n = 9999;</span>
+
+<span class="nc bnc" id="L148" title="All 4 branches missed.">            while (n != 0 &amp;&amp; n != 1) {</span>
+<span class="nc" id="L149">                retval = getCommandLineInput();</span>
+<span class="nc bnc" id="L150" title="All 6 branches missed.">                if (!retval.equals(&quot;q&quot;) &amp;&amp; !retval.equals(&quot;Q&quot;) &amp;&amp; !retval.isEmpty()) {</span>
+<span class="nc" id="L151">                    n = new CASUALMessageObject(messageText).showActionRequiredDialog();</span>
+<span class="nc bnc" id="L152" title="All 4 branches missed.">                } else if (retval.equals(&quot;Q&quot;) || retval.equals(&quot;q&quot;)) {</span>
+<span class="nc" id="L153">                    n = 1;</span>
+                } else {
+<span class="nc" id="L155">                    n = 0;</span>
+                }
+            }
+<span class="nc" id="L158">        return Integer.toString(n);</span>
+        //break;// unreachable
+    }
+
+    private String showUserCancelOptionInteraction(String title, String messageText) throws HeadlessException {
+        int cancelReturn;
+<span class="nc" id="L164">            String s = this.getCommandLineInput();</span>
+<span class="nc bnc" id="L165" title="All 4 branches missed.">            if (s.equals(&quot;q&quot;) || s.equals(&quot;Q&quot;)) {</span>
+<span class="nc" id="L166">                cancelReturn = 1;</span>
+            } else {
+<span class="nc" id="L168">                cancelReturn = 0;</span>
+            }
+<span class="nc" id="L170">        return Integer.toString(cancelReturn);</span>
+        //break; unreachable
+    }
+
+    private void showUserNotificationInteraction(String title, String messageText) throws HeadlessException {
+
+<span class="nc" id="L176">            waitForStandardInputBeforeContinuing();</span>
+<span class="nc" id="L177">    }</span>
+
+    private void showInformationInteraction(String messageText, String title) throws HeadlessException {
+
+<span class="nc" id="L181">            waitForStandardInputBeforeContinuing();</span>
+<span class="nc" id="L182">    }</span>
+
+    private void showErrorInteraction(String messageText, String title) throws HeadlessException {
+<span class="nc" id="L185">            waitForStandardInputBeforeContinuing();</span>
+
+<span class="nc" id="L187">    }</span>
+
+    private String showYesNoInteraction(String title, String messageText) throws HeadlessException {
+
+            //display the messageText
+<span class="nc" id="L192">            String s = this.getCommandLineInput();</span>
+<span class="nc bnc" id="L193" title="All 4 branches missed.">            if (s.equals(&quot;n&quot;) || s.equals(&quot;N&quot;)) {</span>
+<span class="nc" id="L194">                return &quot;false&quot;;</span>
+            } else {
+<span class="nc" id="L196">                return &quot;true&quot;;</span>
+            }
+     
+    }
+
+    private String showInputDialog(String title, String messageText) throws HeadlessException {
+<span class="nc" id="L202">        messageText = &quot;&lt;html&gt;&quot; + messageText.replace(&quot;\\n&quot;, &quot;\n&quot;);</span>
+        
+<span class="nc" id="L204">            return getCommandLineInput();</span>
+      
+        //break; unreachable
+    }
+
+    @Override
+    public void dispose() {
+<span class="fc" id="L211">       msg(&quot;Dispose Commanded&quot;);</span>
+<span class="fc" id="L212">    }</span>
+
+    @Override
+    public void StartButtonActionPerformed() {
+<span class="nc" id="L216">    }</span>
+
+ 
+
+    @Override
+    public boolean setControlStatus(boolean status,int number, String mode) {
+<span class="nc bnc" id="L222" title="All 3 branches missed.">        switch (number){</span>
+<span class="nc" id="L223">            case 0: this.deviceDisconnected();</span>
+<span class="nc" id="L224">                break;</span>
+<span class="nc" id="L225">            case 1: this.deviceConnected(mode);</span>
+<span class="nc" id="L226">                break;</span>
+<span class="nc" id="L227">            default: this.deviceMultipleConnected(number);</span>
+                break;
+        }
+        
+<span class="nc" id="L231">        msg(&quot;control status requested:&quot;+status);</span>
+<span class="nc" id="L232">        return true;</span>
+    }
+
+    public boolean getControlStatus() {
+<span class="nc" id="L236">          return true;</span>
+    }
+
+    @Override
+    public void setCASPAC(Caspac caspac) {
+<span class="nc" id="L241">        msg(&quot;Setting caspac&quot;+caspac);</span>
+<span class="nc" id="L242">        CASUALMain.getSession().CASPAC=caspac;</span>
+<span class="nc" id="L243">    }</span>
+
+    @Override
+    public void setInformationScrollBorderText(String title) {
+
+<span class="fc" id="L248">        msg(&quot;boarder title change requested:&quot;+title);</span>
+<span class="fc" id="L249">    }</span>
+
+    @Override
+    public void setProgressBar(int value) {
+<span class="nc" id="L253">        msg(&quot;Progress percent:&quot;+value);</span>
+        
+<span class="nc" id="L255">    }</span>
+
+    @Override
+    public void setProgressBarMax(int value) {
+<span class="nc" id="L259">       msg(&quot;Progress bar max&quot;+value);</span>
+<span class="nc" id="L260">       progressMax=value;</span>
+<span class="nc" id="L261">    }</span>
+    
+    @Override
+    public void setScript(Script s) {
+<span class="nc" id="L265">    }</span>
+
+    @Override
+    public void setStartButtonText(String text) {
+<span class="nc" id="L269">    }</span>
+
+
+    @Override
+    public void setUserSubMessage(String text) {
+<span class="fc" id="L274">    }</span>
+
+
+    @Override
+    public void setWindowBannerText(String text) {
+<span class="nc" id="L279">    }</span>
+
+    @Override
+    public void setVisible(boolean b) {
+<span class="nc" id="L283">    }</span>
+
+    public void deviceConnected(String mode) {
+<span class="nc" id="L286">       msg (&quot;Device connected&quot;);</span>
+      
+<span class="nc" id="L288">    }</span>
+
+    public void deviceDisconnected() {
+<span class="nc" id="L291">    }</span>
+
+    public void deviceMultipleConnected(int numberOfDevicesConnected) {
+<span class="nc" id="L294">    }</span>
+
+   
+    public void setThisAsGUI(){
+<span class="nc" id="L298">        CASUALSessionData.setGUI(this);</span>
+<span class="nc" id="L299">    }</span>
+
+    @Override
+    public void setBlocksUnzipped(String blocks) {
+<span class="nc" id="L303">        msg(&quot;Progress percent:&quot;+blocks);</span>
+
+<span class="nc" id="L305">    }</span>
+
+    @Override
+    public void sendString(String string) {
+<span class="nc" id="L309">    }</span>
+
+    @Override
+    public void sendProgress(String data) {
+<span class="nc" id="L313">    }</span>
+
+    @Override
+    public void setUserMainMessage(String text) {
+<span class="nc" id="L317">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

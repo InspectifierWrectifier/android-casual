@@ -1,0 +1,82 @@
+\hypertarget{classCASUAL_1_1misc_1_1MandatoryThread}{\section{C\-A\-S\-U\-A\-L.\-misc.\-Mandatory\-Thread Class Reference}
+\label{classCASUAL_1_1misc_1_1MandatoryThread}\index{C\-A\-S\-U\-A\-L.\-misc.\-Mandatory\-Thread@{C\-A\-S\-U\-A\-L.\-misc.\-Mandatory\-Thread}}
+}
+Inheritance diagram for C\-A\-S\-U\-A\-L.\-misc.\-Mandatory\-Thread\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classCASUAL_1_1misc_1_1MandatoryThread}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCASUAL_1_1misc_1_1MandatoryThread_a09160140c6e91ea2c5a14c264bc1fd85}{Mandatory\-Thread} ()
+\item 
+\hyperlink{classCASUAL_1_1misc_1_1MandatoryThread_ae74d0a4c148aa703b830d0890d666a7e}{Mandatory\-Thread} (Runnable r)
+\item 
+synchronized void \hyperlink{classCASUAL_1_1misc_1_1MandatoryThread_af99f45ee5d20c969c1d3edd167b334c7}{start} ()
+\item 
+boolean \hyperlink{classCASUAL_1_1misc_1_1MandatoryThread_af4c81c91c1927ed0f4fcab504ab2fe47}{is\-Complete} ()
+\item 
+synchronized void \hyperlink{classCASUAL_1_1misc_1_1MandatoryThread_a73dba51691a5c7a34fc584213e3a2121}{wait\-For} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+adamoutler 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classCASUAL_1_1misc_1_1MandatoryThread_a09160140c6e91ea2c5a14c264bc1fd85}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-Mandatory\-Thread@{C\-A\-S\-U\-A\-L\-::misc\-::\-Mandatory\-Thread}!Mandatory\-Thread@{Mandatory\-Thread}}
+\index{Mandatory\-Thread@{Mandatory\-Thread}!CASUAL::misc::MandatoryThread@{C\-A\-S\-U\-A\-L\-::misc\-::\-Mandatory\-Thread}}
+\subsubsection[{Mandatory\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-misc.\-Mandatory\-Thread.\-Mandatory\-Thread (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1misc_1_1MandatoryThread_a09160140c6e91ea2c5a14c264bc1fd85}
+constructor for thread sets up a blank Mandatory Thread. \hypertarget{classCASUAL_1_1misc_1_1MandatoryThread_ae74d0a4c148aa703b830d0890d666a7e}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-Mandatory\-Thread@{C\-A\-S\-U\-A\-L\-::misc\-::\-Mandatory\-Thread}!Mandatory\-Thread@{Mandatory\-Thread}}
+\index{Mandatory\-Thread@{Mandatory\-Thread}!CASUAL::misc::MandatoryThread@{C\-A\-S\-U\-A\-L\-::misc\-::\-Mandatory\-Thread}}
+\subsubsection[{Mandatory\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-misc.\-Mandatory\-Thread.\-Mandatory\-Thread (
+\begin{DoxyParamCaption}
+\item[{Runnable}]{r}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1misc_1_1MandatoryThread_ae74d0a4c148aa703b830d0890d666a7e}
+constructor accepts a runnable to be used for the thread. 
+\begin{DoxyParams}{Parameters}
+{\em r} & to be run in a different thread \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classCASUAL_1_1misc_1_1MandatoryThread_af4c81c91c1927ed0f4fcab504ab2fe47}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-Mandatory\-Thread@{C\-A\-S\-U\-A\-L\-::misc\-::\-Mandatory\-Thread}!is\-Complete@{is\-Complete}}
+\index{is\-Complete@{is\-Complete}!CASUAL::misc::MandatoryThread@{C\-A\-S\-U\-A\-L\-::misc\-::\-Mandatory\-Thread}}
+\subsubsection[{is\-Complete}]{\setlength{\rightskip}{0pt plus 5cm}boolean C\-A\-S\-U\-A\-L.\-misc.\-Mandatory\-Thread.\-is\-Complete (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1misc_1_1MandatoryThread_af4c81c91c1927ed0f4fcab504ab2fe47}
+is\-Complete allows for monitoring of the progress of a thread. If the thread has started and is no longer alive this will return true. The \hyperlink{classCASUAL_1_1misc_1_1MandatoryThread}{Mandatory\-Thread} has done its job. \begin{DoxyReturn}{Returns}
+true if \hyperlink{classCASUAL_1_1misc_1_1MandatoryThread}{Mandatory\-Thread} is complete 
+\end{DoxyReturn}
+\hypertarget{classCASUAL_1_1misc_1_1MandatoryThread_af99f45ee5d20c969c1d3edd167b334c7}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-Mandatory\-Thread@{C\-A\-S\-U\-A\-L\-::misc\-::\-Mandatory\-Thread}!start@{start}}
+\index{start@{start}!CASUAL::misc::MandatoryThread@{C\-A\-S\-U\-A\-L\-::misc\-::\-Mandatory\-Thread}}
+\subsubsection[{start}]{\setlength{\rightskip}{0pt plus 5cm}synchronized void C\-A\-S\-U\-A\-L.\-misc.\-Mandatory\-Thread.\-start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1misc_1_1MandatoryThread_af99f45ee5d20c969c1d3edd167b334c7}
+starts the thread and sets the \char`\"{}has\-Started\char`\"{} boolean. \hypertarget{classCASUAL_1_1misc_1_1MandatoryThread_a73dba51691a5c7a34fc584213e3a2121}{\index{C\-A\-S\-U\-A\-L\-::misc\-::\-Mandatory\-Thread@{C\-A\-S\-U\-A\-L\-::misc\-::\-Mandatory\-Thread}!wait\-For@{wait\-For}}
+\index{wait\-For@{wait\-For}!CASUAL::misc::MandatoryThread@{C\-A\-S\-U\-A\-L\-::misc\-::\-Mandatory\-Thread}}
+\subsubsection[{wait\-For}]{\setlength{\rightskip}{0pt plus 5cm}synchronized void C\-A\-S\-U\-A\-L.\-misc.\-Mandatory\-Thread.\-wait\-For (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classCASUAL_1_1misc_1_1MandatoryThread_a73dba51691a5c7a34fc584213e3a2121}
+halts the current thread until the mandatory\-Thread has completed. If the thread has not started, it will wait for the thread to start. 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/misc/Mandatory\-Thread.\-java\end{DoxyCompactItemize}

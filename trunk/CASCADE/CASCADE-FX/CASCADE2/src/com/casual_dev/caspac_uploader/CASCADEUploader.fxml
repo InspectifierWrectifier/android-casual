@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.casual_dev.caspac_uploader.CASCADEUploaderController">
+   <left>
+      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <VBox>
+               <children>
+                  <Label text="Username:" />
+                  <TextField fx:id="username" HBox.hgrow="ALWAYS" />
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <Label text="Password:" />
+                  <PasswordField fx:id="password" HBox.hgrow="ALWAYS" />
+               </children>
+            </VBox>
+            <VBox />
+            <Label onMouseClicked="#problemButtonClicked" prefHeight="45.0" prefWidth="150.0" text="Problems? Create a Jenkins Account Here!" underline="true" wrapText="true" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </left>
+   <bottom>
+      <HBox alignment="BASELINE_RIGHT" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="upload" mnemonicParsing="false" onAction="#uploadButtonClicked" text="upload" />
+         </children></HBox>
+   </bottom>
+   <top>
+      <HBox alignment="CENTER" prefHeight="25.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label id="cascadeuploader" prefHeight="26.0" text="CASCADE Uploader" HBox.hgrow="ALWAYS">
+               <padding>
+                  <Insets left="30.0" right="20.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets right="15.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="caspacToUpload" editable="false" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <TitledPane animated="false" collapsible="false" text="Whitelist (Devices with these build.prop properties can use this)">
+              <content>
+                  <TextArea fx:id="whitelist" layoutX="14.0" layoutY="-73.0" prefHeight="200.0" prefWidth="200.0" promptText="ro.manufacturer=Samsung" />
+              </content>
+            </TitledPane>
+            <TitledPane animated="false" collapsible="false" text="BlackList (Devices with these build.prop properties can not use this)">
+              <content>
+                  <TextArea fx:id="blacklist" layoutX="140.0" layoutY="-86.0" prefHeight="200.0" prefWidth="200.0" promptText="ro.build=wxkqzrp" />
+              </content>
+            </TitledPane>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+X-COMMENT: Default CASUAL Preloader
+Permissions: all-permissions
+Codebase: *.casual-dev.com file://*
+Application-Library-Allowable-Codebase: *.casual-dev.com file://*

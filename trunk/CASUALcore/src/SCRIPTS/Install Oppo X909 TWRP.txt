@@ -1,0 +1,1 @@
+This will install kamma's Oppo X909 TWRP Recovery. See http://forum.xda-developers.com/showthread.php?t=2147999 for details.

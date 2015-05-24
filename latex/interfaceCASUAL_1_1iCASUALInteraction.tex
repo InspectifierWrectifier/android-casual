@@ -1,0 +1,114 @@
+\hypertarget{interfaceCASUAL_1_1iCASUALInteraction}{\section{C\-A\-S\-U\-A\-L.\-i\-C\-A\-S\-U\-A\-L\-Interaction Interface Reference}
+\label{interfaceCASUAL_1_1iCASUALInteraction}\index{C\-A\-S\-U\-A\-L.\-i\-C\-A\-S\-U\-A\-L\-Interaction@{C\-A\-S\-U\-A\-L.\-i\-C\-A\-S\-U\-A\-L\-Interaction}}
+}
+Inheritance diagram for C\-A\-S\-U\-A\-L.\-i\-C\-A\-S\-U\-A\-L\-Interaction\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.127895cm]{interfaceCASUAL_1_1iCASUALInteraction}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+String \hyperlink{interfaceCASUAL_1_1iCASUALInteraction_a8c6697fd276aa8519caff45131c14bf4}{display\-Message} (\hyperlink{classCASUAL_1_1CASUALMessageObject}{C\-A\-S\-U\-A\-L\-Message\-Object} message\-Object)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+final int \hyperlink{interfaceCASUAL_1_1iCASUALInteraction_ad8a93fbf136514ec2abf7042846bf8d8}{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-T\-I\-M\-E\-\_\-\-O\-U\-T} = 0
+\item 
+final int \hyperlink{interfaceCASUAL_1_1iCASUALInteraction_a9cb2accb41f6b2de8f8076cda916924f}{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-A\-C\-T\-I\-O\-N\-\_\-\-R\-E\-U\-I\-R\-E\-D} = 1
+\item 
+final int \hyperlink{interfaceCASUAL_1_1iCASUALInteraction_ab172a9affe078a64623627dc1ef6dcab}{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-U\-S\-E\-R\-\_\-\-C\-A\-N\-C\-E\-L\-\_\-\-O\-P\-T\-I\-O\-N} = 2
+\item 
+final int \hyperlink{interfaceCASUAL_1_1iCASUALInteraction_aee60fbef84821ccb93b8508720af91e9}{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-U\-S\-E\-R\-\_\-\-N\-O\-T\-I\-F\-I\-C\-A\-T\-I\-O\-N} = 3
+\item 
+final int \hyperlink{interfaceCASUAL_1_1iCASUALInteraction_a88a985d1905b2af7cfa06932e1019346}{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N} = 4
+\item 
+final int \hyperlink{interfaceCASUAL_1_1iCASUALInteraction_aaf019b0daffee32f5c487ee69a0c2886}{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-E\-R\-R\-O\-R} = 5
+\item 
+final int \hyperlink{interfaceCASUAL_1_1iCASUALInteraction_aa943e8a9c4f74899de6071e708fe7fdb}{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-Y\-E\-S\-\_\-\-N\-O} = 6
+\item 
+final int \hyperlink{interfaceCASUAL_1_1iCASUALInteraction_a96a9320c51af617e4bef953bb055c244}{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-I\-N\-P\-U\-T\-\_\-\-D\-I\-A\-L\-O\-G} = 7
+\item 
+final int \hyperlink{interfaceCASUAL_1_1iCASUALInteraction_a7e7889527c716356d3df6039c1aae7c7}{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-C\-O\-M\-M\-A\-N\-D\-\_\-\-N\-O\-T\-I\-F\-I\-C\-A\-T\-I\-O\-N} = 8
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{interfaceCASUAL_1_1iCASUALInteraction}{i\-C\-A\-S\-U\-A\-L\-Interaction} is a class which provides a means of handling C\-A\-S\-U\-A\-L\-Message\-Objects. The intent is to abstract the \hyperlink{namespaceCASUAL}{C\-A\-S\-U\-A\-L} Messaging System using this class so a developer may implement their own G\-U\-I using any means they like. This class provides notifications which will halt the progress of the script and present information to the user. This allows the user to interact with \hyperlink{namespaceCASUAL}{C\-A\-S\-U\-A\-L}.
+
+In order to change the Messaging A\-P\-I for \hyperlink{namespaceCASUAL}{C\-A\-S\-U\-A\-L}, there is a static reference which is located in C\-A\-S\-U\-A\-L.\-resources.\-C\-A\-S\-U\-A\-L\-App.\-properties the property name change required is Application.\-interactions. This should match the desired class which can handle C\-A\-S\-U\-A\-L\-Message\-Objects
+
+It is recommended that any class implementing \hyperlink{interfaceCASUAL_1_1iCASUALInteraction}{i\-C\-A\-S\-U\-A\-L\-Interaction} handle the following items at a minimum\-:
+\begin{DoxyEnumerate}
+\item C\-A\-S\-U\-A\-L\-Message\-Object.\-message\-Text
+\item $\ast$ C\-A\-S\-U\-A\-L\-Message\-Object.\-title
+\end{DoxyEnumerate}
+
+The return value for any \hyperlink{namespaceCASUAL}{C\-A\-S\-U\-A\-L} Message Object aside from those which execute commmands or specifically state they return string results\-: 0-\/ yes, ok, continue 1-\/ no, cancel, stop
+
+\begin{DoxyAuthor}{Author}
+adam 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{interfaceCASUAL_1_1iCASUALInteraction_a8c6697fd276aa8519caff45131c14bf4}{\index{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}!display\-Message@{display\-Message}}
+\index{display\-Message@{display\-Message}!CASUAL::iCASUALInteraction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}}
+\subsubsection[{display\-Message}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-U\-A\-L.\-i\-C\-A\-S\-U\-A\-L\-Interaction.\-display\-Message (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-A\-S\-U\-A\-L\-Message\-Object}}]{message\-Object}
+\end{DoxyParamCaption}
+)}}\label{interfaceCASUAL_1_1iCASUALInteraction_a8c6697fd276aa8519caff45131c14bf4}
+Takes a message object and displays to user. To properly implement this class the display\-Message should, at a minimum handle both C\-A\-S\-U\-A\-L\-Message\-Object.\-title and C\-A\-S\-U\-A\-L\-Message\-Object.\-message\-Text.
+
+
+\begin{DoxyParams}{Parameters}
+{\em message\-Object} & defined by \hyperlink{namespaceCASUAL}{C\-A\-S\-U\-A\-L} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string value which must be interpereted 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classCASCADEGUI_1_1CASCADEInteractions_a4a7a501373e72563b00ba7ef6b4b6ecb}{C\-A\-S\-C\-A\-D\-E\-G\-U\-I.\-C\-A\-S\-C\-A\-D\-E\-Interactions}, \hyperlink{classGUI_1_1development_1_1CASUALShowJFrameMessageObject_a2ea27451cd76c3c64404413fca107310}{G\-U\-I.\-development.\-C\-A\-S\-U\-A\-L\-Show\-J\-Frame\-Message\-Object}, and \hyperlink{classGUI_1_1development_1_1CASUALShowJFrameMessageObject_a2ea27451cd76c3c64404413fca107310}{G\-U\-I.\-development.\-C\-A\-S\-U\-A\-L\-Show\-J\-Frame\-Message\-Object}.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{interfaceCASUAL_1_1iCASUALInteraction_a9cb2accb41f6b2de8f8076cda916924f}{\index{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}!I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-A\-C\-T\-I\-O\-N\-\_\-\-R\-E\-U\-I\-R\-E\-D@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-A\-C\-T\-I\-O\-N\-\_\-\-R\-E\-U\-I\-R\-E\-D}}
+\index{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-A\-C\-T\-I\-O\-N\-\_\-\-R\-E\-U\-I\-R\-E\-D@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-A\-C\-T\-I\-O\-N\-\_\-\-R\-E\-U\-I\-R\-E\-D}!CASUAL::iCASUALInteraction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}}
+\subsubsection[{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-A\-C\-T\-I\-O\-N\-\_\-\-R\-E\-U\-I\-R\-E\-D}]{\setlength{\rightskip}{0pt plus 5cm}final int C\-A\-S\-U\-A\-L.\-i\-C\-A\-S\-U\-A\-L\-Interaction.\-I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-A\-C\-T\-I\-O\-N\-\_\-\-R\-E\-U\-I\-R\-E\-D = 1}}\label{interfaceCASUAL_1_1iCASUALInteraction_a9cb2accb41f6b2de8f8076cda916924f}
+Message\-Type used by \hyperlink{classCASUAL_1_1CASUALMessageObject}{C\-A\-S\-U\-A\-L\-Message\-Object} and any class implementing this interface. Type 1 is a message object which mandates the user do something in order to advance the process. User is assinged a task and given two buttons \char`\"{}\-I did it\char`\"{} and \char`\"{}\-I didn't do it\char`\"{}. returns 0 if user completed task. 1 if the user failed to do it. \hypertarget{interfaceCASUAL_1_1iCASUALInteraction_a7e7889527c716356d3df6039c1aae7c7}{\index{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}!I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-C\-O\-M\-M\-A\-N\-D\-\_\-\-N\-O\-T\-I\-F\-I\-C\-A\-T\-I\-O\-N@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-C\-O\-M\-M\-A\-N\-D\-\_\-\-N\-O\-T\-I\-F\-I\-C\-A\-T\-I\-O\-N}}
+\index{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-C\-O\-M\-M\-A\-N\-D\-\_\-\-N\-O\-T\-I\-F\-I\-C\-A\-T\-I\-O\-N@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-C\-O\-M\-M\-A\-N\-D\-\_\-\-N\-O\-T\-I\-F\-I\-C\-A\-T\-I\-O\-N}!CASUAL::iCASUALInteraction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}}
+\subsubsection[{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-C\-O\-M\-M\-A\-N\-D\-\_\-\-N\-O\-T\-I\-F\-I\-C\-A\-T\-I\-O\-N}]{\setlength{\rightskip}{0pt plus 5cm}final int C\-A\-S\-U\-A\-L.\-i\-C\-A\-S\-U\-A\-L\-Interaction.\-I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-C\-O\-M\-M\-A\-N\-D\-\_\-\-N\-O\-T\-I\-F\-I\-C\-A\-T\-I\-O\-N = 8}}\label{interfaceCASUAL_1_1iCASUALInteraction_a7e7889527c716356d3df6039c1aae7c7}
+Message\-Type used by \hyperlink{classCASUAL_1_1CASUALMessageObject}{C\-A\-S\-U\-A\-L\-Message\-Object} and any class implementing this interface. A command notification will run a \hyperlink{namespaceCASUAL}{C\-A\-S\-U\-A\-L} command and return the results in the C\-A\-S\-U\-A\-L\-Message\-Object.\-message\-Text variable. The results should be displayed to the user.
+
+returns 0. \hypertarget{interfaceCASUAL_1_1iCASUALInteraction_a96a9320c51af617e4bef953bb055c244}{\index{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}!I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-I\-N\-P\-U\-T\-\_\-\-D\-I\-A\-L\-O\-G@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-I\-N\-P\-U\-T\-\_\-\-D\-I\-A\-L\-O\-G}}
+\index{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-I\-N\-P\-U\-T\-\_\-\-D\-I\-A\-L\-O\-G@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-I\-N\-P\-U\-T\-\_\-\-D\-I\-A\-L\-O\-G}!CASUAL::iCASUALInteraction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}}
+\subsubsection[{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-I\-N\-P\-U\-T\-\_\-\-D\-I\-A\-L\-O\-G}]{\setlength{\rightskip}{0pt plus 5cm}final int C\-A\-S\-U\-A\-L.\-i\-C\-A\-S\-U\-A\-L\-Interaction.\-I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-I\-N\-P\-U\-T\-\_\-\-D\-I\-A\-L\-O\-G = 7}}\label{interfaceCASUAL_1_1iCASUALInteraction_a96a9320c51af617e4bef953bb055c244}
+Message\-Type used by \hyperlink{classCASUAL_1_1CASUALMessageObject}{C\-A\-S\-U\-A\-L\-Message\-Object} and any class implementing this interface. Requests input from the user in the form of text. The return from this type of dialog will be a string value representing user-\/entered text. returns 0. \hypertarget{interfaceCASUAL_1_1iCASUALInteraction_aaf019b0daffee32f5c487ee69a0c2886}{\index{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}!I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-E\-R\-R\-O\-R@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-E\-R\-R\-O\-R}}
+\index{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-E\-R\-R\-O\-R@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-E\-R\-R\-O\-R}!CASUAL::iCASUALInteraction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}}
+\subsubsection[{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-E\-R\-R\-O\-R}]{\setlength{\rightskip}{0pt plus 5cm}final int C\-A\-S\-U\-A\-L.\-i\-C\-A\-S\-U\-A\-L\-Interaction.\-I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-E\-R\-R\-O\-R = 5}}\label{interfaceCASUAL_1_1iCASUALInteraction_aaf019b0daffee32f5c487ee69a0c2886}
+Message\-Type used by \hyperlink{classCASUAL_1_1CASUALMessageObject}{C\-A\-S\-U\-A\-L\-Message\-Object} and any class implementing this interface. Type 5 is intended to halt the flow of operation and show an error notification. returns 0 \hypertarget{interfaceCASUAL_1_1iCASUALInteraction_a88a985d1905b2af7cfa06932e1019346}{\index{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}!I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N}}
+\index{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N}!CASUAL::iCASUALInteraction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}}
+\subsubsection[{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N}]{\setlength{\rightskip}{0pt plus 5cm}final int C\-A\-S\-U\-A\-L.\-i\-C\-A\-S\-U\-A\-L\-Interaction.\-I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-I\-N\-F\-O\-R\-M\-A\-T\-I\-O\-N = 4}}\label{interfaceCASUAL_1_1iCASUALInteraction_a88a985d1905b2af7cfa06932e1019346}
+Message\-Type used by \hyperlink{classCASUAL_1_1CASUALMessageObject}{C\-A\-S\-U\-A\-L\-Message\-Object} and any class implementing this interface. Type 4 is similar to type 3 in that it displays a notification and halts the flow, but a type 3 will change the user interaction type from notification to information style. returns 0. \hypertarget{interfaceCASUAL_1_1iCASUALInteraction_aa943e8a9c4f74899de6071e708fe7fdb}{\index{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}!I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-Y\-E\-S\-\_\-\-N\-O@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-Y\-E\-S\-\_\-\-N\-O}}
+\index{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-Y\-E\-S\-\_\-\-N\-O@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-Y\-E\-S\-\_\-\-N\-O}!CASUAL::iCASUALInteraction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}}
+\subsubsection[{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-Y\-E\-S\-\_\-\-N\-O}]{\setlength{\rightskip}{0pt plus 5cm}final int C\-A\-S\-U\-A\-L.\-i\-C\-A\-S\-U\-A\-L\-Interaction.\-I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-S\-H\-O\-W\-\_\-\-Y\-E\-S\-\_\-\-N\-O = 6}}\label{interfaceCASUAL_1_1iCASUALInteraction_aa943e8a9c4f74899de6071e708fe7fdb}
+Message\-Type used by \hyperlink{classCASUAL_1_1CASUALMessageObject}{C\-A\-S\-U\-A\-L\-Message\-Object} and any class implementing this interface. Halts all script operations and shows the user a Yes/\-No dialog. returns 0 if yes and 1 if no. \hypertarget{interfaceCASUAL_1_1iCASUALInteraction_ad8a93fbf136514ec2abf7042846bf8d8}{\index{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}!I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-T\-I\-M\-E\-\_\-\-O\-U\-T@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-T\-I\-M\-E\-\_\-\-O\-U\-T}}
+\index{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-T\-I\-M\-E\-\_\-\-O\-U\-T@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-T\-I\-M\-E\-\_\-\-O\-U\-T}!CASUAL::iCASUALInteraction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}}
+\subsubsection[{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-T\-I\-M\-E\-\_\-\-O\-U\-T}]{\setlength{\rightskip}{0pt plus 5cm}final int C\-A\-S\-U\-A\-L.\-i\-C\-A\-S\-U\-A\-L\-Interaction.\-I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-T\-I\-M\-E\-\_\-\-O\-U\-T = 0}}\label{interfaceCASUAL_1_1iCASUALInteraction_ad8a93fbf136514ec2abf7042846bf8d8}
+Message\-Type used by \hyperlink{classCASUAL_1_1CASUALMessageObject}{C\-A\-S\-U\-A\-L\-Message\-Object} and any class implementing this interface. Type 0 is a non-\/critical time-\/based message object which will time out and dismiss itself. returns 0 \hypertarget{interfaceCASUAL_1_1iCASUALInteraction_ab172a9affe078a64623627dc1ef6dcab}{\index{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}!I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-U\-S\-E\-R\-\_\-\-C\-A\-N\-C\-E\-L\-\_\-\-O\-P\-T\-I\-O\-N@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-U\-S\-E\-R\-\_\-\-C\-A\-N\-C\-E\-L\-\_\-\-O\-P\-T\-I\-O\-N}}
+\index{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-U\-S\-E\-R\-\_\-\-C\-A\-N\-C\-E\-L\-\_\-\-O\-P\-T\-I\-O\-N@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-U\-S\-E\-R\-\_\-\-C\-A\-N\-C\-E\-L\-\_\-\-O\-P\-T\-I\-O\-N}!CASUAL::iCASUALInteraction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}}
+\subsubsection[{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-U\-S\-E\-R\-\_\-\-C\-A\-N\-C\-E\-L\-\_\-\-O\-P\-T\-I\-O\-N}]{\setlength{\rightskip}{0pt plus 5cm}final int C\-A\-S\-U\-A\-L.\-i\-C\-A\-S\-U\-A\-L\-Interaction.\-I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-U\-S\-E\-R\-\_\-\-C\-A\-N\-C\-E\-L\-\_\-\-O\-P\-T\-I\-O\-N = 2}}\label{interfaceCASUAL_1_1iCASUALInteraction_ab172a9affe078a64623627dc1ef6dcab}
+Message\-Type used by \hyperlink{classCASUAL_1_1CASUALMessageObject}{C\-A\-S\-U\-A\-L\-Message\-Object} and any class implementing this interface. Type 2 requests the user's permission to continue and gives the option to halt the active script returns 1 if user wishes to cancel \hypertarget{interfaceCASUAL_1_1iCASUALInteraction_aee60fbef84821ccb93b8508720af91e9}{\index{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}!I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-U\-S\-E\-R\-\_\-\-N\-O\-T\-I\-F\-I\-C\-A\-T\-I\-O\-N@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-U\-S\-E\-R\-\_\-\-N\-O\-T\-I\-F\-I\-C\-A\-T\-I\-O\-N}}
+\index{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-U\-S\-E\-R\-\_\-\-N\-O\-T\-I\-F\-I\-C\-A\-T\-I\-O\-N@{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-U\-S\-E\-R\-\_\-\-N\-O\-T\-I\-F\-I\-C\-A\-T\-I\-O\-N}!CASUAL::iCASUALInteraction@{C\-A\-S\-U\-A\-L\-::i\-C\-A\-S\-U\-A\-L\-Interaction}}
+\subsubsection[{I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-U\-S\-E\-R\-\_\-\-N\-O\-T\-I\-F\-I\-C\-A\-T\-I\-O\-N}]{\setlength{\rightskip}{0pt plus 5cm}final int C\-A\-S\-U\-A\-L.\-i\-C\-A\-S\-U\-A\-L\-Interaction.\-I\-N\-T\-E\-R\-A\-C\-T\-I\-O\-N\-\_\-\-U\-S\-E\-R\-\_\-\-N\-O\-T\-I\-F\-I\-C\-A\-T\-I\-O\-N = 3}}\label{interfaceCASUAL_1_1iCASUALInteraction_aee60fbef84821ccb93b8508720af91e9}
+Message\-Type used by \hyperlink{classCASUAL_1_1CASUALMessageObject}{C\-A\-S\-U\-A\-L\-Message\-Object} and any class implementing this interface. Type 3 is a general purpose notification which displays information and halts the flow of the script until dismissed. returns 0. 
+
+The documentation for this interface was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/src/\-C\-A\-S\-U\-A\-L/i\-C\-A\-S\-U\-A\-L\-Interaction.\-java\end{DoxyCompactItemize}

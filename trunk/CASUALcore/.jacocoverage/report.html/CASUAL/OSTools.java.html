@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>OSTools.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL</a> &gt; <span class="el_source">OSTools.java</span></div><h1>OSTools.java</h1><pre class="source lang-java linenums">/*OSTools provides a way to determine which platform is being used and various other tools. 
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL;
+
+/**
+ * Provides a set of tools designed to identify the operating system and
+ * archetecture.
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+<span class="nc" id="L25">public class OSTools {</span>
+
+    /**
+     * Operating System is Mac.
+     *
+     * @return true if mac
+     */
+    public static boolean isMac() {
+<span class="fc" id="L33">        String os = System.getProperty(&quot;os.name&quot;).toLowerCase();</span>
+<span class="fc" id="L34">        return os.contains(&quot;mac&quot;);</span>
+    }
+    //Check for Linux
+
+    /**
+     * Operating System is 64 bit as reported by operating system.
+     *
+     * @return true if 64 bit.
+     */
+    public static boolean is64bitSystem() {
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        if (isWindows()) {</span>
+<span class="nc" id="L45">            return isWindows64Arch();</span>
+        } else {
+<span class="fc" id="L47">            return isMacLinux64Arch();</span>
+        }
+    }
+
+    /**
+     * Returns the arch from Linux
+     *
+     * @return arch command results or &quot;Linux&quot; on an unsupported machine.
+     * Currently Debian based are supported.
+     */
+    public static String checkLinuxArch() {
+<span class="fc" id="L58">        Shell shell = new Shell();</span>
+<span class="fc" id="L59">        String[] Command = {&quot;dpkg&quot;, &quot;--help&quot;};</span>
+<span class="fc" id="L60">        String dpkgResults = shell.silentShellCommand(Command);</span>
+<span class="pc bpc" id="L61" title="5 of 6 branches missed.">        if (dpkgResults.contains(&quot;aptitude&quot;) || dpkgResults.contains(&quot;debian&quot;) || dpkgResults.contains(&quot;deb&quot;)) {</span>
+<span class="fc" id="L62">            String[] CommandArch = {&quot;arch&quot;};</span>
+<span class="fc" id="L63">            String rawArch = shell.silentShellCommand(CommandArch);</span>
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">            if (rawArch.contains(&quot;armv6&quot;)) {</span>
+<span class="nc" id="L65">                return &quot;armv6&quot;;</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">            } else if (rawArch.contains(&quot;i686&quot;)) {</span>
+<span class="nc" id="L67">                return &quot;i686&quot;;</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">            } else if (rawArch.contains(&quot;x86_64&quot;)) {</span>
+<span class="fc" id="L69">                return &quot;x86_64&quot;;</span>
+            } else {
+<span class="nc" id="L71">                return &quot;Linux&quot;;</span>
+            }
+        } else {
+<span class="nc" id="L74">            return &quot;Linux&quot;;</span>
+        }
+    }
+
+    /**
+     * Checks if this is Windows64
+     *
+     * @return true if Windows 64.
+     */
+    public static boolean isWindows64Arch() {
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        return System.getenv(&quot;ProgramFiles(x86)&quot;) != null;</span>
+    }
+
+    /**
+     * gets OS name
+     *
+     * @return string representing OSName
+     */
+    public static String OSName() {
+<span class="nc" id="L93">        return System.getProperty(&quot;os.name&quot;);</span>
+    }
+
+    /**
+     * Checks if system is Linux.
+     *
+     * @return true if Linux
+     */
+    public static boolean isLinux() {
+<span class="fc" id="L102">        String os = System.getProperty(&quot;os.name&quot;).toLowerCase();</span>
+<span class="fc" id="L103">        return os.contains(&quot;nux&quot;);</span>
+    }
+
+    /**
+     * Checks if system is Windows.
+     *
+     * @return True if Windows
+     */
+    public static boolean isWindows() {
+<span class="fc" id="L112">        String os = System.getProperty(&quot;os.name&quot;).toLowerCase();</span>
+<span class="fc" id="L113">        return os.contains(&quot;win&quot;);</span>
+    }
+
+    /**
+     * Checks if Mac/Linux 64 bit
+     *
+     * @return true if 64 bit mac/linux.
+     */
+    public static boolean isMacLinux64Arch() {
+<span class="fc" id="L122">        String[] CommandArch = {&quot;arch&quot;};</span>
+<span class="fc" id="L123">        return new Shell().silentShellCommand(CommandArch).contains(&quot;64&quot;);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

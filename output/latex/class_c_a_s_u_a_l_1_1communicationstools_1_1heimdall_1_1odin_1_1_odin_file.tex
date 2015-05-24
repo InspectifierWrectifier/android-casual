@@ -1,0 +1,183 @@
+\hypertarget{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file}{\section{C\-A\-S\-U\-A\-L.\-communicationstools.\-heimdall.\-odin.\-Odin\-File Class Reference}
+\label{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file}\index{C\-A\-S\-U\-A\-L.\-communicationstools.\-heimdall.\-odin.\-Odin\-File@{C\-A\-S\-U\-A\-L.\-communicationstools.\-heimdall.\-odin.\-Odin\-File}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_a0753c2e8b53144c071b02f94f76f7708}{Odin\-File} (File odin\-File)  throws File\-Not\-Found\-Exception, I\-O\-Exception, No\-Such\-Algorithm\-Exception, Corrupt\-Odin\-File\-Exception, Archive\-Exception 
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_aea91cec4bf61aaefaa03230c2cff8a61}{Odin\-File} (String odin\-File)  throws File\-Not\-Found\-Exception, I\-O\-Exception, No\-Such\-Algorithm\-Exception, Corrupt\-Odin\-File\-Exception, Archive\-Exception 
+\item 
+File\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_a534987a992e4591605d789f564c88e90}{extract\-Odin\-Contents} (String output\-Dir)  throws I\-O\-Exception, Archive\-Exception, No\-Such\-Algorithm\-Exception 
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_a0753c2e8b53144c071b02f94f76f7708}{Odin\-File} (File odin\-File)  throws File\-Not\-Found\-Exception, I\-O\-Exception, No\-Such\-Algorithm\-Exception, Corrupt\-Odin\-File\-Exception, Archive\-Exception 
+\item 
+\hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_aea91cec4bf61aaefaa03230c2cff8a61}{Odin\-File} (String odin\-File)  throws File\-Not\-Found\-Exception, I\-O\-Exception, No\-Such\-Algorithm\-Exception, Corrupt\-Odin\-File\-Exception, Archive\-Exception 
+\item 
+File\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_a534987a992e4591605d789f564c88e90}{extract\-Odin\-Contents} (String output\-Dir)  throws I\-O\-Exception, Archive\-Exception, No\-Such\-Algorithm\-Exception 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Opens odin files and performs consistancy checks \begin{DoxyAuthor}{Author}
+Adam Outler \href{mailto:adamoutler@gmail.com}{\tt adamoutler@gmail.\-com} 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_a0753c2e8b53144c071b02f94f76f7708}{\index{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File}!Odin\-File@{Odin\-File}}
+\index{Odin\-File@{Odin\-File}!CASUAL::communicationstools::heimdall::odin::OdinFile@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File}}
+\subsubsection[{Odin\-File}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-communicationstools.\-heimdall.\-odin.\-Odin\-File.\-Odin\-File (
+\begin{DoxyParamCaption}
+\item[{File}]{odin\-File}
+\end{DoxyParamCaption}
+) throws File\-Not\-Found\-Exception, I\-O\-Exception, No\-Such\-Algorithm\-Exception, {\bf Corrupt\-Odin\-File\-Exception}, Archive\-Exception}}\label{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_a0753c2e8b53144c071b02f94f76f7708}
+Opens an \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin}{Odin} file and verifies M\-D5sum 
+\begin{DoxyParams}{Parameters}
+{\em odin\-File} & file to be opened and verified \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_corrupt_odin_file_exception}{Corrupt\-Odin\-File\-Exception}} & \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin}{Odin} checks did not pass \\
+\hline
+{\em File\-Not\-Found\-Exception} & \\
+\hline
+{\em I\-O\-Exception} & \\
+\hline
+{\em No\-Such\-Algorithm\-Exception} & \\
+\hline
+{\em org.\-apache.\-commons.\-compress.\-archivers.\-Archive\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_aea91cec4bf61aaefaa03230c2cff8a61}{\index{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File}!Odin\-File@{Odin\-File}}
+\index{Odin\-File@{Odin\-File}!CASUAL::communicationstools::heimdall::odin::OdinFile@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File}}
+\subsubsection[{Odin\-File}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-communicationstools.\-heimdall.\-odin.\-Odin\-File.\-Odin\-File (
+\begin{DoxyParamCaption}
+\item[{String}]{odin\-File}
+\end{DoxyParamCaption}
+) throws File\-Not\-Found\-Exception, I\-O\-Exception, No\-Such\-Algorithm\-Exception, {\bf Corrupt\-Odin\-File\-Exception}, Archive\-Exception}}\label{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_aea91cec4bf61aaefaa03230c2cff8a61}
+Opens an \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin}{Odin} file and verifies M\-D5sum 
+\begin{DoxyParams}{Parameters}
+{\em odin\-File} & file to be opened and verified \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_corrupt_odin_file_exception}{Corrupt\-Odin\-File\-Exception}} & \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin}{Odin} checks did not pass \\
+\hline
+{\em File\-Not\-Found\-Exception} & \\
+\hline
+{\em I\-O\-Exception} & \\
+\hline
+{\em No\-Such\-Algorithm\-Exception} & \\
+\hline
+{\em org.\-apache.\-commons.\-compress.\-archivers.\-Archive\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_a0753c2e8b53144c071b02f94f76f7708}{\index{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File}!Odin\-File@{Odin\-File}}
+\index{Odin\-File@{Odin\-File}!CASUAL::communicationstools::heimdall::odin::OdinFile@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File}}
+\subsubsection[{Odin\-File}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-communicationstools.\-heimdall.\-odin.\-Odin\-File.\-Odin\-File (
+\begin{DoxyParamCaption}
+\item[{File}]{odin\-File}
+\end{DoxyParamCaption}
+) throws File\-Not\-Found\-Exception, I\-O\-Exception, No\-Such\-Algorithm\-Exception, {\bf Corrupt\-Odin\-File\-Exception}, Archive\-Exception}}\label{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_a0753c2e8b53144c071b02f94f76f7708}
+Opens an \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin}{Odin} file and verifies M\-D5sum 
+\begin{DoxyParams}{Parameters}
+{\em odin\-File} & file to be opened and verified \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_corrupt_odin_file_exception}{Corrupt\-Odin\-File\-Exception}} & \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin}{Odin} checks did not pass \\
+\hline
+{\em File\-Not\-Found\-Exception} & \\
+\hline
+{\em I\-O\-Exception} & \\
+\hline
+{\em No\-Such\-Algorithm\-Exception} & \\
+\hline
+{\em org.\-apache.\-commons.\-compress.\-archivers.\-Archive\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_aea91cec4bf61aaefaa03230c2cff8a61}{\index{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File}!Odin\-File@{Odin\-File}}
+\index{Odin\-File@{Odin\-File}!CASUAL::communicationstools::heimdall::odin::OdinFile@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File}}
+\subsubsection[{Odin\-File}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-U\-A\-L.\-communicationstools.\-heimdall.\-odin.\-Odin\-File.\-Odin\-File (
+\begin{DoxyParamCaption}
+\item[{String}]{odin\-File}
+\end{DoxyParamCaption}
+) throws File\-Not\-Found\-Exception, I\-O\-Exception, No\-Such\-Algorithm\-Exception, {\bf Corrupt\-Odin\-File\-Exception}, Archive\-Exception}}\label{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_aea91cec4bf61aaefaa03230c2cff8a61}
+Opens an \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin}{Odin} file and verifies M\-D5sum 
+\begin{DoxyParams}{Parameters}
+{\em odin\-File} & file to be opened and verified \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_corrupt_odin_file_exception}{Corrupt\-Odin\-File\-Exception}} & \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin}{Odin} checks did not pass \\
+\hline
+{\em File\-Not\-Found\-Exception} & \\
+\hline
+{\em I\-O\-Exception} & \\
+\hline
+{\em No\-Such\-Algorithm\-Exception} & \\
+\hline
+{\em org.\-apache.\-commons.\-compress.\-archivers.\-Archive\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_a534987a992e4591605d789f564c88e90}{\index{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File}!extract\-Odin\-Contents@{extract\-Odin\-Contents}}
+\index{extract\-Odin\-Contents@{extract\-Odin\-Contents}!CASUAL::communicationstools::heimdall::odin::OdinFile@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File}}
+\subsubsection[{extract\-Odin\-Contents}]{\setlength{\rightskip}{0pt plus 5cm}File \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-communicationstools.\-heimdall.\-odin.\-Odin\-File.\-extract\-Odin\-Contents (
+\begin{DoxyParamCaption}
+\item[{String}]{output\-Dir}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception, Archive\-Exception, No\-Such\-Algorithm\-Exception}}\label{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_a534987a992e4591605d789f564c88e90}
+Extracts \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin}{Odin} contents to output\-Dir 
+\begin{DoxyParams}{Parameters}
+{\em output\-Dir} & temp folder \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+an array of files extracted from \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin}{Odin} Package 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+{\em Archive\-Exception} & \\
+\hline
+{\em No\-Such\-Algorithm\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_a534987a992e4591605d789f564c88e90}{\index{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File}!extract\-Odin\-Contents@{extract\-Odin\-Contents}}
+\index{extract\-Odin\-Contents@{extract\-Odin\-Contents}!CASUAL::communicationstools::heimdall::odin::OdinFile@{C\-A\-S\-U\-A\-L\-::communicationstools\-::heimdall\-::odin\-::\-Odin\-File}}
+\subsubsection[{extract\-Odin\-Contents}]{\setlength{\rightskip}{0pt plus 5cm}File \mbox{[}$\,$\mbox{]} C\-A\-S\-U\-A\-L.\-communicationstools.\-heimdall.\-odin.\-Odin\-File.\-extract\-Odin\-Contents (
+\begin{DoxyParamCaption}
+\item[{String}]{output\-Dir}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception, Archive\-Exception, No\-Such\-Algorithm\-Exception}}\label{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin_file_a534987a992e4591605d789f564c88e90}
+Extracts \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin}{Odin} contents to output\-Dir 
+\begin{DoxyParams}{Parameters}
+{\em output\-Dir} & temp folder \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+an array of files extracted from \hyperlink{class_c_a_s_u_a_l_1_1communicationstools_1_1heimdall_1_1odin_1_1_odin}{Odin} Package 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & \\
+\hline
+{\em Archive\-Exception} & \\
+\hline
+{\em No\-Such\-Algorithm\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-U\-A\-Lcore/build/classes/\-C\-A\-S\-U\-A\-L/communicationstools/heimdall/odin/Odin\-File.\-java\end{DoxyCompactItemize}

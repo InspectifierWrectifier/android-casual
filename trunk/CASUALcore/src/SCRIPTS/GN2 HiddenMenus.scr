@@ -1,0 +1,2 @@
+shell "su -c am broadcast -a android.provider.Telephony.SECRET_CODE -d android_secret_code://HIDDENMENUENABLE"
+shell "su -c am broadcast -a android.provider.Telephony.SECRET_CODE -d android_secret_code://IOTHIDDENMENU"

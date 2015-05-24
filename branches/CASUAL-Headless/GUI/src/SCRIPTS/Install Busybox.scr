@@ -1,0 +1,6 @@
+shell mkdir /data/local/tmp
+$ECHO Pushing busybox to system
+push "$ZIPFILEbusybox" /data/local/tmp
+shell su -c "mount -o remount,rw -t ext4 /dev/block/mmcblk0p1 /system;cat /data/local/tmp/busybox > /system/bin/busybox;chmod 777 /system/bin/busybox; /system/bin/busybox --install /system/bin/;chmod 6755 /system/bin/su"
+$ECHO Done!
+

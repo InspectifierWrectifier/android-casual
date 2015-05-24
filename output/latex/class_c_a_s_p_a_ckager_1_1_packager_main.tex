@@ -1,0 +1,188 @@
+\hypertarget{class_c_a_s_p_a_ckager_1_1_packager_main}{\section{C\-A\-S\-P\-A\-Ckager.\-Packager\-Main Class Reference}
+\label{class_c_a_s_p_a_ckager_1_1_packager_main}\index{C\-A\-S\-P\-A\-Ckager.\-Packager\-Main@{C\-A\-S\-P\-A\-Ckager.\-Packager\-Main}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_c_a_s_p_a_ckager_1_1_packager_main_a5feeab84510603114e4cd16af557183f}{Packager\-Main} ()
+\item 
+void \hyperlink{class_c_a_s_p_a_ckager_1_1_packager_main_a4e8e02f802540050d3f1a074a9f4b411}{merge\-Caspac\-Casual} ()
+\item 
+void \hyperlink{class_c_a_s_p_a_ckager_1_1_packager_main_a32df460e9180f81a54b7d7a3c38215cc}{merge\-Caspac\-Casual} (String caspac\-Loc)
+\item 
+void \hyperlink{class_c_a_s_p_a_ckager_1_1_packager_main_ab3e1a27e66331e67b19ae4809480f46a}{merge\-Caspac\-Casual} (String caspac\-Loc, String output\-Dir)
+\item 
+String\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_p_a_ckager_1_1_packager_main_afdf339fc0283b3cf6418de0e59732762}{get\-Caspac\-File\-List} ()
+\item 
+String\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_p_a_ckager_1_1_packager_main_ae9bf358f30038bfb45e7de7bf2c3c0a6}{get\-Caspac\-File\-List} (String caspac\-Loc)
+\item 
+String\mbox{[}$\,$\mbox{]} \hyperlink{class_c_a_s_p_a_ckager_1_1_packager_main_aa741699d712b8b9cecb5a6782838413d}{get\-Caspac\-File\-List} (File caspac)
+\item 
+Input\-Stream \hyperlink{class_c_a_s_p_a_ckager_1_1_packager_main_aac9b44ae631f522eb53efce869f3a5c5}{repack\-Entry} (Zip\-Entry entry, String working)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{class_c_a_s_p_a_ckager_1_1_packager_main_ab65464d17a9ed1557137ca0fc128f320}{main} (final String\mbox{[}$\,$\mbox{]} args)
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static String \hyperlink{class_c_a_s_p_a_ckager_1_1_packager_main_a0095242e26294a46bcb44dde15d36c38}{user\-Output\-Dir} = \char`\"{}\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+ \hyperlink{class_c_a_s_p_a_ckager_1_1_packager_main}{Packager\-Main} packages a C\-A\-S\-P\-A\-C into a \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L} and provides a method of modifying a C\-A\-S\-P\-A\-C on the fly as a part of packaging.
+
+\begin{DoxyAuthor}{Author}
+Jeremy Loper \href{mailto:jrloper@gmail.com}{\tt jrloper@gmail.\-com} 
+
+Logan Ludington \href{mailto:loglud@logatech.org}{\tt loglud@logatech.\-org} 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_c_a_s_p_a_ckager_1_1_packager_main_a5feeab84510603114e4cd16af557183f}{\index{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}!Packager\-Main@{Packager\-Main}}
+\index{Packager\-Main@{Packager\-Main}!CASPACkager::PackagerMain@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}}
+\subsubsection[{Packager\-Main}]{\setlength{\rightskip}{0pt plus 5cm}C\-A\-S\-P\-A\-Ckager.\-Packager\-Main.\-Packager\-Main (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_p_a_ckager_1_1_packager_main_a5feeab84510603114e4cd16af557183f}
+instantiates Packager 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_c_a_s_p_a_ckager_1_1_packager_main_afdf339fc0283b3cf6418de0e59732762}{\index{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}!get\-Caspac\-File\-List@{get\-Caspac\-File\-List}}
+\index{get\-Caspac\-File\-List@{get\-Caspac\-File\-List}!CASPACkager::PackagerMain@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}}
+\subsubsection[{get\-Caspac\-File\-List}]{\setlength{\rightskip}{0pt plus 5cm}String \mbox{[}$\,$\mbox{]} C\-A\-S\-P\-A\-Ckager.\-Packager\-Main.\-get\-Caspac\-File\-List (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_p_a_ckager_1_1_packager_main_afdf339fc0283b3cf6418de0e59732762}
+gets the list of files in the C\-A\-S\-P\-A\-C.
+
+\begin{DoxyReturn}{Returns}
+path to files 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_p_a_ckager_1_1_packager_main_ae9bf358f30038bfb45e7de7bf2c3c0a6}{\index{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}!get\-Caspac\-File\-List@{get\-Caspac\-File\-List}}
+\index{get\-Caspac\-File\-List@{get\-Caspac\-File\-List}!CASPACkager::PackagerMain@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}}
+\subsubsection[{get\-Caspac\-File\-List}]{\setlength{\rightskip}{0pt plus 5cm}String \mbox{[}$\,$\mbox{]} C\-A\-S\-P\-A\-Ckager.\-Packager\-Main.\-get\-Caspac\-File\-List (
+\begin{DoxyParamCaption}
+\item[{String}]{caspac\-Loc}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_p_a_ckager_1_1_packager_main_ae9bf358f30038bfb45e7de7bf2c3c0a6}
+gets the list of files in the C\-A\-S\-P\-A\-C.
+
+
+\begin{DoxyParams}{Parameters}
+{\em caspac\-Loc} & path to\-C\-A\-S\-P\-A\-C \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+path to files 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_p_a_ckager_1_1_packager_main_aa741699d712b8b9cecb5a6782838413d}{\index{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}!get\-Caspac\-File\-List@{get\-Caspac\-File\-List}}
+\index{get\-Caspac\-File\-List@{get\-Caspac\-File\-List}!CASPACkager::PackagerMain@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}}
+\subsubsection[{get\-Caspac\-File\-List}]{\setlength{\rightskip}{0pt plus 5cm}String \mbox{[}$\,$\mbox{]} C\-A\-S\-P\-A\-Ckager.\-Packager\-Main.\-get\-Caspac\-File\-List (
+\begin{DoxyParamCaption}
+\item[{File}]{caspac}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_p_a_ckager_1_1_packager_main_aa741699d712b8b9cecb5a6782838413d}
+gets the list of files in the C\-A\-S\-P\-A\-C. caspac file object representing the C\-A\-S\-P\-A\-C
+
+
+\begin{DoxyParams}{Parameters}
+{\em caspac} & to be examined \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+path to files 
+\end{DoxyReturn}
+\hypertarget{class_c_a_s_p_a_ckager_1_1_packager_main_ab65464d17a9ed1557137ca0fc128f320}{\index{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}!main@{main}}
+\index{main@{main}!CASPACkager::PackagerMain@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}static void C\-A\-S\-P\-A\-Ckager.\-Packager\-Main.\-main (
+\begin{DoxyParamCaption}
+\item[{final String\mbox{[}$\,$\mbox{]}}]{args}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_a_s_p_a_ckager_1_1_packager_main_ab65464d17a9ed1557137ca0fc128f320}
+Packages a C\-A\-S\-P\-A\-C into a \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em args} & input from command line where args can be the following\-: --C\-A\-S\-P\-A\-C $\vert$$\vert$ -\/c \char`\"{}/path\-\_\-to/\-C\-A\-S\-P\-A\-C.$\ast$\char`\"{} specifies the path to the C\-A\-S\-P\-A\-C eg \char`\"{}-\/-\/\-C\-A\-S\-P\-A\-C C\-:/mycaspac.\-C\-A\-S\-P\-A\-C\char`\"{}. --output $\vert$$\vert$ -\/o \char`\"{}/path\-\_\-to/\-Output\-C\-A\-S\-U\-A\-L.\-jar\char`\"{} specifies an output file name. --type $\vert$$\vert$ -\/t \char`\"{}words to be appended before
+jar\char`\"{} appends words to the end of the filename eg \char`\"{}-\/-\/type nightly\char`\"{} results\-: C\-A\-S\-P\-A\-C-\/\-C\-A\-S\-U\-A\-Lr327-\/nightly.\-jar.\\
+\hline
+\end{DoxyParams}
+--fullauto $\vert$$\vert$ -\/f \char`\"{}/path\-\_\-to\-\_\-\-C\-A\-S\-P\-A\-C\-\_\-\-Folder/\char`\"{} Creates a folder in the specified fullauto path called \char`\"{}\-C\-A\-S\-U\-A\-L\char`\"{}. Generates new C\-A\-S\-U\-A\-L.\-jar files based upon each C\-A\-S\-P\-A\-C name in the full auto folder eg \char`\"{}-\/-\/fullauto
+/path/to/folder\char`\"{} will process all C\-A\-S\-P\-A\-Cs in the folder and output to /path/to/folder/\-C\-A\-S\-U\-A\-L/. May be used with --type. cannot be used with --output or --C\-A\-S\-P\-A\-C arguments. \hypertarget{class_c_a_s_p_a_ckager_1_1_packager_main_a4e8e02f802540050d3f1a074a9f4b411}{\index{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}!merge\-Caspac\-Casual@{merge\-Caspac\-Casual}}
+\index{merge\-Caspac\-Casual@{merge\-Caspac\-Casual}!CASPACkager::PackagerMain@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}}
+\subsubsection[{merge\-Caspac\-Casual}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-P\-A\-Ckager.\-Packager\-Main.\-merge\-Caspac\-Casual (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_p_a_ckager_1_1_packager_main_a4e8e02f802540050d3f1a074a9f4b411}
+Merges the specified Caspac with the included \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L}. \hypertarget{class_c_a_s_p_a_ckager_1_1_packager_main_a32df460e9180f81a54b7d7a3c38215cc}{\index{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}!merge\-Caspac\-Casual@{merge\-Caspac\-Casual}}
+\index{merge\-Caspac\-Casual@{merge\-Caspac\-Casual}!CASPACkager::PackagerMain@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}}
+\subsubsection[{merge\-Caspac\-Casual}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-P\-A\-Ckager.\-Packager\-Main.\-merge\-Caspac\-Casual (
+\begin{DoxyParamCaption}
+\item[{String}]{caspac\-Loc}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_p_a_ckager_1_1_packager_main_a32df460e9180f81a54b7d7a3c38215cc}
+Merges the specified Caspac with the included \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em caspac\-Loc} & location to caspac \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_p_a_ckager_1_1_packager_main_ab3e1a27e66331e67b19ae4809480f46a}{\index{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}!merge\-Caspac\-Casual@{merge\-Caspac\-Casual}}
+\index{merge\-Caspac\-Casual@{merge\-Caspac\-Casual}!CASPACkager::PackagerMain@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}}
+\subsubsection[{merge\-Caspac\-Casual}]{\setlength{\rightskip}{0pt plus 5cm}void C\-A\-S\-P\-A\-Ckager.\-Packager\-Main.\-merge\-Caspac\-Casual (
+\begin{DoxyParamCaption}
+\item[{String}]{caspac\-Loc, }
+\item[{String}]{output\-Dir}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_p_a_ckager_1_1_packager_main_ab3e1a27e66331e67b19ae4809480f46a}
+Merges the specified Caspac with the included \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em caspac\-Loc} & location to caspac \\
+\hline
+{\em output\-Dir} & folder to output the \hyperlink{namespace_c_a_s_u_a_l}{C\-A\-S\-U\-A\-L} \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_c_a_s_p_a_ckager_1_1_packager_main_aac9b44ae631f522eb53efce869f3a5c5}{\index{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}!repack\-Entry@{repack\-Entry}}
+\index{repack\-Entry@{repack\-Entry}!CASPACkager::PackagerMain@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}}
+\subsubsection[{repack\-Entry}]{\setlength{\rightskip}{0pt plus 5cm}Input\-Stream C\-A\-S\-P\-A\-Ckager.\-Packager\-Main.\-repack\-Entry (
+\begin{DoxyParamCaption}
+\item[{Zip\-Entry}]{entry, }
+\item[{String}]{working}
+\end{DoxyParamCaption}
+)}}\label{class_c_a_s_p_a_ckager_1_1_packager_main_aac9b44ae631f522eb53efce869f3a5c5}
+adds a folder to the zip stream
+
+
+\begin{DoxyParams}{Parameters}
+{\em entry} & location to begin with \\
+\hline
+{\em working} & folder to compress \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+inputstream representing the zip entry 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_c_a_s_p_a_ckager_1_1_packager_main_a0095242e26294a46bcb44dde15d36c38}{\index{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}!user\-Output\-Dir@{user\-Output\-Dir}}
+\index{user\-Output\-Dir@{user\-Output\-Dir}!CASPACkager::PackagerMain@{C\-A\-S\-P\-A\-Ckager\-::\-Packager\-Main}}
+\subsubsection[{user\-Output\-Dir}]{\setlength{\rightskip}{0pt plus 5cm}String C\-A\-S\-P\-A\-Ckager.\-Packager\-Main.\-user\-Output\-Dir = \char`\"{}\char`\"{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}}\label{class_c_a_s_p_a_ckager_1_1_packager_main_a0095242e26294a46bcb44dde15d36c38}
+output directory for package 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-C\-A\-S\-P\-A\-Ckager/src/\-C\-A\-S\-P\-A\-Ckager/Packager\-Main.\-java\end{DoxyCompactItemize}

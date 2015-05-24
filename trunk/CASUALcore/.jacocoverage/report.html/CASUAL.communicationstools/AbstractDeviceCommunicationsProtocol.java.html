@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AbstractDeviceCommunicationsProtocol.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.communicationstools</a> &gt; <span class="el_source">AbstractDeviceCommunicationsProtocol.java</span></div><h1>AbstractDeviceCommunicationsProtocol.java</h1><pre class="source lang-java linenums">/*interface DeviceConnection provides a unified manner of accessing tools which access devices.
+ * Copyright (C) 2013 adamoutler
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.communicationstools;
+
+import CASUAL.Log;
+import CASUAL.Shell;
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * Abstract DeviceCommunicationsProtocol provides a set of methods which allow
+ * universal access to various device firmware loading binaries. This class was
+ * written with ADB, Fastboot, and Heimdall in mind but is broad enough to
+ * encompass many others as well.
+ *
+ * @author adamoutler
+ */
+<span class="fc" id="L33">public abstract class AbstractDeviceCommunicationsProtocol {</span>
+
+    /**
+     * Last known location of the binary should be overridden and implemented as
+     * private static. Refers to the location of the binary to be operated by
+     * this class eg.. /tmp/Adam2123/adb.exe or C:\Users\Adam\local...
+     *
+     */
+<span class="fc" id="L41">    String binaryLocation = &quot;&quot;;</span>
+
+    /**
+     * Windows binary location should be overridden and implemented as private
+     * static final.
+     */
+<span class="fc" id="L47">    String[] windowsLocation = new String[]{&quot;The Windows platform is not yet supported. Please override this with an appropriate binary.&quot;};</span>
+    /**
+     * Linux32 binary location should be overridden and implemented as private
+     * static final.
+     */
+<span class="fc" id="L52">    String[] linux32Location = new String[]{&quot;The Linux32 platform is not yet supported. Please override this with an appropriate binary.&quot;};</span>
+    /**
+     * Linux64 binary location should be overridden and implemented as private
+     * static final.
+     */
+<span class="fc" id="L57">    String[] linux64Location = new String[]{&quot;The Linux64 platform is not yet supported. Please override this with an appropriate binary.&quot;};</span>
+    /**
+     * LinuxArmv6 binary location should be overridden and implemented as
+     * private static final.
+     */
+<span class="fc" id="L62">    String[] linuxArmv6Location = new String[]{&quot;The Linux ARMv6 platform is not yet supported. Please override this with an appropriate binary.&quot;};</span>
+    /**
+     * Mac binary location should be overridden and implemented as private
+     * static final.
+     */
+<span class="fc" id="L67">    String[] macLocation = new String[]{&quot;The Mac platform is not yet supported. Please override this with an appropriate binary.&quot;};</span>
+
+    /**
+     * returns and integer representing the number of devices connected. This
+     * may or may not be possible depending upon the tool used. This method will
+     * use the getBinaryLocation method.
+     *
+     * @return results from the wait command.
+     */
+    abstract public int numberOfDevicesConnected();
+
+    /**
+     * Examines the return values of other commands and determines if action
+     * should be taken, then takes it. This method should be called frequently
+     * so as to ensure that errors are caught and corrected quickly. The catches
+     * may be as simple as notifying the operator to plug in the device or
+     * automatically installing drivers should the return value detect that it
+     * is required.
+     *
+     * @param commandRun Command which was run including parameters.
+     * @param returnValue string to check for errors
+     * @return true if no error
+     */
+    abstract public boolean checkErrorMessage(String[] commandRun, String returnValue);
+
+    /**
+     * This method is used by checkErrorMessage to install drivers when
+     * required. There should never be a reason to call this independently.
+     *
+     * @return true if drivers were installed. false indicates a problem.
+     */
+    abstract public boolean installDriver();
+
+    /**
+     * Called by the getBinaryLocation method to deploy the binary used by the
+     * application. This method is called when there is no known location for
+     * the binary. It is in charge of determining which platform's binary to
+     * deploy and deploying associated resources.
+     *
+     * @param tempFolder Location to deploy binary.
+     * @return location to binary.
+     */
+    abstract public String deployBinary(String tempFolder);
+
+    /**
+     * Restarts the connection to the device. This may be a simple call or a
+     * complex one. This call is intended to fix problems detected by
+     * checkErrorMessage. Depending on the situation, it may be beneficial to
+     * keep a counter and try various troubleshooting steps for various
+     * operating systems here.
+     */
+    abstract public void restartConnection();
+
+    /**
+     * reset is used to clear the binary location from outside the package and
+     * stop the service if required. This is useful for when the temp folder is
+     * changed or when the system is shutting down. This should also trigger the
+     * getBinaryLocation() to create a new binary upon the next call. This is a
+     * method to destroy the private static location of the binary in memory.
+     * This will reset the binaryLocation and call the shudown() method;
+     */
+    abstract public void reset();
+
+    /**
+     * Commands used to shutdown the application as a part of reset. This may be
+     * called at any time so it should account for various operating conditions.
+     */
+    abstract public void shutdown();
+
+    /**
+     * Deploys the binary and returns its location. This method should check the
+     * binaryLocation, and if the called location is null, it should deploy the
+     * binary using the deployBinary(TempFolder) method. This is the primary
+     * method used by this class.
+     *
+     * @return location to binary being called.
+     */
+    abstract public String getBinaryLocation();
+
+    /**
+     * returns true if 1 device is connected. Will return false if more than one
+     * or less than one is connected. This method should use the
+     * numberOfDevicesConnected() method to get the number of devices connected
+     * and determine if it is a single device.
+     *
+     * @return true if connected.
+     */
+    public boolean isConnected() {
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">        return numberOfDevicesConnected() == 1;</span>
+    }
+
+    /**
+     * Waits for isConnected() to return true. If the device is not connected,
+     * this method will continue blocking. The purpose of this method is to halt
+     * progress until a device is connected and usable. waitForDevice() may use
+     * any tools it can to determine the ready status of the device.
+     *
+     */
+    public void waitForDevice() {
+<span class="nc" id="L166">        Log.level4Debug(&quot;Waiting for device&quot;);</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">        while (!isConnected()) {</span>
+<span class="nc" id="L168">            sleep200ms();</span>
+        }
+<span class="nc" id="L170">        Log.level4Debug(&quot;Device Connected!!!&quot;);</span>
+<span class="nc" id="L171">    }</span>
+
+    /**
+     * sleeps for 200 ms and then returns
+     */
+    private void sleep200ms() {
+        try {
+<span class="nc" id="L178">            Thread.sleep(200);</span>
+<span class="nc" id="L179">        } catch (InterruptedException ex) {</span>
+<span class="nc" id="L180">            Logger.getLogger(AbstractDeviceCommunicationsProtocol.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L181">        }</span>
+<span class="nc" id="L182">    }</span>
+
+    /**
+     * provides a safe method to run the binary with parameters. this method
+     * should execute a Shell.timeOutShell command and allow for a method of
+     * calling the binary with a timeout so as to never allow the method to
+     * hang.
+     *
+     * @param parameters parameters used to operate the binary. Eg.. adb DETECT,
+     * or heimdall FLASH. The binary is to be specified in the run() and only
+     * the parameters are supplied.
+     * @param timeout time in ms before timeout will occur and the command will
+     * return;
+     * @param silent true will cause this method to keep information out of the
+     * logs so as not to clutter with every-second-pings of a device or the
+     * such.
+     * @return value from command. if result begins with &quot;Timeout!!! &quot; the
+     * command has exceeded the set timeout value.
+     */
+    public String run(String[] parameters, int timeout, boolean silent) {
+<span class="fc" id="L202">        Shell shell = new Shell();</span>
+        //expand array by one
+<span class="fc" id="L204">        String[] runcmd = new String[parameters.length + 1];</span>
+<span class="fc" id="L205">        runcmd[0] = getBinaryLocation(); //insert binary as [0] </span>
+<span class="fc" id="L206">        String runstring = runcmd[0];</span>
+<span class="fc bfc" id="L207" title="All 2 branches covered.">        for (int i = 1; i &lt; runcmd.length; i++) {</span>
+<span class="fc" id="L208">            runcmd[i] = parameters[i - 1]; //insert the rest of the parameters</span>
+<span class="fc" id="L209">            runstring = runstring + &quot; &quot; + runcmd[i];</span>
+        }
+
+<span class="fc bfc" id="L212" title="All 2 branches covered.">        if (silent) {</span>
+<span class="fc" id="L213">            String retval = shell.silentTimeoutShellCommand(runcmd, timeout);</span>
+<span class="fc" id="L214">            this.checkErrorMessage(runcmd, retval);</span>
+<span class="fc" id="L215">            return retval;</span>
+        } else {
+<span class="fc" id="L217">            Log.level4Debug(&quot;Run &quot; + this.getConnectionMethodName() + &quot; from DeviceCommunicationProtocol:&quot; + runstring);</span>
+<span class="fc" id="L218">            Log.insertChars(&quot;,&quot;);</span>
+<span class="fc" id="L219">            return shell.liveShellCommand(runcmd, true);</span>
+        }
+    }
+
+    /**
+     * Verfies file was deployed. 
+     * @param binaryLocation location to file
+     * @return true if file is present. 
+     */
+    public boolean fileIsDeployedProperly(String binaryLocation) {
+<span class="nc" id="L229">        File f = new File(binaryLocation);</span>
+<span class="nc bnc" id="L230" title="All 2 branches missed.">        return (binaryLocation != null</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">                &amp;&amp; !binaryLocation.isEmpty()</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">                &amp;&amp; f.exists()</span>
+<span class="nc bnc" id="L233" title="All 2 branches missed.">                &amp;&amp; f.isFile()</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">                &amp;&amp; f.canExecute());</span>
+
+    }
+
+    /**
+     * returns a mode of operation. This allows the toString method to display
+     * more information about the current operation. eg. ADB, Heimdall,
+     * Fastboot.
+     *
+     * @return Name of connection method, eg. ADB, Heimdall or Fastboot
+     */
+    abstract public String getConnectionMethodName();
+
+    @Override
+    public String toString() {
+<span class="fc" id="L249">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L250">        String n = &quot;\n&quot;;</span>
+<span class="fc" id="L251">        sb.append(&quot;mode:&quot;).append(this.getConnectionMethodName()).append(n);</span>
+<span class="fc" id="L252">        sb.append(&quot;Connected:&quot;).append(this.isConnected()).append(n);</span>
+<span class="fc" id="L253">        return sb.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

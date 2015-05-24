@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>LinkLauncher.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.network</a> &gt; <span class="el_source">LinkLauncher.java</span></div><h1>LinkLauncher.java</h1><pre class="source lang-java linenums">/*LinkLauncher launches URLs on various platforms. 
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.network;
+
+import CASUAL.Log;
+import CASUAL.OSTools;
+import CASUAL.Shell;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+/**
+ * Launches URLs on various platforms.
+ *
+ * @author Adam Outler adamoutler@gmail.com
+ */
+public class LinkLauncher {
+
+    final String link;
+
+<span class="nc" id="L36">    final private Runnable launcher = new Runnable() {</span>
+        @Override
+        public void run() {
+            //use java to autolaunch if possible
+<span class="nc bnc" id="L40" title="All 2 branches missed.">            if (Desktop.isDesktopSupported()) {</span>
+                Desktop desktop;
+<span class="nc" id="L42">                desktop = Desktop.getDesktop();</span>
+                URI uri;
+                try {
+<span class="nc" id="L45">                    uri = new URI(link);</span>
+<span class="nc" id="L46">                    desktop.browse(uri);</span>
+<span class="nc" id="L47">                } catch (IOException ioe) {</span>
+<span class="nc" id="L48">                    Log.level4Debug(&quot;Attempted to open&quot; + link + &quot; Failed with IO error&quot;);</span>
+<span class="nc" id="L49">                } catch (URISyntaxException use) {</span>
+<span class="nc" id="L50">                    Log.level4Debug(&quot;Attempted to open&quot; + link + &quot; Failed with URI Syntax error&quot;);</span>
+
+<span class="nc" id="L52">                }</span>
+<span class="nc" id="L53">            } else {</span>
+<span class="nc" id="L54">                Shell Shell = new Shell();</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">                if (OSTools.isMac()) {</span>
+                    //separate mac because open is used on different platforms
+<span class="nc" id="L57">                    Shell.sendShellCommand(new String[]{&quot;open&quot;, link});</span>
+                } else {
+                    //launch link with firefox
+<span class="nc" id="L60">                    String retval = Shell.sendShellCommand(new String[]{&quot;firefox&quot;, link});</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">                    if (retval.contains(&quot;CritERROR!!!&quot;)) {</span>
+                        //launch link with Chrome
+<span class="nc" id="L63">                        Shell.sendShellCommand(new String[]{&quot;chrome&quot;, link});</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                        if (retval.contains(&quot;CritERROR!!!&quot;)) {</span>
+                            //launch link with explorer
+<span class="nc" id="L66">                            Shell.sendShellCommand(new String[]{&quot;explorer&quot;, link});</span>
+                        }
+                    }
+                }
+
+            }
+<span class="nc" id="L72">        }</span>
+    };
+
+    /**
+     * launches a browser with a link
+     *
+     * @param link link to launch
+     */
+<span class="nc" id="L80">    public LinkLauncher(String link) {</span>
+<span class="nc" id="L81">        this.link = link;</span>
+<span class="nc" id="L82">    }</span>
+
+    /**
+     * launches the link commanded in constructor
+     */
+    public void launch() {
+<span class="nc" id="L88">        Thread thread = new Thread(launcher);</span>
+<span class="nc" id="L89">        thread.setName(&quot;Link Launcher Thread&quot;);</span>
+<span class="nc" id="L90">        thread.start();</span>
+<span class="nc" id="L91">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

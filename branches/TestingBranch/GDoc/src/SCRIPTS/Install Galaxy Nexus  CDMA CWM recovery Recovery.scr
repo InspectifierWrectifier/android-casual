@@ -1,0 +1,6 @@
+$ECHO Pushing Recovery image to sdcard
+push "$ZIPFILErecovery-clockwork-5.5.0.4-toro.img" /sdcard/recovery.img
+$ECHO Flashing Recovery image to recovery partition
+shell su -c "dd if=/sdcard/recovery.img of=/dev/block/platform/omap/omap_hsmmc.0/by-name/recovery
+$USERCANCELOPTION Reboot?, Do you wish to reboot into recovery now? 
+reboot recovery

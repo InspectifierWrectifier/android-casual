@@ -1,0 +1,9 @@
+/** 
+ *\brief CASUALcore provides a base for the CASUAL project
+ *
+ *Provides the core utilities used by CASUAL
+ *Details http://casual-dev.com
+ *@author AdamOutler adamoutler@casual-dev.com
+ *\copyright GPLv3
+ */
+package CASUAL;

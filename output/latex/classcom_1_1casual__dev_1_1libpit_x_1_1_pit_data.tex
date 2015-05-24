@@ -1,0 +1,402 @@
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data}{\section{com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data Class Reference}
+\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data}\index{com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data@{com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a72404a581db05242899de5b20829397f}{Pit\-Data} ()
+\item 
+\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_ad59e327e63bd5124602a568c07b03c83}{Pit\-Data} (\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_input_stream}{Pit\-Input\-Stream} Pit\-Stream)
+\item 
+\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a14b344a02bf51eda6249aed851ee60e3}{Pit\-Data} (File pit)  throws File\-Not\-Found\-Exception 
+\item 
+final boolean \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a9bd057201d931c4c013112bc9fc001cd}{unpack} (\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_input_stream}{Pit\-Input\-Stream} pit\-Input\-Stream)
+\item 
+boolean \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a2226a51b2f752fc5e5f7f9fa49000f2e}{pack} (Data\-Output\-Stream data\-Output\-Stream)
+\item 
+boolean \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a2ad3b955bde05da162be4447058c7d5e}{matches} (\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data}{Pit\-Data} other\-Pit\-Data)
+\item 
+void \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a9a809b7293bbdc825730d88f7e862696}{clear} ()
+\item 
+\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a8026048cec0b3d1a82b4f5eeff544b8f}{get\-Entry} (int index)
+\item 
+\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_ad217cc1f0d88f0bd99d0a8145d977e01}{find\-Entry} (String partition\-Name)
+\item 
+\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a92fe9be410bfcab61b10c29f659f24d6}{find\-Entry\-By\-Filename} (String filename)
+\item 
+\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_ac5502e3ad38ca61f482cbe7ade874c51}{find\-Entry} (int partition\-Identifier)
+\item 
+void \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a5280856fe2d4817ef119bc0254930a14}{remove\-Entry} (\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} entry)
+\item 
+void \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a9f10527e6928cb25b762774385d3513f}{add\-Entry} (\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} entry)
+\item 
+int \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a2dd3520851fa62dc5cf1e074e8cd8082}{get\-Entry\-Count} ()
+\item 
+char\mbox{[}$\,$\mbox{]} \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a2a8a3240829d811fd2634d06d7e8158c}{get\-File\-Type} ()
+\item 
+char\mbox{[}$\,$\mbox{]} \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a7105805f388f6f876910a3c58e3148e0}{get\-Phone} ()
+\item 
+String \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a05973f518f916ba846d60d7ea9228d41}{get\-P\-I\-T\-Friendly\-Name} ()
+\item 
+String \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a5ecb1b13b460a24dce7299f88ad75d71}{get\-File\-Type\-Friendly\-Name} ()
+\item 
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_af38169ec50287b7b538e8c0729fb94fc}{String {\bfseries to\-String} ()}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_af38169ec50287b7b538e8c0729fb94fc}
+
+\item 
+void \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_aad39835f8390bdc591ae279f4ca5407f}{resize\-Partition} (String part\-Name, int change\-To\-Size)  throws Class\-Not\-Found\-Exception 
+\item 
+void \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_ac7f1ada6723e5aba2c8042776f702b46}{resize\-Partition} (\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} entry, int change\-To\-Size)  throws Class\-Not\-Found\-Exception 
+\item 
+\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry}\mbox{[}$\,$\mbox{]} \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a3af0617758de6442f87c50b1a8abfa1d}{sort\-Entries\-By\-Block\-Location} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a675514f1324f841f0385dc972dad5d87}{entry\-Count}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static final int \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_aac62ade2b33051f8fcbf59e2b7117fb5}{F\-I\-L\-E\-\_\-\-I\-D\-E\-N\-T\-I\-F\-I\-E\-R} = 0x12349876
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Pitdata provides a way to work with the header information of the P\-I\-T file Original Files may be found here\-: \href{https://github.com/Benjamin-Dobell/libpit&ndash;Java-/tree/master/libpit/src/au/com/glassechidna/libpit}{\tt https\-://github.\-com/\-Benjamin-\/\-Dobell/libpit\&ndash;\-Java-\//tree/master/libpit/src/au/com/glassechidna/libpit} modified by\-: Adam Outler
+
+\begin{DoxyAuthor}{Author}
+Benjamin Dobell 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a72404a581db05242899de5b20829397f}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!Pit\-Data@{Pit\-Data}}
+\index{Pit\-Data@{Pit\-Data}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{Pit\-Data}]{\setlength{\rightskip}{0pt plus 5cm}com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-Pit\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a72404a581db05242899de5b20829397f}
+Constructor for new P\-I\-T file. \hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_ad59e327e63bd5124602a568c07b03c83}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!Pit\-Data@{Pit\-Data}}
+\index{Pit\-Data@{Pit\-Data}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{Pit\-Data}]{\setlength{\rightskip}{0pt plus 5cm}com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-Pit\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Input\-Stream}}]{Pit\-Stream}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_ad59e327e63bd5124602a568c07b03c83}
+Constructor to grab P\-I\-T file from an Input\-Stream
+
+
+\begin{DoxyParams}{Parameters}
+{\em Pit\-Stream} & input\-Stream containing a P\-I\-T file only \\
+\hline
+\end{DoxyParams}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a14b344a02bf51eda6249aed851ee60e3}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!Pit\-Data@{Pit\-Data}}
+\index{Pit\-Data@{Pit\-Data}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{Pit\-Data}]{\setlength{\rightskip}{0pt plus 5cm}com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-Pit\-Data (
+\begin{DoxyParamCaption}
+\item[{File}]{pit}
+\end{DoxyParamCaption}
+) throws File\-Not\-Found\-Exception}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a14b344a02bf51eda6249aed851ee60e3}
+Constructor to grab P\-I\-T file from a File
+
+
+\begin{DoxyParams}{Parameters}
+{\em pit} & P\-I\-T file \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em File\-Not\-Found\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a9f10527e6928cb25b762774385d3513f}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!add\-Entry@{add\-Entry}}
+\index{add\-Entry@{add\-Entry}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{add\-Entry}]{\setlength{\rightskip}{0pt plus 5cm}void com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-add\-Entry (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Entry}}]{entry}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a9f10527e6928cb25b762774385d3513f}
+Adds a \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} to the list of entries
+
+
+\begin{DoxyParams}{Parameters}
+{\em entry} & entry to be added \\
+\hline
+\end{DoxyParams}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a9a809b7293bbdc825730d88f7e862696}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!clear@{clear}}
+\index{clear@{clear}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}void com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-clear (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a9a809b7293bbdc825730d88f7e862696}
+clears all data in the pit file. \hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_ad217cc1f0d88f0bd99d0a8145d977e01}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!find\-Entry@{find\-Entry}}
+\index{find\-Entry@{find\-Entry}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{find\-Entry}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pit\-Entry} com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-find\-Entry (
+\begin{DoxyParamCaption}
+\item[{String}]{partition\-Name}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_ad217cc1f0d88f0bd99d0a8145d977e01}
+gets a \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} by Partition name
+
+
+\begin{DoxyParams}{Parameters}
+{\em partition\-Name} & partition name to be matched \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} matched by name 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_ac5502e3ad38ca61f482cbe7ade874c51}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!find\-Entry@{find\-Entry}}
+\index{find\-Entry@{find\-Entry}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{find\-Entry}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pit\-Entry} com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-find\-Entry (
+\begin{DoxyParamCaption}
+\item[{int}]{partition\-Identifier}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_ac5502e3ad38ca61f482cbe7ade874c51}
+Gets a \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} based on partition I\-D
+
+
+\begin{DoxyParams}{Parameters}
+{\em partition\-Identifier} & identifier to match \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} matched on Partition\-Identifier 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a92fe9be410bfcab61b10c29f659f24d6}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!find\-Entry\-By\-Filename@{find\-Entry\-By\-Filename}}
+\index{find\-Entry\-By\-Filename@{find\-Entry\-By\-Filename}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{find\-Entry\-By\-Filename}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pit\-Entry} com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-find\-Entry\-By\-Filename (
+\begin{DoxyParamCaption}
+\item[{String}]{filename}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a92fe9be410bfcab61b10c29f659f24d6}
+gets a \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} by filename
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & filename in pit entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} matched on filename 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a8026048cec0b3d1a82b4f5eeff544b8f}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!get\-Entry@{get\-Entry}}
+\index{get\-Entry@{get\-Entry}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{get\-Entry}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pit\-Entry} com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-get\-Entry (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a8026048cec0b3d1a82b4f5eeff544b8f}
+Gets a \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} by index
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & index of entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} at index 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a2dd3520851fa62dc5cf1e074e8cd8082}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!get\-Entry\-Count@{get\-Entry\-Count}}
+\index{get\-Entry\-Count@{get\-Entry\-Count}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{get\-Entry\-Count}]{\setlength{\rightskip}{0pt plus 5cm}int com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-get\-Entry\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a2dd3520851fa62dc5cf1e074e8cd8082}
+gets the number of entries
+
+\begin{DoxyReturn}{Returns}
+entry count 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a2a8a3240829d811fd2634d06d7e8158c}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!get\-File\-Type@{get\-File\-Type}}
+\index{get\-File\-Type@{get\-File\-Type}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{get\-File\-Type}]{\setlength{\rightskip}{0pt plus 5cm}char \mbox{[}$\,$\mbox{]} com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-get\-File\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a2a8a3240829d811fd2634d06d7e8158c}
+returns the file type
+
+\begin{DoxyReturn}{Returns}
+file type 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a5ecb1b13b460a24dce7299f88ad75d71}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!get\-File\-Type\-Friendly\-Name@{get\-File\-Type\-Friendly\-Name}}
+\index{get\-File\-Type\-Friendly\-Name@{get\-File\-Type\-Friendly\-Name}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{get\-File\-Type\-Friendly\-Name}]{\setlength{\rightskip}{0pt plus 5cm}String com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-get\-File\-Type\-Friendly\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a5ecb1b13b460a24dce7299f88ad75d71}
+returns filetype friendly name with parameters
+
+\begin{DoxyReturn}{Returns}
+File Type friendly name with parameters 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a7105805f388f6f876910a3c58e3148e0}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!get\-Phone@{get\-Phone}}
+\index{get\-Phone@{get\-Phone}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{get\-Phone}]{\setlength{\rightskip}{0pt plus 5cm}char \mbox{[}$\,$\mbox{]} com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-get\-Phone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a7105805f388f6f876910a3c58e3148e0}
+gets the name of the intended platform
+
+\begin{DoxyReturn}{Returns}
+platform name 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a05973f518f916ba846d60d7ea9228d41}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!get\-P\-I\-T\-Friendly\-Name@{get\-P\-I\-T\-Friendly\-Name}}
+\index{get\-P\-I\-T\-Friendly\-Name@{get\-P\-I\-T\-Friendly\-Name}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{get\-P\-I\-T\-Friendly\-Name}]{\setlength{\rightskip}{0pt plus 5cm}String com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-get\-P\-I\-T\-Friendly\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a05973f518f916ba846d60d7ea9228d41}
+returns pit name with parameters
+
+\begin{DoxyReturn}{Returns}
+P\-I\-T friendly name with parameters 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a2ad3b955bde05da162be4447058c7d5e}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!matches@{matches}}
+\index{matches@{matches}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{matches}]{\setlength{\rightskip}{0pt plus 5cm}boolean com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-matches (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Data}}]{other\-Pit\-Data}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a2ad3b955bde05da162be4447058c7d5e}
+tests for a match on a \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data}{Pit\-Data}
+
+
+\begin{DoxyParams}{Parameters}
+{\em other\-Pit\-Data} & second pit data to be ested \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if match 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a2226a51b2f752fc5e5f7f9fa49000f2e}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!pack@{pack}}
+\index{pack@{pack}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{pack}]{\setlength{\rightskip}{0pt plus 5cm}boolean com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-pack (
+\begin{DoxyParamCaption}
+\item[{Data\-Output\-Stream}]{data\-Output\-Stream}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a2226a51b2f752fc5e5f7f9fa49000f2e}
+Packs current object into a P\-I\-T file
+
+
+\begin{DoxyParams}{Parameters}
+{\em data\-Output\-Stream} & dataoutputstream to write to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if sucessful 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a5280856fe2d4817ef119bc0254930a14}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!remove\-Entry@{remove\-Entry}}
+\index{remove\-Entry@{remove\-Entry}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{remove\-Entry}]{\setlength{\rightskip}{0pt plus 5cm}void com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-remove\-Entry (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Entry}}]{entry}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a5280856fe2d4817ef119bc0254930a14}
+Removes a \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} from the list of Pit\-Entries
+
+
+\begin{DoxyParams}{Parameters}
+{\em entry} & entry to be removed \\
+\hline
+\end{DoxyParams}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_aad39835f8390bdc591ae279f4ca5407f}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!resize\-Partition@{resize\-Partition}}
+\index{resize\-Partition@{resize\-Partition}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{resize\-Partition}]{\setlength{\rightskip}{0pt plus 5cm}void com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-resize\-Partition (
+\begin{DoxyParamCaption}
+\item[{String}]{part\-Name, }
+\item[{int}]{change\-To\-Size}
+\end{DoxyParamCaption}
+) throws Class\-Not\-Found\-Exception}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_aad39835f8390bdc591ae279f4ca5407f}
+Resizes a pitentry and adjusts starting blocks of all successive pitentries.
+
+
+\begin{DoxyParams}{Parameters}
+{\em part\-Name} & name of partition to be resized \\
+\hline
+{\em change\-To\-Size} & the amount to change the entry This can be positive or negative and will change the size relatively. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em java.\-lang.\-Class\-Not\-Found\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_aad39835f8390bdc591ae279f4ca5407f}{resize\-Partition}(\hyperlink{class_c_a_s_u_a_l_1_1archiving_1_1libpit_1_1_pit_entry}{C\-A\-S\-U\-A\-L.\-archiving.\-libpit.\-Pit\-Entry}, int) 
+\end{DoxySeeAlso}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_ac7f1ada6723e5aba2c8042776f702b46}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!resize\-Partition@{resize\-Partition}}
+\index{resize\-Partition@{resize\-Partition}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{resize\-Partition}]{\setlength{\rightskip}{0pt plus 5cm}void com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-resize\-Partition (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Entry}}]{entry, }
+\item[{int}]{change\-To\-Size}
+\end{DoxyParamCaption}
+) throws Class\-Not\-Found\-Exception}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_ac7f1ada6723e5aba2c8042776f702b46}
+Resizes a pitentry and adjusts starting blocks of all successive pitentries.
+
+
+\begin{DoxyParams}{Parameters}
+{\em entry} & The entry to be resized \\
+\hline
+{\em change\-To\-Size} & the amount to change the entry This can be positive or negative and will change the size relatively. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em java.\-lang.\-Class\-Not\-Found\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a3af0617758de6442f87c50b1a8abfa1d}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!sort\-Entries\-By\-Block\-Location@{sort\-Entries\-By\-Block\-Location}}
+\index{sort\-Entries\-By\-Block\-Location@{sort\-Entries\-By\-Block\-Location}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{sort\-Entries\-By\-Block\-Location}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pit\-Entry} \mbox{[}$\,$\mbox{]} com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-sort\-Entries\-By\-Block\-Location (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a3af0617758de6442f87c50b1a8abfa1d}
+returns an array of the Pit\-Entries sorted by block location
+
+\begin{DoxyReturn}{Returns}
+sorted Pit\-Entries 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a9bd057201d931c4c013112bc9fc001cd}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!unpack@{unpack}}
+\index{unpack@{unpack}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{unpack}]{\setlength{\rightskip}{0pt plus 5cm}final boolean com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-unpack (
+\begin{DoxyParamCaption}
+\item[{{\bf Pit\-Input\-Stream}}]{pit\-Input\-Stream}
+\end{DoxyParamCaption}
+)}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a9bd057201d931c4c013112bc9fc001cd}
+unpacks a P\-I\-T into the \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data}{Pit\-Data} and its \hyperlink{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_entry}{Pit\-Entry} classes
+
+
+\begin{DoxyParams}{Parameters}
+{\em pit\-Input\-Stream} & Input\-Stream containing only a Pit F\-Ile \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if unpack was performed 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a675514f1324f841f0385dc972dad5d87}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!entry\-Count@{entry\-Count}}
+\index{entry\-Count@{entry\-Count}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{entry\-Count}]{\setlength{\rightskip}{0pt plus 5cm}int com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-entry\-Count}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_a675514f1324f841f0385dc972dad5d87}
+number of entries available to be read. \hypertarget{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_aac62ade2b33051f8fcbf59e2b7117fb5}{\index{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}!F\-I\-L\-E\-\_\-\-I\-D\-E\-N\-T\-I\-F\-I\-E\-R@{F\-I\-L\-E\-\_\-\-I\-D\-E\-N\-T\-I\-F\-I\-E\-R}}
+\index{F\-I\-L\-E\-\_\-\-I\-D\-E\-N\-T\-I\-F\-I\-E\-R@{F\-I\-L\-E\-\_\-\-I\-D\-E\-N\-T\-I\-F\-I\-E\-R}!com::casual_dev::libpitX::PitData@{com\-::casual\-\_\-dev\-::libpit\-X\-::\-Pit\-Data}}
+\subsubsection[{F\-I\-L\-E\-\_\-\-I\-D\-E\-N\-T\-I\-F\-I\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}final int com.\-casual\-\_\-dev.\-libpit\-X.\-Pit\-Data.\-F\-I\-L\-E\-\_\-\-I\-D\-E\-N\-T\-I\-F\-I\-E\-R = 0x12349876\hspace{0.3cm}{\ttfamily [static]}}}\label{classcom_1_1casual__dev_1_1libpit_x_1_1_pit_data_aac62ade2b33051f8fcbf59e2b7117fb5}
+Magic Number to identify an Odin File. 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+trunk/\-X/libpit\-X/src/com/casual\-\_\-dev/libpit\-X/Pit\-Data.\-java\end{DoxyCompactItemize}

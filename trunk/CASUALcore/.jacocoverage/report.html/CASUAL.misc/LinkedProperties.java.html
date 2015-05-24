@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>LinkedProperties.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;CASUALcore&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">CASUAL.misc</a> &gt; <span class="el_source">LinkedProperties.java</span></div><h1>LinkedProperties.java</h1><pre class="source lang-java linenums">/*LinkedProperties keeps a .properties file in the order it was created even after subsequent updates.
+ *Copyright (C) 2015  Adam Outler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+package CASUAL.misc;
+
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.LinkedHashSet;
+import java.util.Properties;
+import java.util.Set;
+
+/**
+ * LinkedProperties allows for a static order to be placed on a properties file
+ * rather than random/last-modified order generally used in writing a properties
+ * file.
+ *
+ * @author Adam Outler adamoutler@gmail.com inspiredBy
+ * http://stackoverflow.com/questions/1312383/pulling-values-from-a-java-properties-file-in-order
+ */
+<span class="fc" id="L33">public class LinkedProperties extends Properties {</span>
+
+    static final long serialVersionUID = 34112324234412341L;
+<span class="fc" id="L36">    private final LinkedHashSet&lt;Object&gt; keys = new LinkedHashSet&lt;Object&gt;();</span>
+
+    /**
+     * gets the keys in the properties list
+     *
+     * @return all the keys in the properties list
+     */
+    @Override
+    public Enumeration&lt;Object&gt; keys() {
+<span class="nc" id="L45">        return Collections.&lt;Object&gt;enumeration(keys);</span>
+    }
+
+    /**
+     * puts a value into the properties list
+     *
+     * @param key key to set in ordered list
+     * @param value value to set ordered list
+     * @return the previous value or null if one did not exist.
+     */
+    @Override
+    public Object put(Object key, Object value) {
+<span class="fc" id="L57">        keys.add(key);</span>
+<span class="fc" id="L58">        return super.put(key, value);</span>
+    }
+
+    /**
+     * gets names of the properties in the list
+     *
+     * @return set of propertiy names
+     */
+    @Override
+    public Set&lt;String&gt; stringPropertyNames() {
+<span class="nc" id="L68">        Set&lt;String&gt; set = new LinkedHashSet&lt;String&gt;();</span>
+
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        for (Object key : this.keys) {</span>
+<span class="nc" id="L71">            set.add((String) key);</span>
+<span class="nc" id="L72">        }</span>
+
+<span class="nc" id="L74">        return set;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
