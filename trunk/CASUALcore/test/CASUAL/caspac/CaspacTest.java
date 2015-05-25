@@ -130,7 +130,7 @@ public class CaspacTest {
         assert test.getScripts().get(0).getTempDir().contains(sd.getTempFolder()+test.getScripts().get(0).getName());
         assert test.getScripts().get(0).getScriptContentsString().equals("$ECHO test");
         assert test.getScripts().get(0).getIndividualFiles().isEmpty();
-        assert test.getScripts().get(0).getMetaData().getMinSVNversion().equals("0");
+        assert test.getScripts().get(0).getMetaData().getMinBuildNumberVersion().equals("0");
         assert test.getScripts().get(0).getMetaData().getScriptRevision().equals("0");
         assert test.getScripts().get(0).getMetaData().getUniqueIdentifier().equals("test");
         assert test.getScripts().get(0).getMetaData().getSupportURL().equals("test");

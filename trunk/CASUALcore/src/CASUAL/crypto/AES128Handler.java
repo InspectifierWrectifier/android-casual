@@ -65,7 +65,7 @@ public class AES128Handler {
     /**
      * version for the CASPAC
      */
-    final static private String revision = java.util.ResourceBundle.getBundle("CASUAL/resources/CASUALApp").getString("Application.revision");
+    final static private String revision = java.util.ResourceBundle.getBundle("CASUAL/resources/CASUALApp").getString("Application.buildnumber");
     /**
      * Header for the CASPAC
      */

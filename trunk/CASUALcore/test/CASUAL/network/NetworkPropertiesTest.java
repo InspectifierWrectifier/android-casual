@@ -46,7 +46,6 @@ public class NetworkPropertiesTest {
     
     //this url should contain minSVN value
     final String networkPropertiesURL="https://builds.casual-dev.com/files/CASPAC/all/testpak.properties";
-    final String minSVN="730";
 
     public NetworkPropertiesTest() {
     }
@@ -76,7 +75,7 @@ public class NetworkPropertiesTest {
         Properties result = instance.getProperties();
         // TODO review the generated test code and remove the default call to fail.
         System.out.println(result);
-        assertEquals (result.get("CASUAL.minSVN"),minSVN);
+        assertEquals (result.get("CASUAL.minBuildNumber"),730);
     }
 
 

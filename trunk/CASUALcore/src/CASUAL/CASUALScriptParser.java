@@ -186,13 +186,7 @@ public class CASUALScriptParser {
         caspac.getSd().CASPAC.getActiveScript().setScriptContinue(true);
 
         Log.level2Information(s.getDiscription());
-        int casualSVN = Integer.parseInt(java.util.ResourceBundle.getBundle("CASUAL/resources/CASUALApp").getString("Application.revision"));
-        int scriptSVN = Integer.parseInt(s.getMetaData().getMinSVNversion());
-        if (casualSVN < scriptSVN) {
-            Log.level0Error("@improperCASUALversion");
-            return;
-        }
-        
+
         DataInputStream dis = new DataInputStream(s.getScriptContents());
         caspac.setActiveScript(s);
         new CASUALLanguage(caspac, s.getTempDir()).beginScriptingHandler(dis);

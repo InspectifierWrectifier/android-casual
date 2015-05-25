@@ -84,7 +84,7 @@
     <target name="-pre-compile" description="sorts out properties files and selects higher revisions">
         <echo>Running build number resolver</echo>
         <javac includeantruntime="last" failonerror="no" srcdir="BuildTasks/" destdir="BuildTasks"/>
-        <java fork="true" failonerror="no" classname="ResolveSVNConflicts">
+        <java fork="true" failonerror="no" classname="ResolveVersionConflicts">
             <classpath>
                 <pathelement location="BuildTasks"/>
             </classpath>
@@ -119,33 +119,7 @@
             </classpath>
         </java>
 
-        <echo>current directory: ${basedir}</echo>
-        <exec dir="../" outputproperty="svna.version" executable="svnversion" failifexecutionfails="false" >
-            <arg value="-c" />
-            <redirector>
-                <outputfilterchain>
-                    <tokenfilter>
-                        <replaceregex pattern="^[0-9]*:?" replace="" flags="g"/>
-                        <replaceregex pattern="M" replace="" flags="g"/>
-                    </tokenfilter>
-                </outputfilterchain>
-            </redirector>
-        </exec> 
-        <echo>current directory: ${basedir}</echo>
-        <echo>revision after svnversion command: ${svna.version}</echo>
-        <loadproperties srcfile="src/CASUAL/resources/CASUALApp.properties"/>
-        <condition property="svna.version" value=""> 
-            <not>
-                <isset property="Application.revision" />
-            </not>
-        </condition>
-        <property name="svna.version" value="${Application.revision}"/>
-        <echo>Loaded property value: ${svna.version}</echo>
-        <echo>revision after loaded property: ${svna.version}</echo>
-        <propertyfile file="src/CASUAL/resources/CASUALApp.properties">
-            <entry  key="Application.revision" value="${svna.version}"/>
-        </propertyfile>
-        
+
         
     </target>
      

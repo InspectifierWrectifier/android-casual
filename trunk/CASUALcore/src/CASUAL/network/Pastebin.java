@@ -87,7 +87,7 @@ public class Pastebin {
                 }
                 String pasteData = new FileOperations().readFile(CASUALMain.getSession().getTempFolder() + "Log.txt");
 
-                String output = paste.makePaste(pasteData, "CASUAL r" + java.util.ResourceBundle.getBundle("CASUAL/resources/CASUALApp").getString("Application.revision") + "-" + xdaUsername, format);
+                String output = paste.makePaste(pasteData, "CASUAL r" + java.util.ResourceBundle.getBundle("CASUAL/resources/CASUALApp").getString("Application.buildnumber") + "-" + xdaUsername, format);
                 if (output.substring(0, 4).equals("http")) {
                     new LinkLauncher(output).launch();
                     StringSelection stringSelection = new StringSelection(output);
@@ -108,21 +108,14 @@ public class Pastebin {
      * @throws MalformedURLException when URL cannot be reached
      */
     public void pasteAnonymousLog() throws MalformedURLException {
-        Pattern svnRev = Pattern.compile("(?=[setViewedRevision]?.{2})[0-9]{3,4}");
         FileOperations fO = new FileOperations();
         if (!fO.verifyExists(CASUALMain.getSession().getTempFolder() + "Log.txt")) {
             return;
         }
         String casualLog = fO.readFile(CASUALMain.getSession().getTempFolder() + "Log.txt");
         Matcher matcher;
-        try {
-            matcher = svnRev.matcher(new API().getPage("http://code.google.com/p/android-casual/source/browse/"));
-        } catch (NullPointerException ex) {
-            return;
-        }
-        int SVNrev = Integer.parseInt(matcher.find() ? matcher.group(0) : "5");
-        int CASRev = Integer.parseInt(java.util.ResourceBundle.getBundle("CASUAL/resources/CASUALApp").getString("Application.revision"));
-        if ((SVNrev - 5) >= CASRev && casualLog.contains("failed") || casualLog.contains("FAILED") || casualLog.contains("ERROR")) { //build.prop contains the word error on some devices so error is not a good word to track. 
+        int CASRev = Integer.parseInt(java.util.ResourceBundle.getBundle("CASUAL/resources/CASUALApp").getString("Application.buildnumber"));
+        if (casualLog.contains("failed") || casualLog.contains("FAILED") || casualLog.contains("ERROR")) { //build.prop contains the word error on some devices so error is not a good word to track. 
             String slashrep = OSTools.isWindows() ? "\\" : "//";
             String userhome = System.getProperty("user.home");
             casualLog = casualLog.replace(userhome, slashrep + "USERHOME" + (userhome.endsWith(CASUALSessionData.slash) ? slashrep : ""));
@@ -148,7 +141,7 @@ public class Pastebin {
                 if (casualLog.isEmpty()) {
                     return;
                 }
-                paste.makePaste(casualLog, "CASUAL r" + java.util.ResourceBundle.getBundle("CASUAL/resources/CASUALApp").getString("Application.revision") + "-Anonymous", format);
+                paste.makePaste(casualLog, "CASUAL b" + java.util.ResourceBundle.getBundle("CASUAL/resources/CASUALApp").getString("Application.buildnumber") + "-Anonymous", format);
             } catch (IOException ex) {
                 Log.errorHandler(ex);
             }

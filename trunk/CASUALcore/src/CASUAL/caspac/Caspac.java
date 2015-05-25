@@ -951,42 +951,6 @@ public final class Caspac {
         return CASPAC;
     }
 
-    /*
-    if (s.metaData.minSVNversion.isEmpty()) {
-    return s;
-    }
-    int mySVNVersion=Integer.parseInt(java.util.ResourceBundle
-    .getBundle("CASUAL/resources/CASUALApp")
-    .getString("Application.revision"));
-    int myScriptVersion=Integer.parseInt(s.metaData.scriptRevision);
-    String myScriptName=s.name;
-    CASUALUpdates ci=new CASUALUpdates();
-    Properties updatedprop=new Properties();
-    Log.level3Verbose("creating new script instance to compare against online version");
-    Script updatedScript=new Script(s);
-    new File(s.tempDir).mkdirs();
-    Log.level3Verbose("getting updated script version info");
-    //TODO: downloadMetaFromRepoForScript hangs.  Script will not complte unzip because of this.  Updates are down
-    updatedprop.load(ci.downloadMetaFromRepoForScript(s));
-    Log.level3Verbose("updating meta");
-    updatedScript.metaData.load(updatedprop);
-    int updatedSVNVersion=Integer.parseInt(updatedScript.metaData.minSVNversion);
-    int updatedScriptVersion=Integer.parseInt(updatedScript.metaData.scriptRevision);
-    Log.level3Verbose("comparing script information");
-    if (mySVNVersion<updatedSVNVersion){
-    updatedScript.scriptContents="";
-    Log.level2Information("\n"+updatedScript.metaData.killSwitchMessage);
-    return updatedScript;
-    } else if (myScriptVersion< updatedScriptVersion){
-    Log.level2Information("@scriptIsOutOfDate");
-    Log.level2Information("\n"+updatedScript.metaData.updateMessage);
-    updatedScript=ci.updateScript(updatedScript,this.TempFolder);
-    return updatedScript;
-    } else {
-    Log.level2Information("@noUpdateRequired");
-    return s;
-    }
-    } */
     /**
      * replaces a script in list array.
      *

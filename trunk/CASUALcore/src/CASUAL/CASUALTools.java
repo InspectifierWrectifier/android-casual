@@ -103,14 +103,7 @@ public class CASUALTools {
          }
     }
 
-    /**
-     * gets the stored Subversion revision from the last build
-     *
-     * @return string representation of subversion revision
-     */
-     public static int getSVNVersion() {
-         return Integer.parseInt(java.util.ResourceBundle.getBundle("CASUAL/resources/CASUALApp").getString("Application.revision"));
-    }
+
 
      private static void setiCASUALinteraction(Class<?> cls) throws InstantiationException, IllegalAccessException {  
          iCASUALUI clsInstance;
@@ -195,6 +188,10 @@ public class CASUALTools {
      
      public static boolean rootAccessPossible() {
          return CASUALTools.uidMatches(new String[]{"root","0"})||!CASUALTools.rootAccessCommand().isEmpty();
+    }
+
+    public static String getBuildNumber() {
+              return java.util.ResourceBundle.getBundle("CASUAL/resources/CASUALApp").getString("Application.buildnumber");    
     }
     /**
      * Starts the GUI, should be done last and only if needed.

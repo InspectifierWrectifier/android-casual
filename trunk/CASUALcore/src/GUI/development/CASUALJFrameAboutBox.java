@@ -34,10 +34,9 @@ public class CASUALJFrameAboutBox extends javax.swing.JFrame {
      */
     public CASUALJFrameAboutBox() {
         initComponents();
-        String CASUALSVNRevision = java.util.ResourceBundle.getBundle("CASUAL/resources/CASUALApp").getString("Application.revision");
         String CASUALBuildNumber = java.util.ResourceBundle.getBundle("CASUAL/resources/CASUALApp").getString("Application.buildnumber");
 
-        this.jLabel4.setText("CASUAL Revision:" + CASUALSVNRevision + " Build:" + CASUALBuildNumber);
+        this.jLabel4.setText("CASUAL  Build:" + CASUALBuildNumber);
     }
 
     /**

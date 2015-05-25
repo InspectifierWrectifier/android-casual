@@ -38,9 +38,9 @@ import java.util.Properties;
 public class ScriptMeta {
 
     /**
-     * Minimum Subversion revision required for script.
+     * Minimum Build Number revision required for script.
      */
-    private String minSVNversion = "";
+    private String minBuildNumber = "";
     /**
      * The revision of this script (used to determine update required status).
      */
@@ -114,8 +114,8 @@ public class ScriptMeta {
      * @return true if filled in
      */
     public boolean verifyMeta() {
-        if (minSVNversion.isEmpty()) {
-            Log.level0Error(script.getName() + "minSVNversion is empty! Cannot continue.");
+        if (minBuildNumber.isEmpty()) {
+            Log.level0Error(script.getName() + "minBuildNumber is empty! Cannot continue.");
             return false;
         }
         if (scriptRevision.isEmpty()) {
@@ -191,7 +191,7 @@ public class ScriptMeta {
      * @return this ScriptMeta
      */
     public ScriptMeta setPropsFromVariables() {
-        metaProp.setProperty("CASUAL.minSVN", minSVNversion);
+        metaProp.setProperty("CASUAL.minBuildNumber", minBuildNumber);
         metaProp.setProperty("Script.Revision", scriptRevision);
         metaProp.setProperty("Script.ID", uniqueIdentifier);
         metaProp.setProperty("Script.SupportURL", supportURL);
@@ -207,7 +207,7 @@ public class ScriptMeta {
      * @param prop properties file
      */
     private void setVariablesFromProperties(Properties prop) {
-        minSVNversion = prop.getProperty("CASUAL.minSVN", "");
+        minBuildNumber = prop.getProperty("CASUAL.minBuildNumber", "");
         scriptRevision = prop.getProperty("Script.Revision", "");
         uniqueIdentifier = prop.getProperty("Script.ID", "");
         supportURL = prop.getProperty("Script.SupportURL", "");
@@ -243,27 +243,27 @@ public class ScriptMeta {
     }
 
     /**
-     * Minimum CASUAL SVN version requied by this script.
+     * Minimum CASUAL minBuildNumber version requied by this script.
      *
-     * @return svn version required.
+     * @return minBuildNumber version required.
      */
-    public int minSVNversion() {
-        return Integer.parseInt(minSVNversion);
+    public int minBuildNumber() {
+        return Integer.parseInt(minBuildNumber);
     }
 
     /**
-     * @return the minSVNversion
+     * @return the minBuildNumber
      */
-    public String getMinSVNversion() {
-        return minSVNversion;
+    public String getMinBuildNumberVersion() {
+        return minBuildNumber;
     }
 
     /**
-     * @param minSVNversion the minSVNversion to set
+     * @param minBuildNumberversion the minBuildNumber to set
      * @return this ScriptMeta
      */
-    public ScriptMeta setMinSVNversion(String minSVNversion) {
-        this.minSVNversion = minSVNversion;
+    public ScriptMeta setMinBuildNumberVersion(String minBuildNumberVersion) {
+        this.minBuildNumber = minBuildNumberVersion;
         return this;
     }
 

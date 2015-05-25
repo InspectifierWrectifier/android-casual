@@ -706,7 +706,7 @@ public final class CASUALGUIMain extends javax.swing.JFrame implements iCASUALUI
         if (caspac.getBuild().isAlwaysEnableControls()) {
             enableDisableControls(true);
         }
-        this.setTitle(caspac.getBuild().getWindowTitle() + " -- CASUAL R" + CASUAL.CASUALTools.getSVNVersion());
+        this.setTitle(caspac.getBuild().getWindowTitle() + " -- CASUAL R" + CASUAL.CASUALTools.getBuildNumber());
         if (caspac.getScripts().size() > 0) {
             for (Script s : caspac.getScripts()) {
                 boolean addScript = true;
