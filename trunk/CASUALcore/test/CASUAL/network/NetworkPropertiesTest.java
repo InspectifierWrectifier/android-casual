@@ -75,7 +75,8 @@ public class NetworkPropertiesTest {
         Properties result = instance.getProperties();
         // TODO review the generated test code and remove the default call to fail.
         System.out.println(result);
-        assertEquals (result.get("CASUAL.minBuildNumber"),730);
+        assertEquals ("5555",result.get("CASUAL.minBuildNumber"));
+        
     }
 
 
