@@ -126,8 +126,8 @@
 
 
     <target name="-do-jar-with-libraries">
-        
-        
+         <loadproperties srcfile="src/CASUAL/resources/CASUALApp.properties"/>
+         
         <echo>Rebuilding libraries</echo>
         <echo>rebuilding Commons Compress</echo>
         <copy file="../CASUALcore/Libraries/commons-compress-1.5/commons-compress-1.5.jar" tofile="dist/lib/commons-compress-1.5.jar"/>
@@ -205,7 +205,7 @@
         
         
         <echo>Creating distributable CASUAL</echo>
-        <jar jarfile="dist/CASUAL-Revision${svna.version}b.jar" level="0" compress="false">
+        <jar jarfile="dist/CASUAL-Revision${{Application.buildnumber}b.jar" level="0" compress="false">
             <zipfileset src="${CASUALJAR}" excludes="META-INF/*"/>
             <manifest>
                 <attribute name="Application-Name" value="CASUALcore"/>
@@ -219,9 +219,9 @@
         <property name="casual" value="dist/CASUAL.jar"/>
         
         <echo>creating static distributable CASUAL </echo>
-        <copy file="dist/CASUAL-Revision${svna.version}b.jar" tofile="dist/CASUALstatic.jar"/> 
+        <copy file="dist/CASUAL-Revision${{Application.buildnumber}b.jar" tofile="dist/CASUALstatic.jar"/> 
         <chmod file="${dist.jar}" perm="755"/>
-        <chmod file="dist/CASUAL-Revision${svna.version}b.jar" perm="755"/>
+        <chmod file="dist/CASUAL-Revision${{Application.buildnumber}b.jar" perm="755"/>
         <chmod file="dist/CASUALstatic.jar" perm="755"/>
         <echo>Recreating Creating CASUALcore in Ant</echo>
         <delete file="dist/CASUALcore.jar}"/>

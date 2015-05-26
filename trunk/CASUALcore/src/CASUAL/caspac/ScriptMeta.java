@@ -208,6 +208,9 @@ public class ScriptMeta {
      */
     private void setVariablesFromProperties(Properties prop) {
         minBuildNumber = prop.getProperty("CASUAL.minBuildNumber", "");
+        if (minBuildNumber.isEmpty()){
+            minBuildNumber = prop.getProperty("CASUAL.minSVN", "");
+        }
         scriptRevision = prop.getProperty("Script.Revision", "");
         uniqueIdentifier = prop.getProperty("Script.ID", "");
         supportURL = prop.getProperty("Script.SupportURL", "");
