@@ -177,8 +177,7 @@ public class CASPACcreator2 extends ParametersImpl {
                 setScript(script).setScriptRevision(loadOptionalString("scriptrevision", meta.getScriptRevision(), "1")).
                 setSupportURL(loadOptionalString("supporturl", meta.getSupportURL(), "http://forums.xda-developers.com")).
                 setUniqueIdentifier(loadOptionalString("uniqueid", meta.getUniqueIdentifier(), StringOperations.generateRandomHexString(10) + script.getName())).
-                setUpdateMessage(loadOptionalString("updatemessage", meta.getUpdateMessage(), "Script updated to new version")).
-                setMinSVNversion(Integer.toString(CASUAL.CASUALTools.getSVNVersion())).
+                setUpdateMessage(loadOptionalString("updatemessage", meta.getUpdateMessage(), "Script updated to new version")).setMinBuildNumberVersion(Integer.toString(CASUAL.CASUALTools.getBuildNumber())).
                 setMonitorMode(MonitorMode.valueOf(loadOptionalString("monitormode",meta.getMonitorMode().name(),MonitorMode.valueOf("ADB").name()).toUpperCase()));
           
         script.setMetaData(meta);
@@ -194,7 +193,7 @@ public class CASPACcreator2 extends ParametersImpl {
          caspac.getScripts().get(0).tempDir.contains(CASUALSessionData.getInstance().getTempFolder() + test.scripts.get(0).name);
          caspac.getScripts().get(0).scriptContents.equals("$ECHO test");
          caspac.scripts.get(0).individualFiles.size() = 0;
-         caspac.getScripts().get(0).metaData.minSVNversion.equals("0");
+         caspac.getScripts().get(0).metaData.minBuildNumber.equals("0");
          caspac.getScripts().get(0).metaData.scriptRevision.equals("0");
          caspac.scripts.get(0).metaData.uniqueIdentifier = "test";
          caspac.scripts.get(0).metaData.supportURL = "test";

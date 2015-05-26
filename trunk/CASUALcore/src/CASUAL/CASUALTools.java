@@ -190,7 +190,10 @@ public class CASUALTools {
          return CASUALTools.uidMatches(new String[]{"root","0"})||!CASUALTools.rootAccessCommand().isEmpty();
     }
 
-    public static String getBuildNumber() {
+     public static int getBuildNumber(){
+            return Integer.parseInt(java.util.ResourceBundle.getBundle("CASUAL/resources/CASUALApp").getString("Application.buildnumber"));    
+     }
+    public static String getBuildNumberString() {
               return java.util.ResourceBundle.getBundle("CASUAL/resources/CASUALApp").getString("Application.buildnumber");    
     }
     /**

@@ -129,7 +129,7 @@ public class PackagerMain {
                 lastSlash = caspacLoc.lastIndexOf("\\");
             }
             int lastDot = caspacLoc.lastIndexOf(".");
-            String outputFileName = caspacLoc.substring(lastSlash, lastDot) + "-CASUAL-R" + Integer.toString(CASUAL.CASUALTools.getSVNVersion()) + "b";
+            String outputFileName = caspacLoc.substring(lastSlash, lastDot) + "-CASUAL-R" + Integer.toString(CASUAL.CASUALTools.getBuildNumber()) + "b";
             if (!appendToName.isEmpty()) {
                 outputFileName = outputFileName + "-" + appendToName;
             }
