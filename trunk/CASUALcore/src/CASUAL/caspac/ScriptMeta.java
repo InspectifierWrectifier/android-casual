@@ -262,7 +262,7 @@ public class ScriptMeta {
     }
 
     /**
-     * @param minBuildNumberversion the minBuildNumber to set
+     * @param minBuildNumberVersion the minBuildNumber to set
      * @return this ScriptMeta
      */
     public ScriptMeta setMinBuildNumberVersion(String minBuildNumberVersion) {

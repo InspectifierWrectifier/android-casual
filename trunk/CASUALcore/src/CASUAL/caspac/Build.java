@@ -303,7 +303,7 @@ public final class Build {
 
     /**
      * @param bannerText the bannerText to set
-     * @return 
+     * @return  returns this Build object
      */
     public Build setBannerText(String bannerText) {
         this.bannerText = bannerText;
@@ -319,7 +319,7 @@ public final class Build {
 
     /**
      * @param executeButtonText the executeButtonText to set
-     * @return 
+     * @return this Build object
      */
     public Build setExecuteButtonText(String executeButtonText) {
         this.executeButtonText = executeButtonText;
